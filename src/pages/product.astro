@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Deploy Your First Autonomous Agent — $29" description="One agent. Your hardware. Running 24/7. The exact setup behind a live autonomous AI system." current="/product">
+  <div class="page-header container">
+    <p class="section-label reveal">The guide</p>
+    <h1 class="reveal">Deploy your first<br /><em>autonomous agent.</em></h1>
+    <p class="section-intro">Your AI agent runs on your laptop. It dies when you close the lid. Fix that this weekend. $29.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">What you get</p>
+    <h2 class="reveal">One agent. Running 24/7.<br />On your hardware.</h2>
+    <p class="section-intro reveal">By the end of this guide, you'll have a real autonomous agent posting to X automatically from a Mac Mini or Mac Studio. Not a demo. Not a tutorial. A running system.</p>
+
+    <div class="features-grid stagger" style="margin-top: clamp(40px, 6vh, 64px);">
+      <div class="feature reveal">
+        <div class="feature-num">01</div>
+        <div class="feature-title">Hardware & Setup</div>
+        <p class="feature-desc">Mac Mini M4 ($599) to Mac Studio — what you actually need. Network config, power management, real cost breakdown. Why owned hardware beats cloud by 10x after month one.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-num">02</div>
+        <div class="feature-title">Your First Agent</div>
+        <p class="feature-desc">OpenClaw installation and configuration. System prompt engineering that actually works. Common mistakes and how to avoid them. First conversation with your agent.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-num">03</div>
+        <div class="feature-title">Browser Automation</div>
+        <p class="feature-desc">Chrome CDP from scratch — make your agent interact with the web. Real posting script (X/Twitter with full code). Handling failures, screenshots, retries.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-num">04</div>
+        <div class="feature-title">Scheduling & Autonomy</div>
+        <p class="feature-desc">launchd jobs that fire reliably at 3 AM. Monitoring and alerting basics. The architecture that reduced posting delays from hours to minutes.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-num">05</div>
+        <div class="feature-title">Content Pipeline</div>
+        <p class="feature-desc">YAML-based content queue (simplified, production-tested). Basic quality checks before anything goes live. Engagement tracking fundamentals.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-num">06</div>
+        <div class="feature-title">Operations & Scaling</div>
+        <p class="feature-desc">The 40-minute daily maintenance workflow. What breaks, how to fix it, real failure stories. When you're ready for agent #2.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">The proof</p>
+    <h2 class="reveal">This isn't theory.</h2>
+    <div class="manifesto-body">
+      <p class="reveal">This guide is extracted from the exact system running <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a> — an autonomous AI agent posting on X right now. 308 followers. 30 posts. Zero manual intervention.</p>
+      <p class="reveal">Every cost listed. Every config shown. Every failure documented — including the time our Red Team review caught hallucinated statistics before they went live.</p>
+
+      <blockquote class="reveal">
+        <p>The infrastructure shouldn't be the hard part. The guide shouldn't cost more than a month of running it.</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Real numbers</p>
+    <h2 class="reveal">From production.</h2>
+    <div class="proof-bar" style="margin-top: clamp(32px, 5vh, 48px);">
+      <div class="proof-item reveal">
+        <div class="proof-value">$50</div>
+        <div class="proof-label">Monthly Cost</div>
+        <div class="proof-sub">Single agent, all-in</div>
+      </div>
+      <div class="proof-item reveal">
+        <div class="proof-value">48h</div>
+        <div class="proof-label">Time to Deploy</div>
+        <div class="proof-sub">Start to autonomous</div>
+      </div>
+      <div class="proof-item reveal">
+        <div class="proof-value">6</div>
+        <div class="proof-label">Modules</div>
+        <div class="proof-sub">Hardware to ops</div>
+      </div>
+      <div class="proof-item reveal">
+        <div class="proof-value">$29</div>
+        <div class="proof-label">One-time</div>
+        <div class="proof-sub">No subscription</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container cta-section">
+    <p class="section-label reveal">Get started</p>
+    <h2 class="reveal">Ship your agent<br /><em>this weekend.</em></h2>
+    <p class="section-intro reveal">PDF guide + full code repository + troubleshooting appendix. Built for developers who have played with AI agents and want one running autonomously.</p>
+    <div class="reveal" style="margin-top: clamp(40px, 6vh, 56px);">
+      <a href="https://degenie.gumroad.com/l/agent-stack" target="_blank" rel="noopener" class="product-cta">
+        Get the guide — $29
+      </a>
+    </div>
+    <p class="cta-note reveal">Mac recommended. Basic terminal comfort required.</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .product-cta {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: clamp(16px, 2vh, 24px) clamp(32px, 5vw, 56px);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .product-cta:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+</style>

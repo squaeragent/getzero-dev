@@ -118,20 +118,43 @@ import { system } from '../data/metrics';
   </section>
 
   <script>
-    document.getElementById('email-form')?.addEventListener('submit', (e) => {
+    document.getElementById('email-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target as HTMLFormElement;
       const input = form.querySelector('input') as HTMLInputElement;
       const btn = form.querySelector('button') as HTMLButtonElement;
-      console.log('Waitlist:', input.value);
-      btn.textContent = "YOU'RE IN";
-      btn.style.background = 'var(--accent)';
-      input.value = '';
-      input.placeholder = 'Welcome to ZERO';
-      input.disabled = true;
+      const email = input.value.trim();
+      if (!email) return;
+
+      btn.textContent = '...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+
+        if (res.ok) {
+          btn.textContent = "YOU'RE IN";
+          btn.style.background = 'var(--accent)';
+          input.value = '';
+          input.placeholder = 'Welcome to ZERO';
+          input.disabled = true;
+        } else {
+          btn.textContent = 'TRY AGAIN';
+          btn.style.background = '#ff3333';
+        }
+      } catch {
+        btn.textContent = 'TRY AGAIN';
+        btn.style.background = '#ff3333';
+      }
+
       setTimeout(() => {
         btn.textContent = 'REQUEST ACCESS';
         btn.style.background = '';
+        btn.disabled = false;
         input.placeholder = 'you@domain.com';
         input.disabled = false;
       }, 4000);
