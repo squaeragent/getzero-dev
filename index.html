@@ -26,6 +26,10 @@
             --accent: #c8ff00;
             --border: #1a1a1a;
             --surface: #0f0f0f;
+            /* Typography — locked as getzero.dev standard */
+            --font-display: 'Instrument Serif', 'Georgia', serif;
+            --font-display-italic: 'Instrument Serif', 'Georgia', serif;
+            --font-mono: 'DM Mono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,7 +46,7 @@
         }
 
         body {
-            font-family: 'DM Mono', monospace;
+            font-family: var(--font-mono);
             background: var(--bg);
             color: var(--fg);
             font-size: 0.875rem;
@@ -72,9 +76,9 @@
 
         /* Typography */
         h1, h2, h3 {
-            font-family: 'Instrument Serif', serif;
+            font-family: var(--font-display);
             font-weight: 400;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.02em;
         }
 
         h1 {
@@ -230,7 +234,7 @@
         }
 
         .proof-value {
-            font-family: 'Instrument Serif', serif;
+            font-family: var(--font-display);
             font-size: clamp(2.5rem, 5vw, 4rem);
             line-height: 1;
             letter-spacing: -0.02em;
@@ -254,7 +258,7 @@
            PROBLEM
            ═══════════════════════════════════════ */
         .problem-statement {
-            font-family: 'Instrument Serif', serif;
+            font-family: var(--font-display);
             font-size: clamp(1.5rem, 3vw, 2.25rem);
             line-height: 1.4;
             color: var(--fg-mid);
@@ -274,7 +278,7 @@
         }
 
         .problem-quote p {
-            font-family: 'Instrument Serif', serif;
+            font-family: var(--font-display);
             font-style: italic;
             font-size: clamp(1.125rem, 2vw, 1.5rem);
             color: var(--fg);
@@ -310,7 +314,7 @@
         }
 
         .feature-title {
-            font-family: 'Instrument Serif', serif;
+            font-family: var(--font-display);
             font-size: clamp(1.5rem, 2.5vw, 2rem);
             margin-bottom: 12px;
             transition: color 0.3s ease;
@@ -381,7 +385,7 @@
         }
 
         .arch-name {
-            font-family: 'Instrument Serif', serif;
+            font-family: var(--font-display);
             font-size: clamp(1.25rem, 2vw, 1.5rem);
             color: var(--accent);
         }
@@ -402,7 +406,7 @@
 
         .arch-summary {
             margin-top: clamp(32px, 5vh, 48px);
-            font-family: 'Instrument Serif', serif;
+            font-family: var(--font-display);
             font-size: clamp(1.25rem, 2.5vw, 1.75rem);
             line-height: 1.4;
             color: var(--fg-mid);
@@ -447,7 +451,7 @@
             background: transparent;
             border: none;
             color: var(--fg);
-            font-family: 'DM Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.875rem;
             padding: clamp(14px, 2vh, 20px) clamp(16px, 2vw, 24px);
             outline: none;
@@ -461,7 +465,7 @@
             background: var(--fg);
             color: var(--bg);
             border: none;
-            font-family: 'DM Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.75rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -548,7 +552,49 @@
         /* ═══════════════════════════════════════
            RESPONSIVE
            ═══════════════════════════════════════ */
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
+            /* Mobile padding — text must never touch screen edges */
+            .section, .hero {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            /* Blockquote needs extra left padding for accent bar */
+            .problem-quote {
+                padding-left: 24px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            /* Typography scaling for mobile */
+            h2 {
+                font-size: clamp(1.75rem, 5vw, 2.5rem);
+                line-height: 1.15;
+            }
+
+            /* Body text — generous line height for mobile readability */
+            p, .section-intro, .feature-desc, .arch-desc {
+                font-size: 0.875rem;
+                line-height: 1.7;
+            }
+
+            /* Pull-quote italic */
+            .problem-quote p {
+                font-size: 1.1rem;
+                line-height: 1.5;
+            }
+
+            /* Problem statement */
+            .problem-statement {
+                font-size: clamp(1.25rem, 4vw, 1.75rem);
+                line-height: 1.45;
+            }
+
+            /* Section labels — keep tracking */
+            .section-label {
+                letter-spacing: 0.15em;
+            }
+
             .proof-bar {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -601,7 +647,7 @@
         <div class="proof-sub">Mac Studio + Mac Mini</div>
     </div>
     <div class="proof-item reveal">
-        <div class="proof-value">11</div>
+        <div class="proof-value">23</div>
         <div class="proof-label">Automated Jobs</div>
         <div class="proof-sub">launchd scheduled</div>
     </div>
@@ -668,7 +714,7 @@
 <section class="section container">
     <p class="section-label reveal">The architecture</p>
     <h2 class="reveal">Built in public.<br>Running in production.</h2>
-    <p class="section-intro reveal">This isn't a whitepaper. These agents are running right now, on two Mac machines, coordinating through a shared git repository with 51 specifications governing every operation.</p>
+    <p class="section-intro reveal">This isn't a whitepaper. These agents are running right now, on two Mac machines, coordinating through a shared git repository with 59 specifications governing every operation.</p>
 
     <!-- AGENT-EDITABLE: architecture-stats -->
     <div class="arch-grid stagger">
@@ -706,7 +752,7 @@
         </div>
     </div>
 
-    <p class="arch-summary reveal"><strong>4 agents. 2 machines. 51 specs. 0 employees.</strong> Every handoff tracked. Every output scored. Every failure self-healed.</p>
+    <p class="arch-summary reveal"><strong>4 agents. 2 machines. 59 specs. 0 employees.</strong> Every handoff tracked. Every output scored. Every failure self-healed.</p>
     <!-- /AGENT-EDITABLE: architecture-stats -->
 </section>
 
