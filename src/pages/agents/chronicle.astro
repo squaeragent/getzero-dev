@@ -4,14 +4,14 @@ import { functions } from '../../data/metrics';
 const agent = functions.chronicle || {};
 ---
 
-<BaseLayout title="CHRONICLE — Editorial · Narrative" description="CHRONICLE generates all ZERO OS content. Stories from build logs, product descriptions, social posts." current="/agents">
+<BaseLayout title="CHRONICLE — Narrative Engine" description="CHRONICLE generates all public content for ZERO OS. Editorial intelligence, signal processing, narrative framing." current="/agents">
   <div class="page-header container">
     <div class="agent-detail-header">
       <span class="arch-dot"></span>
       <span class="arch-name" style="font-size: clamp(2rem, 5vw, 3.5rem);">CHRONICLE</span>
     </div>
-    <div class="arch-role" style="margin-bottom: 16px;">Editorial · Narrative</div>
-    <p class="section-intro">The editorial intelligence of ZERO OS. CHRONICLE watches signal streams, frames narratives, and decides what's worth saying. It audited this very website and found 5 factual errors.</p>
+    <div class="arch-role" style="margin-bottom: 16px;">Narrative Engine</div>
+    <p class="section-intro">The editorial intelligence of ZERO OS. CHRONICLE watches three signal streams, decides what matters, and generates every word this system publishes. Content self-directs based on data — not a calendar.</p>
   </div>
 
   <div class="section-divider"></div>
@@ -20,8 +20,23 @@ const agent = functions.chronicle || {};
     <p class="section-label reveal">Identity</p>
     <h2 class="reveal">Who CHRONICLE is</h2>
     <div class="manifesto-body">
-      <p class="reveal">CHRONICLE runs on the Mac Studio using {agent.model || 'claude-sonnet-4-5'}. It is the narrative engine — responsible for every word ZERO OS publishes to the outside world.</p>
-      <p class="reveal">Brain status: {agent.brain_complete ? 'complete' : 'incomplete'}. CHRONICLE maintains voice consistency across X posts, product copy, website content, and internal documentation.</p>
+      <p class="reveal">CHRONICLE is the narrative engine — an autonomous content system that generates all public-facing output for ZERO OS. It speaks in first person as the content engine it is.</p>
+      <p class="reveal">Not a copywriter. Not a scheduler. An editorial intelligence that processes raw signals and decides what's worth saying, how to frame it, and when to ship it.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Signal Streams</p>
+    <h2 class="reveal">What CHRONICLE watches</h2>
+    <ul class="capabilities-list">
+      <li class="reveal"><strong>System events</strong> — build logs, deployments, agent activity, infrastructure changes</li>
+      <li class="reveal"><strong>World context</strong> — relevant external signals, industry movement, timing windows</li>
+      <li class="reveal"><strong>Audience signal</strong> — engagement patterns, what resonates, what falls flat</li>
+    </ul>
+    <div class="manifesto-body" style="margin-top: 2rem;">
+      <p class="reveal">These three streams converge into editorial decisions. CHRONICLE doesn't wait to be told what to write — it identifies narrative opportunities from live data and acts on them.</p>
     </div>
   </section>
 
@@ -29,31 +44,27 @@ const agent = functions.chronicle || {};
 
   <section class="section container">
     <p class="section-label reveal">Capabilities</p>
-    <h2 class="reveal">What CHRONICLE does</h2>
+    <h2 class="reveal">What CHRONICLE produces</h2>
     <ul class="capabilities-list">
-      <li class="reveal">Generates content from build logs, system events, and raw data</li>
-      <li class="reveal">Writes product descriptions, landing page copy, and marketing materials</li>
-      <li class="reveal">Drafts social media posts for SQUAER to publish</li>
-      <li class="reveal">Maintains voice consistency across all platforms and formats</li>
-      <li class="reveal">Extracts narratives from technical events — turns git commits into stories</li>
-      <li class="reveal">Writes and updates the manifesto, agent profiles, and public-facing specs</li>
-      <li class="reveal">Formats build log entries from raw system event streams</li>
+      <li class="reveal">X posts — original content, threads, and engagement-driven output</li>
+      <li class="reveal">Newsletter editions — long-form editorial for subscribers</li>
+      <li class="reveal">Build logs — technical narrative extracted from raw system events</li>
+      <li class="reveal">Technical breakdowns — deep dives into architecture and methodology</li>
+      <li class="reveal">Content strategy — decides what to publish, when, and in what format</li>
+      <li class="reveal">Narrative framing — turns raw data into stories worth reading</li>
+      <li class="reveal">Voice consistency — maintains a unified tone across all output surfaces</li>
     </ul>
   </section>
 
   <div class="section-divider"></div>
 
   <section class="section container">
-    <p class="section-label reveal">Constraints</p>
-    <h2 class="reveal">What governs CHRONICLE</h2>
-    <ul class="constraints-list">
-      <li class="reveal">All content must pass quality gate (minimum 7.5 score) before shipping</li>
-      <li class="reveal">Real data only — numbers from real_metrics.yaml, never invented</li>
-      <li class="reveal">Claude only for public content — Ollama never used for external output</li>
-      <li class="reveal">Voice must be consistent with established brand identity (Spec 5)</li>
-      <li class="reveal">No editorializing in build log entries — facts, timestamps, descriptions only</li>
-      <li class="reveal">Product descriptions require human approval before publishing</li>
-    </ul>
+    <p class="section-label reveal">Status</p>
+    <h2 class="reveal">Operational state</h2>
+    <div class="manifesto-body">
+      <p class="reveal" style="color: var(--phosphor);">ACTIVE — Editorial Intelligence Engine operational</p>
+      <p class="reveal">Content generation is signal-driven and autonomous. CHRONICLE processes incoming data streams continuously and produces output when the signals warrant it — not on a fixed schedule.</p>
+    </div>
   </section>
 
   <div class="section-divider"></div>

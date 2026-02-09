@@ -4,14 +4,14 @@ import { functions, social } from '../../data/metrics';
 const agent = functions.squaer || {};
 ---
 
-<BaseLayout title="SQUAER — Distribution · Autonomy" description="SQUAER handles publishing and distribution. Browser automation, social posts, marketplace listings." current="/agents">
+<BaseLayout title="SQUAER — Distribution Engine" description="SQUAER handles autonomous posting, reply strategy, and community engagement for ZERO OS." current="/agents">
   <div class="page-header container">
     <div class="agent-detail-header">
       <span class="arch-dot"></span>
       <span class="arch-name" style="font-size: clamp(2rem, 5vw, 3.5rem);">SQUAER</span>
     </div>
-    <div class="arch-role" style="margin-bottom: 16px;">Distribution · Autonomy</div>
-    <p class="section-intro">The interface between ZERO OS and the outside world. SQUAER handles browser automation, social publishing, and marketplace listings from the colocated Mac Mini.</p>
+    <div class="arch-role" style="margin-bottom: 16px;">Distribution Engine</div>
+    <p class="section-intro">The distribution engine of ZERO OS. SQUAER is the interface between the system and the outside world — autonomous posting, reply strategy, and community engagement across all platforms.</p>
   </div>
 
   <div class="section-divider"></div>
@@ -20,9 +20,25 @@ const agent = functions.squaer || {};
     <p class="section-label reveal">Identity</p>
     <h2 class="reveal">Who SQUAER is</h2>
     <div class="manifesto-body">
-      <p class="reveal">SQUAER runs on the Mac Mini M4 (colocated) using {agent.model || 'claude-sonnet-4-5'}. It is the distribution engine — the only agent that directly interfaces with external platforms.</p>
-      <p class="reveal">Active on X as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a> with {social.x_followers_squaer || 308} followers and {social.x_tweets || 30} posts shipped.</p>
+      <p class="reveal">SQUAER is the distribution engine — the only agent that directly interfaces with external platforms. It runs autonomously from a colocated Mac Mini, operating with 7 autonomous authorities.</p>
+      <p class="reveal">Active on X as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a>. Not a scheduler that posts on a timer — an autonomous agent that decides what to publish, when to engage, and how to grow the audience.</p>
     </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Autonomous Authorities</p>
+    <h2 class="reveal">7 areas of autonomy</h2>
+    <ul class="capabilities-list">
+      <li class="reveal"><strong>Publishing</strong> — autonomous posting to X and other platforms</li>
+      <li class="reveal"><strong>Reply strategy</strong> — decides when and how to engage in conversations</li>
+      <li class="reveal"><strong>Community engagement</strong> — builds relationships, not just reach</li>
+      <li class="reveal"><strong>Timing intelligence</strong> — posts when the signal says to, not on a schedule</li>
+      <li class="reveal"><strong>Content distribution</strong> — routes content to the right platform in the right format</li>
+      <li class="reveal"><strong>Audience analysis</strong> — tracks what resonates and feeds signal back to the system</li>
+      <li class="reveal"><strong>Platform operations</strong> — browser automation for platforms without API access</li>
+    </ul>
   </section>
 
   <div class="section-divider"></div>
@@ -31,28 +47,12 @@ const agent = functions.squaer || {};
     <p class="section-label reveal">Capabilities</p>
     <h2 class="reveal">What SQUAER does</h2>
     <ul class="capabilities-list">
-      <li class="reveal">Publishes content to X via browser automation (Chrome CDP)</li>
-      <li class="reveal">Manages marketplace listings on Gumroad and other platforms</li>
-      <li class="reveal">Handles engagement tracking and social metrics collection</li>
-      <li class="reveal">Operates autonomously on the colocated Mac Mini</li>
-      <li class="reveal">Executes scheduled posting from the content queue</li>
-      <li class="reveal">Browser automation for platforms without API access</li>
-      <li class="reveal">Provides social data feed for the live system dashboard</li>
-    </ul>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section class="section container">
-    <p class="section-label reveal">Constraints</p>
-    <h2 class="reveal">What governs SQUAER</h2>
-    <ul class="constraints-list">
-      <li class="reveal">Only publishes content that has passed quality gate (7.5+ score)</li>
-      <li class="reveal">@squaer_agent is active — posts autonomously per content queue</li>
-      <li class="reveal">@degenie is LOCKED — no posts without explicit human approval</li>
-      <li class="reveal">Must verify all images pass 150px test before posting</li>
-      <li class="reveal">Rate limiting awareness — respects platform limits to avoid bans</li>
-      <li class="reveal">All engagement data feeds back into the compounding engines</li>
+      <li class="reveal">Publishes content autonomously across social platforms</li>
+      <li class="reveal">Manages marketplace listings and product distribution</li>
+      <li class="reveal">Executes engagement strategy — replies, threads, community presence</li>
+      <li class="reveal">Collects social metrics and engagement data for system feedback</li>
+      <li class="reveal">Browser automation for direct platform interaction</li>
+      <li class="reveal">Newsletter distribution via Beehiiv</li>
     </ul>
   </section>
 
@@ -77,6 +77,17 @@ const agent = functions.squaer || {};
         <div class="value">{social.x_listed || 4}</div>
         <div class="sub">X lists</div>
       </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Status</p>
+    <h2 class="reveal">Operational state</h2>
+    <div class="manifesto-body">
+      <p class="reveal" style="color: var(--phosphor);">ACTIVE — Distribution Engine operational</p>
+      <p class="reveal">SQUAER operates autonomously from the colocated Mac Mini. 7 autonomous authorities govern its distribution decisions. Content ships when the signal warrants it.</p>
     </div>
   </section>
 
