@@ -1,0 +1,19 @@
+---
+const { current = '' } = Astro.props;
+const links = [
+  { href: '/manifesto', label: 'Manifesto' },
+  { href: '/system', label: 'System' },
+  { href: '/agents', label: 'Agents' },
+];
+---
+
+<nav class="nav">
+  <a href="/" class="nav-logo">ZERO</a>
+  <div class="nav-links">
+    {links.map(link => (
+      <a href={link.href} class={current === link.href ? 'active' : ''}>
+        {link.label}
+      </a>
+    ))}
+  </div>
+</nav>

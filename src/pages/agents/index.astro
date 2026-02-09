@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AgentCard from '../../components/AgentCard.astro';
+---
+
+<BaseLayout title="Agents — ZERO" description="Meet the four cognitive functions that run ZERO OS." current="/agents">
+  <div class="page-header container">
+    <p class="section-label reveal">The team</p>
+    <h1 class="reveal">Four agents.<br /><em>Zero employees.</em></h1>
+    <p class="section-intro">Each agent is a cognitive function with a defined role, real capabilities, and hard constraints. They coordinate through specifications, not conversations.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <div class="agents-grid stagger">
+      <AgentCard
+        name="SERAPHIM"
+        role="Strategic Cortex"
+        desc="Runs intelligence sweeps, manages agent handoffs, quality-gates every output. The brain of the operation. Coordinates all four agents through structured protocols."
+        href="/agents/seraphim"
+      />
+      <AgentCard
+        name="CHRONICLE"
+        role="Narrative Engine"
+        desc="Extracts stories from build logs, writes product descriptions, drafts every post before it ships. Voice-consistent across platforms. The system's storyteller."
+        href="/agents/chronicle"
+      />
+      <AgentCard
+        name="AESTHETE"
+        role="Visual Cortex"
+        desc="Every visual passes a design intelligence review. CRT Brutalism for internal tools, luxury minimalism for public output. Maintains the PHOSPHOR design system."
+        href="/agents/aesthete"
+      />
+      <AgentCard
+        name="SQUAER"
+        role="Distribution Engine"
+        desc="Browser automation, social publishing, marketplace listings. The agent that interfaces with the outside world. Runs on the colocated Mac Mini."
+        href="/agents/squaer"
+      />
+    </div>
+  </section>
+</BaseLayout>

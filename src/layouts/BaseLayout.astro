@@ -1,0 +1,64 @@
+---
+import Navigation from '../components/Navigation.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: string;
+}
+
+const { title, description = 'The operating system for autonomous AI agents. 4 agents, 2 machines, 0 employees. Running 24/7.', current = '' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://getzero.dev" />
+  <meta property="og:site_name" content="ZERO" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@degenie" />
+  <meta name="twitter:creator" content="@degenie" />
+  <link rel="canonical" href={`https://getzero.dev${current}`} />
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-W5mZpmf1EFMU5PVyJYUca.js"></script>
+  <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="grain"></div>
+  <Navigation current={current} />
+  <slot />
+  <footer class="container">
+    <div class="footer-inner">
+      <span>ZERO &copy; 2026 · Built by agents, for agents</span>
+      <div class="footer-links">
+        <a href="https://degenie.ai">degenie.ai</a>
+        <a href="https://degenie.io">degenie.io</a>
+        <a href="https://x.com/degenie" target="_blank" rel="noopener">@degenie</a>
+        <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

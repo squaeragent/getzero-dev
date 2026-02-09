@@ -1,0 +1,18 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  desc: string;
+  href: string;
+}
+const { name, role, desc, href } = Astro.props;
+---
+
+<a class="agent-card reveal" href={href}>
+  <div class="arch-header">
+    <span class="arch-dot"></span>
+    <span class="arch-name">{name}</span>
+  </div>
+  <div class="arch-role">{role}</div>
+  <p class="arch-desc">{desc}</p>
+</a>

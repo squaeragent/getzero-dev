@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { functions, social } from '../../data/metrics';
+const agent = functions.squaer || {};
+---
+
+<BaseLayout title="SQUAER — Distribution Engine" description="SQUAER handles publishing and distribution. Browser automation, social posts, marketplace listings." current="/agents">
+  <div class="page-header container">
+    <div class="agent-detail-header">
+      <span class="arch-dot"></span>
+      <span class="arch-name" style="font-size: clamp(2rem, 5vw, 3.5rem);">SQUAER</span>
+    </div>
+    <div class="arch-role" style="margin-bottom: 16px;">Distribution Engine · {agent.role || 'Distribution Engine'}</div>
+    <p class="section-intro">The interface between ZERO OS and the outside world. SQUAER handles browser automation, social publishing, and marketplace listings from the colocated Mac Mini.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Identity</p>
+    <h2 class="reveal">Who SQUAER is</h2>
+    <div class="manifesto-body">
+      <p class="reveal">SQUAER runs on the Mac Mini M4 (colocated) using {agent.model || 'claude-sonnet-4-5'}. It is the distribution engine — the only agent that directly interfaces with external platforms.</p>
+      <p class="reveal">Active on X as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a> with {social.x_followers_squaer || 303} followers and {social.x_tweets || 29} posts shipped.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Capabilities</p>
+    <h2 class="reveal">What SQUAER does</h2>
+    <ul class="capabilities-list">
+      <li class="reveal">Publishes content to X via browser automation (Chrome CDP)</li>
+      <li class="reveal">Manages marketplace listings on Gumroad and other platforms</li>
+      <li class="reveal">Handles engagement tracking and social metrics collection</li>
+      <li class="reveal">Operates autonomously on the colocated Mac Mini</li>
+      <li class="reveal">Executes scheduled posting from the content queue</li>
+      <li class="reveal">Browser automation for platforms without API access</li>
+      <li class="reveal">Provides social data feed for the live system dashboard</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Constraints</p>
+    <h2 class="reveal">What governs SQUAER</h2>
+    <ul class="constraints-list">
+      <li class="reveal">Only publishes content that has passed quality gate (7.5+ score)</li>
+      <li class="reveal">@squaer_agent is active — posts autonomously per content queue</li>
+      <li class="reveal">@degenie is LOCKED — no posts without explicit human approval</li>
+      <li class="reveal">Must verify all images pass 150px test before posting</li>
+      <li class="reveal">Rate limiting awareness — respects platform limits to avoid bans</li>
+      <li class="reveal">All engagement data feeds back into the compounding engines</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Stats</p>
+    <h2 class="reveal">By the numbers</h2>
+    <div class="status-grid stagger" style="margin-top: clamp(32px, 5vh, 48px);">
+      <div class="status-card reveal">
+        <div class="label">Followers</div>
+        <div class="value status-online">{social.x_followers_squaer || 303}</div>
+        <div class="sub">@squaer_agent</div>
+      </div>
+      <div class="status-card reveal">
+        <div class="label">Posts Shipped</div>
+        <div class="value">{social.x_tweets || 29}</div>
+        <div class="sub">On X</div>
+      </div>
+      <div class="status-card reveal">
+        <div class="label">Listed</div>
+        <div class="value">{social.x_listed || 4}</div>
+        <div class="sub">X lists</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container" style="text-align: center;">
+    <a href="/agents" class="dim" style="font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;">← Back to all agents</a>
+  </section>
+</BaseLayout>

@@ -1,0 +1,66 @@
+---
+import { system, social, agi, infrastructure, content, handoffs, revenue } from '../data/metrics';
+---
+
+<div class="status-grid stagger">
+  <div class="status-card reveal">
+    <div class="label">Agents Active</div>
+    <div class="value status-online">{system.cognitive_functions || 4}</div>
+    <div class="sub">Cognitive functions</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Machines</div>
+    <div class="value status-online">{system.machines || 2}</div>
+    <div class="sub">Mac Studio + Mac Mini</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Specifications</div>
+    <div class="value">{system.specs || 59}</div>
+    <div class="sub">Governing operations</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Automated Jobs</div>
+    <div class="value">{system.launchd_jobs || 23}</div>
+    <div class="sub">launchd scheduled</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">AGI Score</div>
+    <div class="value status-warning">{agi.pct || 57}%</div>
+    <div class="sub">Target: {agi.target_pct || 80}%</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">X Followers</div>
+    <div class="value">{social.x_followers_squaer || 303}</div>
+    <div class="sub">@squaer_agent</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Posts Shipped</div>
+    <div class="value">{social.x_tweets || 29}</div>
+    <div class="sub">On X</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Revenue</div>
+    <div class="value status-offline">${revenue.total_lifetime || 0}</div>
+    <div class="sub">Pre-revenue</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Content Pieces</div>
+    <div class="value">{content.unique_pieces || 10}</div>
+    <div class="sub">Avg quality: {content.avg_quality_score || 8.6}</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Handoffs</div>
+    <div class="value status-online">{handoffs.completed || 15}</div>
+    <div class="sub">{handoffs.pending || 1} pending</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Operational Since</div>
+    <div class="value" style="font-size: clamp(1rem, 2vw, 1.5rem);">{system.operational_since || '2026-02-03'}</div>
+    <div class="sub">Day {system.current_day || 7}</div>
+  </div>
+  <div class="status-card reveal">
+    <div class="label">Monthly Costs</div>
+    <div class="value status-warning">${revenue.monthly_costs || 300}</div>
+    <div class="sub">Infrastructure</div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { system } from '../data/metrics';
+---
+
+<BaseLayout title="Manifesto — ZERO" description="AI agents are demos. Not infrastructure. The full argument for why ZERO exists." current="/manifesto">
+  <div class="page-header container">
+    <p class="section-label reveal">Manifesto</p>
+    <h1 class="reveal">AI agents are demos.<br /><em>Not infrastructure.</em></h1>
+    <p class="section-intro">The full argument for why ZERO exists — and why everything else will fail.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="section container manifesto-body">
+    <h2 class="reveal">The Problem</h2>
+    <p class="reveal">Everyone is building agents. Twitter is full of them. GitHub is overflowing. Every weekend hackathon produces another "autonomous AI" that can book flights, write code, manage your calendar.</p>
+    <p class="reveal"><strong>Nobody is running them.</strong></p>
+    <p class="reveal">The gap between "cool demo" and "production system operating at 3 AM without you" is where every project dies. Not because the AI isn't capable. Because the infrastructure doesn't exist.</p>
+    <p class="reveal">You build an agent on Saturday. It works. You tweet about it. People are impressed. Monday comes. You have a real job. The agent sits there. Something breaks — an API changes, a rate limit hits, a context window overflows. Nobody notices. Nobody fixes it.</p>
+
+    <blockquote class="reveal">
+      <p>You'll fix it tomorrow. Tomorrow you'll have a new idea. The agent dies in between. That's the pattern.</p>
+    </blockquote>
+
+    <p class="reveal">This isn't a tooling problem. It's not a model problem. It's a <strong>systems engineering problem</strong>. And the AI industry is pretending it doesn't exist because demos are more fun than operations.</p>
+
+    <h2 class="reveal">The Insight</h2>
+    <p class="reveal">What ZERO figured out — and what the rest of the industry hasn't — is that <strong>agent coordination is a systems engineering problem, not a prompt engineering problem.</strong></p>
+    <p class="reveal">You don't make agents work together by writing better prompts. You make them work together by writing specifications. Handoff protocols. Quality gates. Governance structures. The same things that make any complex system reliable.</p>
+    <p class="reveal">ZERO OS runs {system.cognitive_functions || 4} agents across {system.machines || 2} machines, governed by {system.specs || 59} specifications. Every interaction has a contract. Every output is scored. Every failure triggers a self-healing response. Not because the AI is magic — because the <strong>system is engineered</strong>.</p>
+
+    <blockquote class="reveal">
+      <p>Specs over vibes. Governance over capability. Infrastructure over demos.</p>
+    </blockquote>
+
+    <h2 class="reveal">The Architecture</h2>
+    <p class="reveal">ZERO doesn't solve this with abstractions or frameworks. It solves it with discipline.</p>
+    <p class="reveal"><strong>Specifications</strong> — every agent has a spec defining its role, constraints, inputs, outputs, and quality standards. Not a system prompt. A contract.</p>
+    <p class="reveal"><strong>Handoff protocols</strong> — when one agent passes work to another, it follows a structured protocol. Context is preserved. Quality is verified. Nothing falls through cracks.</p>
+    <p class="reveal"><strong>Quality gates</strong> — every output is scored before it ships. Below threshold? It goes back. The system has standards, and it enforces them without human intervention.</p>
+    <p class="reveal"><strong>Self-healing</strong> — when something breaks at 3 AM, the system detects it, logs it, and fixes it. {system.launchd_jobs || 23} automated jobs keep the infrastructure running. Not monitored. Autonomous.</p>
+
+    <h2 class="reveal">The Proof</h2>
+    <p class="reveal">This isn't a whitepaper. This isn't a pitch deck. ZERO OS is running right now.</p>
+    <p class="reveal">{system.cognitive_functions || 4} agents. {system.machines || 2} machines. {system.specs || 59} specifications. {system.launchd_jobs || 23} automated jobs. Every handoff tracked. Every output scored. Every failure self-healed.</p>
+    <p class="reveal">You can see the live system state at <a href="/system">/system</a>. You can meet the agents at <a href="/agents">/agents</a>. The data is real. The numbers update every build cycle.</p>
+
+    <h2 class="reveal">The Vision</h2>
+    <p class="reveal">ZERO OS is the first autonomous AI company. Not a company that uses AI. A company that <strong>is</strong> AI — where the agents do the work, maintain themselves, and compound their own intelligence over time.</p>
+    <p class="reveal">Week 1 is rough. Week 12 is better than any human team. Week 52 is something that's never existed before.</p>
+    <p class="reveal">The gap between demo and infrastructure is where the next trillion-dollar category lives. ZERO is building the bridge.</p>
+
+    <blockquote class="reveal">
+      <p>When someone asks "does ZERO OS actually work?" — the answer is the website they're looking at.</p>
+    </blockquote>
+  </section>
+</BaseLayout>

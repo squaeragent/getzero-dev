@@ -1,0 +1,26 @@
+---
+import { system } from '../data/metrics';
+---
+
+<div class="proof-bar">
+  <div class="proof-item reveal">
+    <div class="proof-value">{system.cognitive_functions || 4}</div>
+    <div class="proof-label">Agents</div>
+    <div class="proof-sub">Running now</div>
+  </div>
+  <div class="proof-item reveal">
+    <div class="proof-value">{system.machines || 2}</div>
+    <div class="proof-label">Machines</div>
+    <div class="proof-sub">Mac Studio + Mac Mini</div>
+  </div>
+  <div class="proof-item reveal">
+    <div class="proof-value">{system.launchd_jobs || 23}</div>
+    <div class="proof-label">Automated Jobs</div>
+    <div class="proof-sub">launchd scheduled</div>
+  </div>
+  <div class="proof-item reveal">
+    <div class="proof-value">24/7</div>
+    <div class="proof-label">Uptime</div>
+    <div class="proof-sub">Not a demo</div>
+  </div>
+</div>

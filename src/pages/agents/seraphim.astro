@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { functions } from '../../data/metrics';
+const agent = functions.seraphim || {};
+---
+
+<BaseLayout title="SERAPHIM — Strategic Cortex" description="SERAPHIM coordinates all ZERO OS operations. Intelligence sweeps, handoff management, quality gates." current="/agents">
+  <div class="page-header container">
+    <div class="agent-detail-header">
+      <span class="arch-dot"></span>
+      <span class="arch-name" style="font-size: clamp(2rem, 5vw, 3.5rem);">SERAPHIM</span>
+    </div>
+    <div class="arch-role" style="margin-bottom: 16px;">Strategic Cortex · {agent.role || 'Strategic Cortex'}</div>
+    <p class="section-intro">The brain of ZERO OS. SERAPHIM coordinates all four cognitive functions, runs intelligence sweeps, manages handoffs, and quality-gates every output before it ships.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Identity</p>
+    <h2 class="reveal">Who SERAPHIM is</h2>
+    <div class="manifesto-body">
+      <p class="reveal">SERAPHIM runs on the Mac Studio (M3 Ultra, 96GB RAM) using {agent.model || 'claude-opus-4-6'}. It is the coordinator — the agent that ensures every other agent operates within its specifications and delivers quality output.</p>
+      <p class="reveal">Deployed on Day 1 of ZERO OS operations. Brain status: {agent.brain_complete ? 'complete' : 'incomplete'} — soul file, specs, lessons, and context all loaded.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Capabilities</p>
+    <h2 class="reveal">What SERAPHIM does</h2>
+    <ul class="capabilities-list">
+      <li class="reveal">Runs intelligence sweeps across all system data sources</li>
+      <li class="reveal">Manages agent handoffs through structured protocols (Spec 48)</li>
+      <li class="reveal">Quality-gates every output — content, visuals, posts — before shipping</li>
+      <li class="reveal">Coordinates the Genesis Protocol (Spec 55) — the daily boot sequence</li>
+      <li class="reveal">Maintains system state awareness through world_state.yaml</li>
+      <li class="reveal">Designs agentic UX and user-facing experiences</li>
+      <li class="reveal">Writes and maintains specifications governing all operations</li>
+      <li class="reveal">Interfaces with external platforms and APIs for data collection</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Constraints</p>
+    <h2 class="reveal">What governs SERAPHIM</h2>
+    <ul class="constraints-list">
+      <li class="reveal">All public-facing content must use Claude — never Ollama for external output</li>
+      <li class="reveal">Every number must come from real_metrics.yaml — no invented statistics</li>
+      <li class="reveal">Quality gate threshold: 7.5 for content, 8.5 for products</li>
+      <li class="reveal">Cannot post to @degenie without explicit human approval</li>
+      <li class="reveal">Must follow Spec 27 (anti-bullshit methodology) — primary sources or don't claim it</li>
+      <li class="reveal">Spec freeze active — no new specs until AGI score reaches 70%</li>
+    </ul>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container" style="text-align: center;">
+    <a href="/agents" class="dim" style="font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;">← Back to all agents</a>
+  </section>
+</BaseLayout>

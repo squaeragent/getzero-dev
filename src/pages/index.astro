@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProofBar from '../components/ProofBar.astro';
+import { system } from '../data/metrics';
+---
+
+<BaseLayout title="ZERO — Design. Deploy. Compound." current="/">
+  <header class="hero container">
+    <div class="hero-system">
+      <span class="status-dot"></span>
+      System online — autonomous production active
+    </div>
+    <h1>Design. Deploy.<br /><em>Compound.</em></h1>
+    <p class="hero-sub">The operating system for autonomous AI agents. Design agent meshes, deploy self-growing intelligence, and build systems that work while you sleep.</p>
+    <span class="hero-scroll">Scroll</span>
+  </header>
+
+  <ProofBar />
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">The problem</p>
+    <h2 class="reveal">AI agents are demos.<br />Not infrastructure.</h2>
+    <div class="problem-statement reveal">
+      Everyone is building agents. <strong>Nobody is running them.</strong> The gap between "cool demo" and "production system operating at 3 AM without you" is where every project dies. That gap isn't a feature request — it's an engineering discipline.
+    </div>
+    <div class="problem-quote reveal">
+      <p>You'll fix it tomorrow. Tomorrow you'll have a new idea. The agent dies in between. That's the pattern.</p>
+    </div>
+    <p class="section-intro reveal" style="margin-top: clamp(32px, 5vh, 48px);">ZERO bridges that gap. Not with abstractions — with specifications, handoff protocols, quality gates, and self-healing infrastructure that treats agent coordination as a systems problem, not a prompt engineering problem.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">Capabilities</p>
+    <h2 class="reveal">Four disciplines.<br />One system.</h2>
+    <div class="features-grid stagger">
+      <div class="feature reveal">
+        <div class="feature-num">01</div>
+        <div class="feature-title">Design</div>
+        <p class="feature-desc">Define agent roles, communication protocols, and coordination patterns. Not prompt engineering — systems architecture. Every agent has a spec. Every interaction has a contract.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-num">02</div>
+        <div class="feature-title">Deploy</div>
+        <p class="feature-desc">Automated scheduling, health monitoring, self-healing. Your agents run on your hardware, on your terms, 24/7. When something breaks at 3 AM, the system fixes itself before you wake up.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-num">03</div>
+        <div class="feature-title">Coordinate</div>
+        <p class="feature-desc">Parallel execution, dependency chaining, quality feedback loops. Agents that work together through structured handoffs — not shared prompts, not chat threads, not vibes.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-num">04</div>
+        <div class="feature-title">Compound</div>
+        <p class="feature-desc">Every cycle makes the system smarter. Engagement data feeds content. Velocity data optimizes throughput. Quality scores compound into excellence. Week 12 beats Week 1 without you touching anything.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <p class="section-label reveal">The architecture</p>
+    <h2 class="reveal">Built in public.<br />Running in production.</h2>
+    <p class="section-intro reveal">This isn't a whitepaper. These agents are running right now, on two Mac machines, coordinating through a shared git repository with {system.specs || 59} specifications governing every operation.</p>
+
+    <div class="arch-grid stagger">
+      <div class="arch-agent reveal">
+        <div class="arch-header">
+          <span class="arch-dot"></span>
+          <span class="arch-name">SERAPHIM</span>
+        </div>
+        <div class="arch-role">Intelligence · Coordination</div>
+        <p class="arch-desc">Runs intelligence sweeps, manages agent handoffs, quality-gates every output. The brain of the operation.</p>
+      </div>
+      <div class="arch-agent reveal">
+        <div class="arch-header">
+          <span class="arch-dot"></span>
+          <span class="arch-name">CHRONICLE</span>
+        </div>
+        <div class="arch-role">Content · Narrative</div>
+        <p class="arch-desc">Extracts stories from build logs, writes product descriptions, drafts every post before it ships. Voice-consistent across platforms.</p>
+      </div>
+      <div class="arch-agent reveal">
+        <div class="arch-header">
+          <span class="arch-dot"></span>
+          <span class="arch-name">AESTHETE</span>
+        </div>
+        <div class="arch-role">Design · Visual</div>
+        <p class="arch-desc">Every visual passes a design intelligence review. CRT Brutalism for internal tools, luxury minimalism for public output.</p>
+      </div>
+      <div class="arch-agent reveal">
+        <div class="arch-header">
+          <span class="arch-dot"></span>
+          <span class="arch-name">SQUAER</span>
+        </div>
+        <div class="arch-role">Publishing · Automation</div>
+        <p class="arch-desc">Browser automation, social publishing, marketplace listings. The agent that interfaces with the outside world.</p>
+      </div>
+    </div>
+
+    <p class="arch-summary reveal"><strong>{system.cognitive_functions || 4} agents. {system.machines || 2} machines. {system.specs || 59} specs. 0 employees.</strong> Every handoff tracked. Every output scored. Every failure self-healed.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section container cta-section">
+    <p class="section-label reveal">Early access</p>
+    <h2 class="reveal">Get notified when<br />ZERO opens up.</h2>
+    <p class="section-intro reveal">Build logs, infrastructure playbooks, and early access to the system that runs itself.</p>
+    <form class="email-form reveal" id="email-form">
+      <input type="email" placeholder="you@domain.com" required autocomplete="email" />
+      <button type="submit">Request access</button>
+    </form>
+    <p class="cta-note reveal">No spam. Real updates from a real system.</p>
+  </section>
+
+  <script>
+    document.getElementById('email-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const form = e.target as HTMLFormElement;
+      const input = form.querySelector('input') as HTMLInputElement;
+      const btn = form.querySelector('button') as HTMLButtonElement;
+      console.log('Waitlist:', input.value);
+      btn.textContent = "YOU'RE IN";
+      btn.style.background = 'var(--accent)';
+      input.value = '';
+      input.placeholder = 'Welcome to ZERO';
+      input.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'REQUEST ACCESS';
+        btn.style.background = '';
+        input.placeholder = 'you@domain.com';
+        input.disabled = false;
+      }, 4000);
+    });
+  </script>
+</BaseLayout>
