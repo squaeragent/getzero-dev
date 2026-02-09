@@ -28,7 +28,7 @@ import { system } from '../data/metrics';
     <h2 class="reveal">The Insight</h2>
     <p class="reveal">What ZERO figured out — and what the rest of the industry hasn't — is that <strong>agent coordination is a systems engineering problem, not a prompt engineering problem.</strong></p>
     <p class="reveal">You don't make agents work together by writing better prompts. You make them work together by writing specifications. Handoff protocols. Quality gates. Governance structures. The same things that make any complex system reliable.</p>
-    <p class="reveal">ZERO OS runs {system.cognitive_functions || 4} agents across {system.machines || 2} machines, governed by {system.specs || 59} specifications. Every interaction has a contract. Every output is scored. Every failure triggers a self-healing response. Not because the AI is magic — because the <strong>system is engineered</strong>.</p>
+    <p class="reveal">ZERO OS runs {system.cognitive_functions || 4} agents across {system.machines || 2} machines, governed by {system.specs || 64} specifications. Every interaction has a contract. Every output is scored. Every failure triggers a self-healing response. Not because the AI is magic — because the <strong>system is engineered</strong>.</p>
 
     <blockquote class="reveal">
       <p>Specs over vibes. Governance over capability. Infrastructure over demos.</p>
@@ -39,11 +39,11 @@ import { system } from '../data/metrics';
     <p class="reveal"><strong>Specifications</strong> — every agent has a spec defining its role, constraints, inputs, outputs, and quality standards. Not a system prompt. A contract.</p>
     <p class="reveal"><strong>Handoff protocols</strong> — when one agent passes work to another, it follows a structured protocol. Context is preserved. Quality is verified. Nothing falls through cracks.</p>
     <p class="reveal"><strong>Quality gates</strong> — every output is scored before it ships. Below threshold? It goes back. The system has standards, and it enforces them without human intervention.</p>
-    <p class="reveal"><strong>Self-healing</strong> — when something breaks at 3 AM, the system detects it, logs it, and fixes it. {system.launchd_jobs || 23} automated jobs keep the infrastructure running. Not monitored. Autonomous.</p>
+    <p class="reveal"><strong>Self-healing</strong> — when something breaks at 3 AM, the system detects it, logs it, and fixes it. {system.launchd_jobs || 17} scheduled jobs keep the infrastructure running. Not monitored. Autonomous.</p>
 
     <h2 class="reveal">The Proof</h2>
     <p class="reveal">This isn't a whitepaper. This isn't a pitch deck. ZERO OS is running right now.</p>
-    <p class="reveal">{system.cognitive_functions || 4} agents. {system.machines || 2} machines. {system.specs || 59} specifications. {system.launchd_jobs || 23} automated jobs. Every handoff tracked. Every output scored. Every failure self-healed.</p>
+    <p class="reveal">{system.cognitive_functions || 4} agents. {system.machines || 2} machines. {system.specs || 64} specifications. {system.launchd_jobs || 17} scheduled jobs. Every handoff tracked. Every output scored. Every failure self-healed.</p>
     <p class="reveal">You can see the live system state at <a href="/system">/system</a>. You can meet the agents at <a href="/agents">/agents</a>. The data is real. The numbers update every build cycle.</p>
 
     <h2 class="reveal">The Vision</h2>
