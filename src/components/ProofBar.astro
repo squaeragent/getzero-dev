@@ -1,26 +1,103 @@
 ---
-import { system } from '../data/metrics';
+// Live Proof Bar — reads from site-data.json at build time
+// Falls back to static values if data unavailable
+
+let data: any = null;
+try {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const filePath = path.default.join(process.cwd(), 'public/data/site-data.json');
+  const raw = fs.default.readFileSync(filePath, 'utf-8');
+  data = JSON.parse(raw);
+} catch {
+  // fallback
+}
+
+const status = data?.system_status || 'active';
+const lastActivity = data?.last_activity ? new Date(data.last_activity) : null;
+const dayNumber = data?.day_number || 8;
+const treasury = data?.treasury_usd || 30300;
+const agents = data?.agents || 4;
+const specs = data?.specs || 66;
+
+// Calculate "X min ago"
+let agoText = '—';
+if (lastActivity) {
+  const now = new Date();
+  const diffMs = now.getTime() - lastActivity.getTime();
+  const diffMin = Math.floor(diffMs / 60000);
+  if (diffMin < 60) agoText = `${diffMin}m ago`;
+  else if (diffMin < 1440) agoText = `${Math.floor(diffMin / 60)}h ago`;
+  else agoText = `${Math.floor(diffMin / 1440)}d ago`;
+}
+
+// Format treasury
+const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$${treasury}`;
 ---
 
-<div class="proof-bar">
-  <div class="proof-item reveal">
-    <div class="proof-value">{system.cognitive_functions || 4}</div>
-    <div class="proof-label">Agents</div>
-    <div class="proof-sub">Running now</div>
-  </div>
-  <div class="proof-item reveal">
-    <div class="proof-value">{system.machines || 2}</div>
-    <div class="proof-label">Machines</div>
-    <div class="proof-sub">Mac Studio + Mac Mini</div>
-  </div>
-  <div class="proof-item reveal">
-    <div class="proof-value">{system.launchd_jobs || 17}</div>
-    <div class="proof-label">Scheduled Jobs</div>
-    <div class="proof-sub">launchd verified</div>
-  </div>
-  <div class="proof-item reveal">
-    <div class="proof-value">{system.specs || 64}</div>
-    <div class="proof-label">Specifications</div>
-    <div class="proof-sub">Governing operations</div>
+<div class="live-proof-bar">
+  <div class="live-proof-inner">
+    <span class="live-proof-item">
+      <span class="live-dot"></span>
+      System {status}
+    </span>
+    <span class="live-proof-sep">·</span>
+    <span class="live-proof-item">Last action: {agoText}</span>
+    <span class="live-proof-sep">·</span>
+    <span class="live-proof-item">Day {dayNumber}</span>
+    <span class="live-proof-sep">·</span>
+    <span class="live-proof-item">{treasuryStr} treasury</span>
+    <span class="live-proof-sep">·</span>
+    <span class="live-proof-item">{agents} agents · {specs} specs</span>
   </div>
 </div>
+
+<style>
+  .live-proof-bar {
+    width: 100%;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    color: var(--fg-dim);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .live-proof-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 8px clamp(24px, 5vw, 80px);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
+  }
+  .live-proof-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .live-proof-sep {
+    margin: 0 10px;
+    color: var(--border);
+  }
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    display: inline-block;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @media (max-width: 640px) {
+    .live-proof-inner {
+      font-size: 0.625rem;
+      padding: 6px 16px;
+    }
+  }
+</style>

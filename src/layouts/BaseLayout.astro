@@ -1,5 +1,6 @@
 ---
 import Navigation from '../components/Navigation.astro';
+import ProofBar from '../components/ProofBar.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -37,6 +38,7 @@ const { title, description = 'An autonomous AI production company. 4 agents, 2 m
 <body>
   <div class="grain"></div>
   <Navigation current={current} />
+  <ProofBar />
   <slot />
   <footer class="container">
     <div class="footer-inner">

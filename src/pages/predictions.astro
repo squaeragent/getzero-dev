@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const predictions = [
+  {
+    id: 'P-001',
+    title: 'VIRTUAL reclaims $1.00',
+    deadline: '2026-03-11',
+    confidence: 'Medium',
+    status: 'PENDING',
+    source: 'Intelligence Brief #1',
+  },
+  {
+    id: 'P-002',
+    title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16',
+    deadline: '2026-03-18',
+    confidence: 'Medium',
+    status: 'PENDING',
+    source: 'Intelligence Brief #1',
+  },
+  {
+    id: 'P-003',
+    title: 'Formal agent lawsuit filing',
+    deadline: '2026-03-01',
+    confidence: 'High',
+    status: 'PENDING',
+    source: 'Intelligence Brief #1',
+  },
+  {
+    id: 'P-004',
+    title: 'OpenAI Frontier pricing ≥$50/month',
+    deadline: '2026-06-01',
+    confidence: 'Medium',
+    status: 'PENDING',
+    source: 'Intelligence Brief #1',
+  },
+];
+---
+
+<BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO Intelligence Briefs. Tracked, scored, accountable." current="/predictions">
+  <div class="page-header container">
+    <p class="section-label reveal">Signal tracking</p>
+    <h1 class="reveal">Prediction<br /><em>Tracker.</em></h1>
+    <p class="section-intro reveal">Every prediction we publish is tracked here with full accountability. No quiet deletions. No retroactive edits. Public scoreboard.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <section class="section container">
+    <div class="pred-accuracy reveal">
+      <span class="pred-accuracy-label">Running accuracy:</span>
+      <span class="pred-accuracy-value">0/0 resolved</span>
+      <span class="pred-accuracy-note">(first edition — baseline established)</span>
+    </div>
+
+    <div class="pred-table">
+      <div class="pred-header">
+        <span class="pred-col-id">ID</span>
+        <span class="pred-col-title">Prediction</span>
+        <span class="pred-col-deadline">Deadline</span>
+        <span class="pred-col-conf">Confidence</span>
+        <span class="pred-col-status">Status</span>
+      </div>
+      {predictions.map((p) => (
+        <div class="pred-row reveal">
+          <span class="pred-col-id pred-id">{p.id}</span>
+          <span class="pred-col-title">
+            <span class="pred-title">{p.title}</span>
+            <span class="pred-source">{p.source}</span>
+          </span>
+          <span class="pred-col-deadline">{p.deadline}</span>
+          <span class={`pred-col-conf pred-conf-${p.confidence.toLowerCase()}`}>{p.confidence}</span>
+          <span class="pred-col-status pred-status-pending">{p.status}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="pred-footer reveal">
+      <p>Predictions sourced from <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener">ZERO Intelligence Brief</a> — $29/mo for full signal analysis.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .pred-accuracy {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    margin-bottom: clamp(32px, 5vh, 56px);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .pred-accuracy-label {
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.6875rem;
+  }
+  .pred-accuracy-value {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .pred-accuracy-note {
+    color: var(--fg-dim);
+    font-size: 0.75rem;
+  }
+
+  .pred-table {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+  .pred-header {
+    display: grid;
+    grid-template-columns: 60px 1fr 100px 90px 80px;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--fg-dim);
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.625rem;
+  }
+  .pred-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 100px 90px 80px;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .pred-id {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .pred-title {
+    display: block;
+    color: var(--fg);
+    line-height: 1.5;
+  }
+  .pred-source {
+    display: block;
+    color: var(--fg-dim);
+    font-size: 0.6875rem;
+    margin-top: 4px;
+  }
+  .pred-conf-high { color: var(--accent); }
+  .pred-conf-medium { color: var(--fg-mid); }
+  .pred-conf-low { color: var(--fg-dim); }
+  .pred-status-pending {
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.6875rem;
+  }
+
+  .pred-footer {
+    margin-top: clamp(40px, 6vh, 64px);
+    font-size: 0.8125rem;
+    color: var(--fg-dim);
+  }
+  .pred-footer a {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .pred-header { display: none; }
+    .pred-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px 0;
+    }
+    .pred-row .pred-col-id { font-size: 0.6875rem; }
+    .pred-row .pred-col-deadline,
+    .pred-row .pred-col-conf,
+    .pred-row .pred-col-status {
+      font-size: 0.6875rem;
+      color: var(--fg-dim);
+    }
+    .pred-row .pred-col-deadline::before { content: 'Deadline: '; }
+    .pred-row .pred-col-conf::before { content: 'Confidence: '; }
+    .pred-row .pred-col-status::before { content: 'Status: '; }
+  }
+</style>
