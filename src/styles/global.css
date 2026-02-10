@@ -708,7 +708,7 @@ footer {
   .email-form button { padding: clamp(14px, 2vh, 20px); }
   .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
   .hero-scroll { display: none; }
-  .nav-links { gap: 12px; }
-  .nav-links a { font-size: 0.6rem; }
+  .nav-links { gap: 10px; }
+  .nav-links a { font-size: 0.5625rem; letter-spacing: 0.06em; }
   .status-grid { grid-template-columns: repeat(2, 1fr); }
 }

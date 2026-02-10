@@ -54,7 +54,11 @@ const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$$
 
 <style>
   .live-proof-bar {
-    width: 100%;
+    position: fixed;
+    top: 53px; /* below nav */
+    left: 0;
+    right: 0;
+    z-index: 99;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     font-family: var(--font-mono);
@@ -67,7 +71,7 @@ const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$$
   .live-proof-inner {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 8px clamp(24px, 5vw, 80px);
+    padding: 6px clamp(24px, 5vw, 80px);
     display: flex;
     align-items: center;
     gap: 0;
@@ -94,10 +98,16 @@ const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$$
     50% { opacity: 0.4; }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
+    .live-proof-bar {
+      top: 49px;
+    }
     .live-proof-inner {
-      font-size: 0.625rem;
-      padding: 6px 16px;
+      font-size: 0.5625rem;
+      padding: 5px 16px;
+      flex-wrap: wrap;
+      white-space: normal;
+      line-height: 1.6;
     }
   }
 </style>

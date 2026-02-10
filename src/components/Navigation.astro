@@ -1,8 +1,8 @@
 ---
 const { current = '' } = Astro.props;
 const links = [
-  { href: '/build-log', label: 'Build Log' },
-  { href: '/manifesto', label: 'Manifesto' },
+  { href: '/build-log', label: 'Build Log', hideOnMobile: true },
+  { href: '/manifesto', label: 'Manifesto', hideOnMobile: true },
   { href: '/system', label: 'System' },
   { href: '/agents', label: 'Agents' },
   { href: '/predictions', label: 'Predictions' },
@@ -14,9 +14,17 @@ const links = [
   <a href="/" class="nav-logo">ZERO</a>
   <div class="nav-links">
     {links.map(link => (
-      <a href={link.href} class={current === link.href ? 'active' : ''}>
+      <a href={link.href} class:list={[current === link.href ? 'active' : '', link.hideOnMobile ? 'hide-mobile' : '']}>
         {link.label}
       </a>
     ))}
   </div>
 </nav>
+
+<style>
+  @media (max-width: 768px) {
+    .nav-links .hide-mobile {
+      display: none;
+    }
+  }
+</style>
