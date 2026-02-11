@@ -70,19 +70,7 @@ body::before {
 }
 
 /* ── VIGNETTE ── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 50%,
-    rgba(0, 0, 0, 0.45) 75%,
-    rgba(0, 0, 0, 0.85) 100%
-  );
-  pointer-events: none;
-  z-index: 9997;
-}
+/* Vignette removed — was body::after radial-gradient overlay */
 
 /* ── GRAIN ── */
 .grain {
@@ -717,14 +705,7 @@ body::after {
     max-width: 100%;
   }
 
-  body::after {
-    background: radial-gradient(
-      ellipse at center,
-      transparent 65%,
-      rgba(0, 0, 0, 0.2) 85%,
-      rgba(0, 0, 0, 0.5) 100%
-    );
-  }
+  /* vignette removed */
 }
 
 /* ── TABLET ── */
