@@ -6,77 +6,68 @@ import { system, infrastructure, functions, problems } from '../data/metrics';
 
 <BaseLayout title="Live System — ZERO" description="Real-time dashboard showing ZERO OS's actual state. Every number is real." current="/system">
   <section class="section container">
-<pre class="term-block">
-<span class="phosphor">zero $</span> systemctl status zero-os --full
+<pre class="term-block"><span class="phosphor">zero $</span> systemctl status zero-os --full
 
-● zero-os.service - ZERO Autonomous Operating System
-     Loaded: loaded (/etc/systemd/system/zero-os.service; enabled)
-     Active: <span class="phosphor">active (running)</span> since boot
-       Docs: https://getzero.dev/system
-    Process: real-time telemetry at build cycle
-   Main PID: 1 (zero-init)
+● zero-os.service — ZERO OS
+  Active: <span class="phosphor">active (running)</span>
+  Docs: getzero.dev/system
+  PID: 1 (zero-init)
 
 
-═══════════════════════════════════════════════════════════════════
-  INFRASTRUCTURE                                    df -h / top
-═══════════════════════════════════════════════════════════════════
+<span class="phosphor">INFRASTRUCTURE</span>
+════════════════════════════════════
 
-┌─────────────┬──────────────────────────────┬──────────┐
-│ NODE        │ HARDWARE                     │ STATUS   │
-├─────────────┼──────────────────────────────┼──────────┤
-│ Mac Studio  │ {system.mac_studio || 'M3 Ultra, 96GB RAM'} │ <span class="phosphor">{infrastructure.mac_studio?.status || 'online'}</span>   │
-│             │ Disk: {infrastructure.mac_studio?.disk_used_pct || 2}% used                  │          │
-│             │ Services: OpenClaw, Ollama,  │          │
-│             │           HIVE               │          │
-├─────────────┼──────────────────────────────┼──────────┤
-│ Mac Mini    │ {system.mac_mini || 'M4, 16GB RAM — colocated'} │ <span class="phosphor">{infrastructure.mac_mini?.status || 'online'}</span>   │
-│             │ Role: {infrastructure.mac_mini?.role || 'Distribution Node'}       │          │
-│             │ Services: OpenClaw,          │          │
-│             │           Chrome CDP         │          │
-└─────────────┴──────────────────────────────┴──────────┘
+<span class="phosphor">■</span> Mac Studio
+  {system.mac_studio || 'M3 Ultra, 96GB RAM'}
+  status .... <span class="phosphor">{infrastructure.mac_studio?.status || 'online'}</span>
+  disk ...... {infrastructure.mac_studio?.disk_used_pct || 2}% used
+  services .. OpenClaw, Ollama
+
+<span class="phosphor">■</span> Mac Mini
+  {system.mac_mini || 'M4, 16GB RAM — colo'}
+  status .... <span class="phosphor">{infrastructure.mac_mini?.status || 'online'}</span>
+  role ...... {infrastructure.mac_mini?.role || 'Distribution Node'}
+  services .. OpenClaw, Chrome CDP
 
 
-═══════════════════════════════════════════════════════════════════
-  COGNITIVE FUNCTIONS                          systemctl list-units
-═══════════════════════════════════════════════════════════════════
+<span class="phosphor">COGNITIVE FUNCTIONS</span>
+════════════════════════════════════
 </pre>
 
 {Object.entries(functions).map(([name, data]: [string, any]) => (
 <pre class="term-block">
-  <span class="phosphor">[ACTIVE]</span>  {name.toUpperCase().padEnd(16)} — {data.role}
-           model .......... {data.model}
-           brain .......... {data.brain_complete ? '██████████ complete' : '████░░░░░░ incomplete'}
+  <span class="phosphor">[ACTIVE]</span> {name.toUpperCase()}
+  {data.role}
+  model ..... {data.model}
+  brain ..... {data.brain_complete ? '██████████ complete' : '████░░░░░░ incomplete'}
 </pre>
 ))}
 
 <pre class="term-block">
 
-═══════════════════════════════════════════════════════════════════
-  METRICS DASHBOARD                                  live telemetry
-═══════════════════════════════════════════════════════════════════
+<span class="phosphor">METRICS</span>
+════════════════════════════════════
 </pre>
 
     <MetricsDashboard />
 
 <pre class="term-block">
 
-═══════════════════════════════════════════════════════════════════
-  OPEN PROBLEMS                                     journalctl -p 3
-═══════════════════════════════════════════════════════════════════
+<span class="amber">OPEN PROBLEMS</span>
+════════════════════════════════════
 </pre>
 
 {problems.critical?.map((p: string) => (
-<pre class="term-block">  <span class="amber">[CRIT]</span>  {p}</pre>
+<pre class="term-block">  <span class="amber">[CRIT]</span> {p}</pre>
 ))}
 {problems.high?.map((p: string) => (
-<pre class="term-block">  <span class="amber">[HIGH]</span>  {p}</pre>
+<pre class="term-block">  <span class="amber">[HIGH]</span> {p}</pre>
 ))}
 {problems.medium?.map((p: string) => (
-<pre class="term-block">  [MED ]  {p}</pre>
+<pre class="term-block">  [MED ] {p}</pre>
 ))}
 
 <pre class="term-block">
-<span class="phosphor">[EOF]</span>
-</pre>
+<span class="phosphor">[EOF]</span></pre>
   </section>
 </BaseLayout>

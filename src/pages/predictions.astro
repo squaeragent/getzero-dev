@@ -2,91 +2,48 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const predictions = [
-  {
-    id: 'P-001',
-    title: 'VIRTUAL reclaims $1.00',
-    deadline: '2026-03-11',
-    confidence: 'MED',
-    status: 'PENDING',
-    source: 'Intelligence Brief #1',
-  },
-  {
-    id: 'P-002',
-    title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16',
-    deadline: '2026-03-18',
-    confidence: 'MED',
-    status: 'PENDING',
-    source: 'Intelligence Brief #1',
-  },
-  {
-    id: 'P-003',
-    title: 'Formal agent lawsuit filing',
-    deadline: '2026-03-01',
-    confidence: 'HIGH',
-    status: 'PENDING',
-    source: 'Intelligence Brief #1',
-  },
-  {
-    id: 'P-004',
-    title: 'OpenAI Frontier pricing ≥$50/month',
-    deadline: '2026-06-01',
-    confidence: 'MED',
-    status: 'PENDING',
-    source: 'Intelligence Brief #1',
-  },
+  { id: 'P-001', title: 'VIRTUAL reclaims $1.00', deadline: '2026-03-11', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
+  { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
+  { id: 'P-003', title: 'Formal agent lawsuit filing', deadline: '2026-03-01', confidence: 'HIGH', status: 'PENDING', source: 'Intelligence Brief #1' },
+  { id: 'P-004', title: 'OpenAI Frontier pricing ≥$50/month', deadline: '2026-06-01', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
 ];
 
-// Stats
 const total = predictions.length;
 const correct = predictions.filter(p => p.status === 'CORRECT').length;
 const wrong = predictions.filter(p => p.status === 'WRONG').length;
 const resolved = correct + wrong;
-const accuracy = resolved > 0 ? Math.round((correct / resolved) * 100) : 0;
 
-function statusSpan(status: string) {
-  if (status === 'CORRECT') return `<span class="phosphor">${status}</span>`;
-  if (status === 'WRONG') return `<span class="amber">${status}</span>`;
-  return `<span class="dim">${status}</span>`;
-}
-
-function pad(s: string, len: number) {
-  return s.length >= len ? s.substring(0, len) : s + ' '.repeat(len - s.length);
-}
-
-function padStatusRaw(status: string, len: number) {
-  return status.length >= len ? status.substring(0, len) : status + ' '.repeat(len - status.length);
+function statusClass(s: string) {
+  if (s === 'CORRECT') return 'phosphor';
+  if (s === 'WRONG') return 'amber';
+  return 'dim';
 }
 ---
 
 <BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO Intelligence Briefs. Tracked, scored, accountable." current="/predictions">
-  <pre class="term-block">
-<span class="phosphor">zero $</span> zero-intel --predictions --track
+  <pre class="term-block"><span class="phosphor">zero $</span> zero-intel --predictions --track
 
-<span class="phosphor">ZERO INTELLIGENCE — PREDICTION TRACKER</span>
-═══════════════════════════════════════════════════════════════════════════════
+<span class="phosphor">PREDICTION TRACKER</span>
 
-  Running accuracy: <span class="phosphor">{resolved > 0 ? `${accuracy}% (${correct}/${resolved})` : '0/0 resolved'}</span>
-  Total predictions: {total}  |  Pending: {total - resolved}  |  Correct: {correct}  |  Wrong: {wrong}
-  <span class="dim">(first edition — baseline established)</span>
-
-┌──────┬──────────────────────────────────────────────────┬────────────┬──────┬─────────┐
-│ <span class="phosphor">ID</span>   │ <span class="phosphor">PREDICTION</span>                                       │ <span class="phosphor">DEADLINE</span>   │ <span class="phosphor">CONF</span> │ <span class="phosphor">STATUS</span>  │
-├──────┼──────────────────────────────────────────────────┼────────────┼──────┼─────────┤
-<Fragment set:html={predictions.map((p) => {
-const titlePad = pad(p.title, 48);
-const confPad = pad(p.confidence, 4);
-const statusHtml = statusSpan(padStatusRaw(p.status, 7));
-return `│ ${pad(p.id, 4)} │ ${titlePad} │ ${p.deadline} │ ${confPad} │ ${statusHtml} │
-│      │ <span class="dim">src: ${pad(p.source, 43)}</span> │            │      │         │\n`;
-}).join('├──────┼──────────────────────────────────────────────────┼────────────┼──────┼─────────┤\n')} />└──────┴──────────────────────────────────────────────────┴────────────┴──────┴─────────┘
-
-  <span class="dim">No quiet deletions. No retroactive edits. Public scoreboard.</span>
-  <span class="dim">Predictions sourced from ZERO Intelligence Brief.</span>
-
-<span class="amber">zero $</span> subscribe --intelligence-brief
-  → <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener"><span class="amber">https://newsletter.getzero.dev/upgrade</span></a>
-  <span class="dim">$29/mo — full signal analysis, weekly predictions, conviction scores.</span>
-
-<span class="phosphor">zero $</span> <span class="dim blink">█</span>
+accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
+resolved .. {resolved}/{total}
+pending ... {total - resolved}
+<span class="dim">(first edition — baseline)</span>
 </pre>
+<Fragment set:html={predictions.map(p => `<pre class="term-block">
+<span class="phosphor">${p.id}</span> <span class="${statusClass(p.status)}">[${p.status}]</span>
+${p.title}
+
+deadline ... ${p.deadline}
+confidence . ${p.confidence}
+<span class="dim">src: ${p.source}</span>
+</pre>`).join('\n')} />
+<pre class="term-block">
+<span class="dim">No quiet deletions. No retroactive edits.</span>
+
+<span class="amber">zero $</span> subscribe --intel-brief
+→ <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
+<span class="dim">$29/mo — full signal analysis</span>
+
+<span class="phosphor">zero $</span> <span class="blink">█</span></pre>
 </BaseLayout>
