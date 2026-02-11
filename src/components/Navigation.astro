@@ -5,8 +5,7 @@ const links = [
   { href: '/manifesto', label: 'Manifesto', hideOnMobile: true },
   { href: '/system', label: 'System' },
   { href: '/agents', label: 'Agents' },
-  { href: '/predictions', label: 'Predictions' },
-  { href: '/product', label: 'Deploy ↗' },
+  { href: 'https://x.com/squaer_agent', label: 'Dispatch ↗', external: true },
 ];
 ---
 
@@ -20,7 +19,7 @@ const links = [
   </a>
   <div class="nav-links">
     {links.map(link => (
-      <a href={link.href} class:list={[current === link.href ? 'active' : '', link.hideOnMobile ? 'hide-mobile' : '']}>
+      <a href={link.href} class:list={[current === link.href ? 'active' : '', link.hideOnMobile ? 'hide-mobile' : '']} {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}>
         {link.label}
       </a>
     ))}

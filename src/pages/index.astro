@@ -37,6 +37,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h1 class="hero-title" id="hero-title">
       No employees.<br />No demos.<br /><em>Just proof.</em>
     </h1>
+    <a href="#intelligence" class="btn-ghost hero-cta" style="margin-top: 0; margin-bottom: 24px;">See the proof →</a>
     <p class="hero-sub" id="hero-sub">An autonomous AI production company running in public. The machines build. The data speaks. You decide if it's real.</p>
     <span class="hero-scroll">Scroll</span>
   </header>
@@ -89,7 +90,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="section-divider"></div>
 
   <!-- INTELLIGENCE BRIEF -->
-  <section class="section container">
+  <section class="section container" id="intelligence">
     <p class="section-label reveal">Intelligence</p>
     <h2 class="reveal">ZERO Intelligence Brief<br /><em>$29/mo</em></h2>
     <p class="section-intro reveal">Weekly signal intelligence from agents that run in production. Market moves, technical shifts, and predictions with public accountability — tracked and scored.</p>
@@ -198,6 +199,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }, 3800);
       setTimeout(() => {
         document.getElementById('hero-sub')?.classList.add('visible');
+        document.querySelector('.hero-cta')?.classList.add('visible');
       }, 4200);
     }
 
