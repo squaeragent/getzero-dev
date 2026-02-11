@@ -32,6 +32,8 @@ html {
   font-size: 13px;
   scroll-behavior: smooth;
   background: var(--void);
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -41,6 +43,7 @@ body {
   background: var(--bg);
   line-height: 1.55;
   overflow-x: hidden;
+  max-width: 100vw;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
@@ -599,6 +602,37 @@ body::before {
   background: var(--phosphor);
 }
 
+/* ── OVERFLOW CONTAINMENT ── */
+table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+pre, code {
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-width: 100%;
+}
+
+/* ── TERM BLOCK ── */
+.term-block {
+  font-family: var(--font-body);
+  color: var(--text-dim);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  margin: 0;
+  border-bottom: 1px solid #1a1a1a;
+  line-height: 1.45;
+  max-width: 100%;
+}
+
+.term-block + .term-block {
+  border-top: none;
+}
+
 /* ── MOBILE ── */
 @media (max-width: 640px) {
   html { font-size: 15px; }
@@ -701,8 +735,14 @@ body::before {
   }
 
   pre {
-    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
     max-width: 100%;
+  }
+
+  .term-block {
+    padding: 6px 8px;
+    font-size: 0.8rem;
   }
 
   /* vignette removed */
