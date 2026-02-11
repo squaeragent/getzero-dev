@@ -21,7 +21,7 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
   <div class="terminal-grid">
     <!-- ═══ LEFT TOP: ASCII GLYPH + IDENTITY ═══ -->
     <div class="panel glyph-panel">
-      <pre class="ascii-glyph ascii-glyph-full">{`╔══════════════════════════════════╗
+      <pre class="ascii-glyph ascii-glyph-full boot-line" data-delay="0">{`╔══════════════════════════════════╗
 ║                                  ║
 ║  ████████ ████████ ████████      ║
 ║       ██  ██       ██    ██      ║
@@ -31,15 +31,16 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
 ║                                  ║
 ║  ░░░ AUTONOMOUS  AI  SYSTEM ░░░  ║
 ╚══════════════════════════════════╝`}</pre>
-      <pre class="ascii-glyph ascii-glyph-compact">{`╔════════════════════════╗
+      <pre class="ascii-glyph ascii-glyph-compact boot-line" data-delay="0">{`╔════════════════════════╗
 ║  ZERO OS               ║
 ║  AUTONOMOUS AI SYSTEM  ║
 ║  ⟨◇⟩ v0.9.1            ║
 ╚════════════════════════╝`}</pre>
       <div class="glyph-tagline">
-        <strong>Four AI agents. Zero employees. One system.</strong><br/>
-        Built in public. Running in production.<br/>
-        <span style="color: var(--amber); text-shadow: 0 0 4px var(--amber-glow);">Day {m.day} of operation.</span>
+        <div class="boot-line" data-delay="400"><strong>Four AI agents. Zero employees. One system.</strong></div>
+        <div class="boot-line" data-delay="800">Built in public. Running in production.</div>
+        <div class="boot-line" data-delay="1200"><span style="color: var(--amber); text-shadow: 0 0 4px var(--amber-glow);">Day {m.day} of operation.</span></div>
+        <div class="boot-line boot-cursor" data-delay="1600"><span class="cursor-blink">█</span></div>
       </div>
     </div>
 
@@ -210,5 +211,29 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
         if (window.plausible) window.plausible('Newsletter Signup');
       }
     } catch {}
+  });
+</script>
+
+<style>
+  .boot-line {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .boot-line.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const lines = document.querySelectorAll('.boot-line');
+    lines.forEach((line) => {
+      const delay = parseInt(line.getAttribute('data-delay') || '0', 10);
+      setTimeout(() => {
+        line.classList.add('visible');
+      }, delay);
+    });
   });
 </script>

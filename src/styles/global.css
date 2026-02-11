@@ -497,6 +497,30 @@ body::after {
   text-shadow: 0 0 6px var(--phosphor-glow);
 }
 
+/* ── PROOF TICKER ── */
+.proof-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--phosphor-dim);
+  font-family: var(--font-head);
+  font-size: 0.7rem;
+  color: var(--phosphor-dim);
+}
+
+.proof-ticker-track {
+  display: inline-block;
+  animation: ticker-scroll 25s linear infinite;
+}
+
+.proof-ticker-track span {
+  display: inline;
+}
+
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); }
+}
+
 /* ── NAV LINKS (terminal tabs) ── */
 .nav-bar {
   font-family: var(--font-head);
@@ -691,6 +715,15 @@ body::after {
   pre {
     overflow-x: auto;
     max-width: 100%;
+  }
+
+  body::after {
+    background: radial-gradient(
+      ellipse at center,
+      transparent 65%,
+      rgba(0, 0, 0, 0.2) 85%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
   }
 }
 
