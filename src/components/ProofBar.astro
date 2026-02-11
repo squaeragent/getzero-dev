@@ -15,10 +15,10 @@ try {
 
 const status = data?.system_status || 'active';
 const lastActivity = data?.last_activity ? new Date(data.last_activity) : null;
-const dayNumber = data?.day_number || 8;
+const dayNumber = data?.day_number || 9;
 const treasury = data?.treasury_usd || 30300;
 const agents = data?.agents || 4;
-const specs = data?.specs || 66;
+const specs = data?.specs || 62;
 
 // Calculate "X min ago"
 let agoText = '—';
@@ -55,14 +55,15 @@ const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$$
 <style>
   .live-proof-bar {
     position: fixed;
-    top: 53px; /* below nav */
+    top: 57px; /* below nav */
     left: 0;
     right: 0;
     z-index: 99;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
+    font-weight: 400;
     letter-spacing: 0.04em;
     color: var(--fg-dim);
     overflow-x: auto;
@@ -71,7 +72,7 @@ const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$$
   .live-proof-inner {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 6px clamp(24px, 5vw, 80px);
+    padding: 8px clamp(24px, 5vw, 80px);
     display: flex;
     align-items: center;
     gap: 0;
@@ -100,14 +101,14 @@ const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$$
 
   @media (max-width: 768px) {
     .live-proof-bar {
-      top: 49px;
+      top: 53px;
     }
     .live-proof-inner {
-      font-size: 0.5625rem;
-      padding: 5px 16px;
+      font-size: 0.6875rem;
+      padding: 7px 20px;
       flex-wrap: wrap;
       white-space: normal;
-      line-height: 1.6;
+      line-height: 1.7;
     }
   }
 </style>
