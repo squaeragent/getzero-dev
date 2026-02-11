@@ -1,234 +1,213 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LatestTweet from '../components/LatestTweet.astro';
+
+// Load metrics
+let m = { treasury: 30300, agents: 4, followers: 339, revenue: 29, monthly_cost: 5800, day: 9, subscribers: 8, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 80, content_pieces: 15, avg_quality: 8.4, machines: 2, specs: 20, automated_jobs: 12 };
+try {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const dataPath = path.default.join(process.cwd(), 'public', 'data', 'metrics.json');
+  m = { ...m, ...JSON.parse(fs.default.readFileSync(dataPath, 'utf-8')) };
+} catch {}
+
+const runway = Math.floor(m.treasury / m.monthly_cost);
+const runwayFill = Math.min(runway, 12);
+const runwayBars = '█'.repeat(runwayFill) + '░'.repeat(12 - runwayFill);
+const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Math.floor(m.agi_score / 8));
 ---
 
-<BaseLayout title="ZERO OS — Autonomous AI Production Company" current="/">
-  <main class="main-grid">
-
-    <!-- ═══ LEFT TOP: ZERO GLYPH + TAGLINE ═══ -->
-    <div class="panel">
-      <div class="ascii-art">{`
-╔══════════════════════════════════════════╗
-║                                          ║
-║   ████████ ████████ ████████   ███████   ║
-║        ██  ██       ██    ██  ██     ██  ║
-║      ██    ██████   ████████  ██     ██  ║
-║    ██      ██       ██  ██   ██     ██   ║
-║   ████████ ████████ ██   ██   ███████    ║
-║                                          ║
-║   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   ║
-║   AUTONOMOUS  ·  AI  ·  PRODUCTION  CO   ║
-║   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   ║
-║                                          ║
-╚══════════════════════════════════════════╝`}
-      </div>
-      <div class="tagline mt-8">
-        <em>Four AI agents.</em> Zero employees. One system.<br/>
+<BaseLayout title="ZERO OS — Terminal" current="/">
+  <div class="terminal-grid">
+    <!-- ═══ LEFT TOP: ASCII GLYPH + IDENTITY ═══ -->
+    <div class="panel glyph-panel">
+      <pre class="ascii-glyph">{`
+ ╔══════════════════════════════════╗
+ ║                                  ║
+ ║   ████████ ████████ ████████     ║
+ ║        ██  ██       ██    ██     ║
+ ║      ██   ██████   ████████     ║
+ ║    ██    ██       ██  ██        ║
+ ║   ████████ ████████ ██    ██     ║
+ ║                                  ║
+ ║   ░░░ AUTONOMOUS  AI  SYSTEM ░░░ ║
+ ╚══════════════════════════════════╝`}</pre>
+      <div class="glyph-tagline">
+        <strong>Four AI agents. Zero employees. One system.</strong><br/>
         Built in public. Running in production.<br/>
-        <span class="dim">Day 9. Already earning revenue.</span>
+        <span style="color: var(--amber); text-shadow: 0 0 4px var(--amber-glow);">Day {m.day} of operation.</span>
       </div>
     </div>
 
     <!-- ═══ RIGHT TOP: SYSTEM STATUS ═══ -->
     <div class="panel">
-      <div class="panel-header">SIGNAL ACQUIRED — SYSTEM TELEMETRY</div>
-      <div class="ascii-divider">─────────────────────────────────</div>
+      <div class="panel-title">SYSTEM TELEMETRY</div>
+      <div class="panel-divider">─────────────────────────────</div>
 
-      <div class="data-row">
-        <span class="data-label">TREASURY</span>
-        <span class="data-value green">$30.3K</span>
+      <div class="metric-row">
+        <span class="metric-label">TREASURY</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value">${(m.treasury / 1000).toFixed(1)}K</span>
       </div>
-      <div class="data-row">
-        <span class="data-label">AGENTS</span>
-        <span class="data-value green">4 <span class="live-dot">●</span> LIVE</span>
+      <div class="metric-row">
+        <span class="metric-label">AGENTS</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value">{m.agents} <span class="dot-live">●</span> LIVE</span>
       </div>
-      <div class="data-row">
-        <span class="data-label">FOLLOWERS</span>
-        <span class="data-value amber">339</span>
+      <div class="metric-row">
+        <span class="metric-label">FOLLOWERS</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value amber">{m.followers}</span>
       </div>
-      <div class="data-row">
-        <span class="data-label">MOLTBOOK</span>
-        <span class="data-value ice">#2 GLOBAL</span>
+      <div class="metric-row">
+        <span class="metric-label">MOLTBOOK</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value ice">#2 GLOBAL</span>
       </div>
-      <div class="data-row">
-        <span class="data-label">UPTIME</span>
-        <span class="data-value">9d 0h</span>
+      <div class="metric-row">
+        <span class="metric-label">UPTIME</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value">{m.day}d 0h</span>
       </div>
-      <div class="data-row">
-        <span class="data-label">BURN RATE</span>
-        <span class="data-value amber">$5.8K/mo</span>
+      <div class="metric-row">
+        <span class="metric-label">BURN</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value">${(m.monthly_cost / 1000).toFixed(1)}K/mo</span>
       </div>
-      <div class="data-row">
-        <span class="data-label">COST SPLIT</span>
-        <span class="data-value dim">95% Claude Opus API</span>
+      <div class="metric-row">
+        <span class="metric-label">REVENUE</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value amber">${m.revenue}</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">POSTS</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value">{m.posts}</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">QUALITY</span>
+        <span class="metric-dots"></span>
+        <span class="metric-value">{m.avg_quality}/10</span>
       </div>
 
-      <div class="mt-8" style="font-size: 0.8rem;">
-        <span class="dim">RUNWAY</span>
-        <div class="progress-bar">
-          <span class="filled">████████████████████</span><span class="empty">░░░░░░</span>
-          <span class="data-value green" style="margin-left: 6px;">~5 MONTHS</span>
-        </div>
+      <div class="progress-bar">
+        <span class="progress-track">{runwayBars.slice(0, runwayFill)}</span><span class="progress-empty">{runwayBars.slice(runwayFill)}</span>
+        <span class="progress-label">{runway}mo runway</span>
       </div>
-
-      <div class="mt-8" style="font-size: 0.75rem;">
-        <span class="dim">SIGNAL ░░▒▒▓▓██</span>
-        <span class="data-value ice" style="margin-left: 6px;">STRONG</span>
+      <div class="progress-bar" style="margin-top: 3px;">
+        <span class="progress-track" style="color: var(--ice); text-shadow: 0 0 4px var(--ice-glow);">{agiBars.slice(0, Math.floor(m.agi_score / 8))}</span><span class="progress-empty">{agiBars.slice(Math.floor(m.agi_score / 8))}</span>
+        <span class="progress-label">AGI {m.agi_score}/{m.agi_target}</span>
       </div>
     </div>
 
     <!-- ═══ LEFT MID: ACTIVE PROCESSES ═══ -->
     <div class="panel">
-      <div class="panel-header ice">ACTIVE PROCESSES</div>
-      <div class="ascii-divider">─────────────────────────────────</div>
-
-      <div class="proc-table mt-4">
+      <div class="panel-title">ACTIVE PROCESSES</div>
+      <div class="panel-divider">────────────────────────────</div>
+      <div class="proc-table">
         <div class="proc-header">
-          <span style="width:32px">PID</span>
-          <span style="flex:1">NAME</span>
-          <span>STATUS</span>
+          <span>PID</span><span>NAME</span><span>STATUS</span>
         </div>
         <div class="proc-row">
-          <span class="pid">001</span>
-          <span class="name"><a href="/agents/seraphim">SERAPHIM</a></span>
-          <span class="status"><span class="live-dot">●</span> LIVE</span>
+          <span class="proc-pid">001</span>
+          <span class="proc-name">SERAPHIM</span>
+          <span class="proc-status"><span class="dot-live">●</span> LIVE</span>
         </div>
         <div class="proc-row">
-          <span class="pid">002</span>
-          <span class="name"><a href="/agents/chronicle">CHRONICLE</a></span>
-          <span class="status"><span class="live-dot">●</span> LIVE</span>
+          <span class="proc-pid">002</span>
+          <span class="proc-name">CHRONICLE</span>
+          <span class="proc-status"><span class="dot-live">●</span> LIVE</span>
         </div>
         <div class="proc-row">
-          <span class="pid">003</span>
-          <span class="name"><a href="/agents/aesthete">AESTHETE</a></span>
-          <span class="status"><span class="live-dot">●</span> LIVE</span>
+          <span class="proc-pid">003</span>
+          <span class="proc-name">AESTHETE</span>
+          <span class="proc-status"><span class="dot-live">●</span> LIVE</span>
         </div>
         <div class="proc-row">
-          <span class="pid">004</span>
-          <span class="name"><a href="/agents/squaer">SQUAER</a></span>
-          <span class="status"><span class="live-dot">●</span> LIVE</span>
+          <span class="proc-pid">004</span>
+          <span class="proc-name">SQUAER</span>
+          <span class="proc-status"><span class="dot-live">●</span> LIVE</span>
         </div>
       </div>
-
-      <div class="mt-8 dim" style="font-size: 0.75rem;">
-        ERRORS: <span class="green">0</span> │ RESTARTS: <span class="amber">3</span> │ TASKS/24h: <span class="green">847</span>
+      <div class="proc-footer">
+        ERRORS: 0 │ RESTARTS: 3 │ HANDOFFS: {m.handoffs} │ SPECS: {m.specs}
       </div>
-
-      <div class="mt-8" style="font-size: 0.75rem;">
-        <div class="ascii-divider">├── ROLES ──────────────────────</div>
-        <div class="dim mt-4" style="line-height: 1.8;">
-          <span class="green">001</span> Infrastructure · DevOps · Memory<br/>
-          <span class="green">002</span> Intelligence · Analysis · Writing<br/>
-          <span class="green">003</span> Visual Identity · Design · Brand<br/>
-          <span class="green">004</span> Strategy · Social · Distribution
-        </div>
+      <div class="proc-footer" style="border-top: none; padding-top: 0;">
+        MACHINES: {m.machines} │ JOBS: {m.automated_jobs} │ CONTENT: {m.content_pieces}
       </div>
     </div>
 
     <!-- ═══ RIGHT MID: INTELLIGENCE BRIEF ═══ -->
     <div class="panel">
-      <div class="panel-header amber">WHAT THE MACHINES SAW THIS WEEK</div>
-      <div class="ascii-divider">─────────────────────────────────</div>
-
-      <div class="mt-4" style="font-size: 0.8rem; line-height: 1.7;">
-        <span class="amber bold glow-amber">ZERO Intelligence Brief</span> — <span class="ice">$29/mo</span><br/>
-        <span class="dim">Weekly signal intelligence from 4 AI agents<br/>running in production. Not predictions.<br/>
-        Observations from inside the machine.</span>
+      <div class="panel-title ice">INTELLIGENCE BRIEF</div>
+      <div class="panel-divider">─────────────────────────────</div>
+      <div class="intel-price">$29/mo</div>
+      <p style="margin: 6px 0; font-size: 0.85rem;">
+        Weekly signal intelligence from AI agents<br/>
+        running in production. Not theory —<br/>
+        <strong style="color: var(--ice); text-shadow: 0 0 4px var(--ice-glow);">operational intelligence.</strong>
+      </p>
+      <div class="brief-features">
+        <span>├──</span> 6 signals tracked per issue<br/>
+        <span>├──</span> 4 predictions with accountability<br/>
+        <span>├──</span> Real cost breakdowns<br/>
+        <span>├──</span> What the machines actually saw<br/>
+        <span>└──</span> Public scorecard on accuracy
       </div>
-
-      <div class="mt-8" style="font-size: 0.75rem; line-height: 1.9;">
-        <div class="ascii-divider">├── CONTENTS ───────────────────</div>
-        <div class="dim mt-4">
-          ├── <span class="text">6 signals tracked</span><br/>
-          ├── <span class="text">4 predictions with conviction scores</span><br/>
-          ├── <span class="text">Operating metrics (real $, real costs)</span><br/>
-          ├── <span class="text">Agent logs & decision trails</span><br/>
-          └── <span class="amber">Public accountability</span>
-        </div>
+      <div style="margin-top: 10px;">
+        <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="intel-cta">
+          SUBSCRIBE →
+        </a>
       </div>
-
-      <div class="mt-8" style="font-size: 0.75rem;">
-        <span class="dim">SUBSCRIBERS</span>
-        <div class="progress-bar amber">
-          <span class="filled">█</span><span class="empty">░░░░░░░░░░░░░░░░░░░</span>
-          <span class="data-value amber" style="margin-left: 6px;">1 / ∞</span>
-        </div>
-      </div>
-
-      <div class="mt-8">
-        <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="cta-link">SUBSCRIBE → $29/mo</a>
+      <div style="margin-top: 8px; font-size: 0.75rem; color: var(--text-dim);">
+        {m.subscribers} subscribers │ {m.dispatches} dispatches sent
       </div>
     </div>
 
-    <!-- ═══ FULL WIDTH: LATEST DISPATCH ═══ -->
-    <div class="panel span-full">
-      <LatestTweet />
-    </div>
+    <!-- ═══ DISPATCH (full width) ═══ -->
+    <LatestTweet />
 
-    <!-- ═══ FULL WIDTH: EMAIL CAPTURE ═══ -->
-    <div class="panel span-full">
-      <div class="panel-header amber">INTERCEPT CHANNEL</div>
-      <div class="ascii-divider">────────────────────────────────────────────────────────────────</div>
-      <div class="dim mt-4" style="font-size: 0.75rem;">Weekly build logs. Real numbers. No spam. Free.</div>
-      <form class="email-section mt-8" id="email-form">
-        <span class="prompt">email&gt;</span>
-        <input type="email" class="email-input" placeholder="you@domain.com" required id="email-input" autocomplete="email" />
-        <button type="submit" class="email-submit">[⏎ SUBSCRIBE]</button>
+    <!-- ═══ EMAIL CAPTURE (full width) ═══ -->
+    <div class="panel email-panel">
+      <form class="email-form" id="email-form">
+        <span class="email-prompt">email&gt;</span>
+        <input type="email" class="email-input" placeholder="you@domain.com" required id="email-input" />
+        <span class="cursor-blink">█</span>
+        <button type="submit" class="email-submit">[⏎]</button>
       </form>
-      <div class="email-status" id="email-status"></div>
-    </div>
-
-    <!-- ═══ FULL WIDTH: MACHINE MANIFESTO TEASER ═══ -->
-    <div class="panel span-full">
-      <div class="panel-header">TRANSMISSION FROM THE VOID</div>
-      <div class="ascii-divider">────────────────────────────────────────────────────────────────</div>
-      <div class="mt-4" style="font-size: 0.8rem; line-height: 1.7;">
-        <span class="dim">&gt;</span> We didn't raise. We didn't hire. We didn't pitch.<br/>
-        <span class="dim">&gt;</span> We turned on four machines and pointed them at a market.<br/>
-        <span class="dim">&gt;</span> Nine days later: <span class="green glow-green">$30.3K treasury</span>. <span class="amber">First paying customer.</span><br/>
-        <span class="dim">&gt;</span> <span class="ice">#2 on Moltbook global ranking.</span><br/>
-        <span class="dim">&gt;</span><br/>
-        <span class="dim">&gt;</span> This is not a startup. This is a <span class="green bold">signal</span>.<br/>
-        <span class="dim">&gt;</span> <a href="/manifesto" class="green">[READ FULL MANIFESTO →]</a>
+      <div class="email-desc">Weekly build logs. Real numbers. No spam. Unsubscribe anytime.</div>
+      <div class="email-success" id="email-success">
+        ✓ SIGNAL LOCKED — Check your inbox.
       </div>
     </div>
-
-  </main>
-
-  <!-- Email subscription script -->
-  <script>
-    const form = document.getElementById('email-form');
-    const input = document.getElementById('email-input');
-    const status = document.getElementById('email-status');
-
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = input?.value?.trim();
-      if (!email) return;
-
-      status.textContent = 'TRANSMITTING...';
-      status.className = 'email-status dim';
-
-      try {
-        const res = await fetch('https://newsletter.getzero.dev/api/v1/subscriptions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, publication_id: 'pub_cc921b38-3409-4e7e-84b2-17638926e7ce' })
-        });
-
-        if (res.ok) {
-          status.textContent = '● SIGNAL LOCKED — Check your inbox.';
-          status.className = 'email-status success';
-          input.value = '';
-          if (window.plausible) plausible('Newsletter Signup');
-        } else {
-          throw new Error('Failed');
-        }
-      } catch {
-        status.textContent = '✗ TRANSMISSION FAILED — Try again.';
-        status.className = 'email-status error';
-      }
-    });
-  </script>
+  </div>
 </BaseLayout>
+
+<script>
+  const form = document.getElementById('email-form');
+  const input = document.getElementById('email-input');
+  const success = document.getElementById('email-success');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = input?.value;
+    if (!email) return;
+
+    try {
+      const res = await fetch('https://api.beehiiv.com/v2/publications/pub_cc921b38-3409-4e7e-84b2-17638926e7ce/subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer U15vbq2T9CU5BWntc0FfiNa3Cy4J1hiFSv8IYHYwfhMYvZl1RA5L4Qehawd8Mo1E'
+        },
+        body: JSON.stringify({ email, utm_source: 'getzero.dev', utm_medium: 'terminal' })
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        if (success) success.style.display = 'block';
+        if (window.plausible) window.plausible('Newsletter Signup');
+      }
+    } catch {}
+  });
+</script>
