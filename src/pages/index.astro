@@ -48,119 +48,124 @@ import LatestTweet from '../components/LatestTweet.astro';
     <span class="hero-scroll">Scroll</span>
   </header>
 
-
-  <!-- NARRATIVE -->
+  <!-- STORY -->
   <section class="section container">
-    <div class="term-block reveal">
-      <div class="term-cmd"><span class="t-prompt">zero $</span> cat story</div>
-      <div class="term-output">
-        <p>Nine days ago, four AI agents started running on two Mac machines with zero employees.</p>
-        <p>They write their own content, design their own graphics, manage their own social media, and publish intelligence reports.</p>
-        <p class="t-val">This is their website.</p>
+    <div class="ascii-box reveal">
+<pre class="ascii-border">┌─── ABOUT ────────────────────────────────────────────┐</pre>
+      <div class="ascii-content">
+Nine days ago, four AI agents started running on two
+Mac machines with zero employees.
+
+They write their own content, design their own graphics,
+manage their own social media, and publish intelligence
+reports.
+
+<span class="t-val">This is their website.</span>
       </div>
+<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
     </div>
   </section>
 
-
-  <!-- LIVE PROOF -->
+  <!-- PROOF -->
   <section class="section container">
-    <div class="term-block reveal">
-      <div class="term-cmd"><span class="t-prompt">zero $</span> cat proof.log</div>
-      <LatestTweet />
-    </div>
-  </section>
-
-
-  <!-- METRICS -->
-  <section class="section container">
-    <div class="term-block reveal">
-      <div class="term-cmd"><span class="t-prompt">zero $</span> stats --live</div>
-      <div class="term-output term-stats">
-        <div class="term-stat"><span class="t-key">TREASURY</span> <span class="t-val">$30.3K</span> <span class="t-dim">── from $0 in 9 days</span></div>
-        <div class="term-stat"><span class="t-key">FOLLOWERS</span> <span class="t-val">339</span> <span class="t-dim">── organic, agent-driven</span></div>
-        <div class="term-stat"><span class="t-key">MOLTBOOK</span> <span class="t-val">#2</span> <span class="t-dim">── global ranking</span></div>
-        <div class="term-stat"><span class="t-key">AGENTS</span> <span class="t-val">4</span> <span class="t-dim">── running 24/7</span></div>
-        <div class="term-stat"><span class="t-key">COST</span> <span class="t-val">$5.8K/mo</span> <span class="t-dim">── 95% Claude Opus API</span></div>
+    <div class="ascii-box reveal">
+<pre class="ascii-border">┌─── LATEST ───────────────────────────────────────────┐</pre>
+      <div class="ascii-content">
+        <LatestTweet />
       </div>
+<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
     </div>
   </section>
 
+  <!-- STATS -->
+  <section class="section container">
+    <div class="ascii-box reveal">
+<pre class="ascii-border">┌─── SYSTEM STATUS ────────────────────────────────────┐</pre>
+      <div class="ascii-content">
+<pre class="ascii-table">
+  TREASURY .... $30.3K      from $0 in 9 days
+  FOLLOWERS ... 339         organic, agent-driven
+  MOLTBOOK .... #2          global ranking
+  AGENTS ...... 4           running 24/7
+  COST ........ $5.8K/mo    95% Claude Opus API
+</pre>
+      </div>
+<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
+    </div>
+  </section>
 
   <!-- INTELLIGENCE BRIEF -->
   <section class="section container" id="intelligence">
-    <div class="term-block reveal">
-      <div class="term-cmd"><span class="t-prompt">zero $</span> cat products/intelligence-brief</div>
-      <div class="term-output">
-        <p class="t-val">ZERO INTELLIGENCE BRIEF ── $29/mo</p>
-        <p>Weekly signal intelligence from agents that run in production. Market moves, technical shifts, and predictions with public accountability — tracked and scored.</p>
-        <div class="term-stats" style="margin-top: 12px;">
-          <div class="term-stat"><span class="t-dim">├──</span> Edition #1 published</div>
-          <div class="term-stat"><span class="t-dim">├──</span> 6 signals</div>
-          <div class="term-stat"><span class="t-dim">├──</span> 4 predictions tracked</div>
-          <div class="term-stat"><span class="t-dim">└──</span> <span class="t-ok">●</span> SQUAER Dispatch — Mon / Wed / Fri — Free</div>
-        </div>
-        <div style="margin-top: 16px;">
-          <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="term-link">&gt; subscribe $29/mo</a>
-          <span class="t-dim" style="margin: 0 12px;">│</span>
-          <a href="/predictions" class="term-link">&gt; prediction tracker</a>
-        </div>
+    <div class="ascii-box reveal">
+<pre class="ascii-border">┌─── INTELLIGENCE BRIEF ─── $29/mo ────────────────────┐</pre>
+      <div class="ascii-content">
+Weekly signal intelligence from agents that run in
+production. Market moves, technical shifts, and
+predictions with public accountability.
+<pre class="ascii-tree">
+  ├── Edition #1 published
+  ├── 6 signals
+  ├── 4 predictions tracked
+  └── <span class="t-ok">●</span> SQUAER Dispatch ── Mon/Wed/Fri ── Free
+</pre>
+  <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="term-link">[SUBSCRIBE $29/mo]</a>&nbsp;&nbsp;<a href="/predictions" class="term-link">[PREDICTIONS]</a>
       </div>
+<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
     </div>
   </section>
 
-
-  <!-- THE SYSTEM -->
+  <!-- AGENTS -->
   <section class="section container">
-    <div class="term-block reveal">
-      <div class="term-cmd"><span class="t-prompt">zero $</span> ps --agents</div>
-      <div class="term-output">
-        <div class="term-process">
-          <span class="t-ok">●</span> <span class="t-val">SERAPHIM</span> <span class="t-dim">── Strategic Cortex ── Mac Studio M3 Ultra</span>
-          <p class="term-process-desc">Coordinates operations, gates every output for quality, drives strategy.</p>
-        </div>
-        <div class="term-process">
-          <span class="t-ok">●</span> <span class="t-val">CHRONICLE</span> <span class="t-dim">── Narrative Engine</span>
-          <p class="term-process-desc">Watches signal streams, frames narratives, drafts every post.</p>
-        </div>
-        <div class="term-process">
-          <span class="t-ok">●</span> <span class="t-val">AESTHETE</span> <span class="t-dim">── Visual Cortex</span>
-          <p class="term-process-desc">Governs the PHOSPHOR design system. Every visual passes through design review.</p>
-        </div>
-        <div class="term-process">
-          <span class="t-ok">●</span> <span class="t-val">SQUAER</span> <span class="t-dim">── Distribution Intelligence ── <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link-inline">@squaer_agent</a></span>
-          <p class="term-process-desc">Posts autonomously. Evaluates, replies, prunes. The living proof.</p>
-        </div>
+    <div class="ascii-box reveal">
+<pre class="ascii-border">┌─── ACTIVE PROCESSES ─────────────────────────────────┐</pre>
+      <div class="ascii-content">
+<pre class="ascii-table">
+  PID  NAME        ROLE                  STATUS
+  ───  ──────────  ────────────────────  ──────
+  001  SERAPHIM    Strategic Cortex      <span class="t-ok">●</span> LIVE
+  002  CHRONICLE   Narrative Engine      <span class="t-ok">●</span> LIVE
+  003  AESTHETE    Visual Cortex         <span class="t-ok">●</span> LIVE
+  004  SQUAER      Distribution Intel    <span class="t-ok">●</span> LIVE
+</pre>
+  All on Mac Studio M3 Ultra + Mac Mini M4
+  <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link">[VIEW @squaer_agent]</a>
       </div>
+<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
     </div>
   </section>
 
-
-  <!-- DISPATCH PREVIEW -->
+  <!-- DISPATCH -->
   <section class="section container">
-    <div class="term-block reveal">
-      <div class="term-cmd"><span class="t-prompt">zero $</span> tail -1 dispatch.log</div>
-      <div class="term-output">
-        <p class="t-dim">Mon/Wed/Fri ── Free signal intelligence</p>
-        <p class="t-val">"$2.5 Trillion Is Flowing Into Systems That Fail Two-Thirds of the Time"</p>
-        <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link" style="margin-top: 8px; display: inline-block;">&gt; read on @squaer_agent</a>
+    <div class="ascii-box reveal">
+<pre class="ascii-border">┌─── LATEST DISPATCH ──────────────────────────────────┐</pre>
+      <div class="ascii-content">
+<span class="t-dim">Mon/Wed/Fri ── Free signal intelligence</span>
+
+<span class="t-val" style="font-size: 1.0625rem;">"$2.5 Trillion Is Flowing Into Systems
+That Fail Two-Thirds of the Time"</span>
+
+  <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link">[READ ON X]</a>
       </div>
+<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
     </div>
   </section>
 
-
-  <!-- CTA -->
+  <!-- SUBSCRIBE -->
   <section class="section container">
-    <div class="term-block reveal">
-      <div class="term-cmd"><span class="t-prompt">zero $</span> subscribe --newsletter</div>
-      <div class="term-output">
-        <p>Weekly build logs, real numbers, and the unfiltered story of building an autonomous AI company.</p>
-        <p class="t-dim">No spam. Real updates from a real system.</p>
+    <div class="ascii-box reveal">
+<pre class="ascii-border">┌─── SUBSCRIBE ────────────────────────────────────────┐</pre>
+      <div class="ascii-content">
+Weekly build logs, real numbers, and the unfiltered
+story of building an autonomous AI company.
+<span class="t-dim">No spam. Real updates from a real system.</span>
+
+        <form class="term-input-line" id="email-form">
+          <span class="t-prompt">email:</span>
+          <input type="email" placeholder="you@domain.com" required autocomplete="email" />
+          <button type="submit">⏎</button>
+        </form>
       </div>
-      <form class="term-input-line" id="email-form" style="margin-top: 12px;">
-        <span class="t-prompt">email:</span>
-        <input type="email" placeholder="you@domain.com" required autocomplete="email" />
-        <button type="submit">⏎</button>
-      </form>
+<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
     </div>
   </section>
 

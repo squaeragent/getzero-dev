@@ -19,7 +19,7 @@
 ::selection { background: #c8ff00; color: #000000; }
 
 html {
-  font-size: 16px;
+  font-size: 17px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -171,7 +171,57 @@ a {
 a:hover { color: var(--accent); text-shadow: var(--glow-amber); }
 
 /* Sections */
-.section { padding: clamp(8px, 1.5vh, 16px) 0; }
+.section { padding: clamp(6px, 1vh, 12px) 0; }
+
+/* ASCII Box Drawing — ncurses-style panels */
+.ascii-box {
+  font-family: var(--font-mono);
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.6;
+}
+
+.ascii-border {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+  color: var(--fg-dim);
+  margin: 0;
+  line-height: 1.2;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ascii-content {
+  padding: 8px 0 8px 4px;
+  color: var(--fg-mid);
+  font-size: clamp(0.875rem, 1.4vw, 1rem);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.ascii-table {
+  font-family: var(--font-mono);
+  font-size: clamp(0.8125rem, 1.3vw, 0.9375rem);
+  color: var(--fg-mid);
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.ascii-table .t-ok {
+  color: var(--fg);
+}
+
+.ascii-tree {
+  font-family: var(--font-mono);
+  font-size: clamp(0.8125rem, 1.3vw, 0.875rem);
+  color: var(--fg-dim);
+  margin: 8px 0 0 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* Override h2 inside ascii boxes — not needed */
+.ascii-box h2 { display: none; }
 
 /* Terminal block — command + output */
 .term-block {
