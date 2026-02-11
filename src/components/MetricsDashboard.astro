@@ -1,66 +1,227 @@
 ---
-import { system, social, agi, infrastructure, content, handoffs, revenue } from '../data/metrics';
+// MetricsDashboard — client-side fetch with CRT scramble animation
+// Numbers load from /data/metrics.json and animate in
 ---
 
-<div class="status-grid stagger">
+<div class="status-grid stagger" id="metrics-grid">
   <div class="status-card reveal">
-    <div class="label">Agents Active</div>
-    <div class="value status-online">{system.cognitive_functions || 4}</div>
+    <div class="label">AGENTS ACTIVE</div>
+    <div class="value status-online crt-num" data-key="agents" data-prefix="">---</div>
     <div class="sub">Cognitive functions</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Machines</div>
-    <div class="value status-online">{system.machines || 2}</div>
+    <div class="label">MACHINES</div>
+    <div class="value status-online crt-num" data-key="machines">---</div>
     <div class="sub">Mac Studio + Mac Mini</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Specifications</div>
-    <div class="value">{system.specs || 64}</div>
-    <div class="sub">Governing operations</div>
+    <div class="label">SPECIFICATIONS</div>
+    <div class="value crt-num" data-key="specs">---</div>
+    <div class="sub crt-sub" data-key="specs" data-text="Active governance docs">---</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Automated Jobs</div>
-    <div class="value">{system.launchd_jobs || 17}</div>
-    <div class="sub">launchd scheduled</div>
+    <div class="label">AUTOMATED JOBS</div>
+    <div class="value crt-num" data-key="automated_jobs">---</div>
+    <div class="sub">Cron + LaunchAgent</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">AGI Score</div>
-    <div class="value status-warning">{agi.pct || 57}%</div>
-    <div class="sub">Target: {agi.target_pct || 80}%</div>
+    <div class="label">AGI SCORE</div>
+    <div class="value status-warning crt-num" data-key="agi_score" data-suffix="%">---</div>
+    <div class="sub crt-sub" data-key="agi_target" data-text="Target: {v}%">---</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">X Followers</div>
-    <div class="value">{social.x_followers_squaer || 308}</div>
-    <div class="sub">@squaer_agent</div>
+    <div class="label">X FOLLOWERS</div>
+    <div class="value crt-num" data-key="followers">---</div>
+    <div class="sub crt-sub" data-key="followers_handle" data-text="{v}">---</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Posts Shipped</div>
-    <div class="value">{social.x_tweets || 30}</div>
+    <div class="label">POSTS SHIPPED</div>
+    <div class="value crt-num" data-key="posts">---</div>
     <div class="sub">On X</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Revenue</div>
-    <div class="value status-offline">${revenue.total_lifetime || 0}</div>
-    <div class="sub">Pre-revenue</div>
+    <div class="label">REVENUE</div>
+    <div class="value crt-num" data-key="revenue" data-prefix="$" id="revenue-val">---</div>
+    <div class="sub crt-sub" data-key="revenue_label" data-text="{v}">---</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Content Pieces</div>
-    <div class="value">{content.unique_pieces || 10}</div>
-    <div class="sub">Avg quality: {content.avg_quality_score || 8.6}</div>
+    <div class="label">CONTENT PIECES</div>
+    <div class="value crt-num" data-key="content_pieces">---</div>
+    <div class="sub crt-sub" data-key="avg_quality" data-text="Avg quality: {v}">---</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Handoffs</div>
-    <div class="value status-online">{handoffs.completed || 15}</div>
-    <div class="sub">{handoffs.pending || 1} pending</div>
+    <div class="label">SUBSCRIBERS</div>
+    <div class="value status-online crt-num" data-key="subscribers">---</div>
+    <div class="sub crt-sub" data-key="dispatches" data-text="{v} dispatch published">---</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Operational Since</div>
-    <div class="value" style="font-size: clamp(1rem, 2vw, 1.5rem);">{system.operational_since || '2026-02-03'}</div>
-    <div class="sub">Day {system.current_day || 7}</div>
+    <div class="label">OPERATIONAL SINCE</div>
+    <div class="value crt-date" data-key="operational_since" style="font-size: clamp(1rem, 2vw, 1.5rem);">---</div>
+    <div class="sub crt-sub" data-key="day" data-text="Day {v}">---</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">Monthly Costs</div>
-    <div class="value status-warning">${revenue.monthly_costs || 300}</div>
-    <div class="sub">Infrastructure</div>
+    <div class="label">MONTHLY COSTS</div>
+    <div class="value status-warning crt-num" data-key="monthly_cost" data-prefix="$" data-comma="true">---</div>
+    <div class="sub crt-sub" data-key="cost_label" data-text="{v}">---</div>
   </div>
 </div>
+
+<div class="metrics-updated" id="metrics-updated"></div>
+
+<style>
+  .crt-num, .crt-date {
+    font-variant-numeric: tabular-nums;
+    transition: text-shadow 0.3s ease;
+  }
+  .crt-num.resolving {
+    text-shadow: 0 0 12px rgba(0, 255, 65, 0.9), 0 0 30px rgba(0, 255, 65, 0.4), 0 0 60px rgba(0, 255, 65, 0.15) !important;
+  }
+  .crt-num.flash {
+    text-shadow: 0 0 20px rgba(0, 255, 65, 1), 0 0 40px rgba(0, 255, 65, 0.6), 0 0 80px rgba(0, 255, 65, 0.3) !important;
+  }
+  .metrics-updated {
+    text-align: center;
+    font-size: 0.625rem;
+    color: var(--fg-dim);
+    letter-spacing: 0.1em;
+    margin-top: 16px;
+    opacity: 0.5;
+  }
+  @keyframes scanlineFlash {
+    0% { opacity: 0; }
+    50% { opacity: 0.15; }
+    100% { opacity: 0; }
+  }
+</style>
+
+<script>
+  const DIGITS = '0123456789';
+  
+  function scrambleTo(el: HTMLElement, targetStr: string, duration = 1200) {
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const useComma = el.dataset.comma === 'true';
+    
+    let numStr = String(targetStr);
+    if (useComma) {
+      numStr = Number(numStr).toLocaleString('en-US');
+    }
+    
+    const fullTarget = prefix + numStr + suffix;
+    const scrambleChars = fullTarget.split('');
+    let frame = 0;
+    const fps = 30;
+    const totalFrames = Math.floor(duration / (1000 / fps));
+    
+    el.classList.add('resolving');
+    
+    const interval = setInterval(() => {
+      frame++;
+      const progress = frame / totalFrames;
+      
+      let display = '';
+      for (let i = 0; i < scrambleChars.length; i++) {
+        const ch = scrambleChars[i];
+        // Non-digits resolve immediately
+        if (!DIGITS.includes(ch)) {
+          display += ch;
+        } else if (progress > (i + 1) / scrambleChars.length) {
+          // Resolved from left to right
+          display += ch;
+        } else {
+          display += DIGITS[Math.floor(Math.random() * 10)];
+        }
+      }
+      
+      el.textContent = display;
+      
+      if (frame >= totalFrames) {
+        el.textContent = fullTarget;
+        clearInterval(interval);
+        el.classList.remove('resolving');
+        el.classList.add('flash');
+        setTimeout(() => el.classList.remove('flash'), 400);
+      }
+    }, 1000 / fps);
+  }
+  
+  function resolveText(el: HTMLElement, value: string) {
+    const template = el.dataset.text || '{v}';
+    el.textContent = template.replace('{v}', value);
+  }
+  
+  async function loadMetrics() {
+    try {
+      const res = await fetch('/data/metrics.json?t=' + Date.now());
+      if (!res.ok) return;
+      const data = await res.json();
+      
+      // Stagger the scramble animations
+      const nums = document.querySelectorAll('.crt-num');
+      nums.forEach((el, i) => {
+        const htmlEl = el as HTMLElement;
+        const key = htmlEl.dataset.key;
+        if (key && data[key] !== undefined) {
+          setTimeout(() => {
+            scrambleTo(htmlEl, String(data[key]), 800 + Math.random() * 600);
+          }, i * 120);
+        }
+      });
+      
+      // Resolve date fields
+      const dates = document.querySelectorAll('.crt-date');
+      dates.forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        const key = htmlEl.dataset.key;
+        if (key && data[key]) {
+          setTimeout(() => {
+            htmlEl.textContent = data[key];
+            htmlEl.classList.add('flash');
+            setTimeout(() => htmlEl.classList.remove('flash'), 400);
+          }, 600);
+        }
+      });
+      
+      // Resolve sub text
+      const subs = document.querySelectorAll('.crt-sub');
+      subs.forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        const key = htmlEl.dataset.key;
+        if (key && data[key] !== undefined) {
+          setTimeout(() => resolveText(htmlEl, String(data[key])), 1800);
+        }
+      });
+      
+      // Revenue color — green if > 0
+      const revEl = document.getElementById('revenue-val');
+      if (revEl && data.revenue > 0) {
+        setTimeout(() => {
+          revEl.classList.remove('status-offline');
+          revEl.classList.add('status-online');
+        }, 1500);
+      }
+      
+      // Updated timestamp
+      if (data.updated) {
+        const updatedEl = document.getElementById('metrics-updated');
+        if (updatedEl) {
+          const d = new Date(data.updated);
+          const ago = Math.floor((Date.now() - d.getTime()) / 60000);
+          let agoStr = ago < 60 ? `${ago}m ago` : ago < 1440 ? `${Math.floor(ago / 60)}h ago` : `${Math.floor(ago / 1440)}d ago`;
+          updatedEl.textContent = `LAST SYNC: ${agoStr}`;
+        }
+      }
+      
+    } catch (e) {
+      // Silently fail — show --- placeholders
+      console.warn('Metrics fetch failed:', e);
+    }
+  }
+  
+  // Load on page ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(loadMetrics, 500));
+  } else {
+    setTimeout(loadMetrics, 500);
+  }
+</script>

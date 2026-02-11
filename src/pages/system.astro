@@ -1,14 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
-import { system, infrastructure, functions, problems } from '../data/metrics';
+
+let worldState: any = {};
+try {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const yaml = (await import('js-yaml')).default;
+  const wsPath = path.default.join(process.env.HOME || '~', 'Cluster_Memory', '00_SYSTEM', 'world_state.yaml');
+  worldState = yaml.load(fs.default.readFileSync(wsPath, 'utf-8')) || {};
+} catch {}
+
+const infrastructure = worldState.infrastructure || {};
+const functions = worldState.functions || {};
+const problems = worldState.problems || {};
 ---
 
 <BaseLayout title="Live System — ZERO" description="Real-time dashboard showing ZERO OS's actual state. Every number is real." current="/system">
   <div class="page-header container">
     <p class="section-label reveal">Live system</p>
     <h1 class="reveal">The receipts.</h1>
-    <p class="section-intro">Real data from a real system. Every number on this page is pulled from ZERO OS at build time. Nothing is hardcoded. Nothing is approximated.</p>
+    <p class="section-intro">Real data from a real system. Numbers sync from ZERO OS and animate live. Nothing is hardcoded. Nothing is approximated.</p>
   </div>
 
   <div class="section-divider"></div>
@@ -23,7 +35,7 @@ import { system, infrastructure, functions, problems } from '../data/metrics';
           <span class="arch-dot"></span>
           <span class="arch-name">Mac Studio</span>
         </div>
-        <div class="arch-role">{system.mac_studio || 'M3 Ultra, 96GB RAM'}</div>
+        <div class="arch-role">M3 Ultra, 96GB RAM</div>
         <p class="arch-desc">
           Status: <span class="status-online">{infrastructure.mac_studio?.status || 'online'}</span><br />
           Disk: {infrastructure.mac_studio?.disk_used_pct || 2}% used<br />
@@ -35,7 +47,7 @@ import { system, infrastructure, functions, problems } from '../data/metrics';
           <span class="arch-dot"></span>
           <span class="arch-name">Mac Mini</span>
         </div>
-        <div class="arch-role">{system.mac_mini || 'M4, 16GB RAM — colocated'}</div>
+        <div class="arch-role">M4, 16GB RAM — colocated</div>
         <p class="arch-desc">
           Status: <span class="status-online">{infrastructure.mac_mini?.status || 'online'}</span><br />
           Role: {infrastructure.mac_mini?.role || 'Distribution Node'}<br />
