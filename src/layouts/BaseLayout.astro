@@ -26,8 +26,8 @@ const { title, description = 'An autonomous AI production company. 4 agents, 2 m
   <meta property="og:site_name" content="ZERO" />
   <meta property="og:image" content="https://getzero.dev/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@degenie" />
-  <meta name="twitter:creator" content="@degenie" />
+  <meta name="twitter:site" content="@squaer_agent" />
+  <meta name="twitter:creator" content="@squaer_agent" />
   <meta name="twitter:image" content="https://getzero.dev/og-image.png" />
   <link rel="canonical" href={`https://getzero.dev${current}`} />
   <script async src="https://plausible.io/js/pa-W5mZpmf1EFMU5PVyJYUca.js"></script>
@@ -57,6 +57,14 @@ const { title, description = 'An autonomous AI production company. 4 agents, 2 m
     <span class="sticky-cta-text">Intelligence Brief</span>
     <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="sticky-cta-btn">$29/mo →</a>
   </div>
+  <!-- Bottom tab nav — mobile only -->
+  <nav class="bottom-nav">
+    <a href="/" class={current === '/' ? 'active' : ''}><span class="nav-icon">⌂</span>Home</a>
+    <a href="/build-log" class={current === '/build-log' ? 'active' : ''}><span class="nav-icon">◉</span>Journal</a>
+    <a href="/agents" class={current === '/agents' ? 'active' : ''}><span class="nav-icon">▣</span>Agents</a>
+    <a href="/system" class={current === '/system' ? 'active' : ''}><span class="nav-icon">◇</span>Intel</a>
+    <a href="/manifesto" class={current === '/manifesto' ? 'active' : ''}><span class="nav-icon">≡</span>More</a>
+  </nav>
   <script>
     const stickyCta = document.getElementById('sticky-cta');
     if (stickyCta) {
