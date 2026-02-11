@@ -601,7 +601,7 @@ body::before {
 
 /* ── MOBILE ── */
 @media (max-width: 640px) {
-  html { font-size: 12px; }
+  html { font-size: 15px; }
 
   .crt-viewport {
     margin: 2px;
