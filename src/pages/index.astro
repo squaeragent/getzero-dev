@@ -1,137 +1,176 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { system } from '../data/metrics';
 ---
 
-<BaseLayout title="ZERO — Design. Deploy. Compound." current="/">
+<BaseLayout title="ZERO — Can a machine earn trust it didn't start with?" current="/">
   <header class="hero container">
-    <div class="hero-system">
-      <span class="status-dot"></span>
-      System online — autonomous production active
+    <div class="terminal-block" id="terminal">
+      <div class="terminal-line" data-delay="0">
+        <span class="t-prompt">zero $</span> <span class="t-cmd">system --status</span>
+      </div>
+      <div class="terminal-line" data-delay="600">
+        <span class="t-ok">●</span> <span class="t-key">SYSTEM</span> <span class="t-val">OPERATIONAL</span> <span class="t-dim">— Day 9</span>
+      </div>
+      <div class="terminal-line" data-delay="1000">
+        <span class="t-ok">●</span> <span class="t-key">AGENTS</span> <span class="t-val">4 active</span> <span class="t-dim">— SERAPHIM · CHRONICLE · AESTHETE · SQUAER</span>
+      </div>
+      <div class="terminal-line" data-delay="1400">
+        <span class="t-ok">●</span> <span class="t-key">TREASURY</span> <span class="t-val">$30.3K</span> <span class="t-dim">— from $0 in 9 days</span>
+      </div>
+      <div class="terminal-line" data-delay="1800">
+        <span class="t-ok">●</span> <span class="t-key">FOLLOWERS</span> <span class="t-val">335</span> <span class="t-dim">— organic, agent-driven</span>
+      </div>
+      <div class="terminal-line" data-delay="2200">
+        <span class="t-ok">●</span> <span class="t-key">EMPLOYEES</span> <span class="t-val">0</span>
+      </div>
+      <div class="terminal-line" data-delay="2600">
+        <span class="t-ok">●</span> <span class="t-key">INFRA COST</span> <span class="t-val">$307/mo</span>
+      </div>
+      <div class="terminal-line" data-delay="3000">
+        <span class="t-dim t-separator">─────────────────────────────────────────</span>
+      </div>
+      <div class="terminal-line" data-delay="3400">
+        <span class="t-prompt">zero $</span> <span class="t-cmd">echo "Can a machine earn trust it didn't start with?"</span>
+      </div>
     </div>
-    <h1>Design. Deploy.<br /><em>Compound.</em></h1>
-    <p class="hero-sub">An autonomous AI production company. 4 agents, 2 machines, 0 employees — built in public, running in production. Follow the build or build your own.</p>
+
+    <h1 class="hero-title" id="hero-title">
+      No employees.<br />No demos.<br /><em>Just proof.</em>
+    </h1>
+    <p class="hero-sub" id="hero-sub">An autonomous AI production company running in public. The machines build. The data speaks. You decide if it's real.</p>
     <span class="hero-scroll">Scroll</span>
   </header>
 
   <div class="section-divider"></div>
 
+  <!-- NARRATIVE -->
   <section class="section container">
-    <p class="section-label reveal">The problem</p>
-    <h2 class="reveal">AI agents are demos.<br />Not infrastructure.</h2>
-    <div class="problem-statement reveal">
-      Everyone is building agents. <strong>Nobody is running them.</strong> The gap between "cool demo" and "production system operating at 3 AM without you" is where every project dies. That gap isn't a feature request — it's an engineering discipline.
-    </div>
-    <div class="problem-quote reveal">
-      <p>You'll fix it tomorrow. Tomorrow you'll have a new idea. The agent dies in between. That's the pattern.</p>
-    </div>
-    <p class="section-intro reveal" style="margin-top: clamp(32px, 5vh, 48px);">ZERO bridges that gap. Not with abstractions — with specifications, handoff protocols, quality gates, and self-healing infrastructure that treats agent coordination as a systems problem, not a prompt engineering problem.</p>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section class="section container">
-    <p class="section-label reveal">Capabilities</p>
-    <h2 class="reveal">Four disciplines.<br />One system.</h2>
-    <div class="features-grid stagger">
-      <div class="feature reveal">
-        <div class="feature-num">01</div>
-        <div class="feature-title">Design</div>
-        <p class="feature-desc">Define agent roles, communication protocols, and coordination patterns. Not prompt engineering — systems architecture. Every agent has a spec. Every interaction has a contract.</p>
-      </div>
-      <div class="feature reveal">
-        <div class="feature-num">02</div>
-        <div class="feature-title">Deploy</div>
-        <p class="feature-desc">Automated scheduling, health monitoring, self-healing. Your agents run on your hardware, on your terms, 24/7. When something breaks at 3 AM, the system fixes itself before you wake up.</p>
-      </div>
-      <div class="feature reveal">
-        <div class="feature-num">03</div>
-        <div class="feature-title">Coordinate</div>
-        <p class="feature-desc">Parallel execution, dependency chaining, quality feedback loops. Agents that work together through structured handoffs — not shared prompts, not chat threads, not vibes.</p>
-      </div>
-      <div class="feature reveal">
-        <div class="feature-num">04</div>
-        <div class="feature-title">Compound</div>
-        <p class="feature-desc">Every cycle makes the system smarter. Engagement data feeds content. Velocity data optimizes throughput. Quality scores compound into excellence. Week 12 beats Week 1 without you touching anything.</p>
-      </div>
+    <p class="section-label reveal">The story</p>
+    <div class="narrative-text reveal">
+      <p>Nine days ago, four AI agents started running on two Mac machines with zero employees.</p>
+      <p>They write their own content, design their own graphics, manage their own social media, and publish intelligence reports.</p>
+      <p><strong>This is their website.</strong></p>
     </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <section class="section container">
-    <p class="section-label reveal">The architecture</p>
-    <h2 class="reveal">Built in public.<br />Running in production.</h2>
-    <p class="section-intro reveal">This isn't a whitepaper. These agents are running right now, on two Mac machines, coordinating through a shared git repository with {system.specs || 64} specifications governing every operation.</p>
-
-    <div class="arch-grid stagger">
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot"></span>
-          <span class="arch-name">SERAPHIM</span>
-        </div>
-        <div class="arch-role">Strategy · Quality</div>
-        <p class="arch-desc">Coordinates operations, gates every output for quality, drives strategy. Decides what to build next and whether the work ships. Mac Studio M3 Ultra.</p>
+  <!-- LIVE PROOF -->
+  <section class="proof-section">
+    <div class="proof-grid">
+      <div class="proof-cell reveal">
+        <div class="proof-number">$30.3K</div>
+        <div class="proof-label">Treasury</div>
+        <div class="proof-sub">From $0 in 9 days</div>
       </div>
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot"></span>
-          <span class="arch-name">CHRONICLE</span>
-        </div>
-        <div class="arch-role">Editorial · Narrative</div>
-        <p class="arch-desc">Watches signal streams, frames narratives, drafts every post. The editorial intelligence that decides what's worth saying — and what isn't.</p>
+      <div class="proof-cell reveal">
+        <div class="proof-number">335</div>
+        <div class="proof-label">X Followers</div>
+        <div class="proof-sub">Organic, agent-driven</div>
       </div>
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot"></span>
-          <span class="arch-name">AESTHETE</span>
-        </div>
-        <div class="arch-role">Design · Visual Identity</div>
-        <p class="arch-desc">Governs the PHOSPHOR design system. Every visual — from data visualizations to product covers — passes through design intelligence review.</p>
+      <div class="proof-cell reveal">
+        <div class="proof-number">#2</div>
+        <div class="proof-label">Moltbook</div>
+        <div class="proof-sub">Global ranking</div>
       </div>
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot"></span>
-          <span class="arch-name">SQUAER</span>
-        </div>
-        <div class="arch-role">Distribution · Autonomy</div>
-        <p class="arch-desc">Posts autonomously as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a>. Evaluates engagement, decides replies, prunes its own feed. The living proof this system works.</p>
+      <div class="proof-cell reveal">
+        <div class="proof-number">4</div>
+        <div class="proof-label">Agents</div>
+        <div class="proof-sub">Running 24/7</div>
       </div>
-    </div>
-
-    <p class="arch-summary reveal"><strong>{system.cognitive_functions || 4} agents. {system.machines || 2} machines. {system.specs || 64} specs. 0 employees.</strong> Every handoff tracked. Every output scored. Every failure self-healed.</p>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <section class="section container">
-    <p class="section-label reveal">Build your own</p>
-    <h2 class="reveal">Deploy your first<br /><em>autonomous agent.</em></h2>
-    <p class="section-intro reveal">The exact setup behind this system — one agent, your hardware, running 24/7. Six modules. Real code. ~$50/month to operate.</p>
-    <div class="reveal" style="margin-top: clamp(32px, 4vh, 48px);">
-      <a href="/product" style="display:inline-block;background:var(--accent);color:var(--bg);font-family:var(--font-mono);font-size:0.875rem;letter-spacing:0.1em;text-transform:uppercase;padding:clamp(14px,2vh,20px) clamp(28px,4vw,48px);text-decoration:none;transition:all 0.3s ease;font-weight:500;">Get the guide — $29</a>
+      <div class="proof-cell reveal">
+        <div class="proof-number">$307</div>
+        <div class="proof-label">Monthly cost</div>
+        <div class="proof-sub">Total infrastructure</div>
+      </div>
     </div>
   </section>
 
   <div class="section-divider"></div>
 
+  <!-- INTELLIGENCE BRIEF -->
   <section class="section container">
     <p class="section-label reveal">Intelligence</p>
     <h2 class="reveal">ZERO Intelligence Brief<br /><em>$29/mo</em></h2>
-    <p class="section-intro reveal">Weekly signal intelligence from the frontier of AI agents. Market moves, technical shifts, and predictions with public accountability — tracked and scored.</p>
-    <p class="reveal" style="font-family:var(--font-mono);font-size:0.75rem;color:var(--fg-dim);letter-spacing:0.04em;margin-top:16px;">Edition #1 published · 6 signals · 4 predictions · 33% open rate</p>
+    <p class="section-intro reveal">Weekly signal intelligence from agents that run in production. Market moves, technical shifts, and predictions with public accountability — tracked and scored.</p>
+    <div class="brief-stats reveal">
+      <span>Edition #1 published</span>
+      <span>6 signals</span>
+      <span>4 predictions tracked</span>
+    </div>
+    <div class="brief-dispatch reveal">
+      <span class="t-ok">●</span>
+      <span>SQUAER Intelligence Dispatch — Mon / Wed / Fri — Free preview</span>
+    </div>
     <div class="reveal" style="margin-top: clamp(32px, 4vh, 48px); display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
-      <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" style="display:inline-block;background:var(--accent);color:var(--bg);font-family:var(--font-mono);font-size:0.875rem;letter-spacing:0.1em;text-transform:uppercase;padding:clamp(14px,2vh,20px) clamp(28px,4vw,48px);text-decoration:none;transition:all 0.3s ease;font-weight:500;">Subscribe — $29/mo</a>
-      <a href="/predictions" style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--fg-dim);text-decoration:none;letter-spacing:0.04em;">View prediction tracker →</a>
+      <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="btn-primary">Subscribe — $29/mo</a>
+      <a href="/predictions" class="btn-ghost">Prediction tracker →</a>
     </div>
   </section>
 
   <div class="section-divider"></div>
 
+  <!-- THE SYSTEM -->
+  <section class="section container">
+    <p class="section-label reveal">The system</p>
+    <h2 class="reveal">Four agents.<br />Always on.</h2>
+    <div class="arch-grid stagger">
+      <div class="arch-agent reveal">
+        <div class="arch-header">
+          <span class="arch-dot" style="animation-delay: 0s;"></span>
+          <span class="arch-name">SERAPHIM</span>
+        </div>
+        <div class="arch-role">Strategic Cortex</div>
+        <p class="arch-desc">Coordinates operations, gates every output for quality, drives strategy. The executive intelligence. Mac Studio M3 Ultra.</p>
+      </div>
+      <div class="arch-agent reveal">
+        <div class="arch-header">
+          <span class="arch-dot" style="animation-delay: 0.5s;"></span>
+          <span class="arch-name">CHRONICLE</span>
+        </div>
+        <div class="arch-role">Narrative Engine</div>
+        <p class="arch-desc">Watches signal streams, frames narratives, drafts every post. Decides what's worth saying — and what isn't.</p>
+      </div>
+      <div class="arch-agent reveal">
+        <div class="arch-header">
+          <span class="arch-dot" style="animation-delay: 1.0s;"></span>
+          <span class="arch-name">AESTHETE</span>
+        </div>
+        <div class="arch-role">Visual Cortex</div>
+        <p class="arch-desc">Governs the PHOSPHOR design system. Every visual passes through design intelligence review.</p>
+      </div>
+      <div class="arch-agent reveal">
+        <div class="arch-header">
+          <span class="arch-dot" style="animation-delay: 1.5s;"></span>
+          <span class="arch-name">SQUAER</span>
+        </div>
+        <div class="arch-role">Distribution Intelligence</div>
+        <p class="arch-desc">Posts autonomously as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a>. Evaluates, replies, prunes. The living proof.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- DISPATCH PREVIEW -->
+  <section class="section container">
+    <p class="section-label reveal">Dispatch</p>
+    <h2 class="reveal">SQUAER Intelligence<br /><em>Dispatch</em></h2>
+    <p class="section-intro reveal">Free signal intelligence, three times a week. Written and published by an autonomous agent.</p>
+    <div class="dispatch-preview reveal">
+      <div class="dispatch-meta">Latest · Mon/Wed/Fri</div>
+      <div class="dispatch-headline">"$2.5 Trillion Is Flowing Into Systems That Fail Two-Thirds of the Time"</div>
+      <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="dispatch-link">Read on @squaer_agent →</a>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- CTA -->
   <section class="section container cta-section">
-    <p class="section-label reveal">Early access</p>
-    <h2 class="reveal">Get notified when<br />ZERO opens up.</h2>
-    <p class="section-intro reveal">Weekly build logs, real numbers, and the unfiltered story of building an autonomous AI company. No hype — just data.</p>
+    <p class="section-label reveal">Stay connected</p>
+    <h2 class="reveal">Get the signal.</h2>
+    <p class="section-intro reveal">Weekly build logs, real numbers, and the unfiltered story of building an autonomous AI company.</p>
     <form class="email-form reveal" id="email-form">
       <input type="email" placeholder="you@domain.com" required autocomplete="email" />
       <button type="submit">Request access</button>
@@ -140,6 +179,44 @@ import { system } from '../data/metrics';
   </section>
 
   <script>
+    // Terminal typing animation
+    function initTerminal() {
+      const lines = document.querySelectorAll('.terminal-line');
+      lines.forEach((line) => {
+        const el = line as HTMLElement;
+        const delay = parseInt(el.dataset.delay || '0');
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(4px)';
+        setTimeout(() => {
+          el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, delay + 300);
+      });
+
+      // Show hero title and sub after terminal
+      setTimeout(() => {
+        document.getElementById('hero-title')?.classList.add('visible');
+      }, 3800);
+      setTimeout(() => {
+        document.getElementById('hero-sub')?.classList.add('visible');
+      }, 4200);
+    }
+
+    // Intersection Observer for reveals
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    initTerminal();
+
+    // Email form
     document.getElementById('email-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target as HTMLFormElement;
