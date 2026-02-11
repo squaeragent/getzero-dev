@@ -228,6 +228,10 @@ body::after {
   margin-bottom: 10px;
 }
 
+.ascii-glyph-compact {
+  display: none;
+}
+
 .glyph-tagline {
   color: var(--text-dim);
   font-size: 0.85rem;
@@ -588,8 +592,8 @@ body::after {
   html { font-size: 12px; }
 
   .crt-viewport {
-    margin: 3px;
-    min-height: calc(100vh - 6px);
+    margin: 2px;
+    min-height: calc(100vh - 4px);
   }
 
   .crt-viewport::before {
@@ -600,8 +604,9 @@ body::after {
     grid-template-columns: 1fr;
   }
 
-  .panel + .panel {
-    border-left: none;
+  .panel {
+    border-left: none !important;
+    padding: 8px 10px;
   }
 
   .dispatch-panel,
@@ -611,21 +616,55 @@ body::after {
   }
 
   .status-bar {
-    font-size: 0.75rem;
-    padding: 3px 8px;
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    gap: 4px;
   }
 
-  .ascii-glyph {
-    font-size: 0.55rem;
+  .status-bar .signal {
+    display: none;
+  }
+
+  .ascii-glyph-full {
+    display: none;
+  }
+
+  .ascii-glyph-compact {
+    display: block !important;
+    font-size: 0.8rem;
+  }
+
+  .glyph-tagline {
+    font-size: 0.8rem;
   }
 
   .footer-bar {
     font-size: 0.65rem;
+    padding: 3px 6px;
   }
 
   .nav-bar {
     font-size: 0.65rem;
-    gap: 2px;
+    gap: 1px;
+    padding: 2px 4px;
+    flex-wrap: wrap;
+  }
+
+  .nav-tab {
+    padding: 1px 3px;
+  }
+
+  .panel-divider {
+    display: none;
+  }
+
+  .proc-table {
+    font-size: 0.8rem;
+  }
+
+  .proc-footer {
+    font-size: 0.7rem;
+    word-break: break-all;
   }
 
   .dispatch-actions {
@@ -635,6 +674,23 @@ body::after {
 
   .dispatch-actions a {
     text-align: center;
+  }
+
+  .metric-row {
+    font-size: 0.8rem;
+  }
+
+  .intel-price {
+    font-size: 1rem;
+  }
+
+  .brief-features {
+    font-size: 0.8rem;
+  }
+
+  pre {
+    overflow-x: auto;
+    max-width: 100%;
   }
 }
 

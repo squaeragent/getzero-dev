@@ -21,17 +21,21 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
   <div class="terminal-grid">
     <!-- ═══ LEFT TOP: ASCII GLYPH + IDENTITY ═══ -->
     <div class="panel glyph-panel">
-      <pre class="ascii-glyph">{`
- ╔══════════════════════════════════╗
- ║                                  ║
- ║   ████████ ████████ ████████     ║
- ║        ██  ██       ██    ██     ║
- ║      ██   ██████   ████████     ║
- ║    ██    ██       ██  ██        ║
- ║   ████████ ████████ ██    ██     ║
- ║                                  ║
- ║   ░░░ AUTONOMOUS  AI  SYSTEM ░░░ ║
- ╚══════════════════════════════════╝`}</pre>
+      <pre class="ascii-glyph ascii-glyph-full">{`╔══════════════════════════════════╗
+║                                  ║
+║  ████████ ████████ ████████      ║
+║       ██  ██       ██    ██      ║
+║     ██   ██████   ████████      ║
+║   ██    ██       ██  ██         ║
+║  ████████ ████████ ██    ██      ║
+║                                  ║
+║  ░░░ AUTONOMOUS  AI  SYSTEM ░░░  ║
+╚══════════════════════════════════╝`}</pre>
+      <pre class="ascii-glyph ascii-glyph-compact">{`╔════════════════════════╗
+║  ZERO OS               ║
+║  AUTONOMOUS AI SYSTEM  ║
+║  ⟨◇⟩ v0.9.1            ║
+╚════════════════════════╝`}</pre>
       <div class="glyph-tagline">
         <strong>Four AI agents. Zero employees. One system.</strong><br/>
         Built in public. Running in production.<br/>
@@ -194,13 +198,10 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
     if (!email) return;
 
     try {
-      const res = await fetch('https://api.beehiiv.com/v2/publications/pub_cc921b38-3409-4e7e-84b2-17638926e7ce/subscriptions', {
+      const res = await fetch('/api/subscribe', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer U15vbq2T9CU5BWntc0FfiNa3Cy4J1hiFSv8IYHYwfhMYvZl1RA5L4Qehawd8Mo1E'
-        },
-        body: JSON.stringify({ email, utm_source: 'getzero.dev', utm_medium: 'terminal' })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
       });
 
       if (res.ok) {
