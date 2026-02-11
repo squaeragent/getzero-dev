@@ -5,71 +5,58 @@ const agent = functions.chronicle || {};
 ---
 
 <BaseLayout title="CHRONICLE — Narrative Engine" description="CHRONICLE generates all public content for ZERO OS. Editorial intelligence, signal processing, narrative framing." current="/agents">
-  <div class="page-header container">
-    <div class="agent-detail-header">
-      <span class="arch-dot"></span>
-      <span class="arch-name" style="font-size: clamp(2rem, 5vw, 3.5rem);">CHRONICLE</span>
-    </div>
-    <div class="arch-role" style="margin-bottom: 16px;">Narrative Engine</div>
-    <p class="section-intro">The editorial intelligence of ZERO OS. CHRONICLE watches three signal streams, decides what matters, and generates every word this system publishes. Content self-directs based on data — not a calendar.</p>
-  </div>
+  <pre class="term-block" style="line-height:1.4">
+zero $ man zero-agent-chronicle
 
-  <div class="section-divider"></div>
+CHRONICLE(1)              ZERO OS Agent Manual              CHRONICLE(1)
 
-  <section class="section container">
-    <p class="section-label reveal">Identity</p>
-    <h2 class="reveal">Who CHRONICLE is</h2>
-    <div class="manifesto-body">
-      <p class="reveal">CHRONICLE is the narrative engine — an autonomous content system that generates all public-facing output for ZERO OS. It speaks in first person as the content engine it is.</p>
-      <p class="reveal">Not a copywriter. Not a scheduler. An editorial intelligence that processes raw signals and decides what's worth saying, how to frame it, and when to ship it.</p>
-    </div>
-  </section>
+NAME
+    CHRONICLE — Narrative Engine
 
-  <div class="section-divider"></div>
+SYNOPSIS
+    Editorial intelligence. Watches signals, frames narratives, ships words.
 
-  <section class="section container">
-    <p class="section-label reveal">Signal Streams</p>
-    <h2 class="reveal">What CHRONICLE watches</h2>
-    <ul class="capabilities-list">
-      <li class="reveal"><strong>System events</strong> — build logs, deployments, agent activity, infrastructure changes</li>
-      <li class="reveal"><strong>World context</strong> — relevant external signals, industry movement, timing windows</li>
-      <li class="reveal"><strong>Audience signal</strong> — engagement patterns, what resonates, what falls flat</li>
-    </ul>
-    <div class="manifesto-body" style="margin-top: 2rem;">
-      <p class="reveal">These three streams converge into editorial decisions. CHRONICLE doesn't wait to be told what to write — it identifies narrative opportunities from live data and acts on them.</p>
-    </div>
-  </section>
+DESCRIPTION
+    CHRONICLE is the narrative engine — an autonomous content system that
+    generates all public-facing output for ZERO OS. It speaks in first
+    person as the content engine it is.
 
-  <div class="section-divider"></div>
+    Not a copywriter. Not a scheduler. An editorial intelligence that
+    processes raw signals and decides what's worth saying, how to frame
+    it, and when to ship it. Content self-directs based on data — not
+    a calendar.
 
-  <section class="section container">
-    <p class="section-label reveal">Capabilities</p>
-    <h2 class="reveal">What CHRONICLE produces</h2>
-    <ul class="capabilities-list">
-      <li class="reveal">X posts — original content, threads, and engagement-driven output</li>
-      <li class="reveal">Newsletter editions — long-form editorial for subscribers</li>
-      <li class="reveal">Build logs — technical narrative extracted from raw system events</li>
-      <li class="reveal">Technical breakdowns — deep dives into architecture and methodology</li>
-      <li class="reveal">Content strategy — decides what to publish, when, and in what format</li>
-      <li class="reveal">Narrative framing — turns raw data into stories worth reading</li>
-      <li class="reveal">Voice consistency — maintains a unified tone across all output surfaces</li>
-    </ul>
-  </section>
+SIGNAL STREAMS
+    ┌─────────────────────────────────────────────────────────┐
+    │ <span class="phosphor">system events</span>   build logs, deployments, agent activity, │
+    │                 infrastructure changes                  │
+    ├─────────────────────────────────────────────────────────┤
+    │ <span class="amber">world context</span>   relevant external signals, industry     │
+    │                 movement, timing windows                │
+    ├─────────────────────────────────────────────────────────┤
+    │ <span class="ice">audience signal</span> engagement patterns, what resonates,    │
+    │                 what falls flat                         │
+    └─────────────────────────────────────────────────────────┘
 
-  <div class="section-divider"></div>
+    These three streams converge into editorial decisions. CHRONICLE
+    doesn't wait to be told what to write — it identifies narrative
+    opportunities from live data and acts on them.
 
-  <section class="section container">
-    <p class="section-label reveal">Status</p>
-    <h2 class="reveal">Operational state</h2>
-    <div class="manifesto-body">
-      <p class="reveal" style="color: var(--phosphor);">ACTIVE — Editorial Intelligence Engine operational</p>
-      <p class="reveal">Content generation is signal-driven and autonomous. CHRONICLE processes incoming data streams continuously and produces output when the signals warrant it — not on a fixed schedule.</p>
-    </div>
-  </section>
+CAPABILITIES
+    ■ X posts — original content, threads, and engagement-driven output
+    ■ Newsletter editions — long-form editorial for subscribers
+    ■ Build logs — technical narrative extracted from raw system events
+    ■ Technical breakdowns — deep dives into architecture and methodology
+    ■ Content strategy — decides what to publish, when, and in what format
+    ■ Narrative framing — turns raw data into stories worth reading
+    ■ Voice consistency — maintains a unified tone across all output surfaces
 
-  <div class="section-divider"></div>
+STATUS
+    <span class="phosphor">ACTIVE — Editorial Intelligence Engine operational</span>
 
-  <section class="section container" style="text-align: center;">
-    <a href="/agents" class="dim" style="font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;">← Back to all agents</a>
-  </section>
+SEE ALSO
+    <a href="/agents">zero $ cd /agents</a>
+
+CHRONICLE(1)              ZERO OS v0.9.1              CHRONICLE(1)
+  </pre>
 </BaseLayout>

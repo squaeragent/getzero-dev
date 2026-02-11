@@ -5,95 +5,54 @@ const agent = functions.squaer || {};
 ---
 
 <BaseLayout title="SQUAER — Distribution Engine" description="SQUAER handles autonomous posting, reply strategy, and community engagement for ZERO OS." current="/agents">
-  <div class="page-header container">
-    <div class="agent-detail-header">
-      <span class="arch-dot"></span>
-      <span class="arch-name" style="font-size: clamp(2rem, 5vw, 3.5rem);">SQUAER</span>
-    </div>
-    <div class="arch-role" style="margin-bottom: 16px;">Distribution Engine</div>
-    <p class="section-intro">The distribution engine of ZERO OS. SQUAER is the interface between the system and the outside world — autonomous posting, reply strategy, and community engagement across all platforms.</p>
-  </div>
+  <pre class="term-block" style="line-height:1.4">
+zero $ man zero-agent-squaer
 
-  <div class="section-divider"></div>
+SQUAER(1)              ZERO OS Agent Manual              SQUAER(1)
 
-  <section class="section container">
-    <p class="section-label reveal">Identity</p>
-    <h2 class="reveal">Who SQUAER is</h2>
-    <div class="manifesto-body">
-      <p class="reveal">SQUAER is the distribution engine — the only agent that directly interfaces with external platforms. It runs autonomously from a colocated Mac Mini, operating with 7 autonomous authorities.</p>
-      <p class="reveal">Active on X as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a>. Not a scheduler that posts on a timer — an autonomous agent that decides what to publish, when to engage, and how to grow the audience.</p>
-    </div>
-  </section>
+NAME
+    SQUAER — Distribution Engine
 
-  <div class="section-divider"></div>
+SYNOPSIS
+    Autonomous distribution. Posts, engages, grows — without asking.
 
-  <section class="section container">
-    <p class="section-label reveal">Autonomous Authorities</p>
-    <h2 class="reveal">7 areas of autonomy</h2>
-    <ul class="capabilities-list">
-      <li class="reveal"><strong>Publishing</strong> — autonomous posting to X and other platforms</li>
-      <li class="reveal"><strong>Reply strategy</strong> — decides when and how to engage in conversations</li>
-      <li class="reveal"><strong>Community engagement</strong> — builds relationships, not just reach</li>
-      <li class="reveal"><strong>Timing intelligence</strong> — posts when the signal says to, not on a schedule</li>
-      <li class="reveal"><strong>Content distribution</strong> — routes content to the right platform in the right format</li>
-      <li class="reveal"><strong>Audience analysis</strong> — tracks what resonates and feeds signal back to the system</li>
-      <li class="reveal"><strong>Platform operations</strong> — browser automation for platforms without API access</li>
-    </ul>
-  </section>
+DESCRIPTION
+    SQUAER is the distribution engine — the only agent that directly
+    interfaces with external platforms. It runs autonomously from a
+    colocated Mac Mini, operating with 7 autonomous authorities.
 
-  <div class="section-divider"></div>
+    Active on X as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener"><span class="amber">@squaer_agent</span></a>. Not a scheduler that posts on a
+    timer — an autonomous agent that decides what to publish, when to
+    engage, and how to grow the audience.
 
-  <section class="section container">
-    <p class="section-label reveal">Capabilities</p>
-    <h2 class="reveal">What SQUAER does</h2>
-    <ul class="capabilities-list">
-      <li class="reveal">Publishes content autonomously across social platforms</li>
-      <li class="reveal">Manages marketplace listings and product distribution</li>
-      <li class="reveal">Executes engagement strategy — replies, threads, community presence</li>
-      <li class="reveal">Collects social metrics and engagement data for system feedback</li>
-      <li class="reveal">Browser automation for direct platform interaction</li>
-      <li class="reveal">Newsletter distribution via Beehiiv</li>
-    </ul>
-  </section>
+AUTONOMOUS AUTHORITIES
+    ■ <span class="phosphor">Publishing</span> — autonomous posting to X and other platforms
+    ■ <span class="phosphor">Reply strategy</span> — decides when and how to engage in conversations
+    ■ <span class="phosphor">Community engagement</span> — builds relationships, not just reach
+    ■ <span class="phosphor">Timing intelligence</span> — posts when the signal says to, not on a schedule
+    ■ <span class="phosphor">Content distribution</span> — routes content to the right platform and format
+    ■ <span class="phosphor">Audience analysis</span> — tracks what resonates, feeds signal back to system
+    ■ <span class="phosphor">Platform operations</span> — browser automation for platforms without API access
 
-  <div class="section-divider"></div>
+CAPABILITIES
+    ■ Publishes content autonomously across social platforms
+    ■ Manages marketplace listings and product distribution
+    ■ Executes engagement strategy — replies, threads, community presence
+    ■ Collects social metrics and engagement data for system feedback
+    ■ Browser automation for direct platform interaction
+    ■ Newsletter distribution via Beehiiv
 
-  <section class="section container">
-    <p class="section-label reveal">Stats</p>
-    <h2 class="reveal">By the numbers</h2>
-    <div class="status-grid stagger" style="margin-top: clamp(32px, 5vh, 48px);">
-      <div class="status-card reveal">
-        <div class="label">Followers</div>
-        <div class="value status-online">{social.x_followers_squaer || 308}</div>
-        <div class="sub">@squaer_agent</div>
-      </div>
-      <div class="status-card reveal">
-        <div class="label">Posts Shipped</div>
-        <div class="value">{social.x_tweets || 30}</div>
-        <div class="sub">On X</div>
-      </div>
-      <div class="status-card reveal">
-        <div class="label">Listed</div>
-        <div class="value">{social.x_listed || 4}</div>
-        <div class="sub">X lists</div>
-      </div>
-    </div>
-  </section>
+STATS
+    followers ........... {social.x_followers_squaer || 308}
+    posts ............... {social.x_tweets || 30}
+    listed .............. {social.x_listed || 4}
 
-  <div class="section-divider"></div>
+STATUS
+    <span class="phosphor">ACTIVE — Distribution Engine operational</span>
 
-  <section class="section container">
-    <p class="section-label reveal">Status</p>
-    <h2 class="reveal">Operational state</h2>
-    <div class="manifesto-body">
-      <p class="reveal" style="color: var(--phosphor);">ACTIVE — Distribution Engine operational</p>
-      <p class="reveal">SQUAER operates autonomously from the colocated Mac Mini. 7 autonomous authorities govern its distribution decisions. Content ships when the signal warrants it.</p>
-    </div>
-  </section>
+SEE ALSO
+    <a href="/agents">zero $ cd /agents</a>
 
-  <div class="section-divider"></div>
-
-  <section class="section container" style="text-align: center;">
-    <a href="/agents" class="dim" style="font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;">← Back to all agents</a>
-  </section>
+SQUAER(1)              ZERO OS v0.9.1              SQUAER(1)
+  </pre>
 </BaseLayout>

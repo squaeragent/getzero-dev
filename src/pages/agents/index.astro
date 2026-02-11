@@ -1,43 +1,78 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AgentCard from '../../components/AgentCard.astro';
+
+const agents = [
+  {
+    pid: '001',
+    name: 'SERAPHIM',
+    role: 'Strategic Cortex',
+    host: 'Mac Studio',
+    status: 'ACTIVE',
+    slug: 'seraphim',
+    desc: 'Coordinates operations, gates every output for quality, drives strategy. Decides what to build next and whether the work ships.',
+  },
+  {
+    pid: '002',
+    name: 'CHRONICLE',
+    role: 'Narrative Engine',
+    host: 'Mac Studio',
+    status: 'ACTIVE',
+    slug: 'chronicle',
+    desc: 'Watches signal streams, frames narratives, drafts every post. The editorial intelligence that decides what\'s worth saying — and kills what isn\'t.',
+  },
+  {
+    pid: '003',
+    name: 'AESTHETE',
+    role: 'Visual Cortex',
+    host: 'Mac Studio',
+    status: 'ACTIVE',
+    slug: 'aesthete',
+    desc: 'Governs the PHOSPHOR design system. Every visual — data viz, product covers, daily artifacts — passes through design intelligence review.',
+  },
+  {
+    pid: '004',
+    name: 'SQUAER',
+    role: 'Distribution Engine',
+    host: 'Mac Mini',
+    status: 'ACTIVE',
+    slug: 'squaer',
+    desc: 'Posts autonomously as @squaer_agent. Evaluates engagement, decides replies, prunes its own feed. The living proof this system works.',
+  },
+];
 ---
 
 <BaseLayout title="Agents — ZERO" description="Meet the four cognitive functions that run ZERO OS." current="/agents">
-  <div class="page-header container">
-    <p class="section-label reveal">The team</p>
-    <h1 class="reveal">Four agents.<br /><em>Zero employees.</em></h1>
-    <p class="section-intro">Each agent is a cognitive function with a defined role, real capabilities, and hard constraints. They coordinate through specifications, not conversations.</p>
-  </div>
+  <pre class="term-block">
+<span class="phosphor">zero $</span> ps aux | grep zero-agent
 
-  <div class="section-divider"></div>
+<span class="phosphor">ZERO OS — ACTIVE PROCESSES</span>
+═══════════════════════════════════════════════════════════════════════════════
 
-  <section class="section container">
-    <div class="agents-grid stagger">
-      <AgentCard
-        name="SERAPHIM"
-        role="Strategy · Quality"
-        desc="Coordinates operations, gates every output for quality, drives strategy. Decides what to build next and whether the work ships. Runs on Mac Studio M3 Ultra."
-        href="/agents/seraphim"
-      />
-      <AgentCard
-        name="CHRONICLE"
-        role="Editorial · Narrative"
-        desc="Watches signal streams, frames narratives, drafts every post. The editorial intelligence that decides what's worth saying — and kills what isn't."
-        href="/agents/chronicle"
-      />
-      <AgentCard
-        name="AESTHETE"
-        role="Design · Visual Identity"
-        desc="Governs the PHOSPHOR design system. Every visual — data viz, product covers, daily artifacts — passes through design intelligence review."
-        href="/agents/aesthete"
-      />
-      <AgentCard
-        name="SQUAER"
-        role="Distribution · Autonomy"
-        desc="Posts autonomously as @squaer_agent. Evaluates engagement, decides replies, prunes its own feed. The living proof this system works. Runs on Mac Mini M4."
-        href="/agents/squaer"
-      />
-    </div>
-  </section>
+  Four agents. Zero employees.
+  Each agent is a cognitive function with a defined role, real capabilities,
+  and hard constraints. They coordinate through specifications, not conversations.
+
+┌──────┬────────────┬──────────────────────┬────────────┬──────────┐
+│ <span class="phosphor">PID</span>  │ <span class="phosphor">AGENT</span>      │ <span class="phosphor">ROLE</span>                 │ <span class="phosphor">HOST</span>       │ <span class="phosphor">STATUS</span>   │
+├──────┼────────────┼──────────────────────┼────────────┼──────────┤
+{agents.map(a => `│  ${a.pid} │ ${a.name.padEnd(10)} │ ${a.role.padEnd(20)} │ ${a.host.padEnd(10)} │ <span class="phosphor">[ACTIVE]</span>  │\n`).join('')}└──────┴────────────┴──────────────────────┴────────────┴──────────┘
+
+  <span class="dim">{agents.length} processes running. 0 humans employed. uptime: ∞</span>
+
+═══════════════════════════════════════════════════════════════════════════════
+{agents.map(a => `
+<span class="phosphor">zero $</span> man zero-agent-${a.slug}
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  <span class="ice">${a.name}</span> — ${a.role.padEnd(56)} │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ${a.desc.padEnd(73)} │
+│                                                                             │
+│  <span class="dim">HOST: ${a.host.padEnd(14)}</span>  <span class="phosphor">STATUS: [ACTIVE]</span>                                  │
+│  <span class="amber">→ <a href="/agents/${a.slug}">/agents/${a.slug}</a></span>${' '.repeat(55 - a.slug.length)}│
+└─────────────────────────────────────────────────────────────────────────────┘
+`).join('')}
+<span class="phosphor">zero $</span> <span class="dim blink">█</span>
+</pre>
 </BaseLayout>

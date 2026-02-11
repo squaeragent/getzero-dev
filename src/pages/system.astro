@@ -1,133 +1,82 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
-
-let worldState: any = {};
-try {
-  const fs = await import('node:fs');
-  const path = await import('node:path');
-  const yaml = (await import('js-yaml')).default;
-  const wsPath = path.default.join(process.env.HOME || '~', 'Cluster_Memory', '00_SYSTEM', 'world_state.yaml');
-  worldState = yaml.load(fs.default.readFileSync(wsPath, 'utf-8')) || {};
-} catch {}
-
-const infrastructure = worldState.infrastructure || {
-  mac_studio: { status: 'online', disk_used_pct: 2 },
-  mac_mini: { status: 'online', role: 'Distribution Node' }
-};
-const functions = Object.keys(worldState.functions || {}).length > 0
-  ? worldState.functions
-  : {
-      seraphim: { role: 'Strategic Cortex', model: 'Claude Opus 4', brain_complete: true },
-      chronicle: { role: 'Narrative Engine', model: 'Claude Opus 4', brain_complete: true },
-      aesthete: { role: 'Visual Cortex', model: 'Claude Opus 4', brain_complete: true },
-      squaer: { role: 'Distribution Intelligence', model: 'Claude Opus 4', brain_complete: true },
-    };
-const problems = Object.keys(worldState.problems || {}).length > 0
-  ? worldState.problems
-  : {
-      critical: [],
-      high: ['API costs at $188/day — need optimization or revenue to match'],
-      medium: ['Dead-man switch needs timestamp integration', 'OG image not yet generated'],
-    };
+import { system, infrastructure, functions, problems } from '../data/metrics';
 ---
 
 <BaseLayout title="Live System — ZERO" description="Real-time dashboard showing ZERO OS's actual state. Every number is real." current="/system">
-  <div class="page-header container">
-    <p class="section-label reveal">Live system</p>
-    <h1 class="reveal">The receipts.</h1>
-    <p class="section-intro">Real data from a real system. Numbers sync from ZERO OS and animate live. Nothing is hardcoded. Nothing is approximated.</p>
-  </div>
-
-  <div class="section-divider"></div>
-
   <section class="section container">
-    <p class="section-label reveal">Infrastructure</p>
-    <h2 class="reveal">Machine Status</h2>
+<pre class="term-block">
+<span class="phosphor">zero $</span> systemctl status zero-os --full
 
-    <div class="arch-grid stagger" style="margin-top: clamp(32px, 5vh, 48px);">
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot"></span>
-          <span class="arch-name">Mac Studio</span>
-        </div>
-        <div class="arch-role">M3 Ultra, 96GB RAM</div>
-        <p class="arch-desc">
-          Status: <span class="status-online">{infrastructure.mac_studio?.status || 'online'}</span><br />
-          Disk: {infrastructure.mac_studio?.disk_used_pct || 2}% used<br />
-          Services: OpenClaw, Ollama
-        </p>
-      </div>
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot"></span>
-          <span class="arch-name">Mac Mini</span>
-        </div>
-        <div class="arch-role">M4, 16GB RAM — colocated</div>
-        <p class="arch-desc">
-          Status: <span class="status-online">{infrastructure.mac_mini?.status || 'online'}</span><br />
-          Role: {infrastructure.mac_mini?.role || 'Distribution Node'}<br />
-          Services: OpenClaw, Chrome CDP
-        </p>
-      </div>
-    </div>
-  </section>
+● zero-os.service - ZERO Autonomous Operating System
+     Loaded: loaded (/etc/systemd/system/zero-os.service; enabled)
+     Active: <span class="phosphor">active (running)</span> since boot
+       Docs: https://getzero.dev/system
+    Process: real-time telemetry at build cycle
+   Main PID: 1 (zero-init)
 
-  <div class="section-divider"></div>
 
-  <section class="section container">
-    <p class="section-label reveal">Agent Status</p>
-    <h2 class="reveal">Cognitive Functions</h2>
+═══════════════════════════════════════════════════════════════════
+  INFRASTRUCTURE                                    df -h / top
+═══════════════════════════════════════════════════════════════════
 
-    <div class="arch-grid stagger" style="margin-top: clamp(32px, 5vh, 48px);">
-      {Object.entries(functions).map(([name, data]: [string, any]) => (
-        <div class="arch-agent reveal">
-          <div class="arch-header">
-            <span class="arch-dot"></span>
-            <span class="arch-name">{name.toUpperCase()}</span>
-          </div>
-          <div class="arch-role">{data.role}</div>
-          <p class="arch-desc">
-            Model: {data.model}<br />
-            Brain: {data.brain_complete ? 'Complete' : 'Incomplete'}
-          </p>
-        </div>
-      ))}
-    </div>
-  </section>
+┌─────────────┬──────────────────────────────┬──────────┐
+│ NODE        │ HARDWARE                     │ STATUS   │
+├─────────────┼──────────────────────────────┼──────────┤
+│ Mac Studio  │ {system.mac_studio || 'M3 Ultra, 96GB RAM'} │ <span class="phosphor">{infrastructure.mac_studio?.status || 'online'}</span>   │
+│             │ Disk: {infrastructure.mac_studio?.disk_used_pct || 2}% used                  │          │
+│             │ Services: OpenClaw, Ollama,  │          │
+│             │           HIVE               │          │
+├─────────────┼──────────────────────────────┼──────────┤
+│ Mac Mini    │ {system.mac_mini || 'M4, 16GB RAM — colocated'} │ <span class="phosphor">{infrastructure.mac_mini?.status || 'online'}</span>   │
+│             │ Role: {infrastructure.mac_mini?.role || 'Distribution Node'}       │          │
+│             │ Services: OpenClaw,          │          │
+│             │           Chrome CDP         │          │
+└─────────────┴──────────────────────────────┴──────────┘
 
-  <div class="section-divider"></div>
 
-  <section class="section container">
-    <p class="section-label reveal">Metrics</p>
-    <h2 class="reveal">System Dashboard</h2>
+═══════════════════════════════════════════════════════════════════
+  COGNITIVE FUNCTIONS                          systemctl list-units
+═══════════════════════════════════════════════════════════════════
+</pre>
+
+{Object.entries(functions).map(([name, data]: [string, any]) => (
+<pre class="term-block">
+  <span class="phosphor">[ACTIVE]</span>  {name.toUpperCase().padEnd(16)} — {data.role}
+           model .......... {data.model}
+           brain .......... {data.brain_complete ? '██████████ complete' : '████░░░░░░ incomplete'}
+</pre>
+))}
+
+<pre class="term-block">
+
+═══════════════════════════════════════════════════════════════════
+  METRICS DASHBOARD                                  live telemetry
+═══════════════════════════════════════════════════════════════════
+</pre>
+
     <MetricsDashboard />
-  </section>
 
-  <div class="section-divider"></div>
+<pre class="term-block">
 
-  <section class="section container">
-    <p class="section-label reveal">Open Problems</p>
-    <h2 class="reveal">What needs fixing.</h2>
-    <div class="activity-feed">
-      {problems.critical?.map((p: string) => (
-        <div class="activity-item reveal">
-          <span class="activity-time status-offline">CRITICAL</span>
-          <span class="activity-text">{p}</span>
-        </div>
-      ))}
-      {problems.high?.map((p: string) => (
-        <div class="activity-item reveal">
-          <span class="activity-time status-warning">HIGH</span>
-          <span class="activity-text">{p}</span>
-        </div>
-      ))}
-      {problems.medium?.map((p: string) => (
-        <div class="activity-item reveal">
-          <span class="activity-time mid">MEDIUM</span>
-          <span class="activity-text">{p}</span>
-        </div>
-      ))}
-    </div>
+═══════════════════════════════════════════════════════════════════
+  OPEN PROBLEMS                                     journalctl -p 3
+═══════════════════════════════════════════════════════════════════
+</pre>
+
+{problems.critical?.map((p: string) => (
+<pre class="term-block">  <span class="amber">[CRIT]</span>  {p}</pre>
+))}
+{problems.high?.map((p: string) => (
+<pre class="term-block">  <span class="amber">[HIGH]</span>  {p}</pre>
+))}
+{problems.medium?.map((p: string) => (
+<pre class="term-block">  [MED ]  {p}</pre>
+))}
+
+<pre class="term-block">
+<span class="phosphor">[EOF]</span>
+</pre>
   </section>
 </BaseLayout>
