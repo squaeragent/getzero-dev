@@ -11,7 +11,13 @@ const links = [
 ---
 
 <nav class="nav">
-  <a href="/" class="nav-logo">ZERO</a>
+  <a href="/" class="nav-logo" aria-label="ZERO">
+    <svg viewBox="0 0 400 400" width="28" height="28" class="glyph-logo">
+      <path d="M 102,82 L 164,75 L 164,103 L 120,98 L 116,102 L 116,298 L 120,302 L 164,297 L 164,325 L 102,318 Z" fill="currentColor"/>
+      <path d="M 298,82 L 236,75 L 236,103 L 280,98 L 284,102 L 284,298 L 280,302 L 236,297 L 236,325 L 298,318 Z" fill="currentColor"/>
+      <polygon points="200,148 252,200 200,252 148,200" fill="currentColor"/>
+    </svg>
+  </a>
   <div class="nav-links">
     {links.map(link => (
       <a href={link.href} class:list={[current === link.href ? 'active' : '', link.hideOnMobile ? 'hide-mobile' : '']}>

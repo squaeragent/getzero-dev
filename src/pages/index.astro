@@ -179,7 +179,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 
   <script>
-    // Terminal typing animation
     function initTerminal() {
       const lines = document.querySelectorAll('.terminal-line');
       lines.forEach((line) => {
@@ -194,7 +193,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         }, delay + 300);
       });
 
-      // Show hero title and sub after terminal
       setTimeout(() => {
         document.getElementById('hero-title')?.classList.add('visible');
       }, 3800);
@@ -203,7 +201,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }, 4200);
     }
 
-    // Intersection Observer for reveals
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -216,7 +213,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     initTerminal();
 
-    // Email form
     document.getElementById('email-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target as HTMLFormElement;
@@ -237,7 +233,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         if (res.ok) {
           btn.textContent = "YOU'RE IN";
-          btn.style.background = 'var(--accent)';
+          btn.style.background = '#00FF41';
+          btn.style.color = '#000000';
           input.value = '';
           input.placeholder = 'Welcome to ZERO';
           input.disabled = true;
@@ -253,6 +250,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       setTimeout(() => {
         btn.textContent = 'REQUEST ACCESS';
         btn.style.background = '';
+        btn.style.color = '';
         btn.disabled = false;
         input.placeholder = 'you@domain.com';
         input.disabled = false;

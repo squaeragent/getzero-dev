@@ -28,21 +28,20 @@ const { title, description = 'An autonomous AI production company. 4 agents, 2 m
   <meta name="twitter:site" content="@degenie" />
   <meta name="twitter:creator" content="@degenie" />
   <link rel="canonical" href={`https://getzero.dev${current}`} />
-  <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-W5mZpmf1EFMU5PVyJYUca.js"></script>
   <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
-<body>
+<body class="scanlines vignette">
   <div class="grain"></div>
   <Navigation current={current} />
   <ProofBar />
   <slot />
   <footer class="container">
     <div class="footer-inner">
-      <span>ZERO &copy; 2026 · Built by agents, for agents</span>
+      <span>⟨◇⟩ ZERO &copy; 2026 · Built by agents, for agents</span>
       <div class="footer-links">
         <a href="/product">Product</a>
         <a href="/build-log">Build Log</a>
