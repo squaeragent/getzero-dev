@@ -19,23 +19,18 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
 
 <BaseLayout title="ZERO OS — Terminal" current="/">
   <div class="terminal-grid">
-    <!-- ═══ LEFT TOP: ASCII GLYPH + IDENTITY ═══ -->
+    <!-- ═══ LEFT TOP: INTELLIGENCE SPHERE + IDENTITY ═══ -->
     <div class="panel glyph-panel">
-      <pre class="ascii-glyph ascii-glyph-full boot-line" data-delay="0">{`╔══════════════════════════════════╗
-║                                  ║
-║  ████████ ████████ ████████      ║
-║       ██  ██       ██    ██      ║
-║     ██   ██████   ████████      ║
-║   ██    ██       ██  ██         ║
-║  ████████ ████████ ██    ██      ║
-║                                  ║
-║  ░░░ AUTONOMOUS  AI  SYSTEM ░░░  ║
-╚══════════════════════════════════╝`}</pre>
-      <pre class="ascii-glyph ascii-glyph-compact boot-line" data-delay="0">{`╔════════════════════════╗
-║  ZERO OS               ║
-║  AUTONOMOUS AI SYSTEM  ║
-║  ⟨◇⟩ v0.9.1            ║
-╚════════════════════════╝`}</pre>
+      <div class="sphere-wrap boot-line" data-delay="0">
+        <div class="sphere-agents">
+          <span class="sphere-agent"><span class="sphere-dot">●</span> SERA</span>
+          <span class="sphere-agent"><span class="sphere-dot">●</span> CHRO</span>
+          <span class="sphere-agent"><span class="sphere-dot">●</span> AEST</span>
+          <span class="sphere-agent"><span class="sphere-dot">●</span> SQUA</span>
+        </div>
+        <canvas id="sphere" width="600" height="360"></canvas>
+        <div class="sphere-label">INTELLIGENCE CORE │ 4 AGENTS</div>
+      </div>
       <div class="glyph-tagline">
         <div class="boot-line" data-delay="400"><strong>Four AI agents. Zero employees. One system.</strong></div>
         <div class="boot-line" data-delay="800">Built in public. Running in production.</div>
@@ -224,16 +219,193 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
     opacity: 1;
     transform: translateY(0);
   }
+  .sphere-wrap {
+    width: 100%;
+    position: relative;
+  }
+  #sphere {
+    display: block;
+    width: 100%;
+    height: 180px;
+  }
+  @media (min-width: 641px) {
+    #sphere { height: 250px; }
+  }
+  .sphere-agents {
+    display: flex;
+    justify-content: space-around;
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    color: var(--phosphor);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .sphere-agent { opacity: 0.8; }
+  .sphere-dot {
+    animation: spherePulse 2s ease-in-out infinite;
+    font-size: 0.5rem;
+    margin-right: 2px;
+  }
+  @keyframes spherePulse {
+    0%,100% { opacity: 1; text-shadow: 0 0 4px var(--phosphor); }
+    50% { opacity: 0.3; text-shadow: none; }
+  }
+  .sphere-label {
+    text-align: center;
+    font-family: var(--font-head);
+    font-size: 0.6rem;
+    color: var(--phosphor-dim);
+    letter-spacing: 0.15em;
+    margin-top: 2px;
+  }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const lines = document.querySelectorAll('.boot-line');
-    lines.forEach((line) => {
-      const delay = parseInt(line.getAttribute('data-delay') || '0', 10);
-      setTimeout(() => {
-        line.classList.add('visible');
-      }, delay);
+  document.addEventListener('DOMContentLoaded', function() {
+    // Boot animation
+    var lines = document.querySelectorAll('.boot-line');
+    for (var i = 0; i < lines.length; i++) {
+      (function(line) {
+        var delay = parseInt(line.getAttribute('data-delay') || '0', 10);
+        setTimeout(function() { line.classList.add('visible'); }, delay);
+      })(lines[i]);
+    }
+
+    // === INTELLIGENCE SPHERE ===
+    var canvas = document.getElementById('sphere');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Fix 3: Cap pixel ratio
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // Fix 1: Resize with flag — no infinite loop
+    var resizing = false;
+    function resizeCanvas() {
+      var w = canvas.parentElement ? canvas.parentElement.clientWidth : 300;
+      var h = window.innerWidth >= 641 ? 250 : 180;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', function() {
+      if (resizing) return;
+      resizing = true;
+      requestAnimationFrame(function() {
+        resizeCanvas();
+        resizing = false;
+      });
     });
+
+    // Pre-allocate points
+    var N = 200;
+    var golden = Math.PI * (3 - Math.sqrt(5));
+    var pts = new Array(N);
+    for (var i = 0; i < N; i++) {
+      var yy = 1 - (i / (N - 1)) * 2;
+      pts[i] = { phi: Math.acos(yy), theta: golden * i, digit: Math.floor(Math.random() * 10) };
+    }
+
+    // Fix 2: Pre-allocate projection array — reuse every frame
+    var proj = new Array(N);
+    for (var i = 0; i < N; i++) {
+      proj[i] = { x: 0, y: 0, z: 0, depth: 0, digit: 0 };
+    }
+
+    // Shuffle digits periodically
+    setInterval(function() {
+      for (var i = 0; i < 8; i++) {
+        pts[Math.floor(Math.random() * N)].digit = Math.floor(Math.random() * 10);
+      }
+    }, 2000);
+
+    // Fix 2: Cache gradient — recreate only on resize
+    var cachedW = 0, cachedH = 0, cachedGlow = null;
+    var corners = [[0,0],[0,0],[0,0],[0,0]];
+
+    function updateCache() {
+      var w = canvas.width / dpr;
+      var h = canvas.height / dpr;
+      if (w === cachedW && h === cachedH) return;
+      cachedW = w;
+      cachedH = h;
+      var cx = w / 2, cy = h / 2;
+      var r = Math.min(w, h) * 0.35;
+      cachedGlow = ctx.createRadialGradient(cx, cy, r * 0.3, cx, cy, r * 1.5);
+      cachedGlow.addColorStop(0, 'rgba(200,255,0,0.06)');
+      cachedGlow.addColorStop(1, 'rgba(0,0,0,0)');
+      corners[0][0] = 0;   corners[0][1] = 0;
+      corners[1][0] = w;   corners[1][1] = 0;
+      corners[2][0] = 0;   corners[2][1] = h;
+      corners[3][0] = w;   corners[3][1] = h;
+    }
+
+    var rotation = 0;
+
+    function draw() {
+      var cw = canvas.width, ch = canvas.height;
+      if (cw <= 0 || ch <= 0) { requestAnimationFrame(draw); return; }
+
+      var w = cw / dpr, h = ch / dpr;
+      var cx = w / 2, cy = h / 2;
+      var radius = Math.min(w, h) * 0.35;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      // Glow — cached
+      updateCache();
+      if (cachedGlow) {
+        ctx.fillStyle = cachedGlow;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      // Neural lines to corners
+      ctx.strokeStyle = 'rgba(200,255,0,0.07)';
+      ctx.lineWidth = 1;
+      for (var ci = 0; ci < 4; ci++) {
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(corners[ci][0], corners[ci][1]);
+        ctx.stroke();
+      }
+
+      // Project points — reuse pre-allocated array
+      for (var i = 0; i < N; i++) {
+        var p = pts[i];
+        var sp = Math.sin(p.phi), cp = Math.cos(p.phi);
+        var x = radius * sp * Math.cos(p.theta + rotation);
+        var y = radius * cp;
+        var z = radius * sp * Math.sin(p.theta + rotation);
+        proj[i].x = cx + x;
+        proj[i].y = cy + y;
+        proj[i].z = z;
+        proj[i].depth = (z + radius) / (2 * radius);
+        proj[i].digit = p.digit;
+      }
+
+      // Sort by depth (back to front)
+      proj.sort(function(a, b) { return a.z - b.z; });
+
+      // Draw digits
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (var i = 0; i < N; i++) {
+        var pt = proj[i];
+        var size = (6 + pt.depth * 6) | 0;
+        var alpha = 0.08 + pt.depth * 0.92;
+        ctx.font = size + "px 'JetBrains Mono',monospace";
+        ctx.fillStyle = 'rgba(200,255,0,' + alpha.toFixed(2) + ')';
+        ctx.fillText(String(pt.digit), pt.x, pt.y);
+      }
+
+      rotation += 0.005236; // ~one revolution per 20s at 60fps
+      requestAnimationFrame(draw);
+    }
+
+    requestAnimationFrame(draw);
   });
 </script>
