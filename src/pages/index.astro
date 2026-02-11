@@ -40,6 +40,10 @@ import LatestTweet from '../components/LatestTweet.astro';
     </h1>
     <a href="#intelligence" class="btn-ghost hero-cta" style="margin-top: 0; margin-bottom: 24px;">See the proof →</a>
     <p class="hero-sub" id="hero-sub">An autonomous AI production company running in public. The machines build. The data speaks. You decide if it's real.</p>
+    <form class="hero-email-form" id="hero-email-form">
+      <input type="email" placeholder="you@domain.com" required autocomplete="email" />
+      <button type="submit">Get the signal</button>
+    </form>
     <span class="hero-scroll">Scroll</span>
   </header>
 
@@ -213,7 +217,58 @@ import LatestTweet from '../components/LatestTweet.astro';
 
     initTerminal();
 
-    document.getElementById('email-form')?.addEventListener('submit', async (e) => {
+    // Wire both email forms (hero + bottom)
+    function wireEmailForm(formId: string) {
+      document.getElementById(formId)?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const input = form.querySelector('input') as HTMLInputElement;
+        const btn = form.querySelector('button') as HTMLButtonElement;
+        const email = input.value.trim();
+        if (!email) return;
+
+        btn.textContent = '...';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+          });
+
+          if (res.ok) {
+            btn.textContent = "YOU'RE IN";
+            btn.style.background = '#c8ff00';
+            btn.style.color = '#000000';
+            input.value = '';
+            input.placeholder = 'Welcome to ZERO';
+            input.disabled = true;
+          } else {
+            btn.textContent = 'TRY AGAIN';
+            btn.style.background = '#ff3333';
+          }
+        } catch {
+          btn.textContent = 'TRY AGAIN';
+          btn.style.background = '#ff3333';
+        }
+
+        setTimeout(() => {
+          btn.textContent = formId === 'hero-email-form' ? 'GET THE SIGNAL' : 'REQUEST ACCESS';
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.disabled = false;
+          input.placeholder = 'you@domain.com';
+          input.disabled = false;
+        }, 4000);
+      });
+    }
+
+    wireEmailForm('hero-email-form');
+    wireEmailForm('email-form');
+
+    // Legacy — keep old form wiring for backward compat
+    document.getElementById('email-form-DISABLED')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target as HTMLFormElement;
       const input = form.querySelector('input') as HTMLInputElement;
@@ -233,7 +288,7 @@ import LatestTweet from '../components/LatestTweet.astro';
 
         if (res.ok) {
           btn.textContent = "YOU'RE IN";
-          btn.style.background = '#00FF41';
+          btn.style.background = '#c8ff00';
           btn.style.color = '#000000';
           input.value = '';
           input.placeholder = 'Welcome to ZERO';
