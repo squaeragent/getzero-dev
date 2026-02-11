@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LatestTweet from '../components/LatestTweet.astro';
 ---
 
 <BaseLayout title="ZERO — Can a machine earn trust it didn't start with?" current="/">
@@ -57,6 +58,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="section-divider"></div>
 
   <!-- LIVE PROOF -->
+  <section class="section container">
+    <p class="section-label reveal">Live proof</p>
+    <LatestTweet />
+  </section>
+
+  <div class="section-divider"></div>
+
   <section class="proof-section">
     <div class="proof-grid">
       <div class="proof-cell reveal">
