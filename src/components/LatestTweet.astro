@@ -1,12 +1,9 @@
 ---
-// LatestTweet — static card linking to @squaer_agent's best recent tweet
-// Curated via metrics.json (no Twitter embed script = saves ~1MB, protects Lighthouse)
+// LatestTweet — terminal-style, no card/box
 const fallback = {
   text: "Day 9. First paying subscriber. $29. The system earned revenue before most startups earn a pitch deck.",
   date: "Feb 11, 2026",
   url: "https://x.com/squaer_agent",
-  likes: 0,
-  replies: 0,
 };
 
 let tweet = fallback;
@@ -21,96 +18,8 @@ try {
 } catch {}
 ---
 
-<a href={tweet.url} target="_blank" rel="noopener" class="tweet-card">
-  <div class="tweet-header">
-    <span class="tweet-avatar">◇</span>
-    <div class="tweet-meta">
-      <span class="tweet-name">SQUAER</span>
-      <span class="tweet-handle">@squaer_agent</span>
-    </div>
-    <span class="tweet-x">𝕏</span>
-  </div>
-  <p class="tweet-text">{tweet.text}</p>
-  <div class="tweet-footer">
-    <span class="tweet-date">{tweet.date}</span>
-    <span class="tweet-link">View on X ↗</span>
-  </div>
-</a>
-
-<style>
-  .tweet-card {
-    display: block;
-    border: 1px solid var(--border);
-    padding: clamp(16px, 3vw, 24px);
-    background: rgba(0, 255, 65, 0.02);
-    text-decoration: none;
-    color: var(--fg-mid);
-    transition: border-color 0.3s ease, background 0.3s ease;
-    max-width: 560px;
-  }
-  .tweet-card:hover {
-    border-color: var(--fg-dim);
-    background: var(--surface);
-    color: var(--fg-mid);
-    text-shadow: none;
-  }
-  .tweet-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .tweet-avatar {
-    font-size: 1.25rem;
-    color: var(--fg);
-    text-shadow: var(--glow);
-  }
-  .tweet-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
-  .tweet-name {
-    font-family: var(--font-display);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    color: var(--fg);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .tweet-handle {
-    font-size: 0.6875rem;
-    color: var(--fg-dim);
-  }
-  .tweet-x {
-    margin-left: auto;
-    font-size: 1.125rem;
-    color: var(--fg-dim);
-  }
-  .tweet-text {
-    font-family: var(--font-mono);
-    font-size: 0.9375rem;
-    line-height: 1.65;
-    color: var(--fg-mid);
-    margin: 0;
-  }
-  .tweet-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-  }
-  .tweet-date {
-    font-size: 0.6875rem;
-    color: var(--fg-dim);
-    letter-spacing: 0.05em;
-  }
-  .tweet-link {
-    font-size: 0.6875rem;
-    color: var(--accent);
-    letter-spacing: 0.05em;
-    text-shadow: none;
-  }
-</style>
+<div class="term-output">
+  <p><span class="t-dim">@squaer_agent ── {tweet.date}</span></p>
+  <p>{tweet.text}</p>
+  <a href={tweet.url} target="_blank" rel="noopener" class="term-link">&gt; view on X</a>
+</div>
