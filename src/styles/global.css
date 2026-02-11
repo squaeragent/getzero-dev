@@ -205,7 +205,7 @@ a:hover { color: var(--accent); text-shadow: var(--glow-amber); }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: clamp(100px, 15vh, 160px);
+  padding-top: clamp(60px, 10vh, 120px);
   padding-bottom: clamp(60px, 10vh, 120px);
   position: relative;
 }
@@ -591,7 +591,7 @@ footer {
 
 /* Page header (for inner pages) */
 .page-header {
-  padding-top: clamp(120px, 15vh, 180px);
+  padding-top: clamp(80px, 10vh, 140px);
   padding-bottom: clamp(60px, 8vh, 100px);
 }
 
