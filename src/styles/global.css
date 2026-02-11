@@ -34,12 +34,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  text-shadow: none;
+  text-shadow: 0 0 1px rgba(0, 255, 65, 0.25);
 }
 
-/* Glow only on display elements, never body text */
+/* Strong glow on display elements */
 h1, h2, h3, .proof-number, .proof-value, .status-card .value, .t-val, .t-ok {
   text-shadow: var(--glow-strong);
+}
+
+/* Medium glow on section intros and narrative */
+.section-intro, .narrative-text p, .hero-sub {
+  text-shadow: 0 0 4px rgba(0, 255, 65, 0.3), 0 0 12px rgba(0, 255, 65, 0.08);
 }
 
 /* CRT Flicker — calibrated (AESTHETE Pass 3-4: 0.96-1.0 range, scoped to hero/terminal) */
@@ -54,7 +59,7 @@ h1, h2, h3, .proof-number, .proof-value, .status-card .value, .t-val, .t-ok {
   97.6% { opacity: 1; }
 }
 
-/* Scanlines — calibrated (AESTHETE: 0.08, wider gap) */
+/* Scanlines — balanced: visible texture without hurting readability */
 .scanlines::after {
   content: '';
   position: fixed;
@@ -62,22 +67,22 @@ h1, h2, h3, .proof-number, .proof-value, .status-card .value, .t-val, .t-ok {
   pointer-events: none;
   background: repeating-linear-gradient(
     0deg,
-    rgba(0, 0, 0, 0.06) 0px,
-    rgba(0, 0, 0, 0.06) 1px,
+    rgba(0, 0, 0, 0.08) 0px,
+    rgba(0, 0, 0, 0.08) 1px,
     transparent 1px,
-    transparent 4px
+    transparent 3px
   );
   z-index: 9998;
-  opacity: 0.08;
+  opacity: 0.18;
 }
 
-/* Vignette — softened on mobile */
+/* Vignette — CRT depth */
 .vignette::before {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.55) 100%);
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.6) 100%);
   z-index: 9997;
 }
 
@@ -1152,7 +1157,10 @@ h2 em { font-size: 0.85em; font-style: normal; color: var(--accent); text-shadow
   .sticky-cta { display: none; }
 }
 
-/* Scope flicker to hero/terminal only, not body */
-.hero, .terminal-block {
+/* Subtle flicker on body, stronger on hero */
+body {
   animation: flicker 8s infinite;
+}
+.hero, .terminal-block {
+  animation: flicker 6s infinite;
 }
