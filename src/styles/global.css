@@ -59,20 +59,24 @@ h1, h2, h3, .proof-number, .proof-value, .status-card .value, .t-val, .t-ok {
   97.6% { opacity: 1; }
 }
 
-/* Scanlines — real CRT texture via image overlay */
+/* Scanlines — CSS gradient (proven approach, cranked up) */
 .scanlines::after {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
-  background-image: url('/scanlines.png');
-  background-repeat: repeat;
-  background-size: 1px 4px;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
   z-index: 9998;
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
-/* Phosphor noise — colored grain */
+/* Phosphor noise — colored grain overlay */
 .scanlines::before {
   content: '';
   position: fixed;
@@ -82,7 +86,7 @@ h1, h2, h3, .proof-number, .proof-value, .status-card .value, .t-val, .t-ok {
   background-repeat: repeat;
   background-size: 128px 128px;
   z-index: 9996;
-  opacity: 0.35;
+  opacity: 0.15;
   animation: grainShift 0.5s steps(3) infinite;
 }
 
@@ -96,13 +100,13 @@ h1, h2, h3, .proof-number, .proof-value, .status-card .value, .t-val, .t-ok {
   z-index: 9997;
 }
 
-/* Phosphor glow — subtle color bleed from content area */
+/* Phosphor glow — subtle ambient bleed */
 body::after {
   content: '';
   position: fixed;
   top: 10%; left: 15%; right: 15%; bottom: 10%;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, rgba(200, 255, 0, 0.015) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(200, 255, 0, 0.02) 0%, transparent 70%);
   z-index: 1;
 }
 
