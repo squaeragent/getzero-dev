@@ -259,79 +259,98 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
 
 <script>
   (function() {
-    const canvas = document.getElementById('intelligenceSphere') as HTMLCanvasElement;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
-    const container = canvas.parentElement!;
+    try {
+      var canvas = document.getElementById('intelligenceSphere');
+      if (!canvas || !(canvas instanceof HTMLCanvasElement)) return;
+      var ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      var container = canvas.parentElement;
+      if (!container) return;
 
-    function resize() {
-      const w = container.clientWidth;
-      const h = parseInt(getComputedStyle(canvas).height);
-      canvas.width = w * 2;
-      canvas.height = h * 2;
-      ctx.setTransform(2, 0, 0, 2, 0, 0);
+      function getH() {
+        return window.innerWidth >= 640 ? 250 : 180;
+      }
+
+      function resize() {
+        var w = container.clientWidth || 300;
+        var h = getH();
+        canvas.style.height = h + 'px';
+        canvas.width = w * 2;
+        canvas.height = h * 2;
+        ctx.setTransform(2, 0, 0, 2, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      var N = 200;
+      var points = [];
+      var golden = Math.PI * (3 - Math.sqrt(5));
+      for (var i = 0; i < N; i++) {
+        var y = 1 - (i / (N - 1)) * 2;
+        points.push({ phi: Math.acos(y), theta: golden * i, digit: Math.floor(Math.random() * 10) });
+      }
+
+      setInterval(function() {
+        for (var i = 0; i < 10; i++) points[Math.floor(Math.random() * N)].digit = Math.floor(Math.random() * 10);
+      }, 2000);
+
+      var rotation = 0;
+      function draw() {
+        try {
+          var w = canvas.width / 2, h = canvas.height / 2;
+          if (w <= 0 || h <= 0) { requestAnimationFrame(draw); return; }
+          var cxp = w / 2, cyp = h / 2;
+          var radius = Math.min(w, h) * 0.35;
+
+          ctx.clearRect(0, 0, w, h);
+
+          // Glow
+          var grd = ctx.createRadialGradient(cxp, cyp, radius * 0.3, cxp, cyp, radius * 1.5);
+          grd.addColorStop(0, 'rgba(200,255,0,0.06)');
+          grd.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = grd;
+          ctx.fillRect(0, 0, w, h);
+
+          // Neural pathway lines to corners
+          ctx.strokeStyle = 'rgba(200,255,0,0.07)';
+          ctx.lineWidth = 1;
+          var corners = [[0,0],[w,0],[0,h],[w,h]];
+          for (var ci = 0; ci < corners.length; ci++) {
+            ctx.beginPath(); ctx.moveTo(cxp, cyp); ctx.lineTo(corners[ci][0], corners[ci][1]); ctx.stroke();
+          }
+
+          // Project and sort by depth
+          var projected = [];
+          for (var pi = 0; pi < points.length; pi++) {
+            var p = points[pi];
+            var sp = Math.sin(p.phi), cp = Math.cos(p.phi);
+            var x = radius * sp * Math.cos(p.theta + rotation);
+            var py = radius * cp;
+            var z = radius * sp * Math.sin(p.theta + rotation);
+            var depth = (z + radius) / (2 * radius);
+            projected.push({ x: cxp + x, y: cyp + py, z: z, depth: depth, digit: p.digit });
+          }
+          projected.sort(function(a, b) { return a.z - b.z; });
+
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          for (var di = 0; di < projected.length; di++) {
+            var pt = projected[di];
+            var size = 6 + pt.depth * 6;
+            var alpha = 0.08 + pt.depth * 0.92;
+            ctx.font = size + "px 'JetBrains Mono',monospace";
+            ctx.fillStyle = 'rgba(200,255,0,' + alpha + ')';
+            ctx.fillText(String(pt.digit), pt.x, pt.y);
+          }
+
+          rotation += Math.PI * 2 / 20 / 60;
+        } catch(e) {}
+        requestAnimationFrame(draw);
+      }
+      draw();
+    } catch(e) {
+      console.warn('Sphere init error:', e);
     }
-    resize();
-    window.addEventListener('resize', resize);
-
-    const N = 200;
-    const points: {phi:number;theta:number;digit:number}[] = [];
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < N; i++) {
-      const y = 1 - (i / (N - 1)) * 2;
-      points.push({ phi: Math.acos(y), theta: golden * i, digit: Math.floor(Math.random() * 10) });
-    }
-
-    setInterval(() => {
-      for (let i = 0; i < 10; i++) points[Math.floor(Math.random() * N)].digit = Math.floor(Math.random() * 10);
-    }, 2000);
-
-    let rotation = 0;
-    function draw() {
-      const w = canvas.width / 2, h = canvas.height / 2;
-      const cx = w / 2, cy = h / 2;
-      const radius = Math.min(w, h) * 0.35;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // Glow
-      const grd = ctx.createRadialGradient(cx, cy, radius * 0.3, cx, cy, radius * 1.5);
-      grd.addColorStop(0, 'rgba(200,255,0,0.06)');
-      grd.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = grd;
-      ctx.fillRect(0, 0, w, h);
-
-      // Neural pathway lines to corners
-      ctx.strokeStyle = 'rgba(200,255,0,0.07)';
-      ctx.lineWidth = 1;
-      [[0,0],[w,0],[0,h],[w,h]].forEach(c => {
-        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(c[0], c[1]); ctx.stroke();
-      });
-
-      // Project and sort by depth
-      const projected = points.map(p => {
-        const sp = Math.sin(p.phi), cp = Math.cos(p.phi);
-        const x = radius * sp * Math.cos(p.theta + rotation);
-        const y = radius * cp;
-        const z = radius * sp * Math.sin(p.theta + rotation);
-        const depth = (z + radius) / (2 * radius);
-        return { x: cx + x, y: cy + y, z, depth, digit: p.digit };
-      }).sort((a, b) => a.z - b.z);
-
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      projected.forEach(p => {
-        const size = 6 + p.depth * 6;
-        const alpha = 0.08 + p.depth * 0.92;
-        ctx.font = `${size}px 'JetBrains Mono',monospace`;
-        ctx.fillStyle = `rgba(200,255,0,${alpha})`;
-        ctx.fillText(String(p.digit), p.x, p.y);
-      });
-
-      rotation += Math.PI * 2 / 20 / 60;
-      requestAnimationFrame(draw);
-    }
-    draw();
   })();
 </script>
 
