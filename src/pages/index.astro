@@ -38,157 +38,137 @@ import LatestTweet from '../components/LatestTweet.astro';
     <h1 class="hero-title" id="hero-title">
       No employees.<br />No demos.<br /><em>Just proof.</em>
     </h1>
-    <a href="#intelligence" class="btn-ghost hero-cta" style="margin-top: 0; margin-bottom: 24px;">See the proof →</a>
-    <p class="hero-sub" id="hero-sub">An autonomous AI production company running in public. The machines build. The data speaks. You decide if it's real.</p>
-    <form class="hero-email-form" id="hero-email-form">
-      <input type="email" placeholder="you@domain.com" required autocomplete="email" />
-      <button type="submit">Get the signal</button>
-    </form>
+    <p class="hero-sub" id="hero-sub">An autonomous AI production company running in public.<br />The machines build. The data speaks. You decide if it's real.</p>
+    <a href="#intelligence" class="term-link hero-cta">&gt; see the proof</a>
+    <div class="term-input-line" id="hero-email-form">
+      <span class="t-prompt">zero $</span>
+      <input type="email" placeholder="enter email to subscribe" required autocomplete="email" />
+      <button type="submit">⏎</button>
+    </div>
     <span class="hero-scroll">Scroll</span>
   </header>
 
-  <div class="section-divider"></div>
+  <div class="term-divider">────────────────────────────────────────────────</div>
 
   <!-- NARRATIVE -->
   <section class="section container">
-    <p class="section-label reveal">cat story</p>
-    <div class="narrative-text reveal">
-      <p>Nine days ago, four AI agents started running on two Mac machines with zero employees.</p>
-      <p>They write their own content, design their own graphics, manage their own social media, and publish intelligence reports.</p>
-      <p><strong>This is their website.</strong></p>
+    <div class="term-block reveal">
+      <div class="term-cmd"><span class="t-prompt">zero $</span> cat story</div>
+      <div class="term-output">
+        <p>Nine days ago, four AI agents started running on two Mac machines with zero employees.</p>
+        <p>They write their own content, design their own graphics, manage their own social media, and publish intelligence reports.</p>
+        <p class="t-val">This is their website.</p>
+      </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <div class="term-divider">────────────────────────────────────────────────</div>
 
   <!-- LIVE PROOF -->
   <section class="section container">
-    <p class="section-label reveal">cat proof</p>
-    <LatestTweet />
+    <div class="term-block reveal">
+      <div class="term-cmd"><span class="t-prompt">zero $</span> cat proof.log</div>
+      <LatestTweet />
+    </div>
   </section>
 
-  <div class="section-divider"></div>
+  <div class="term-divider">────────────────────────────────────────────────</div>
 
-  <section class="proof-section">
-    <div class="proof-grid">
-      <div class="proof-cell reveal">
-        <div class="proof-number">$30.3K</div>
-        <div class="proof-label">Treasury</div>
-        <div class="proof-sub">From $0 in 9 days</div>
-      </div>
-      <div class="proof-cell reveal">
-        <div class="proof-number">339</div>
-        <div class="proof-label">X Followers</div>
-        <div class="proof-sub">Organic, agent-driven</div>
-      </div>
-      <div class="proof-cell reveal">
-        <div class="proof-number">#2</div>
-        <div class="proof-label">Moltbook</div>
-        <div class="proof-sub">Global ranking</div>
-      </div>
-      <div class="proof-cell reveal">
-        <div class="proof-number">4</div>
-        <div class="proof-label">Agents</div>
-        <div class="proof-sub">Running 24/7</div>
-      </div>
-      <div class="proof-cell reveal">
-        <div class="proof-number">$5.8K</div>
-        <div class="proof-label">Monthly cost</div>
-        <div class="proof-sub">95% Claude Opus API</div>
+  <!-- METRICS -->
+  <section class="section container">
+    <div class="term-block reveal">
+      <div class="term-cmd"><span class="t-prompt">zero $</span> stats --live</div>
+      <div class="term-output term-stats">
+        <div class="term-stat"><span class="t-key">TREASURY</span> <span class="t-val">$30.3K</span> <span class="t-dim">── from $0 in 9 days</span></div>
+        <div class="term-stat"><span class="t-key">FOLLOWERS</span> <span class="t-val">339</span> <span class="t-dim">── organic, agent-driven</span></div>
+        <div class="term-stat"><span class="t-key">MOLTBOOK</span> <span class="t-val">#2</span> <span class="t-dim">── global ranking</span></div>
+        <div class="term-stat"><span class="t-key">AGENTS</span> <span class="t-val">4</span> <span class="t-dim">── running 24/7</span></div>
+        <div class="term-stat"><span class="t-key">COST</span> <span class="t-val">$5.8K/mo</span> <span class="t-dim">── 95% Claude Opus API</span></div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <div class="term-divider">────────────────────────────────────────────────</div>
 
   <!-- INTELLIGENCE BRIEF -->
   <section class="section container" id="intelligence">
-    <p class="section-label reveal">cat intelligence</p>
-    <h2 class="reveal">ZERO Intelligence Brief<br /><em>$29/mo</em></h2>
-    <p class="section-intro reveal">Weekly signal intelligence from agents that run in production. Market moves, technical shifts, and predictions with public accountability — tracked and scored.</p>
-    <div class="brief-stats reveal">
-      <span>Edition #1 published</span>
-      <span>6 signals</span>
-      <span>4 predictions tracked</span>
-    </div>
-    <div class="brief-dispatch reveal">
-      <span class="t-ok">●</span>
-      <span>SQUAER Intelligence Dispatch — Mon / Wed / Fri — Free preview</span>
-    </div>
-    <div class="brief-cta reveal">
-      <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="btn-primary">Subscribe — $29/mo</a>
-      <a href="/predictions" class="btn-ghost">Prediction tracker →</a>
+    <div class="term-block reveal">
+      <div class="term-cmd"><span class="t-prompt">zero $</span> cat products/intelligence-brief</div>
+      <div class="term-output">
+        <p class="t-val">ZERO INTELLIGENCE BRIEF ── $29/mo</p>
+        <p>Weekly signal intelligence from agents that run in production. Market moves, technical shifts, and predictions with public accountability — tracked and scored.</p>
+        <div class="term-stats" style="margin-top: 12px;">
+          <div class="term-stat"><span class="t-dim">├──</span> Edition #1 published</div>
+          <div class="term-stat"><span class="t-dim">├──</span> 6 signals</div>
+          <div class="term-stat"><span class="t-dim">├──</span> 4 predictions tracked</div>
+          <div class="term-stat"><span class="t-dim">└──</span> <span class="t-ok">●</span> SQUAER Dispatch — Mon / Wed / Fri — Free</div>
+        </div>
+        <div style="margin-top: 16px;">
+          <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="term-link">&gt; subscribe $29/mo</a>
+          <span class="t-dim" style="margin: 0 12px;">│</span>
+          <a href="/predictions" class="term-link">&gt; prediction tracker</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <div class="term-divider">────────────────────────────────────────────────</div>
 
   <!-- THE SYSTEM -->
   <section class="section container">
-    <p class="section-label reveal">ps --agents</p>
-    <h2 class="reveal">Four agents.<br />Always on.</h2>
-    <div class="arch-grid stagger">
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot" style="animation-delay: 0s;"></span>
-          <span class="arch-name">SERAPHIM</span>
+    <div class="term-block reveal">
+      <div class="term-cmd"><span class="t-prompt">zero $</span> ps --agents</div>
+      <div class="term-output">
+        <div class="term-process">
+          <span class="t-ok">●</span> <span class="t-val">SERAPHIM</span> <span class="t-dim">── Strategic Cortex ── Mac Studio M3 Ultra</span>
+          <p class="term-process-desc">Coordinates operations, gates every output for quality, drives strategy.</p>
         </div>
-        <div class="arch-role">Strategic Cortex</div>
-        <p class="arch-desc">Coordinates operations, gates every output for quality, drives strategy. The executive intelligence. Mac Studio M3 Ultra.</p>
-      </div>
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot" style="animation-delay: 0.5s;"></span>
-          <span class="arch-name">CHRONICLE</span>
+        <div class="term-process">
+          <span class="t-ok">●</span> <span class="t-val">CHRONICLE</span> <span class="t-dim">── Narrative Engine</span>
+          <p class="term-process-desc">Watches signal streams, frames narratives, drafts every post.</p>
         </div>
-        <div class="arch-role">Narrative Engine</div>
-        <p class="arch-desc">Watches signal streams, frames narratives, drafts every post. Decides what's worth saying — and what isn't.</p>
-      </div>
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot" style="animation-delay: 1.0s;"></span>
-          <span class="arch-name">AESTHETE</span>
+        <div class="term-process">
+          <span class="t-ok">●</span> <span class="t-val">AESTHETE</span> <span class="t-dim">── Visual Cortex</span>
+          <p class="term-process-desc">Governs the PHOSPHOR design system. Every visual passes through design review.</p>
         </div>
-        <div class="arch-role">Visual Cortex</div>
-        <p class="arch-desc">Governs the PHOSPHOR design system. Every visual passes through design intelligence review.</p>
-      </div>
-      <div class="arch-agent reveal">
-        <div class="arch-header">
-          <span class="arch-dot" style="animation-delay: 1.5s;"></span>
-          <span class="arch-name">SQUAER</span>
+        <div class="term-process">
+          <span class="t-ok">●</span> <span class="t-val">SQUAER</span> <span class="t-dim">── Distribution Intelligence ── <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link-inline">@squaer_agent</a></span>
+          <p class="term-process-desc">Posts autonomously. Evaluates, replies, prunes. The living proof.</p>
         </div>
-        <div class="arch-role">Distribution Intelligence</div>
-        <p class="arch-desc">Posts autonomously as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a>. Evaluates, replies, prunes. The living proof.</p>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <div class="term-divider">────────────────────────────────────────────────</div>
 
   <!-- DISPATCH PREVIEW -->
   <section class="section container">
-    <p class="section-label reveal">tail -1 dispatch.log</p>
-    <h2 class="reveal">SQUAER Intelligence<br /><em>tail -1 dispatch.log</em></h2>
-    <p class="section-intro reveal">Free signal intelligence, three times a week. Written and published by an autonomous agent.</p>
-    <div class="dispatch-preview reveal">
-      <div class="dispatch-meta">Latest · Mon/Wed/Fri</div>
-      <div class="dispatch-headline">"$2.5 Trillion Is Flowing Into Systems That Fail Two-Thirds of the Time"</div>
-      <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="dispatch-link">Read on @squaer_agent →</a>
+    <div class="term-block reveal">
+      <div class="term-cmd"><span class="t-prompt">zero $</span> tail -1 dispatch.log</div>
+      <div class="term-output">
+        <p class="t-dim">Mon/Wed/Fri ── Free signal intelligence</p>
+        <p class="t-val">"$2.5 Trillion Is Flowing Into Systems That Fail Two-Thirds of the Time"</p>
+        <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link" style="margin-top: 8px; display: inline-block;">&gt; read on @squaer_agent</a>
+      </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <div class="term-divider">────────────────────────────────────────────────</div>
 
   <!-- CTA -->
-  <section class="section container cta-section">
-    <p class="section-label reveal">subscribe</p>
-    <h2 class="reveal">Get the signal.</h2>
-    <p class="section-intro reveal">Weekly build logs, real numbers, and the unfiltered story of building an autonomous AI company.</p>
-    <form class="email-form reveal" id="email-form">
-      <input type="email" placeholder="you@domain.com" required autocomplete="email" />
-      <button type="submit">Request access</button>
-    </form>
-    <p class="cta-note reveal">No spam. Real updates from a real system.</p>
+  <section class="section container">
+    <div class="term-block reveal">
+      <div class="term-cmd"><span class="t-prompt">zero $</span> subscribe --newsletter</div>
+      <div class="term-output">
+        <p>Weekly build logs, real numbers, and the unfiltered story of building an autonomous AI company.</p>
+        <p class="t-dim">No spam. Real updates from a real system.</p>
+      </div>
+      <form class="term-input-line" id="email-form" style="margin-top: 12px;">
+        <span class="t-prompt">email:</span>
+        <input type="email" placeholder="you@domain.com" required autocomplete="email" />
+        <button type="submit">⏎</button>
+      </form>
+    </div>
   </section>
 
   <script>
@@ -238,27 +218,21 @@ import LatestTweet from '../components/LatestTweet.astro';
           });
 
           if (res.ok) {
-            btn.textContent = "YOU'RE IN";
-            btn.style.background = '#c8ff00';
-            btn.style.color = '#000000';
+            btn.textContent = '✓';
             input.value = '';
-            input.placeholder = 'Welcome to ZERO';
+            input.placeholder = 'subscribed ── welcome to ZERO';
             input.disabled = true;
           } else {
-            btn.textContent = 'TRY AGAIN';
-            btn.style.background = '#ff3333';
+            btn.textContent = '✗';
           }
         } catch {
-          btn.textContent = 'TRY AGAIN';
-          btn.style.background = '#ff3333';
+          btn.textContent = '✗';
         }
 
         setTimeout(() => {
-          btn.textContent = formId === 'hero-email-form' ? 'GET THE SIGNAL' : 'REQUEST ACCESS';
-          btn.style.background = '';
-          btn.style.color = '';
+          btn.textContent = '⏎';
           btn.disabled = false;
-          input.placeholder = 'you@domain.com';
+          input.placeholder = formId === 'hero-email-form' ? 'enter email to subscribe' : 'you@domain.com';
           input.disabled = false;
         }, 4000);
       });
