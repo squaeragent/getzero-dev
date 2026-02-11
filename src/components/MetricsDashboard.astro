@@ -31,7 +31,7 @@
   </div>
   <div class="status-card reveal">
     <div class="label">X FOLLOWERS</div>
-    <div class="value crt-num" data-key="followers">---</div>
+    <div class="value crt-num" data-key="followers">---<svg class="spark" width="50" height="16" viewBox="0 0 50 16"><polyline points="0,14 6,12 12,11 18,10 24,9 30,7 36,5 42,3 50,2" fill="none" stroke="#c8ff00" stroke-width="1.2"/></svg></div>
     <div class="sub crt-sub" data-key="followers_handle" data-text="{v}">---</div>
   </div>
   <div class="status-card reveal">
@@ -41,17 +41,17 @@
   </div>
   <div class="status-card reveal">
     <div class="label">REVENUE</div>
-    <div class="value crt-num" data-key="revenue" data-prefix="$" id="revenue-val">---</div>
+    <div class="value crt-num" data-key="revenue" data-prefix="$" id="revenue-val">---<svg class="spark" width="50" height="16" viewBox="0 0 50 16"><polyline points="0,12 6,12 12,11 18,12 24,11 30,4 36,10 42,11 50,10" fill="none" stroke="#c8ff00" stroke-width="1.2"/></svg></div>
     <div class="sub crt-sub" data-key="revenue_label" data-text="{v}">---</div>
   </div>
   <div class="status-card reveal">
     <div class="label">CONTENT PIECES</div>
-    <div class="value crt-num" data-key="content_pieces">---</div>
+    <div class="value crt-num" data-key="content_pieces">---<svg class="spark" width="50" height="16" viewBox="0 0 50 16"><polyline points="0,10 6,8 12,11 18,6 24,9 30,5 36,8 42,4 50,6" fill="none" stroke="#c8ff00" stroke-width="1.2"/></svg></div>
     <div class="sub crt-sub" data-key="avg_quality" data-text="Avg quality: {v}">---</div>
   </div>
   <div class="status-card reveal">
     <div class="label">SUBSCRIBERS</div>
-    <div class="value status-online crt-num" data-key="subscribers">---</div>
+    <div class="value status-online crt-num" data-key="subscribers">---<svg class="spark" width="50" height="16" viewBox="0 0 50 16"><polyline points="0,14 6,13 12,12 18,11 24,10 30,8 36,6 42,4 50,2" fill="none" stroke="#c8ff00" stroke-width="1.2"/></svg></div>
     <div class="sub crt-sub" data-key="dispatches" data-text="{v} dispatch published">---</div>
   </div>
   <div class="status-card reveal">
@@ -69,6 +69,11 @@
 <div class="metrics-updated" id="metrics-updated"></div>
 
 <style>
+  svg.spark {
+    vertical-align: middle;
+    margin-left: 6px;
+    opacity: 0.8;
+  }
   .crt-num, .crt-date {
     font-variant-numeric: tabular-nums;
     transition: text-shadow 0.3s ease;
