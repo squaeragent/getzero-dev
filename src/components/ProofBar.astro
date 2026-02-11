@@ -1,78 +1,53 @@
 ---
-// Live Proof Bar — reads from site-data.json at build time
-// Falls back to static values if data unavailable
-
-let data: any = null;
-try {
-  const fs = await import('node:fs');
-  const path = await import('node:path');
-  const filePath = path.default.join(process.cwd(), 'public/data/site-data.json');
-  const raw = fs.default.readFileSync(filePath, 'utf-8');
-  data = JSON.parse(raw);
-} catch {
-  // fallback
-}
-
-const status = data?.system_status || 'active';
-const lastActivity = data?.last_activity ? new Date(data.last_activity) : null;
-const dayNumber = data?.day_number || 9;
-const treasury = data?.treasury_usd || 30300;
-const agents = data?.agents || 4;
-const specs = data?.specs || 62;
-
-// Calculate "X min ago"
-let agoText = '—';
-if (lastActivity) {
-  const now = new Date();
-  const diffMs = now.getTime() - lastActivity.getTime();
-  const diffMin = Math.floor(diffMs / 60000);
-  if (diffMin < 60) agoText = `${diffMin}m ago`;
-  else if (diffMin < 1440) agoText = `${Math.floor(diffMin / 60)}h ago`;
-  else agoText = `${Math.floor(diffMin / 1440)}d ago`;
-}
-
-// Format treasury
-const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$${treasury}`;
+// Live Proof Bar — key metrics, single scrollable line
 ---
 
 <div class="live-proof-bar">
   <div class="live-proof-inner">
     <span class="live-proof-item">
       <span class="live-dot"></span>
-      System {status}
+      Day 9
     </span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">Last action: {agoText}</span>
+    <span class="live-proof-item">4 agents</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">Day {dayNumber}</span>
+    <span class="live-proof-item">$30.3K treasury</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">{treasuryStr} treasury</span>
+    <span class="live-proof-item live-revenue">$29 revenue</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">{agents} agents · {specs} specs</span>
+    <span class="live-proof-item">339 followers</span>
+    <span class="live-proof-sep">·</span>
+    <span class="live-proof-item">$5.8K/mo cost</span>
   </div>
 </div>
 
 <style>
   .live-proof-bar {
     position: fixed;
-    top: 57px; /* below nav */
+    top: 57px;
     left: 0;
     right: 0;
     z-index: 99;
-    background: var(--surface);
+    background: rgba(10, 10, 10, 0.85);
     border-bottom: 1px solid var(--border);
-    font-family: var(--font-mono);
+    font-family: var(--font-terminal);
     font-size: 0.75rem;
-    font-weight: 400;
-    letter-spacing: 0.04em;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     color: var(--fg-dim);
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .live-proof-bar::-webkit-scrollbar {
+    display: none;
   }
   .live-proof-inner {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 8px clamp(24px, 5vw, 80px);
+    padding: 10px clamp(24px, 5vw, 80px);
     display: flex;
     align-items: center;
     gap: 0;
@@ -82,17 +57,24 @@ const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$$
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    flex-shrink: 0;
+  }
+  .live-revenue {
+    color: var(--fg);
+    text-shadow: 0 0 6px rgba(0, 255, 65, 0.5);
   }
   .live-proof-sep {
-    margin: 0 10px;
+    margin: 0 12px;
     color: var(--border);
+    flex-shrink: 0;
   }
   .live-dot {
     width: 6px;
     height: 6px;
-    background: var(--accent);
+    background: var(--fg);
     display: inline-block;
     animation: pulse-dot 2s ease-in-out infinite;
+    box-shadow: 0 0 4px rgba(0, 255, 65, 0.6);
   }
   @keyframes pulse-dot {
     0%, 100% { opacity: 1; }
@@ -105,10 +87,7 @@ const treasuryStr = treasury >= 1000 ? `$${(treasury / 1000).toFixed(1)}K` : `$$
     }
     .live-proof-inner {
       font-size: 0.6875rem;
-      padding: 7px 20px;
-      flex-wrap: wrap;
-      white-space: normal;
-      line-height: 1.7;
+      padding: 8px 20px;
     }
   }
 </style>
