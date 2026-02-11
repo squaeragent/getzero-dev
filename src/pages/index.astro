@@ -19,28 +19,33 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
 
 <BaseLayout title="ZERO OS — Terminal" current="/">
   <div class="terminal-grid">
-    <!-- ═══ LEFT TOP: ASCII GLYPH + IDENTITY ═══ -->
-    <div class="panel glyph-panel">
-      <pre class="ascii-glyph ascii-glyph-full boot-line" data-delay="0">{`╔══════════════════════════════════╗
-║                                  ║
-║  ████████ ████████ ████████      ║
-║       ██  ██       ██    ██      ║
-║     ██   ██████   ████████      ║
-║   ██    ██       ██  ██         ║
-║  ████████ ████████ ██    ██      ║
-║                                  ║
-║  ░░░ AUTONOMOUS  AI  SYSTEM ░░░  ║
-╚══════════════════════════════════╝`}</pre>
-      <pre class="ascii-glyph ascii-glyph-compact boot-line" data-delay="0">{`╔════════════════════════╗
-║  ZERO OS               ║
-║  AUTONOMOUS AI SYSTEM  ║
-║  ⟨◇⟩ v0.9.1            ║
-╚════════════════════════╝`}</pre>
-      <div class="glyph-tagline">
-        <div class="boot-line" data-delay="400"><strong>Four AI agents. Zero employees. One system.</strong></div>
-        <div class="boot-line" data-delay="800">Built in public. Running in production.</div>
-        <div class="boot-line" data-delay="1200"><span style="color: var(--amber); text-shadow: 0 0 4px var(--amber-glow);">Day {m.day} of operation.</span></div>
-        <div class="boot-line boot-cursor" data-delay="1600"><span class="cursor-blink">█</span></div>
+    <!-- ═══ LEFT TOP: BOOT SEQUENCE ═══ -->
+    <div class="panel glyph-panel" id="boot-panel">
+      <div class="boot-seq">
+        <div class="bl" data-d="0"><span class="dim">BIOS POST ............</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="200"><span class="dim">MEM TEST: 192GB</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="400"><span class="dim">GPU: M3 ULTRA 76-CORE</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="600">&nbsp;</div>
+        <div class="bl" data-d="700"><span class="boot-title">ZERO OS</span> <span class="dim">v0.9.1</span></div>
+        <div class="bl" data-d="900"><span class="dim">⟨◇⟩ AUTONOMOUS AI SYSTEM</span></div>
+        <div class="bl" data-d="1100">&nbsp;</div>
+        <div class="bl" data-d="1200"><span class="dim">&gt;</span> MOUNT /cluster/memory <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="1400"><span class="dim">&gt;</span> LOAD SPECIFICATIONS ({m.specs}) <span class="boot-dots">.....</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="1600"><span class="dim">&gt;</span> INIT COGNITIVE MESH <span class="boot-dots">.........</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="1800"><span class="dim">&gt;</span> START OLLAMA ENGINE <span class="boot-dots">.........</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="2000"><span class="dim">&gt;</span> CONNECT MACHINES ({m.machines}) <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="2200">&nbsp;</div>
+        <div class="bl" data-d="2300"><span class="amber-g">AGENT BOOT SEQUENCE:</span></div>
+        <div class="bl" data-d="2500">&nbsp; 001 SERAPHIM <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="2700">&nbsp; 002 CHRONICLE <span class="boot-dots">...</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="2900">&nbsp; 003 AESTHETE <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="3100">&nbsp; 004 SQUAER <span class="boot-dots">......</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="3400">&nbsp;</div>
+        <div class="bl" data-d="3500"><span class="boot-rule">────────────────────────────────</span></div>
+        <div class="bl" data-d="3700"><strong style="color: var(--text);">Four AI agents. Zero employees. One system.</strong></div>
+        <div class="bl" data-d="3900"><span class="dim">Built in public. Running in production.</span></div>
+        <div class="bl" data-d="4100"><span class="amber-g">Day {m.day} of operation.</span></div>
+        <div class="bl" data-d="4300"><span class="cursor-blink">█</span></div>
       </div>
     </div>
 
@@ -215,25 +220,65 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
 </script>
 
 <style>
-  .boot-line {
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+  /* Boot sequence */
+  .boot-seq {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    line-height: 1.5;
   }
-  .boot-line.visible {
+  .bl {
+    opacity: 0;
+    transform: translateY(3px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .bl.on {
     opacity: 1;
     transform: translateY(0);
+  }
+  .phosphor-g {
+    color: var(--phosphor);
+    text-shadow: 0 0 6px var(--phosphor-glow);
+  }
+  .amber-g {
+    color: var(--amber);
+    text-shadow: 0 0 4px var(--amber-glow);
+  }
+  .boot-title {
+    color: var(--phosphor);
+    text-shadow: 0 0 12px var(--phosphor-glow);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .boot-dots {
+    color: var(--text-dim);
+  }
+  .boot-rule {
+    color: var(--text-dim);
+  }
+
+  /* Screen flicker on boot */
+  #boot-panel {
+    animation: screenOn 0.3s ease-out;
+  }
+  @keyframes screenOn {
+    0% { opacity: 0; filter: brightness(3); }
+    30% { opacity: 1; filter: brightness(2); }
+    50% { opacity: 0.8; filter: brightness(1.5); }
+    100% { opacity: 1; filter: brightness(1); }
   }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const lines = document.querySelectorAll('.boot-line');
-    lines.forEach((line) => {
-      const delay = parseInt(line.getAttribute('data-delay') || '0', 10);
-      setTimeout(() => {
-        line.classList.add('visible');
-      }, delay);
-    });
+  document.addEventListener('DOMContentLoaded', function() {
+    var lines = document.querySelectorAll('.bl');
+    for (var i = 0; i < lines.length; i++) {
+      (function(el) {
+        var d = parseInt(el.getAttribute('data-d') || '0', 10);
+        setTimeout(function() { el.classList.add('on'); }, d);
+      })(lines[i]);
+    }
   });
 </script>
