@@ -26,7 +26,7 @@ html {
 
 body {
   font-family: var(--font-mono);
-  background: var(--bg);
+  background: #050505;
   color: var(--fg);
   font-size: 1rem;
   font-weight: 400;
@@ -34,7 +34,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  text-shadow: 0 0 1px rgba(200, 255, 0, 0.25);
+  text-shadow: 0 0 2px rgba(200, 255, 0, 0.4), 0 0 8px rgba(200, 255, 0, 0.08);
 }
 
 /* Strong glow on display elements */
@@ -59,39 +59,59 @@ h1, h2, h3, .proof-number, .proof-value, .status-card .value, .t-val, .t-ok {
   97.6% { opacity: 1; }
 }
 
-/* Scanlines — balanced: visible texture without hurting readability */
+/* Scanlines — real CRT texture via image overlay */
 .scanlines::after {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.08) 0px,
-    rgba(0, 0, 0, 0.08) 1px,
-    transparent 1px,
-    transparent 3px
-  );
+  background-image: url('/scanlines.png');
+  background-repeat: repeat;
+  background-size: 1px 4px;
   z-index: 9998;
-  opacity: 0.18;
+  opacity: 0.45;
 }
 
-/* Vignette — CRT depth */
+/* Phosphor noise — colored grain */
+.scanlines::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background-image: url('/noise.png');
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  z-index: 9996;
+  opacity: 0.35;
+  animation: grainShift 0.5s steps(3) infinite;
+}
+
+/* Vignette — heavy CRT barrel darkness */
 .vignette::before {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.6) 100%);
+  background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.85) 100%);
   z-index: 9997;
+}
+
+/* Phosphor glow — subtle color bleed from content area */
+body::after {
+  content: '';
+  position: fixed;
+  top: 10%; left: 15%; right: 15%; bottom: 10%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(200, 255, 0, 0.015) 0%, transparent 70%);
+  z-index: 1;
 }
 
 /* Grain — animated shimmer */
 @keyframes grainShift {
   0% { transform: translate(0, 0); }
-  25% { transform: translate(-3%, -3%); }
-  50% { transform: translate(2%, -1%); }
-  75% { transform: translate(-1%, 2%); }
+  25% { transform: translate(-2%, -2%); }
+  50% { transform: translate(1%, -1%); }
+  75% { transform: translate(-1%, 1%); }
   100% { transform: translate(0, 0); }
 }
 
@@ -101,7 +121,7 @@ h1, h2, h3, .proof-number, .proof-value, .status-card .value, .t-val, .t-ok {
   width: 110%;
   height: 110%;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: 0.06;
   z-index: 9999;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 512px 512px;
@@ -1233,9 +1253,9 @@ h2 em { font-size: 0.85em; font-style: normal; color: var(--accent); text-shadow
   .desktop-nav { display: none; }
   .status-grid { grid-template-columns: repeat(2, 1fr); }
 
-  /* Soften vignette on mobile */
+  /* Soften vignette slightly on mobile — still heavy */
   .vignette::before {
-    background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.45) 100%);
+    background: radial-gradient(ellipse at center, transparent 25%, rgba(0, 0, 0, 0.4) 65%, rgba(0, 0, 0, 0.75) 100%);
   }
 
   /* Bottom padding for bottom nav */
