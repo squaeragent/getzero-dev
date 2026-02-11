@@ -102,7 +102,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <span class="t-ok">●</span>
       <span>SQUAER Intelligence Dispatch — Mon / Wed / Fri — Free preview</span>
     </div>
-    <div class="reveal" style="margin-top: clamp(32px, 4vh, 48px); display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+    <div class="brief-cta reveal">
       <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="btn-primary">Subscribe — $29/mo</a>
       <a href="/predictions" class="btn-ghost">Prediction tracker →</a>
     </div>
@@ -200,16 +200,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         document.getElementById('hero-sub')?.classList.add('visible');
       }, 4200);
     }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     initTerminal();
 
