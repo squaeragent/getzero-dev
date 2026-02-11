@@ -55,12 +55,12 @@ const agents = [
 ┌──────┬────────────┬──────────────────────┬────────────┬──────────┐
 │ <span class="phosphor">PID</span>  │ <span class="phosphor">AGENT</span>      │ <span class="phosphor">ROLE</span>                 │ <span class="phosphor">HOST</span>       │ <span class="phosphor">STATUS</span>   │
 ├──────┼────────────┼──────────────────────┼────────────┼──────────┤
-{agents.map(a => `│  ${a.pid} │ ${a.name.padEnd(10)} │ ${a.role.padEnd(20)} │ ${a.host.padEnd(10)} │ <span class="phosphor">[ACTIVE]</span>  │\n`).join('')}└──────┴────────────┴──────────────────────┴────────────┴──────────┘
+<Fragment set:html={agents.map(a => `│  ${a.pid} │ ${a.name.padEnd(10)} │ ${a.role.padEnd(20)} │ ${a.host.padEnd(10)} │ <span class="phosphor">[ACTIVE]</span>  │\n`).join('')} />└──────┴────────────┴──────────────────────┴────────────┴──────────┘
 
   <span class="dim">{agents.length} processes running. 0 humans employed. uptime: ∞</span>
 
 ═══════════════════════════════════════════════════════════════════════════════
-{agents.map(a => `
+<Fragment set:html={agents.map(a => `
 <span class="phosphor">zero $</span> man zero-agent-${a.slug}
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -72,7 +72,7 @@ const agents = [
 │  <span class="dim">HOST: ${a.host.padEnd(14)}</span>  <span class="phosphor">STATUS: [ACTIVE]</span>                                  │
 │  <span class="amber">→ <a href="/agents/${a.slug}">/agents/${a.slug}</a></span>${' '.repeat(55 - a.slug.length)}│
 └─────────────────────────────────────────────────────────────────────────────┘
-`).join('')}
+`).join('')} />
 <span class="phosphor">zero $</span> <span class="dim blink">█</span>
 </pre>
 </BaseLayout>

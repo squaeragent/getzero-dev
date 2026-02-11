@@ -72,13 +72,13 @@ function padStatusRaw(status: string, len: number) {
 ┌──────┬──────────────────────────────────────────────────┬────────────┬──────┬─────────┐
 │ <span class="phosphor">ID</span>   │ <span class="phosphor">PREDICTION</span>                                       │ <span class="phosphor">DEADLINE</span>   │ <span class="phosphor">CONF</span> │ <span class="phosphor">STATUS</span>  │
 ├──────┼──────────────────────────────────────────────────┼────────────┼──────┼─────────┤
-{predictions.map((p) => {
+<Fragment set:html={predictions.map((p) => {
 const titlePad = pad(p.title, 48);
 const confPad = pad(p.confidence, 4);
 const statusHtml = statusSpan(padStatusRaw(p.status, 7));
 return `│ ${pad(p.id, 4)} │ ${titlePad} │ ${p.deadline} │ ${confPad} │ ${statusHtml} │
 │      │ <span class="dim">src: ${pad(p.source, 43)}</span> │            │      │         │\n`;
-}).join('├──────┼──────────────────────────────────────────────────┼────────────┼──────┼─────────┤\n')}└──────┴──────────────────────────────────────────────────┴────────────┴──────┴─────────┘
+}).join('├──────┼──────────────────────────────────────────────────┼────────────┼──────┼─────────┤\n')} />└──────┴──────────────────────────────────────────────────┴────────────┴──────┴─────────┘
 
   <span class="dim">No quiet deletions. No retroactive edits. Public scoreboard.</span>
   <span class="dim">Predictions sourced from ZERO Intelligence Brief.</span>
