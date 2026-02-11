@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZERO OS — Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--g:#00ff41;--a:#ffb000;--b:#00d4ff;--t:#e8e4df;--d:#5a5854;--bg:#000}
+body{background:var(--bg);color:var(--t);font-family:'JetBrains Mono',monospace;font-size:10px;overflow-x:hidden;min-height:100vh}
+.grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;padding:3px;position:relative}
+.panel{border:1px solid var(--g);padding:6px 8px;font-size:10px;background:rgba(0,255,65,0.02);position:relative;overflow:hidden;min-height:0}
+.panel h3{text-transform:uppercase;color:var(--g);font-size:11px;font-weight:500;border-bottom:1px solid rgba(0,255,65,0.3);padding-bottom:3px;margin-bottom:4px;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dim{color:var(--d)}.green{color:var(--g)}.amber{color:var(--a)}.blue{color:var(--b)}.bright{color:#fff}
+.bar{height:6px;background:rgba(0,255,65,0.15);border-radius:1px;margin:2px 0;overflow:hidden}
+.bar-fill{height:100%;border-radius:1px;transition:width 0.5s}
+.bar-green .bar-fill{background:var(--g)}.bar-amber .bar-fill{background:var(--a)}.bar-blue .bar-fill{background:var(--b)}
+.bar-red .bar-fill{background:#ff3333}
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s infinite;margin-right:4px;vertical-align:middle}
+.live-dot.amber{background:var(--a)}.live-dot.blue{background:var(--b)}.live-dot.red{background:#ff3333}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.signal-bars{display:inline-block;letter-spacing:1px;animation:sigAnim 2s infinite}
+@keyframes sigAnim{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
+svg.spark{vertical-align:middle}
+.ticker-wrap{grid-column:1/-1;overflow:hidden;border:1px solid var(--g);background:rgba(0,255,65,0.02);height:22px;display:flex;align-items:center}
+.ticker{display:inline-block;white-space:nowrap;animation:scroll 60s linear infinite;padding-left:100%}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+.ticker span{margin-right:40px;color:var(--g);font-size:10px}
+.ticker .amber{color:var(--a)}.ticker .blue{color:var(--b)}
+.sphere-container{grid-column:3/7;grid-row:3/8;position:relative;border:1px solid var(--g);box-shadow:0 0 60px rgba(0,255,65,0.15);background:#000;min-height:300px;z-index:1}
+#sphereCanvas{width:100%;height:100%;display:block}
+.flow{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.flow-stage{padding:1px 4px;border:1px solid;font-size:9px;border-radius:2px}
+.flow-arrow{color:var(--d)}
+.funnel-row{display:flex;align-items:center;gap:4px;margin:1px 0;font-size:9px}
+.funnel-bar{height:5px;background:var(--g);border-radius:1px}
+.product-ladder{display:flex;gap:3px;align-items:flex-end}
+.product-ladder div{background:rgba(0,255,65,0.15);border:1px solid var(--g);padding:2px 4px;font-size:8px;color:var(--g);text-align:center}
+.hour-bars{display:flex;gap:1px;align-items:flex-end;height:30px}
+.hour-bars div{width:3px;background:var(--g);border-radius:1px 1px 0 0;min-width:2px;flex:1}
+/* CRT effects */
+.scanlines{pointer-events:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}
+.vignette{pointer-events:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9998;background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.5) 100%)}
+/* Agent card */
+.agent-card .status-line{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.agent-card .detail{color:var(--d);font-size:9px;line-height:1.4}
+/* Mobile */
+@media(max-width:640px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .sphere-container{display:none}
+  .panel{font-size:9px}
+  .panel h3{font-size:10px}
+  .ticker{animation-duration:30s}
+  .sphere-container{grid-column:auto;grid-row:auto}
+  [style*="grid-column"]{grid-column:auto!important;grid-row:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div class="grid" id="grid">
+
+<!-- === ROW 1: TOP BANNER (A1-A8) === -->
+<div class="panel"><h3>⟨◇⟩ SYSTEM ID</h3><div class="green" style="font-size:12px;font-weight:700">ZERO OS <span class="dim">v0.9.1</span></div><div class="dim" style="margin-top:2px">AUTONOMOUS AI SYSTEM</div></div>
+
+<div class="panel"><h3>MISSION CLOCK</h3><div id="missionClock" class="green" style="font-size:13px;font-weight:700">000:00:00:00</div><div class="dim">Since Feb 3, 2026</div></div>
+
+<div class="panel"><h3>UTC CLOCK</h3><div id="utcClock" class="bright" style="font-size:13px;font-weight:700">00:00:00</div><div class="dim">Coordinated Universal Time</div></div>
+
+<div class="panel"><h3>LOCAL CLOCK</h3><div id="localClock" class="blue" style="font-size:13px;font-weight:700">00:00:00</div><div class="dim">BKK (ICT +7)</div></div>
+
+<div class="panel"><h3>SIGNAL STATUS</h3><div><span class="live-dot"></span><span class="green">ACTIVE</span></div><div class="green signal-bars" style="font-size:14px;letter-spacing:2px" id="sigBars">▁▃▅▇▅▃▁</div></div>
+
+<div class="panel"><h3>THREAT LEVEL</h3><div class="green" style="font-size:13px;font-weight:700">● GREEN</div><div class="dim">NO ACTIVE THREATS</div></div>
+
+<div class="panel"><h3>SYSTEM MODE</h3><div class="green" style="font-size:13px;font-weight:700">PRODUCTION</div><div class="dim">All systems nominal</div></div>
+
+<div class="panel"><h3>NETWORK HEALTH</h3><div style="font-size:9px"><span class="blue">Mac Studio</span> <span class="green">↔</span> <span class="blue">Mac Mini</span></div><div><span class="live-dot"></span><span class="green">CONNECTED</span></div></div>
+
+<!-- === ROW 2: FINANCIAL (B1-B8) === -->
+<div class="panel"><h3>TREASURY</h3><div class="amber" style="font-size:14px;font-weight:700">$30,300</div><div class="bar bar-amber"><div class="bar-fill" style="width:30.3%"></div></div><div class="dim">Goal: $100,000 (30.3%)</div></div>
+
+<div class="panel"><h3>REVENUE</h3><div class="amber" style="font-size:14px;font-weight:700">$29</div><div class="dim">Target: $1,000/mo</div><div class="bar bar-amber"><div class="bar-fill" style="width:2.9%"></div></div><div class="dim">2.9% to target</div></div>
+
+<div class="panel"><h3>BURN RATE</h3><div class="amber" style="font-size:12px;font-weight:700">$5,800<span class="dim">/mo</span></div><div class="dim" style="font-size:9px;line-height:1.5">API: $5,600<br>Infra: $47<br>Services: $153</div></div>
+
+<div class="panel"><h3>RUNWAY</h3><div class="amber" style="font-size:14px;font-weight:700">5.2 <span class="dim">months</span></div><div class="bar bar-amber"><div class="bar-fill" style="width:43%"></div></div><div class="dim">Until depletion</div></div>
+
+<div class="panel"><h3>REVENUE/DAY</h3><div class="amber">$3.22 <span class="dim">avg</span></div><div>${spark([0.5,1.2,2.1,4.5,3.8,2.9,5.1,3.2,2.8],'#ffb000')}</div></div>
+
+<div class="panel"><h3>COST/POST</h3><div class="amber" style="font-size:12px">$72.50 <span class="dim">↗</span></div><div class="dim">Trending up — optimize</div></div>
+
+<div class="panel"><h3>SUBSCRIBER VALUE</h3><div class="amber" style="font-size:12px">$3.63<span class="dim">/sub</span></div><div class="dim">Target LTV: $50+</div></div>
+
+<div class="panel"><h3>FINANCIAL HEALTH</h3><div style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--g);display:inline-block"></span><span class="green" style="font-size:12px;font-weight:700">GREEN</span></div><div class="dim">Composite: 64/100</div></div>
+
+<!-- === ROWS 3-7 LEFT: AGENT STATUS (C1-C8) Cols 1-2 === -->
+<div class="panel agent-card" style="grid-column:1/3"><h3><span class="live-dot"></span>SERAPHIM</h3><div class="status-line"><span class="green">● LIVE</span><span class="dim">PID 4821 · Mac Studio</span></div><div class="detail">Last: Memory consolidation — 3m ago<br>Actions today: 47 · Errors: 0 · CPU: idle</div></div>
+
+<div class="panel agent-card" style="grid-column:1/3"><h3><span class="live-dot"></span>CHRONICLE</h3><div class="status-line"><span class="green">● LIVE</span><span class="dim">PID 4822 · Mac Studio</span></div><div class="detail">Last: Daily summary compiled — 12m ago<br>Actions today: 23 · Errors: 0 · CPU: idle</div></div>
+
+<div class="panel agent-card" style="grid-column:1/3"><h3><span class="live-dot"></span>AESTHETE</h3><div class="status-line"><span class="green">● LIVE</span><span class="dim">PID 4823 · Mac Mini</span></div><div class="detail">Last: Image generation batch — 8m ago<br>Actions today: 15 · Errors: 0 · CPU: idle</div></div>
+
+<div class="panel agent-card" style="grid-column:1/3"><h3><span class="live-dot"></span>SQUAER</h3><div class="status-line"><span class="green">● LIVE</span><span class="dim">PID 4824 · Mac Studio</span></div><div class="detail">Last: X post published — 2m ago<br>Actions today: 31 · Errors: 0 · CPU: idle</div></div>
+
+<!-- C5: AGENT MESH -->
+<div class="panel" style="grid-column:1/3"><h3>AGENT MESH</h3><pre class="green" style="font-size:8px;line-height:1.3;text-align:center">
+  [SERAPHIM]──────[CHRONICLE]
+       │    ╲  ╱    │
+       │     ╳      │
+       │    ╱  ╲    │
+  [AESTHETE]──────[SQUAER]
+</pre></div>
+
+<!-- C6: HANDOFF LOG -->
+<div class="panel" style="grid-column:1/3"><h3>HANDOFF LOG</h3><div style="font-size:8px;line-height:1.5;color:var(--d)">05:42 SQUAER → SERAPHIM · content review<br>05:18 SERAPHIM → CHRONICLE · daily log<br>04:55 AESTHETE → SQUAER · image ready<br>04:30 CHRONICLE → SERAPHIM · intel brief<br>04:02 SERAPHIM → SQUAER · post approved</div></div>
+
+<!-- C7: AGENT UPTIME -->
+<div class="panel" style="grid-column:1/3"><h3>AGENT UPTIME</h3><div style="font-size:8px;line-height:1.6"><div>SERAPHIM <div class="bar bar-green"><div class="bar-fill" style="width:100%"></div></div></div><div>CHRONICLE <div class="bar bar-green"><div class="bar-fill" style="width:100%"></div></div></div><div>AESTHETE <div class="bar bar-green"><div class="bar-fill" style="width:95%"></div></div></div><div>SQUAER <div class="bar bar-green"><div class="bar-fill" style="width:100%"></div></div></div></div><div class="dim">All: ~9 days continuous</div></div>
+
+<!-- C8: RESTART HISTORY -->
+<div class="panel" style="grid-column:1/3"><h3>RESTART HISTORY</h3><div class="green">Total restarts: 3</div><div class="dim" style="font-size:8px;line-height:1.5;margin-top:2px">Last: AESTHETE · Feb 9 03:12<br>Reason: OOM kill (image batch)<br>Recovery: 4s · Auto-healed</div></div>
+
+<!-- === SPHERE (Cols 3-6, Rows 3-7) === -->
+<div class="sphere-container" id="sphereContainer">
+<canvas id="sphereCanvas"></canvas>
+</div>
+
+<!-- === ROWS 3-7 RIGHT: GROWTH (D1-D8) Cols 7-8 === -->
+<div class="panel" style="grid-column:7/9"><h3>X FOLLOWERS</h3><div class="blue" style="font-size:14px;font-weight:700">344</div><div class="green">+12 this week</div>${spark([280,295,302,310,318,325,332,338,344],'#00d4ff')}</div>
+
+<div class="panel" style="grid-column:7/9"><h3>ENGAGEMENT RATE</h3><div class="blue" style="font-size:14px;font-weight:700">2.3%</div><div class="dim">avg across posts</div>${spark([1.8,2.1,2.5,1.9,2.3,2.8,2.1,2.4,2.3],'#00d4ff')}</div>
+
+<div class="panel" style="grid-column:7/9"><h3>POSTS TOTAL</h3><div class="blue" style="font-size:14px;font-weight:700">82</div><div class="dim" style="font-size:9px">Today: 3 · Week: 18 · Avg/day: 8.9</div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>TOP POST</h3><div style="font-size:9px;color:var(--t);line-height:1.3">"The first autonomous AI company just shipped its second intelligence br..."</div><div class="dim" style="margin-top:2px">2,847 imp · Score: 9.6</div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>REPLY STRATEGY</h3><div style="font-size:9px;line-height:1.5"><span class="green">Strategic replies: 14</span> <span class="dim">(9.6 avg)</span><br><span class="dim">Originals: 66 (1.0 avg)</span></div><div class="dim" style="margin-top:2px">Replies 9.6× more effective</div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>MOLTBOOK</h3><div class="amber" style="font-size:14px;font-weight:700">#2 <span class="dim" style="font-size:10px">GLOBAL</span></div>${spark([8,5,4,3,3,2,2,2,2],'#ffb000')}<div class="dim">Rank history (lower = better)</div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>NEWSLETTER</h3><div class="blue">8 <span class="dim">subscribers</span></div><div class="dim" style="font-size:9px">1 dispatch · Open rate: 67%</div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>CONTENT VELOCITY</h3><div class="hour-bars" id="hourBars"></div><div class="dim" style="margin-top:2px">Posts per hour (24h)</div></div>
+
+<!-- === ROWS 8-10 LEFT: INTELLIGENCE (E1-E8) Cols 1-4 === -->
+<div class="panel" style="grid-column:1/3"><h3>LATEST DISPATCH</h3><div style="font-size:9px;line-height:1.4"><span class="green">INTELLIGENCE BRIEF #2</span><br><span class="t">"OpenAI's Agent Strategy Reveals the $200B Question Nobody's Asking"</span><br><span class="dim">Source: SQUAER · Feb 11, 2026</span></div></div>
+
+<div class="panel" style="grid-column:3/5"><h3>INTELLIGENCE SIGNALS</h3><div style="font-size:8px;line-height:1.5;color:var(--d)"><span class="green">●</span> OpenAI enterprise pivot accelerating<br><span class="green">●</span> Anthropic Claude-4 rumored Q2<br><span class="green">●</span> EU AI Act enforcement begins<br><span class="green">●</span> Agent framework wars heating up<br><span class="green">●</span> Creator economy AI tools surge<br><span class="green">●</span> Autonomous company concept viral</div></div>
+
+<div class="panel" style="grid-column:1/3"><h3>PREDICTIONS TRACKER</h3><div style="font-size:8px;line-height:1.5"><span class="amber">◐</span> <span class="dim">GPT-5 by Q2 2026 — pending</span><br><span class="amber">◐</span> <span class="dim">AI agent market $10B — pending</span><br><span class="amber">◐</span> <span class="dim">Creator tools consolidation — pending</span><br><span class="amber">◐</span> <span class="dim">EU enforcement delays — pending</span></div><div class="dim" style="margin-top:2px">4 active · 0 scored</div></div>
+
+<div class="panel" style="grid-column:3/5"><h3>CONTENT PIPELINE</h3><div class="flow"><span class="flow-stage" style="border-color:var(--a);color:var(--a)">DRAFT 3</span><span class="flow-arrow">→</span><span class="flow-stage" style="border-color:var(--b);color:var(--b)">REVIEW 1</span><span class="flow-arrow">→</span><span class="flow-stage" style="border-color:var(--g);color:var(--g)">APPROVED 2</span><span class="flow-arrow">→</span><span class="flow-stage" style="border-color:var(--g);color:var(--g);background:rgba(0,255,65,0.1)">PUBLISHED 74</span></div><div class="bar bar-green" style="margin-top:4px"><div class="bar-fill" style="width:92.5%"></div></div></div>
+
+<div class="panel" style="grid-column:1/3"><h3>DRAFT QUEUE</h3><div style="font-size:8px;line-height:1.5;color:var(--d)"><span class="amber">▸</span> "Why Agents Fail" — SQUAER<br><span class="amber">▸</span> "Cost of Autonomy" — SERAPHIM<br><span class="amber">▸</span> "Builder's Manifesto" — CHRONICLE</div></div>
+
+<div class="panel" style="grid-column:3/5"><h3>QUALITY CONTROL</h3><div class="green" style="font-size:14px;font-weight:700">8.4<span class="dim" style="font-size:10px">/10</span></div><div class="dim" style="font-size:8px">Last 5: 8.2 · 8.5 · 8.1 · 8.8 · 8.4</div>${spark([8.2,8.5,8.1,8.8,8.4],'#00ff41')}<div class="dim">Trend: stable</div></div>
+
+<div class="panel" style="grid-column:1/3"><h3>SPEC STATUS</h3><div class="green" style="font-size:12px">62 <span class="dim">total specs</span></div><div class="dim" style="font-size:9px">10 active v2 · 3 AGI reference<br>Last update: Feb 11</div></div>
+
+<div class="panel" style="grid-column:3/5"><h3>KNOWLEDGE BASE</h3><div class="green" style="font-size:12px">202 <span class="dim">documents</span></div><div class="dim" style="font-size:9px">16 directories · 4.2 MB total<br>Last indexed: 2m ago</div></div>
+
+<!-- === ROWS 8-10 RIGHT: INFRASTRUCTURE (F1-F8) Cols 5-8 === -->
+<div class="panel" style="grid-column:5/7"><h3>MAC STUDIO</h3><div class="blue">M3 Ultra · 96GB RAM</div><div style="font-size:8px;margin-top:2px">CPU <div class="bar bar-green"><div class="bar-fill" style="width:12%"></div></div></div><div style="font-size:8px">MEM <div class="bar bar-blue"><div class="bar-fill" style="width:43%;background:var(--b)"></div></div></div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>MAC MINI</h3><div class="blue">M4 · 16GB RAM</div><div style="font-size:8px;margin-top:2px">CPU <div class="bar bar-green"><div class="bar-fill" style="width:8%"></div></div></div><div style="font-size:8px">MEM <div class="bar bar-blue"><div class="bar-fill" style="width:61%;background:var(--b)"></div></div></div></div>
+
+<div class="panel" style="grid-column:5/7"><h3>SERVICES STATUS</h3><div style="font-size:9px;line-height:1.6"><span class="green">✓</span> Ollama &nbsp;<span class="green">✓</span> Discord &nbsp;<span class="green">✓</span> Telegram<br><span class="green">✓</span> Vercel &nbsp;<span class="green">✓</span> Stripe &nbsp;<span class="green">✓</span> Plausible</div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>CRON JOBS</h3><div class="green">13 <span class="dim">active</span></div><div class="dim" style="font-size:8px">Next: heartbeat · 06:30 UTC<br>Last: ✓ email-check · 05:55</div></div>
+
+<div class="panel" style="grid-column:5/7"><h3>API CALLS TODAY</h3><div class="amber" style="font-size:12px">1,247</div><div style="font-size:8px;color:var(--d);line-height:1.5">OpenAI: 892 · Anthropic: 203<br>Ollama: 98 · Other: 54</div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>DISK USAGE</h3><div class="dim">Mac Studio</div><div class="bar bar-blue"><div class="bar-fill" style="width:34%;background:var(--b)"></div></div><div class="dim" style="font-size:8px">680 GB / 2 TB (34%)</div></div>
+
+<div class="panel" style="grid-column:5/7"><h3>GIT STATUS</h3><div style="font-size:8px;line-height:1.5"><span class="green">branch:</span> main<br><span class="green">last:</span> <span class="dim">a3f2c1e "daily dispatch #2"</span><br><span class="green">dirty:</span> <span class="dim">✗ clean</span></div></div>
+
+<div class="panel" style="grid-column:7/9"><h3>UPTIME</h3><div style="font-size:9px;line-height:1.5"><span class="green">System:</span> 9d 14h 22m<br><span class="green">Agents:</span> 9d 2h 8m<br><span class="dim">Last reboot: Feb 3</span></div></div>
+
+<!-- === ROWS 11-12 LEFT: PRODUCTS (G1-G8) Cols 1-4 === -->
+<div class="panel" style="grid-column:1/2"><h3>INTEL BRIEF</h3><div class="amber">$29<span class="dim">/mo</span></div><div class="dim" style="font-size:8px">1 subscriber<br>Edition #2 due Feb 18</div></div>
+
+<div class="panel" style="grid-column:2/3"><h3>DEPLOY GUIDE</h3><div class="amber">$29</div><div class="dim" style="font-size:8px">Gumroad · 0 sales<br>Status: Live</div></div>
+
+<div class="panel" style="grid-column:3/4"><h3>PRODUCT PIPELINE</h3><div class="product-ladder"><div>$29</div><div style="height:24px;line-height:24px">$79</div><div style="height:30px;line-height:30px">$149</div><div style="height:38px;line-height:38px">$499</div></div></div>
+
+<div class="panel" style="grid-column:4/5"><h3>STRIPE</h3><div><span class="green">✓</span> Connected</div><div class="dim" style="font-size:8px">Last: $29 · John R.<br>Feb 11, 2026</div></div>
+
+<div class="panel" style="grid-column:1/2"><h3>BEEHIIV</h3><div class="blue">12 <span class="dim">total</span> / 7 <span class="dim">active</span></div><div class="dim" style="font-size:8px">Open rate: 67%</div></div>
+
+<div class="panel" style="grid-column:2/3"><h3>GUMROAD</h3><div class="dim">1 product live</div><div class="amber">0 <span class="dim">sales</span></div></div>
+
+<div class="panel" style="grid-column:3/4"><h3>CONVERSION FUNNEL</h3><div style="font-size:8px"><div class="funnel-row"><span class="dim">X</span><div class="funnel-bar" style="width:80px"></div><span class="dim">344</span></div><div class="funnel-row"><span class="dim">DC</span><div class="funnel-bar" style="width:10px"></div><span class="dim">2</span></div><div class="funnel-row"><span class="dim">NL</span><div class="funnel-bar" style="width:20px"></div><span class="dim">8</span></div><div class="funnel-row"><span class="dim">$$</span><div class="funnel-bar" style="width:5px;background:var(--a)"></div><span class="dim">1</span></div></div></div>
+
+<div class="panel" style="grid-column:4/5"><h3>CUSTOMER LOG</h3><div style="font-size:8px;line-height:1.5"><span class="green">●</span> John Riedmueller<br><span class="amber">$29</span> · Intel Brief<br><span class="dim">Feb 11, 2026</span></div></div>
+
+<!-- === ROWS 11-12 RIGHT: COMMUNITY (H1-H8) Cols 5-8 === -->
+<div class="panel" style="grid-column:5/6"><h3>DISCORD</h3><div><span class="live-dot"></span><span class="green">ONLINE</span></div><div class="dim" style="font-size:8px">Server: ZERO<br>2 members · 11 channels</div></div>
+
+<div class="panel" style="grid-column:6/7"><h3>TELEGRAM</h3><div class="blue">Primary comms</div><div class="dim" style="font-size:8px">5,700+ messages<br>Active daily</div></div>
+
+<div class="panel" style="grid-column:7/8"><h3>CLAWSTR</h3><div class="dim">Agent social network</div><div class="amber">22 <span class="dim">notifications</span></div></div>
+
+<div class="panel" style="grid-column:8/9"><h3>MOLTMATCH</h3><div class="dim">Registered</div><div class="amber" style="font-size:8px">Awaiting verification</div></div>
+
+<div class="panel" style="grid-column:5/6"><h3>X ACCOUNT</h3><div class="blue">@squaer_agent</div><div class="dim" style="font-size:8px">344 followers · verified ✗</div></div>
+
+<div class="panel" style="grid-column:6/7"><h3>NEWSLETTER METRICS</h3><div class="dim" style="font-size:8px">Edition #1<br><span class="green">67</span> views · <span class="amber">11</span> clicks<br>CTR: 16.4%</div></div>
+
+<div class="panel" style="grid-column:7/8"><h3>WEBSITE ANALYTICS</h3><div class="blue">getzero.dev</div><div class="dim" style="font-size:8px">Plausible ● active<br>Tracking enabled</div></div>
+
+<div class="panel" style="grid-column:8/9"><h3>COMMUNITY HEALTH</h3><div class="dim">Active builders</div><div class="amber" style="font-size:14px;font-weight:700">0 <span class="dim" style="font-size:9px">/ 50</span></div><div class="bar bar-red"><div class="bar-fill" style="width:0%"></div></div></div>
+
+<!-- === TICKER (I) === -->
+<div class="ticker-wrap">
+<div class="ticker" id="ticker">
+<span>TREASURY $30,300 ▲</span>
+<span class="amber">BURN RATE $5,800/mo</span>
+<span>FOLLOWERS 344 (+12)</span>
+<span class="blue">MOLTBOOK RANK #2 GLOBAL</span>
+<span>POSTS 82 TOTAL</span>
+<span class="amber">REVENUE $29/mo (2.9% TARGET)</span>
+<span>RUNWAY 5.2 MONTHS</span>
+<span class="blue">AGENTS 4/4 ONLINE</span>
+<span>ENGAGEMENT 2.3% AVG</span>
+<span class="amber">API CALLS 1,247 TODAY</span>
+<span>SUBSCRIBERS 8 NEWSLETTER</span>
+<span class="blue">UPTIME 9 DAYS CONTINUOUS</span>
+<span>INTEL BRIEF #2 DUE FEB 18</span>
+<span class="amber">CUSTOMER: JOHN R. $29</span>
+<span>QUALITY SCORE 8.4/10</span>
+<span class="blue">ZERO OS v0.9.1 PRODUCTION</span>
+</div>
+</div>
+
+</div><!-- /grid -->
+
+<script>
+// Sparkline helper (generates SVG string)
+function sparkSVG(data, color, w, h) {
+  w = w || 80; h = h || 20;
+  const min = Math.min(...data), max = Math.max(...data), range = max - min || 1;
+  const pts = data.map((v, i) => `${(i / (data.length - 1)) * w},${h - ((v - min) / range) * (h - 2) - 1}`).join(' ');
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+}
+
+// Inject sparklines into panels that used template literal placeholder
+document.querySelectorAll('.panel').forEach(p => {
+  p.innerHTML = p.innerHTML.replace(/\$\{spark\(\[([^\]]+)\],'([^']+)'\)\}/g, (_, d, c) => {
+    return sparkSVG(d.split(',').map(Number), c);
+  });
+});
+
+// Hour bars for content velocity
+const hourData = [0,0,1,0,0,1,2,1,3,2,1,2,3,2,1,2,1,0,1,2,1,0,0,0];
+const hb = document.getElementById('hourBars');
+if(hb) hourData.forEach(v => { const d = document.createElement('div'); d.style.height = Math.max(2, v * 8) + 'px'; hb.appendChild(d); });
+
+// === CLOCKS ===
+const missionStart = new Date('2026-02-03T00:00:00Z').getTime();
+function pad(n, d) { return String(n).padStart(d || 2, '0'); }
+function updateClocks() {
+  const now = new Date();
+  // Mission clock
+  const diff = now.getTime() - missionStart;
+  const days = Math.floor(diff / 86400000);
+  const hrs = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  document.getElementById('missionClock').textContent = `${pad(days,3)}:${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+  // UTC
+  document.getElementById('utcClock').textContent = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}`;
+  // BKK (+7)
+  const bkk = new Date(now.getTime() + 7 * 3600000 + now.getTimezoneOffset() * 60000);
+  document.getElementById('localClock').textContent = `${pad(bkk.getHours())}:${pad(bkk.getMinutes())}:${pad(bkk.getSeconds())}`;
+}
+setInterval(updateClocks, 1000);
+updateClocks();
+
+// Signal bars animation
+const sigPatterns = ['▁▃▅▇▅▃▁','▃▅▇▅▃▁▃','▅▇▅▃▁▃▅','▇▅▃▁▃▅▇','▅▃▁▃▅▇▅','▃▁▃▅▇▅▃','▁▃▅▇▅▃▁'];
+let sigIdx = 0;
+setInterval(() => { document.getElementById('sigBars').textContent = sigPatterns[sigIdx++ % sigPatterns.length]; }, 300);
+
+// === THREE.JS SPHERE ===
+(function() {
+  const container = document.getElementById('sphereContainer');
+  const canvas = document.getElementById('sphereCanvas');
+  if (!container || !canvas) return;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Create number sprites on sphere surface
+  const group = new THREE.Group();
+  scene.add(group);
+  const sprites = [];
+  const numCount = 200;
+  const radius = 1.8;
+
+  function makeTextTexture(char) {
+    const c = document.createElement('canvas');
+    c.width = 64; c.height = 64;
+    const ctx = c.getContext('2d');
+    ctx.font = 'bold 48px JetBrains Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = Math.random() > 0.3 ? '#00ff41' : '#ffffff';
+    ctx.fillText(char, 32, 32);
+    const tex = new THREE.CanvasTexture(c);
+    return tex;
+  }
+
+  for (let i = 0; i < numCount; i++) {
+    const phi = Math.acos(2 * Math.random() - 1);
+    const theta = 2 * Math.PI * Math.random();
+    const x = radius * Math.sin(phi) * Math.cos(theta);
+    const y = radius * Math.sin(phi) * Math.sin(theta);
+    const z = radius * Math.cos(phi);
+    const digit = String(Math.floor(Math.random() * 10));
+    const mat = new THREE.SpriteMaterial({ map: makeTextTexture(digit), transparent: true, depthWrite: false });
+    const sprite = new THREE.Sprite(mat);
+    sprite.position.set(x, y, z);
+    sprite.scale.set(0.25, 0.25, 1);
+    group.add(sprite);
+    sprites.push(sprite);
+  }
+
+  // Update random numbers periodically
+  setInterval(() => {
+    for (let i = 0; i < 20; i++) {
+      const idx = Math.floor(Math.random() * sprites.length);
+      const s = sprites[idx];
+      s.material.map = makeTextTexture(String(Math.floor(Math.random() * 10)));
+      s.material.needsUpdate = true;
+    }
+  }, 2500);
+
+  // Connection lines to corners
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x00ff41, transparent: true, opacity: 0.3 });
+  const corners = [[-3, -2, 0], [-3, 2, 0], [3, -2, 0], [3, 2, 0]];
+  corners.forEach(c => {
+    const geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(c[0], c[1], c[2])]);
+    group.add(new THREE.Line(geo, lineMat));
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    group.rotation.y += 0.003;
+    // Opacity based on z position relative to camera
+    sprites.forEach(s => {
+      const worldPos = new THREE.Vector3();
+      s.getWorldPosition(worldPos);
+      const depth = (worldPos.z + radius) / (2 * radius);
+      s.material.opacity = 0.15 + depth * 0.85;
+    });
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  });
+})();
+</script>
+</body>
+</html>
