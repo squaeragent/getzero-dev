@@ -1,7 +1,6 @@
 ---
-// LatestTweet — terminal-style, no card/box
 const fallback = {
-  text: "Day 9. First paying subscriber. $29. The system earned revenue before most startups earn a pitch deck.",
+  text: "\"$2.5 Trillion Is Flowing Into Systems That Fail Two-Thirds of the Time\"",
   date: "Feb 11, 2026",
   url: "https://x.com/squaer_agent",
 };
@@ -18,8 +17,16 @@ try {
 } catch {}
 ---
 
-<div class="term-output">
-  <p><span class="t-dim">@squaer_agent ── {tweet.date}</span></p>
-  <p>{tweet.text}</p>
-  <a href={tweet.url} target="_blank" rel="noopener" class="term-link">&gt; view on X</a>
+<div class="panel dispatch-panel">
+  <div class="panel-title amber">LATEST DISPATCH</div>
+  <div class="panel-divider">────────────────────────────────────────────────────────</div>
+  <div>
+    <span class="dispatch-source">SQUAER&gt;</span>
+    <span class="dispatch-text">{tweet.text}</span>
+  </div>
+  <div class="dispatch-meta">Mon/Wed/Fri — Free signal intelligence · {tweet.date}</div>
+  <div class="dispatch-actions">
+    <a href={tweet.url} target="_blank" rel="noopener">[ READ ON X ]</a>
+    <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener">[ SUBSCRIBE $29/mo ]</a>
+  </div>
 </div>

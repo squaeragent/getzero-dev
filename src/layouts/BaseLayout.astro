@@ -1,6 +1,4 @@
 ---
-import Navigation from '../components/Navigation.astro';
-import ProofBar from '../components/ProofBar.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -10,6 +8,19 @@ interface Props {
 }
 
 const { title, description = 'An autonomous AI production company. 4 agents, 2 machines, 0 employees. Built in public, running in production.', current = '' } = Astro.props;
+
+const now = new Date();
+const dateStr = now.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit', timeZone: 'Asia/Bangkok' });
+const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Bangkok' });
+
+const navItems = [
+  { href: '/', label: '[HOME]' },
+  { href: '/build-log', label: '[JOURNAL]' },
+  { href: '/agents', label: '[AGENTS]' },
+  { href: '/system', label: '[INTEL]' },
+  { href: '/manifesto', label: '[MANIFESTO]' },
+  { href: '/product', label: '[PRODUCT]' },
+];
 ---
 
 <!DOCTYPE html>
@@ -34,53 +45,41 @@ const { title, description = 'An autonomous AI production company. 4 agents, 2 m
   <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>" type="image/svg+xml" />
 </head>
-<body class="scanlines vignette">
+<body>
   <div class="grain"></div>
-  <Navigation current={current} />
-  <ProofBar />
-  <slot />
-  <footer class="container">
-    <div class="footer-inner">
-      <span>⟨◇⟩ ZERO OS — Still building. Still public. · From the creator of <a href="https://x.com/degenie" target="_blank" rel="noopener">@degenie</a></span>
-      <div class="footer-links">
-        <a href="/product">Product</a>
-        <a href="/build-log">Build Log</a>
-        <a href="https://x.com/degenie" target="_blank" rel="noopener">@degenie</a>
-        <a href="https://x.com/squaer_agent" target="_blank" rel="noopener">@squaer_agent</a>
-      </div>
+  <div class="crt-viewport">
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+      <span>ZERO OS v0.9.1</span>
+      <span class="signal">░▓█ SIGNAL: ACTIVE</span>
+      <span class="date-stamp">{dateStr} {timeStr}</span>
     </div>
-  </footer>
-  <div class="sticky-cta" id="sticky-cta">
-    <span class="sticky-cta-text">Intelligence Brief</span>
-    <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="sticky-cta-btn">$29/mo →</a>
+
+    <!-- NAVIGATION -->
+    <nav class="nav-bar">
+      {navItems.map(item => (
+        <a href={item.href} class={`nav-tab${current === item.href ? ' active' : ''}`}>{item.label}</a>
+      ))}
+    </nav>
+
+    <!-- CONTENT -->
+    <slot />
+
+    <!-- FOOTER BAR -->
+    <div class="footer-bar">
+      <span><span class="footer-diamond">⟨◇⟩</span> ZERO OS │ getzero.dev │ @squaer_agent</span>
+      <span>v0.9.1</span>
+    </div>
   </div>
-  <!-- Bottom tab nav — mobile only -->
-  <nav class="bottom-nav">
-    <a href="/" class={current === '/' ? 'active' : ''}><span class="nav-icon">⌂</span>Home</a>
-    <a href="/build-log" class={current === '/build-log' ? 'active' : ''}><span class="nav-icon">◉</span>Journal</a>
-    <a href="/agents" class={current === '/agents' ? 'active' : ''}><span class="nav-icon">▣</span>Agents</a>
-    <a href="/system" class={current === '/system' ? 'active' : ''}><span class="nav-icon">◇</span>Intel</a>
-    <a href="/manifesto" class={current === '/manifesto' ? 'active' : ''}><span class="nav-icon">≡</span>More</a>
-  </nav>
+
   <script>
-    const stickyCta = document.getElementById('sticky-cta');
-    if (stickyCta) {
-      window.addEventListener('scroll', () => {
-        stickyCta.classList.toggle('visible', window.scrollY > window.innerHeight);
-      }, { passive: true });
-    }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    // Blinking cursor
+    document.querySelectorAll('.cursor-blink').forEach(el => {
+      el.textContent = '█';
+    });
   </script>
 </body>
 </html>
