@@ -748,6 +748,14 @@ body::before {
   margin-bottom: 8px;
 }
 
+/* ═══ PHOSPHOR UTILITY CLASSES ═══ */
+.phosphor { color: var(--phosphor); text-shadow: 0 0 8px rgba(200, 255, 0, 0.4); }
+.amber { color: var(--amber); text-shadow: 0 0 8px rgba(255, 176, 0, 0.3); }
+.ice { color: var(--ice); text-shadow: 0 0 8px rgba(0, 212, 255, 0.3); }
+.dim { color: var(--text-dim); }
+.blink { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
 .page-content pre {
   font-family: var(--font-body);
   color: var(--text-dim);
