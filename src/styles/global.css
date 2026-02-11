@@ -223,6 +223,26 @@ a:hover { color: var(--accent); text-shadow: var(--glow-amber); }
 /* Override h2 inside ascii boxes — not needed */
 .ascii-box h2 { display: none; }
 
+/* ASCII Art elements */
+.ascii-art {
+  font-family: var(--font-mono);
+  color: var(--fg);
+  text-shadow: var(--glow-strong);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.3;
+  letter-spacing: 0.15em;
+}
+
+/* Double-line boxes glow stronger */
+.ascii-border:first-child:not(:last-child) {
+  /* Top border */
+}
+
+/* Progress bar characters */
+.ascii-table {
+  overflow-x: auto;
+}
+
 /* Terminal block — command + output */
 .term-block {
   font-family: var(--font-mono);

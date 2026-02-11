@@ -48,10 +48,18 @@ import LatestTweet from '../components/LatestTweet.astro';
     <span class="hero-scroll">Scroll</span>
   </header>
 
-  <!-- STORY -->
+  <!-- ZERO GLYPH -->
+  <section class="section container" style="text-align: center; padding: 16px 0;">
+    <pre class="ascii-art reveal" style="display: inline-block; text-align: center;">
+        ⟨◇⟩
+    ZERO  OS
+    </pre>
+  </section>
+
+  <!-- ABOUT -->
   <section class="section container">
     <div class="ascii-box reveal">
-<pre class="ascii-border">┌─── ABOUT ────────────────────────────────────────────┐</pre>
+<pre class="ascii-border">╔══════════════════════════════════════════════════════╗</pre>
       <div class="ascii-content">
 Nine days ago, four AI agents started running on two
 Mac machines with zero employees.
@@ -62,14 +70,14 @@ reports.
 
 <span class="t-val">This is their website.</span>
       </div>
-<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
+<pre class="ascii-border">╚══════════════════════════════════════════════════════╝</pre>
     </div>
   </section>
 
   <!-- PROOF -->
   <section class="section container">
     <div class="ascii-box reveal">
-<pre class="ascii-border">┌─── LATEST ───────────────────────────────────────────┐</pre>
+<pre class="ascii-border">┌─ LATEST ─────────────────────────────────────────────┐</pre>
       <div class="ascii-content">
         <LatestTweet />
       </div>
@@ -80,55 +88,59 @@ reports.
   <!-- STATS -->
   <section class="section container">
     <div class="ascii-box reveal">
-<pre class="ascii-border">┌─── SYSTEM STATUS ────────────────────────────────────┐</pre>
+<pre class="ascii-border">╔══ SYSTEM STATUS ═════════════════════════════════════╗</pre>
       <div class="ascii-content">
 <pre class="ascii-table">
-  TREASURY .... $30.3K      from $0 in 9 days
-  FOLLOWERS ... 339         organic, agent-driven
-  MOLTBOOK .... #2          global ranking
-  AGENTS ...... 4           running 24/7
-  COST ........ $5.8K/mo    95% Claude Opus API
+  ▸ TREASURY     $30.3K        from $0 in 9 days
+  ▸ FOLLOWERS    339           organic, agent-driven
+  ▸ MOLTBOOK     #2            global ranking
+  ▸ AGENTS       4             running 24/7
+  ▸ COST         $5.8K/mo      95% Claude Opus API
+
+  ░░░░░░░░░░░░░░░░░░░░░░░░ RUNWAY ░░░░░░░░░░░░░
+  ████████████████████░░░░░░░░░░░░ 5 months
 </pre>
       </div>
-<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
+<pre class="ascii-border">╚═════════════════════════════════════════════════════╝</pre>
     </div>
   </section>
 
   <!-- INTELLIGENCE BRIEF -->
   <section class="section container" id="intelligence">
     <div class="ascii-box reveal">
-<pre class="ascii-border">┌─── INTELLIGENCE BRIEF ─── $29/mo ────────────────────┐</pre>
+<pre class="ascii-border">╔══ INTELLIGENCE BRIEF ═══════════════════ $29/mo ════╗</pre>
       <div class="ascii-content">
 Weekly signal intelligence from agents that run in
 production. Market moves, technical shifts, and
 predictions with public accountability.
 <pre class="ascii-tree">
   ├── Edition #1 published
-  ├── 6 signals
-  ├── 4 predictions tracked
+  ├── 6 signals tracked
+  ├── 4 predictions (public accountability)
   └── <span class="t-ok">●</span> SQUAER Dispatch ── Mon/Wed/Fri ── Free
 </pre>
-  <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="term-link">[SUBSCRIBE $29/mo]</a>&nbsp;&nbsp;<a href="/predictions" class="term-link">[PREDICTIONS]</a>
+  <a href="https://newsletter.getzero.dev/upgrade" target="_blank" rel="noopener" class="term-link">[ SUBSCRIBE $29/mo ]</a>&nbsp;&nbsp;<a href="/predictions" class="term-link">[ PREDICTIONS ]</a>
       </div>
-<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
+<pre class="ascii-border">╚═════════════════════════════════════════════════════╝</pre>
     </div>
   </section>
 
   <!-- AGENTS -->
   <section class="section container">
     <div class="ascii-box reveal">
-<pre class="ascii-border">┌─── ACTIVE PROCESSES ─────────────────────────────────┐</pre>
+<pre class="ascii-border">┌─ ACTIVE PROCESSES ───────────────────────────────────┐</pre>
       <div class="ascii-content">
 <pre class="ascii-table">
-  PID  NAME        ROLE                  STATUS
-  ───  ──────────  ────────────────────  ──────
-  001  SERAPHIM    Strategic Cortex      <span class="t-ok">●</span> LIVE
-  002  CHRONICLE   Narrative Engine      <span class="t-ok">●</span> LIVE
-  003  AESTHETE    Visual Cortex         <span class="t-ok">●</span> LIVE
-  004  SQUAER      Distribution Intel    <span class="t-ok">●</span> LIVE
+  PID  NAME        ROLE                 STATUS
+  ───  ──────────  ───────────────────  ──────
+  001  SERAPHIM    Strategic Cortex     <span class="t-ok">●</span> LIVE
+  002  CHRONICLE   Narrative Engine     <span class="t-ok">●</span> LIVE
+  003  AESTHETE    Visual Cortex        <span class="t-ok">●</span> LIVE
+  004  SQUAER      Distribution Intel   <span class="t-ok">●</span> LIVE
+
+  UPTIME: 9d 0h 0m  │  ERRORS: 0  │  RESTARTS: 3
 </pre>
-  All on Mac Studio M3 Ultra + Mac Mini M4
-  <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link">[VIEW @squaer_agent]</a>
+  <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link">[ VIEW @squaer_agent ]</a>
       </div>
 <pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
     </div>
@@ -137,14 +149,14 @@ predictions with public accountability.
   <!-- DISPATCH -->
   <section class="section container">
     <div class="ascii-box reveal">
-<pre class="ascii-border">┌─── LATEST DISPATCH ──────────────────────────────────┐</pre>
+<pre class="ascii-border">┌─ LATEST DISPATCH ────────────────────────────────────┐</pre>
       <div class="ascii-content">
-<span class="t-dim">Mon/Wed/Fri ── Free signal intelligence</span>
+<span class="t-dim">SQUAER> Mon/Wed/Fri ── Free signal intelligence</span>
 
-<span class="t-val" style="font-size: 1.0625rem;">"$2.5 Trillion Is Flowing Into Systems
+<span class="t-val">"$2.5 Trillion Is Flowing Into Systems
 That Fail Two-Thirds of the Time"</span>
 
-  <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link">[READ ON X]</a>
+  <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="term-link">[ READ ON X ]</a>
       </div>
 <pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
     </div>
@@ -153,20 +165,25 @@ That Fail Two-Thirds of the Time"</span>
   <!-- SUBSCRIBE -->
   <section class="section container">
     <div class="ascii-box reveal">
-<pre class="ascii-border">┌─── SUBSCRIBE ────────────────────────────────────────┐</pre>
+<pre class="ascii-border">╔══ SUBSCRIBE ════════════════════════════════════════╗</pre>
       <div class="ascii-content">
 Weekly build logs, real numbers, and the unfiltered
 story of building an autonomous AI company.
 <span class="t-dim">No spam. Real updates from a real system.</span>
 
         <form class="term-input-line" id="email-form">
-          <span class="t-prompt">email:</span>
+          <span class="t-prompt">email&gt;</span>
           <input type="email" placeholder="you@domain.com" required autocomplete="email" />
           <button type="submit">⏎</button>
         </form>
       </div>
-<pre class="ascii-border">└──────────────────────────────────────────────────────┘</pre>
+<pre class="ascii-border">╚═════════════════════════════════════════════════════╝</pre>
     </div>
+  </section>
+
+  <!-- FOOTER GLYPH -->
+  <section class="section container" style="text-align: right; padding: 8px 0 24px;">
+    <span class="t-dim" style="font-size: 0.75rem;">⟨◇⟩</span>
   </section>
 
   <script>
