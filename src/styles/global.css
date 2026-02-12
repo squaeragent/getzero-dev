@@ -70,8 +70,67 @@ body::before {
   z-index: 9998;
 }
 
-/* ── VIGNETTE ── */
-/* Vignette removed — was body::after radial-gradient overlay */
+/* ── CRT SCANLINE SWEEP ── */
+/* Single bright line sweeping top to bottom like a CRT refresh */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(200, 255, 0, 0.06) 50%,
+    transparent 100%
+  );
+  background-size: 100% 8px;
+  background-position: 0 0;
+  pointer-events: none;
+  z-index: 9997;
+  animation: scanline-sweep 8s linear infinite;
+}
+
+@keyframes scanline-sweep {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ── PHOSPHOR GLOW PULSE ── */
+/* Slow brightness oscillation on phosphor elements — terminal feels powered */
+@keyframes phosphor-breathe {
+  0%, 100% { text-shadow: 0 0 6px rgba(200, 255, 0, 0.3); }
+  50% { text-shadow: 0 0 10px rgba(200, 255, 0, 0.5); }
+}
+
+.phosphor, .phosphor-g, .status-online {
+  animation: phosphor-breathe 4s ease-in-out infinite;
+}
+
+/* Don't breathe on elements that have their own animations */
+.phosphor-flash, .pflash-tag, .resolving, .flash,
+.phosphor-flash-target, .al:not(.on) .phosphor {
+  animation: unset;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation: none; display: none; }
+  .phosphor, .phosphor-g, .status-online { animation: none; }
+  .crt-viewport { animation: none; }
+  .grain { animation: none; }
+}
+
+/* ── VIGNETTE (CRT screen curvature) ── */
+.crt-vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 9995;
+}
 
 /* ── GRAIN ── */
 .grain {
