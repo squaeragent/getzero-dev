@@ -54,38 +54,25 @@ a:hover { text-shadow: 0 0 8px var(--phosphor-glow); }
   color: var(--void);
 }
 
-/* ── SCANLINES ── */
+/* ── CRT SCANLINE SWEEP ── */
+/* Single bright line sweeps top to bottom like electron beam refresh */
 body::before {
   content: '';
   position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.06) 2px,
-    rgba(0, 0, 0, 0.06) 4px
-  );
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   pointer-events: none;
   z-index: 9998;
-}
-
-/* ── CRT SCANLINE SWEEP ── */
-/* Single bright line sweeping top to bottom like a CRT refresh */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
   background: linear-gradient(
-    180deg,
+    to bottom,
     transparent 0%,
-    rgba(200, 255, 0, 0.06) 50%,
+    transparent 48%,
+    rgba(0, 255, 65, 0.03) 49%,
+    rgba(0, 255, 65, 0.06) 50%,
+    rgba(0, 255, 65, 0.03) 51%,
+    transparent 52%,
     transparent 100%
   );
-  background-size: 100% 8px;
-  background-position: 0 0;
-  pointer-events: none;
-  z-index: 9997;
   animation: scanline-sweep 8s linear infinite;
 }
 
@@ -94,15 +81,38 @@ body::after {
   100% { transform: translateY(100vh); }
 }
 
+/* ── STATIC SCANLINES ── */
+/* Fine horizontal lines like a real CRT */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9997;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
 /* ── PHOSPHOR GLOW PULSE ── */
-/* Slow brightness oscillation on phosphor elements — terminal feels powered */
-@keyframes phosphor-breathe {
-  0%, 100% { text-shadow: 0 0 6px rgba(200, 255, 0, 0.3); }
-  50% { text-shadow: 0 0 10px rgba(200, 255, 0, 0.5); }
+/* Two-layer: opacity breathe + glow intensification */
+@keyframes phosphor-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.92; }
+}
+
+@keyframes glow-breathe {
+  0%, 100% { text-shadow: 0 0 4px rgba(0, 255, 65, 0.3); }
+  50% { text-shadow: 0 0 8px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.1); }
 }
 
 .phosphor, .phosphor-g, .status-online {
-  animation: phosphor-breathe 4s ease-in-out infinite;
+  animation: glow-breathe 4s ease-in-out infinite;
 }
 
 /* Don't breathe on elements that have their own animations */
@@ -111,25 +121,28 @@ body::after {
   animation: unset;
 }
 
-/* Respect reduced motion preference */
+/* ── CRT VIGNETTE ── */
+/* Darkened corners = curved monitor feel */
+.crt-vignette {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9996;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.3) 85%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+/* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
-  body::after { animation: none; display: none; }
+  body::before { animation: none; display: none; }
   .phosphor, .phosphor-g, .status-online { animation: none; }
   .crt-viewport { animation: none; }
   .grain { animation: none; }
-}
-
-/* ── VIGNETTE (CRT screen curvature) ── */
-.crt-vignette {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 60%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
-  pointer-events: none;
-  z-index: 9995;
 }
 
 /* ── GRAIN ── */
@@ -151,15 +164,14 @@ body::after {
   75% { transform: translate(-1px, -3px); }
 }
 
-/* ── FLICKER ── */
+/* ── CRT FLICKER ── */
+/* Rare power fluctuation — once per 12 seconds */
 @keyframes flicker {
-  0%, 100% { opacity: 1; }
-  3% { opacity: 0.97; }
-  6% { opacity: 1; }
-  42% { opacity: 0.98; }
-  44% { opacity: 1; }
-  82% { opacity: 0.96; }
-  84% { opacity: 1; }
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.85; }
+  97% { opacity: 0.95; }
+  98% { opacity: 0.88; }
+  99% { opacity: 1; }
 }
 
 /* ── CRT VIEWPORT FRAME ── */
@@ -170,7 +182,7 @@ body::after {
   min-height: calc(100vh - 12px);
   display: flex;
   flex-direction: column;
-  animation: flicker 8s infinite;
+  animation: flicker 12s linear infinite;
 }
 
 .crt-viewport::before {
