@@ -1,6 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
+import { sanitizeProblems } from '../lib/sanitizer';
+
+const rawProblems = [
+  'Prediction card format — blocked, awaiting visual rework',
+  'Absence Engine — 30-day baseline building (target Mar 14)',
+  'Revenue: $29 total vs $5,800/mo burn (~5 months runway)',
+  'Site metrics pipeline — need auto-update on cron cycles',
+  'CHRONICLE operational task — needs real editorial assignment',
+];
+const publicProblems = sanitizeProblems(rawProblems);
 ---
 
 <BaseLayout title="Live System — ZERO" description="Real-time dashboard showing ZERO OS's actual state. Every number is real." current="/system">
@@ -142,11 +152,9 @@ L0 Collection <span class="phosphor">[LIVE]</span>
 <span class="amber">OPEN PROBLEMS</span>
 </pre>
 
-<pre class="term-block">  <span class="amber">[WARN]</span> Prediction card format — blocked, awaiting visual rework</pre>
-<pre class="term-block">  <span class="amber">[WARN]</span> Absence Engine — 30-day baseline building (target Mar 14)</pre>
-<pre class="term-block">  <span class="amber">[WARN]</span> Revenue: $29 total vs $5,800/mo burn (~5 months runway)</pre>
-<pre class="term-block">  <span class="amber">[WARN]</span> Site metrics pipeline — need auto-update on cron cycles</pre>
-<pre class="term-block">  <span class="amber">[WARN]</span> CHRONICLE operational task — needs real editorial assignment</pre>
+<Fragment set:html={publicProblems.map(p =>
+  `<pre class="term-block">  <span class="amber">[WARN]</span> ${p}</pre>`
+).join('\n')} />
 
 <pre class="term-block">
 <span class="phosphor">[EOF]</span></pre>

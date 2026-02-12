@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { sanitizeText } from '../lib/sanitizer';
 
-// Real data from L0 collection
+// Real data from L0 collection — all public sources
 const githubRepos = [
   { name: 'BerriAI/litellm', commits: 6, signal: 'MCP fixes (+818 lines)', sig: 'HIGH' },
   { name: 'crewAIInc/crewAI', commits: 1, signal: 'yanked version detection (+435)', sig: 'HIGH' },
@@ -11,14 +12,15 @@ const githubRepos = [
 ];
 
 const trackedAccounts = [
-  { handle: 'karpathy', followers: '1.77M', rate: '1.9/day', role: 'ORIGINATOR' },
-  { handle: 'sama', followers: '4.33M', rate: '3.2/day', role: 'ORIGINATOR' },
-  { handle: 'fchollet', followers: '604K', rate: '3.0/day', role: 'ORIGINATOR' },
-  { handle: 'aixbt_agent', followers: '472K', rate: '480/day', role: 'AMPLIFIER' },
-  { handle: 'emollick', followers: '319K', rate: '36.5/day', role: 'ORIGINATOR' },
-  { handle: 'jessepollak', followers: '345K', rate: '93.8/day', role: 'ORIGINATOR' },
-  { handle: '_akhaliq', followers: '455K', rate: '8.5/day', role: 'AMPLIFIER' },
-  { handle: 'DrJimFan', followers: '358K', rate: '2.6/day', role: 'ORIGINATOR' },
+  // visibility: public — these are public X accounts with public metrics
+  { handle: 'karpathy', followers: '1.77M', rate: '1.9/day' },
+  { handle: 'sama', followers: '4.33M', rate: '3.2/day' },
+  { handle: 'fchollet', followers: '604K', rate: '3.0/day' },
+  { handle: 'aixbt_agent', followers: '472K', rate: '480/day' },
+  { handle: 'emollick', followers: '319K', rate: '36.5/day' },
+  { handle: 'jessepollak', followers: '345K', rate: '93.8/day' },
+  { handle: '_akhaliq', followers: '455K', rate: '8.5/day' },
+  { handle: 'DrJimFan', followers: '358K', rate: '2.6/day' },
 ];
 
 const narratives = [
@@ -32,13 +34,13 @@ const narratives = [
   { keyword: 'agent infra', status: 'growing', cluster: 'infrastructure' },
 ];
 
-const actionQueue = [
-  { signal: 'Coinbase Agentic Wallets launch', type: 'CONTENT', urgency: 'URGENT', score: 9.0 },
-  { signal: 'Coinbase x402 agent payment SDK', type: 'CONTENT', urgency: 'NORMAL', score: 8.8 },
-  { signal: 'Stripe adds x402 USDC integration', type: 'CONTENT', urgency: 'NORMAL', score: 6.0 },
-  { signal: 'LiteLLM MCP fixes (+818 lines)', type: 'CONTENT', urgency: 'NORMAL', score: 7.5 },
-  { signal: 'CrewAI version detection feature', type: 'OBSERVE', urgency: 'LOW', score: 5.0 },
-];
+// Action Engine — aggregate stats only (individual plans are internal)
+const actionStats = {
+  total: 10,
+  autonomyRate: 100,
+  breakdown: { CONTENT: 6, ENGAGE: 1, OBSERVE: 3 },
+  urgentCount: 3,
+};
 
 const predictions = [
   { id: 'P-001', title: 'VIRTUAL reclaims $1.00', deadline: '2026-03-11', confidence: 'MED', status: 'PENDING' },
@@ -53,13 +55,9 @@ const wrong = predictions.filter(p => p.status === 'WRONG').length;
 const resolved = correct + wrong;
 
 // Pre-render HTML strings to avoid JSX issues in <pre> blocks
-const actionHtml = actionQueue.map((a, i) => {
-  const typeColor = a.urgency === 'URGENT' ? 'amber' : 'phosphor';
-  const urgColor = a.urgency === 'URGENT' ? 'amber' : 'dim';
-  return `<pre class="term-block al" data-d="${300 + i * 100}">
-<span class="${typeColor}">[${a.type}]</span> <span class="${urgColor}">${a.urgency}</span> score:${a.score}
-${a.signal}</pre>`;
-}).join('\n');
+const breakdownStr = Object.entries(actionStats.breakdown)
+  .map(([k, v]) => `${k}: ${v}`)
+  .join(' · ');
 
 const githubHtml = githubRepos.map((r, i) => {
   const sigColor = r.sig === 'HIGH' ? 'amber' : 'dim';
@@ -68,10 +66,9 @@ const githubHtml = githubRepos.map((r, i) => {
   ${r.signal}</pre>`;
 }).join('\n');
 
-const accountLines = trackedAccounts.map(a => {
-  const dot = a.role === 'ORIGINATOR' ? '●' : '○';
-  return `  ${dot} @${a.handle.padEnd(16)} ${a.followers.padStart(6)} followers  ${a.rate.padStart(8)}`;
-}).join('\n');
+const accountLines = trackedAccounts.map(a =>
+  `  ▸ @${a.handle.padEnd(16)} ${a.followers.padStart(6)} followers  ${a.rate.padStart(8)}`
+).join('\n');
 
 const narrativeLines = narratives.map(n =>
   `  ${n.keyword.padEnd(18)} ${n.status.padEnd(12)} [${n.cluster}]`
@@ -97,15 +94,16 @@ entities .. 70 tracked | layers .. 6 | monitors .. 4 active
 <span class="dim">last scan: 2026-02-12 20:13 BKK</span></pre>
 
 <pre class="term-block al" data-d="200">
-<span class="amber">ACTION QUEUE</span> <span class="dim">(latest classified signals)</span>
-</pre>
+<span class="amber">ACTION ENGINE</span>
 
-<Fragment set:html={actionHtml} />
+signals classified .. <span class="phosphor">{actionStats.total}</span>
+autonomy rate ...... <span class="phosphor">{actionStats.autonomyRate}%</span> auto-executable
+urgent signals ..... <span class="amber">{actionStats.urgentCount}</span>
 
-<pre class="term-block al" data-d="900">
-<span class="dim">→ OBSERVE/CONTENT/ENGAGE = auto-execute | PREDICT = review
-→ STRATEGIC/AMPLIFY = requires founder approval
-→ 100% autonomy rate on Day 10 (10/10 auto-executable)</span></pre>
+breakdown .......... {breakdownStr}
+
+<span class="dim">→ OBSERVE/CONTENT/ENGAGE = auto-execute
+→ STRATEGIC/AMPLIFY = requires founder approval</span></pre>
 
 <pre class="term-block al" data-d="1000">
 <span class="amber">GITHUB MONITOR</span> <span class="dim">(20 repos · every 2h · 47 commits today)</span>
@@ -119,7 +117,7 @@ entities .. 70 tracked | layers .. 6 | monitors .. 4 active
 
 <pre class="term-block al" data-d="1700">{accountLines}
 
-<span class="dim">● ORIGINATOR  ○ AMPLIFIER</span></pre>
+<span class="dim">8 of 18 tracked accounts shown</span></pre>
 
 <pre class="term-block al" data-d="1900">
 <span class="amber">NARRATIVE TRACKER</span> <span class="dim">(10 keywords · every 4h)</span>
