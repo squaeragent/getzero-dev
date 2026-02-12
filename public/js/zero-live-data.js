@@ -116,6 +116,8 @@
 
       const heartbeat = el.querySelector('.agent-heartbeat');
       if (heartbeat) {
+        // Circadian-aware idle heartbeat
+        const circadianIdle = (window.__circadianParams && window.__circadianParams.idleHeartbeat) || 3.0;
         switch (agent.activity) {
           case 'sweep':
           case 'posting':
@@ -129,7 +131,7 @@
             heartbeat.style.animationDuration = '2s';
             break;
           default:
-            heartbeat.style.animationDuration = '3s';
+            heartbeat.style.animationDuration = circadianIdle.toFixed(1) + 's';
         }
       }
 

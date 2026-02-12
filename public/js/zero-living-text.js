@@ -326,7 +326,7 @@
         zone.currentText = newText;
         zone.isAnimating = false;
       });
-    }, zone.interval * 1000);
+    }, zone.interval * (window.__circadianParams ? window.__circadianParams.textCycleMult : 1.0) * 1000);
   }
 
   // Coordinate zones — stagger by 8s so they don't overlap
