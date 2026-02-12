@@ -2,10 +2,9 @@
 /**
  * ZERO Block Letter Logo — Claude Code / Pixel Brick style
  * V1: Sharp brutalist — no radius, hard shadows, phosphor green
- * Animation: Brick cascade — blocks rain in from top, Tetris-style
+ * Animation: CRT power-on — horizontal line expands vertically, blocks materialize
  */
 
-// Letter pixel maps (8 cols × 10 rows, 2-block-wide strokes)
 const letters: Record<string, number[][]> = {
   Z: [
     [1,1,1,1,1,1,1,1],
@@ -61,11 +60,7 @@ const word = "ZERO";
 const COLS = 8;
 const ROWS = 10;
 
-// Pre-compute animation delays per cell
-// For each "on" cell, delay = based on column position across full word + row offset
-// This creates a left-to-right cascade with top-to-bottom rain per column
-let globalCol = 0;
-type CellInfo = { on: boolean; delay: number };
+type CellInfo = { on: boolean; row: number; col: number };
 const letterCells: CellInfo[][] = [];
 
 for (const ch of word) {
@@ -74,31 +69,25 @@ for (const ch of word) {
   const cells: CellInfo[] = [];
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
-      const isOn = grid[r][c] === 1;
-      // Column-first cascade: each global column starts slightly later
-      // Within a column, each row adds a small increment (rain down effect)
-      const colDelay = (globalCol + c) * 35; // 35ms per column across the word
-      const rowDelay = r * 20; // 20ms per row (rain speed)
-      const jitter = Math.floor(Math.random() * 25); // slight randomness
-      cells.push({ on: isOn, delay: isOn ? colDelay + rowDelay + jitter : 0 });
+      cells.push({ on: grid[r][c] === 1, row: r, col: c });
     }
   }
   letterCells.push(cells);
-  globalCol += COLS + 1; // +1 for the gap between letters
 }
 ---
 
-<div class="block-logo" role="img" aria-label="ZERO">
-  {letterCells.map((cells, li) => (
+<div class="block-logo crt-boot" role="img" aria-label="ZERO">
+  {letterCells.map((cells) => (
     <div class="block-letter">
       {cells.map((cell) => (
         <div
           class:list={['block-cell', cell.on ? 'on' : 'off']}
-          style={cell.on ? `--cascade-delay: ${cell.delay}ms` : ''}
+          data-row={cell.row}
         />
       ))}
     </div>
   ))}
+  <div class="crt-scanline"></div>
 </div>
 
 <style>
@@ -107,6 +96,8 @@ for (const ch of word) {
     gap: 6px;
     align-items: center;
     padding: 4px 0;
+    position: relative;
+    overflow: hidden;
   }
 
   .block-letter {
@@ -120,43 +111,117 @@ for (const ch of word) {
     height: var(--block-size, 9px);
   }
 
+  .block-cell.off {
+    background: transparent;
+  }
+
+  /* ── CRT POWER-ON ANIMATION ── */
+
+  /* Phase 1: Logo starts as compressed horizontal line */
+  .crt-boot {
+    animation: crtExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  }
+
+  @keyframes crtExpand {
+    0% {
+      transform: scaleY(0.02);
+      filter: brightness(3) blur(2px);
+    }
+    15% {
+      transform: scaleY(0.02);
+      filter: brightness(4) blur(3px);
+    }
+    40% {
+      transform: scaleY(0.6);
+      filter: brightness(2) blur(1px);
+    }
+    60% {
+      transform: scaleY(1.05);
+      filter: brightness(1.5) blur(0px);
+    }
+    80% {
+      transform: scaleY(0.98);
+      filter: brightness(1.1);
+    }
+    100% {
+      transform: scaleY(1);
+      filter: brightness(1) blur(0px);
+    }
+  }
+
+  /* Phase 2: Blocks materialize after expand */
   .block-cell.on {
     background: #c8ff00;
     border: 1px solid rgba(0,0,0,0.3);
     box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
-
-    /* Cascade animation */
-    opacity: 0;
-    transform: translateY(-30px);
-    animation: brickDrop 0.25s ease-out forwards;
-    animation-delay: var(--cascade-delay, 0ms);
+    animation: blockMaterialize 0.4s ease-out both;
+    /* Stagger by row — middle rows appear first (CRT draws from center) */
+    animation-delay: calc(0.6s + var(--row-delay, 0ms));
   }
 
-  @keyframes brickDrop {
+  /* Row delays — center-out pattern */
+  .block-cell.on[data-row="4"],
+  .block-cell.on[data-row="5"] { --row-delay: 0ms; }
+  .block-cell.on[data-row="3"],
+  .block-cell.on[data-row="6"] { --row-delay: 40ms; }
+  .block-cell.on[data-row="2"],
+  .block-cell.on[data-row="7"] { --row-delay: 80ms; }
+  .block-cell.on[data-row="1"],
+  .block-cell.on[data-row="8"] { --row-delay: 120ms; }
+  .block-cell.on[data-row="0"],
+  .block-cell.on[data-row="9"] { --row-delay: 160ms; }
+
+  @keyframes blockMaterialize {
     0% {
-      opacity: 0;
-      transform: translateY(-30px);
       background: #ffffff;
-      box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.1), inset 1.5px 1.5px 0 rgba(255,255,255,0.3), 0 0 12px rgba(200,255,0,0.6);
+      border-color: rgba(200,255,0,0.6);
+      box-shadow: 0 0 12px rgba(200,255,0,0.8), inset 0 0 4px rgba(255,255,255,0.5);
+      opacity: 0.3;
     }
-    40% {
-      opacity: 1;
-      transform: translateY(2px);
+    30% {
       background: #e0ff66;
-    }
-    70% {
-      transform: translateY(-1px);
+      opacity: 1;
+      box-shadow: 0 0 8px rgba(200,255,0,0.4), inset -1.5px -1.5px 0 rgba(0,0,0,0.1), inset 1.5px 1.5px 0 rgba(255,255,255,0.15);
     }
     100% {
-      opacity: 1;
-      transform: translateY(0);
       background: #c8ff00;
+      border-color: rgba(0,0,0,0.3);
       box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
+      opacity: 1;
     }
   }
 
-  .block-cell.off {
-    background: transparent;
+  /* Scanline sweep */
+  .crt-scanline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(180deg, transparent, rgba(200,255,0,0.6), transparent);
+    top: 50%;
+    opacity: 0;
+    pointer-events: none;
+    animation: scanSweep 0.6s ease-out 0.5s both;
+  }
+
+  @keyframes scanSweep {
+    0% {
+      top: 50%;
+      opacity: 0.8;
+      height: 3px;
+    }
+    20% {
+      opacity: 1;
+      height: 4px;
+    }
+    50% {
+      top: 0%;
+      opacity: 0.5;
+    }
+    100% {
+      top: -10%;
+      opacity: 0;
+    }
   }
 
   @media (max-width: 640px) {
@@ -174,12 +239,16 @@ for (const ch of word) {
     }
   }
 
-  /* Respect prefers-reduced-motion */
   @media (prefers-reduced-motion: reduce) {
-    .block-cell.on {
-      opacity: 1;
-      transform: none;
+    .crt-boot {
       animation: none;
+    }
+    .block-cell.on {
+      animation: none;
+      opacity: 1;
+    }
+    .crt-scanline {
+      display: none;
     }
   }
 </style>
