@@ -1,0 +1,139 @@
+---
+/**
+ * ZERO OS Block Letter Logo — Claude Code / Pixel Brick style
+ * V1: Sharp brutalist — no radius, hard shadows, phosphor green
+ */
+
+// Letter pixel maps (8 cols × 10 rows, 2-block-wide strokes)
+const letters: Record<string, number[][]> = {
+  Z: [
+    [1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1],
+    [0,0,0,0,0,0,1,1],
+    [0,0,0,0,0,1,1,0],
+    [0,0,0,0,1,1,0,0],
+    [0,0,0,1,1,0,0,0],
+    [0,0,1,1,0,0,0,0],
+    [0,1,1,0,0,0,0,0],
+    [1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1],
+  ],
+  E: [
+    [1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,0,0],
+    [1,1,0,0,0,0,0,0],
+    [1,1,1,1,1,1,1,0],
+    [1,1,1,1,1,1,1,0],
+    [1,1,0,0,0,0,0,0],
+    [1,1,0,0,0,0,0,0],
+    [1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1],
+  ],
+  R: [
+    [1,1,1,1,1,1,1,0],
+    [1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,0],
+    [1,1,0,0,1,1,0,0],
+    [1,1,0,0,0,1,1,0],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+  ],
+  O: [
+    [0,1,1,1,1,1,1,0],
+    [1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,1,1,1,1,1,1],
+    [0,1,1,1,1,1,1,0],
+  ],
+  S: [
+    [0,1,1,1,1,1,1,0],
+    [1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,0,0],
+    [1,1,1,0,0,0,0,0],
+    [0,1,1,1,1,1,1,0],
+    [0,0,0,0,0,1,1,1],
+    [0,0,0,0,0,0,1,1],
+    [0,0,0,0,0,0,1,1],
+    [1,1,1,1,1,1,1,1],
+    [0,1,1,1,1,1,1,0],
+  ],
+};
+
+const word = "ZERO OS";
+---
+
+<div class="block-logo" role="img" aria-label="ZERO OS">
+  {word.split('').map((ch) => {
+    if (ch === ' ') return <div class="block-space" />;
+    const grid = letters[ch];
+    if (!grid) return null;
+    return (
+      <div class="block-letter">
+        {grid.flat().map((v) => (
+          <div class:list={['block-cell', v ? 'on' : 'off']} />
+        ))}
+      </div>
+    );
+  })}
+</div>
+
+<style>
+  .block-logo {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding: 4px 0;
+  }
+
+  .block-letter {
+    display: grid;
+    grid-template-columns: repeat(8, var(--block-size, 9px));
+    gap: var(--block-gap, 1.5px);
+  }
+
+  .block-cell {
+    width: var(--block-size, 9px);
+    height: var(--block-size, 9px);
+  }
+
+  .block-cell.on {
+    background: #c8ff00;
+    border: 1px solid rgba(0,0,0,0.3);
+    box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
+  }
+
+  .block-cell.off {
+    background: transparent;
+  }
+
+  .block-space {
+    width: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .block-logo {
+      gap: 4px;
+      --block-size: 7px;
+      --block-gap: 1px;
+    }
+    .block-space {
+      width: 8px;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 900px) {
+    .block-logo {
+      --block-size: 8px;
+      --block-gap: 1px;
+    }
+  }
+</style>
