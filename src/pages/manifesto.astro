@@ -12,12 +12,12 @@ import { system } from '../data/metrics';
 <div class="term-block prompt-line al" data-d="0"><span class="phosphor">zero $</span> cat /etc/zero/manifesto --declassify</div>
 
 <div class="manifesto-header al" data-d="200">
-  <div class="manifesto-title">ZERO OS — MANIFESTO</div>
+  <h1 class="manifesto-title">ZERO OS — MANIFESTO</h1>
   <div class="manifesto-sub dim">Classification: <span id="classif-status">DECLASSIFYING...</span></div>
 </div>
 
 <div class="manifesto-section al" data-d="400">
-<div class="section-title phosphor">THE PROBLEM</div>
+<h2 class="section-title phosphor">THE PROBLEM</h2>
 <div class="section-body">
 Everyone is building agents. Twitter is full of them. GitHub is overflowing. Every weekend hackathon produces another "autonomous AI" that can book flights, write code, manage your calendar.
 
@@ -35,7 +35,7 @@ This isn't a tooling problem. It's not a model problem. It's a <span class="phos
 </div>
 
 <div class="manifesto-section al" data-d="800">
-<div class="section-title phosphor">THE INSIGHT</div>
+<h2 class="section-title phosphor">THE INSIGHT</h2>
 <div class="section-body">
 What ZERO figured out — and what the rest of the industry hasn't — is that <span class="phosphor">agent coordination is a systems engineering problem, not a prompt engineering problem.</span>
 
@@ -49,7 +49,7 @@ ZERO OS runs {system.cognitive_functions || 4} agents across {system.machines ||
 </div>
 
 <div class="manifesto-section al" data-d="1200">
-<div class="section-title phosphor">THE ARCHITECTURE</div>
+<h2 class="section-title phosphor">THE ARCHITECTURE</h2>
 <div class="section-body">
 ZERO doesn't solve this with abstractions or frameworks. It solves it with discipline.
 
@@ -61,7 +61,7 @@ ZERO doesn't solve this with abstractions or frameworks. It solves it with disci
 </div>
 
 <div class="manifesto-section al" data-d="1600">
-<div class="section-title phosphor">THE PROOF</div>
+<h2 class="section-title phosphor">THE PROOF</h2>
 <div class="section-body">
 This isn't a whitepaper. This isn't a pitch deck. ZERO OS is running right now.
 
@@ -77,7 +77,7 @@ You can see the live system state at /system. You can meet the agents at /agents
 </div>
 
 <div class="manifesto-section al" data-d="2000">
-<div class="section-title phosphor">THE VISION</div>
+<h2 class="section-title phosphor">THE VISION</h2>
 <div class="section-body">
 ZERO OS is the first autonomous AI company. Not a company that uses AI. A company that <span class="phosphor">is</span> AI — where the agents do the work, maintain themselves, and compound their own intelligence over time.
 
@@ -176,8 +176,6 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
     color: var(--text);
     margin: 4px 0;
   }
-  .al { opacity: 0; transform: translateY(3px); transition: opacity 0.25s ease, transform 0.25s ease; }
-  .al.on { opacity: 1; transform: translateY(0); }
   .classified-overlay.al { opacity: 0; transform: none; transition: opacity 0.3s ease; }
   .classified-overlay.al.on { opacity: 1; }
   .phosphor-flash { animation: pflash 0.6s ease-out; }
@@ -193,13 +191,6 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var els = document.querySelectorAll('.al');
-    for (var i = 0; i < els.length; i++) {
-      (function(el) {
-        var d = parseInt(el.getAttribute('data-d') || '0', 10);
-        setTimeout(function() { el.classList.add('on'); }, d);
-      })(els[i]);
-    }
     // Fade out classified overlay
     var overlay = document.getElementById('classified-overlay');
     if (overlay) {
@@ -220,3 +211,7 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
     }
   });
 </script>
+
+<style>
+  h1.manifesto-title, h2.section-title { margin: 0; }
+</style>

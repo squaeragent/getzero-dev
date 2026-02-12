@@ -15,12 +15,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </div>
 
 <div class="product-header al" data-d="1800">
-  <div class="product-title">THE INTELLIGENCE BRIEF: AGENT STACK GUIDE</div>
+  <h1 class="product-title">THE INTELLIGENCE BRIEF: AGENT STACK GUIDE</h1>
   <div class="product-meta dim">Version 1.0 — Production Blueprint — <span class="amber">$29</span></div>
 </div>
 
 <div class="product-section al" data-d="2000">
-<div class="section-title phosphor"># README</div>
+<h2 class="section-title phosphor"># README</h2>
 <div class="section-body">
 The complete blueprint for building AI agent systems that actually run in production. Not theory — the exact architecture powering ZERO OS right now.
 
@@ -29,7 +29,7 @@ Built from <span class="phosphor">real operational data</span>, not weekend demo
 </div>
 
 <div class="product-section al" data-d="2200">
-<div class="section-title phosphor">MODULES</div>
+<h2 class="section-title phosphor">MODULES</h2>
 <div class="section-body">
 <div class="li">1. <span class="phosphor">AGENT ARCHITECTURE</span> — How to design agents that don't collapse under real workloads. Specs, contracts, role boundaries.</div>
 <div class="li">2. <span class="phosphor">COORDINATION PROTOCOLS</span> — Multi-agent handoffs that preserve context and enforce quality. The protocol layer nobody talks about.</div>
@@ -41,7 +41,7 @@ Built from <span class="phosphor">real operational data</span>, not weekend demo
 </div>
 
 <div class="product-section al" data-d="2400">
-<div class="section-title phosphor">REAL NUMBERS FROM PRODUCTION</div>
+<h2 class="section-title phosphor">REAL NUMBERS FROM PRODUCTION</h2>
 <div class="section-body">
 <div class="metric-row"><span class="metric-label">Agents in production</span><span class="metric-dots"></span><span class="metric-value">4</span></div>
 <div class="metric-row"><span class="metric-label">Uptime (self-healed)</span><span class="metric-dots"></span><span class="metric-value">99.7%</span></div>
@@ -60,7 +60,7 @@ Built from <span class="phosphor">real operational data</span>, not weekend demo
 </div>
 
 <div class="product-section al" data-d="2600">
-<div class="section-title phosphor">WHAT YOU GET</div>
+<h2 class="section-title phosphor">WHAT YOU GET</h2>
 <div class="section-body">
 <div class="metric-row"><span class="metric-label">format</span><span class="metric-dots"></span><span class="metric-value">PDF + Markdown source</span></div>
 <div class="metric-row"><span class="metric-label">pages</span><span class="metric-dots"></span><span class="metric-value">60+</span></div>
@@ -72,7 +72,7 @@ Built from <span class="phosphor">real operational data</span>, not weekend demo
 </div>
 
 <div class="product-section install-section al" data-d="2800">
-<div class="section-title ice">INSTALL</div>
+<h2 class="section-title ice">INSTALL</h2>
 <div class="section-body">
 <span class="phosphor">zero $</span> curl -sL <span class="ice">store.getzero.dev/l/agent-stack</span>
 
@@ -165,8 +165,6 @@ Built from <span class="phosphor">real operational data</span>, not weekend demo
     font-weight: 700;
     margin-top: 4px;
   }
-  .al { opacity: 0; transform: translateY(3px); transition: opacity 0.25s ease, transform 0.25s ease; }
-  .al.on { opacity: 1; transform: translateY(0); }
   @media (max-width: 640px) {
     .product-section { padding: 0 8px; }
     .section-body { font-size: 0.8rem; }
@@ -175,14 +173,6 @@ Built from <span class="phosphor">real operational data</span>, not weekend demo
   }
 </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var els = document.querySelectorAll('.al');
-    for (var i = 0; i < els.length; i++) {
-      (function(el) {
-        var d = parseInt(el.getAttribute('data-d') || '0', 10);
-        setTimeout(function() { el.classList.add('on'); }, d);
-      })(els[i]);
-    }
-  });
-</script>
+<style>
+  h1.product-title, h2.section-title { margin: 0; }
+</style>

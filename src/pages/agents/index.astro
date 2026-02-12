@@ -10,6 +10,7 @@ const agents = [
 ---
 
 <BaseLayout title="Agents — ZERO" description="Meet the four cognitive functions that run ZERO OS." current="/agents">
+  <h1 class="sr-only">Agents</h1>
   <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> ps aux | grep zero-agent
 
 <span class="phosphor">ZERO OS — ACTIVE PROCESSES</span></pre>
@@ -18,7 +19,8 @@ const agents = [
 They coordinate through specs,
 not conversations.</pre>
 
-<Fragment set:html={agents.map((a, i) => `<pre class="term-block al agent-card" data-d="${600 + i * 400}">
+<Fragment set:html={agents.map((a, i) => `<h2 class="sr-only">${a.name}</h2>
+<pre class="term-block al agent-card" data-d="${600 + i * 400}">
 <span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">${a.name}</span>
 ${a.role} · ${a.host}
 
@@ -34,21 +36,9 @@ ${a.desc}
 </BaseLayout>
 
 <style>
-  .al { opacity: 0; transform: translateY(3px); transition: opacity 0.25s ease, transform 0.25s ease; }
-  .al.on { opacity: 1; transform: translateY(0); }
   .pflash-tag { animation: none; }
   .al.on .pflash-tag { animation: pflash 0.6s ease-out; }
   @keyframes pflash { 0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); } 100% { text-shadow: 0 0 8px rgba(200,255,0,0.4); } }
 </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var els = document.querySelectorAll('.al');
-    for (var i = 0; i < els.length; i++) {
-      (function(el) {
-        var d = parseInt(el.getAttribute('data-d') || '0', 10);
-        setTimeout(function() { el.classList.add('on'); }, d);
-      })(els[i]);
-    }
-  });
-</script>
+<!-- animation handled by BaseLayout -->

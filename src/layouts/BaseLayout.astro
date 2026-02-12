@@ -47,6 +47,12 @@ const navItems = [
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>" type="image/svg+xml" />
+  <noscript>
+    <style>
+      .al, .bl, .boot-line { opacity: 1 !important; transform: none !important; }
+      .classified-overlay { display: none !important; }
+    </style>
+  </noscript>
 </head>
 <body>
   <div class="grain"></div>
@@ -88,6 +94,18 @@ const navItems = [
     // Blinking cursor
     document.querySelectorAll('.cursor-blink').forEach(el => {
       el.textContent = '█';
+    });
+  </script>
+  <script>
+    // Shared animation for .al elements
+    document.addEventListener('DOMContentLoaded', function() {
+      var els = document.querySelectorAll('.al');
+      for (var i = 0; i < els.length; i++) {
+        (function(el) {
+          var d = parseInt(el.getAttribute('data-d') || '0', 10);
+          setTimeout(function() { el.classList.add('on'); }, d);
+        })(els[i]);
+      }
     });
   </script>
 </body>
