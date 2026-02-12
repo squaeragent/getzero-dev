@@ -1,0 +1,409 @@
+/* ============================================
+   ZERO OS — CRT MICRO-ANIMATIONS
+   The machine is alive. Every detail proves it.
+   
+   CSS + vanilla JS. No dependencies.
+   GPU-accelerated. Mobile-safe.
+   ============================================ */
+
+
+/* ============================================
+   0. CSS CUSTOM PROPERTIES
+   ============================================ */
+
+:root {
+  --z-green: #00ff41;
+  --z-green-dim: rgba(0, 255, 65, 0.3);
+  --z-green-glow: rgba(0, 255, 65, 0.5);
+  --z-green-ghost: rgba(0, 255, 65, 0.03);
+  --z-amber: #ffb000;
+  --z-black: #000000;
+  --z-cursor-rate: 1.06s;
+  --z-sweep-speed: 8s;
+  --z-flicker-interval: 12s;
+}
+
+
+/* ============================================
+   1. SCANLINE SWEEP
+   Single beam refreshes the screen top→bottom.
+   ============================================ */
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 48%,
+    rgba(0, 255, 65, 0.03) 49%,
+    rgba(0, 255, 65, 0.06) 50%,
+    rgba(0, 255, 65, 0.03) 51%,
+    transparent 52%,
+    transparent 100%
+  );
+  animation: scanline-sweep var(--z-sweep-speed) linear infinite;
+}
+
+@keyframes scanline-sweep {
+  0%   { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+
+/* ============================================
+   2. STATIC SCANLINES
+   Permanent CRT line texture.
+   ============================================ */
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9997;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+}
+
+
+/* ============================================
+   3. TERMINAL CURSOR BLINK
+   530ms on, 530ms off. Exact real terminal rate.
+   Add class="terminal-cursor" to █ elements.
+   ============================================ */
+
+@keyframes cursor-blink {
+  0%, 49.9%  { opacity: 1; }
+  50%, 100%  { opacity: 0; }
+}
+
+.terminal-cursor {
+  animation: cursor-blink var(--z-cursor-rate) step-end infinite;
+  display: inline;
+}
+
+
+/* ============================================
+   4. PHOSPHOR GLOW PULSE
+   Green elements breathe. The screen is powered.
+   Add class="glow-breathe" to key green text.
+   ============================================ */
+
+@keyframes glow-breathe {
+  0%, 100% {
+    text-shadow: 0 0 4px var(--z-green-dim);
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow: 0 0 8px var(--z-green-glow),
+                 0 0 25px var(--z-green-ghost);
+    filter: brightness(1.08);
+  }
+}
+
+.glow-breathe {
+  animation: glow-breathe 4s ease-in-out infinite;
+}
+
+
+/* ============================================
+   5. INDEPENDENT AGENT HEARTBEATS
+   Each [■ LIVE] pulses on its own rhythm.
+   Add class="agent-heartbeat" and data-agent-index.
+   ============================================ */
+
+@keyframes heartbeat {
+  0%, 100% { 
+    opacity: 1;
+    text-shadow: 0 0 4px var(--z-green-dim);
+  }
+  50% { 
+    opacity: 0.7;
+    text-shadow: 0 0 12px var(--z-green-glow),
+                 0 0 30px var(--z-green-ghost);
+  }
+}
+
+.agent-heartbeat {
+  animation: heartbeat 3s ease-in-out infinite;
+}
+
+.agent-heartbeat[data-agent-index="0"] { animation-delay: 0s; }
+.agent-heartbeat[data-agent-index="1"] { animation-delay: 0.6s; }
+.agent-heartbeat[data-agent-index="2"] { animation-delay: 1.2s; }
+.agent-heartbeat[data-agent-index="3"] { animation-delay: 1.8s; }
+.agent-heartbeat[data-agent-index="4"] { animation-delay: 2.4s; }
+
+
+/* ============================================
+   6. CRT VIGNETTE
+   Curved monitor. Darkened edges.
+   Add <div class="crt-vignette"></div> to body.
+   ============================================ */
+
+.crt-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9996;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.3) 85%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+
+/* ============================================
+   7. STATIC NOISE
+   Grain overlay. Live signal texture.
+   Add <div class="crt-noise"></div> to body.
+   ============================================ */
+
+@keyframes noise-shift {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-2%, -2%); }
+  20%  { transform: translate(1%, 3%); }
+  30%  { transform: translate(-3%, 1%); }
+  40%  { transform: translate(3%, -1%); }
+  50%  { transform: translate(-1%, 2%); }
+  60%  { transform: translate(2%, -3%); }
+  70%  { transform: translate(-2%, 1%); }
+  80%  { transform: translate(1%, -2%); }
+  90%  { transform: translate(3%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+.crt-noise {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 9995;
+  opacity: 0.02;
+  animation: noise-shift 0.5s steps(10) infinite;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+
+/* ============================================
+   8. RARE FLICKER
+   Power fluctuation. Once every 12s.
+   Add class="crt-flicker" to main wrapper.
+   ============================================ */
+
+@keyframes crt-flicker {
+  0%, 95.5%, 100% { opacity: 1; }
+  96%   { opacity: 0.82; }
+  96.5% { opacity: 0.97; }
+  97%   { opacity: 0.86; }
+  97.5% { opacity: 1; }
+}
+
+.crt-flicker {
+  animation: crt-flicker var(--z-flicker-interval) linear infinite;
+}
+
+
+/* ============================================
+   9. HORIZONTAL GLITCH (SIGNAL INTERRUPT)
+   Entire page shifts 2-3px for 1 frame,
+   every 30-45 seconds. Most visitors won't
+   catch it. The ones who do will remember.
+   ============================================ */
+
+@keyframes signal-glitch {
+  0%, 97.9%, 98.2%, 100% {
+    transform: translateX(0);
+    clip-path: none;
+  }
+  98% {
+    transform: translateX(3px);
+  }
+  98.1% {
+    transform: translateX(-2px);
+  }
+}
+
+.signal-glitch {
+  animation: signal-glitch 37s linear infinite;
+}
+
+
+/* ============================================
+   10. HOVER GLITCH ON LINKS
+   Electromagnetic interference on hover.
+   Add class="hover-glitch" to nav links.
+   ============================================ */
+
+@keyframes hover-zap {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(2px); }
+  40%  { transform: translateX(-1px); }
+  60%  { transform: translateX(1px); }
+  80%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+.hover-glitch {
+  transition: text-shadow 0.1s;
+}
+
+.hover-glitch:hover {
+  animation: hover-zap 0.15s linear;
+  text-shadow: 0 0 8px var(--z-green-glow),
+               2px 0 0 rgba(255, 0, 0, 0.15),
+               -2px 0 0 rgba(0, 255, 255, 0.15);
+}
+
+
+/* ============================================
+   11. ASCII LOGO PHOSPHOR AFTERIMAGE
+   Burn-in ghost. The logo has been here
+   so long it's etched into the phosphor.
+   Wrap logo in <div class="phosphor-burn">
+   ============================================ */
+
+.phosphor-burn {
+  position: relative;
+}
+
+.phosphor-burn::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 100%;
+  height: 100%;
+  color: var(--z-green);
+  opacity: 0.04;
+  filter: blur(1px);
+  pointer-events: none;
+  white-space: pre;
+  font: inherit;
+  z-index: -1;
+}
+
+
+/* ============================================
+   12. HOVER SCANLINE ON CARDS
+   Single scanline flickers across an element
+   on hover. For agent cards, stat blocks.
+   Add class="hover-scanline" to containers.
+   ============================================ */
+
+.hover-scanline {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-scanline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--z-green-dim) 20%,
+    var(--z-green-glow) 50%,
+    var(--z-green-dim) 80%,
+    transparent 100%
+  );
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: none;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hover-scanline:hover::before {
+  opacity: 1;
+  animation: card-scan 0.6s ease-out forwards;
+}
+
+@keyframes card-scan {
+  0%   { transform: translateY(-2px); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(calc(100cqh + 2px)); opacity: 0; }
+}
+
+/* Fallback for browsers without container queries */
+@supports not (height: 100cqh) {
+  @keyframes card-scan {
+    0%   { top: -2px; opacity: 0; }
+    10%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+  .hover-scanline:hover::before {
+    animation: card-scan 0.6s ease-out forwards;
+  }
+}
+
+
+/* ============================================
+   13. ACCESSIBILITY
+   Respect motion preferences. Non-negotiable.
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  .terminal-cursor,
+  .glow-breathe,
+  .agent-heartbeat,
+  .crt-noise,
+  .crt-flicker,
+  .signal-glitch,
+  .hover-glitch:hover,
+  .hover-scanline::before {
+    animation: none !important;
+  }
+  .hover-glitch:hover {
+    text-shadow: 0 0 8px var(--z-green-glow);
+  }
+}
+
+
+/* ============================================
+   14. MOBILE PERFORMANCE GUARD
+   Reduce effects on low-power devices.
+   ============================================ */
+
+@media (max-width: 768px) {
+  .crt-noise {
+    display: none; /* noise is invisible at 2% on small screens anyway */
+  }
+  body::after {
+    /* Wider scanlines on mobile — 2px lines at 4px pitch are subpixel */
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.1) 3px,
+      rgba(0, 0, 0, 0.1) 6px
+    );
+  }
+}

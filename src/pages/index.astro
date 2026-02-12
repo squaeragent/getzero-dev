@@ -19,7 +19,7 @@ try {
     <div class="panel glyph-panel" id="boot-panel">
       <div class="boot-seq">
         <div class="bl" data-d="0"><span class="dim">BIOS POST ............</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="200"><span class="dim">MEM TEST: 192GB</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="200"><span class="dim">MEM TEST: 96GB</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="400"><span class="dim">GPU: M3 ULTRA 76-CORE</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="600">&nbsp;</div>
         <div class="bl" data-d="700"><h1 class="sr-only">ZERO OS</h1><BlockLogo /></div>
@@ -32,11 +32,11 @@ try {
         <div class="bl" data-d="2000"><span class="dim">&gt;</span> CONNECT MACHINES ({m.machines}) <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="2200">&nbsp;</div>
         <div class="bl" data-d="2300"><span class="amber-g">AGENT BOOT SEQUENCE:</span></div>
-        <div class="bl" data-d="2500">&nbsp; 001 SERAPHIM <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
-        <div class="bl" data-d="2700">&nbsp; 002 CHRONICLE <span class="boot-dots">...</span> <span class="phosphor-g">[■ LIVE]</span></div>
-        <div class="bl" data-d="2900">&nbsp; 003 AESTHETE <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
-        <div class="bl" data-d="3100">&nbsp; 004 SQUAER <span class="boot-dots">......</span> <span class="phosphor-g">[■ LIVE]</span></div>
-        <div class="bl" data-d="3200">&nbsp; 005 SENTINEL <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="2500">&nbsp; 001 SERAPHIM <span class="boot-dots">....</span> <span class="phosphor-g agent-heartbeat" data-agent-index="0">[■ LIVE]</span></div>
+        <div class="bl" data-d="2700">&nbsp; 002 CHRONICLE <span class="boot-dots">...</span> <span class="phosphor-g agent-heartbeat" data-agent-index="1">[■ LIVE]</span></div>
+        <div class="bl" data-d="2900">&nbsp; 003 AESTHETE <span class="boot-dots">....</span> <span class="phosphor-g agent-heartbeat" data-agent-index="2">[■ LIVE]</span></div>
+        <div class="bl" data-d="3100">&nbsp; 004 SQUAER <span class="boot-dots">......</span> <span class="phosphor-g agent-heartbeat" data-agent-index="3">[■ LIVE]</span></div>
+        <div class="bl" data-d="3200">&nbsp; 005 SENTINEL <span class="boot-dots">....</span> <span class="phosphor-g agent-heartbeat" data-agent-index="4">[■ LIVE]</span></div>
         <div class="bl" data-d="3400">&nbsp;</div>
         <div class="bl" data-d="3500"><strong style="color: var(--text);">Five AI agents. Zero employees. One system.</strong></div>
         <div class="bl" data-d="3900"><span class="dim">Built in public. Running in production.</span></div>
@@ -60,7 +60,7 @@ try {
         cost, every mistake. The question driving it:
       </p>
       <p style="font-size: 0.9rem; margin-bottom: 10px;">
-        <strong style="color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow);">Can a machine earn trust it didn't start with?</strong>
+        <strong class="glow-breathe" style="color: var(--phosphor);">Can a machine earn trust it didn't start with?</strong>
       </p>
       <div style="margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/build-log" style="color: var(--text);">Read the build log</a><br/>

@@ -48,6 +48,7 @@ const navItems = [
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>" type="image/svg+xml" />
+  <link rel="stylesheet" href="/css/zero-crt-microanimations.css" />
   <noscript>
     <style>
       .al, .bl, .boot-line { opacity: 1 !important; transform: none !important; }
@@ -57,9 +58,9 @@ const navItems = [
 </head>
 <body>
   <RoomDepth />
-  <div class="grain"></div>
   <div class="crt-vignette"></div>
-  <div class="crt-viewport">
+  <div class="crt-noise"></div>
+  <div class="crt-viewport crt-flicker signal-glitch-target">
     <!-- STATUS BAR -->
     <div class="status-bar">
       <span>ZERO OS v0.9.1</span>
@@ -79,7 +80,7 @@ const navItems = [
     <!-- NAVIGATION -->
     <nav class="nav-bar">
       {navItems.map(item => (
-        <a href={item.href} class={`nav-tab${current === item.href ? ' active' : ''}`}>{item.label}</a>
+        <a href={item.href} class={`nav-tab hover-glitch${current === item.href ? ' active' : ''}`}>{item.label}</a>
       ))}
     </nav>
 
@@ -93,6 +94,7 @@ const navItems = [
     </div>
   </div>
 
+  <script src="/js/zero-crt-dynamics.js" defer></script>
   <script>
     // Blinking cursor
     document.querySelectorAll('.cursor-blink').forEach(el => {
