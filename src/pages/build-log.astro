@@ -183,61 +183,72 @@ questions ........... 1</div>
 
 <style>
   .build-log-wrap {
-    max-width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 20px;
     overflow-x: hidden;
   }
   .prompt-line {
-    padding: 8px 12px;
+    padding: 12px 0;
   }
   .day-entry {
-    border-top: 1px solid #1a1a1a;
-    padding: 8px 12px;
+    padding: 32px 0;
+    border-top: 2px solid #222;
+    margin-top: 0;
+  }
+  .day-entry + .day-entry {
+    /* extra breathing room between entries */
   }
   .day-entry.genesis {
-    border-top: 1px solid var(--ice-dim);
+    border-top: 2px solid var(--ice-dim);
   }
   .day-header {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: 0.9rem;
-    margin-bottom: 6px;
-    padding-bottom: 4px;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
     border-bottom: 1px solid #1a1a1a;
   }
   .day-body {
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     color: var(--text-dim);
     word-break: break-word;
-    line-height: 1.45;
+    line-height: 1.65;
   }
   .day-summary {
     color: var(--text);
-    margin-bottom: 4px;
+    font-size: 1.15rem;
+    margin-bottom: 16px;
+    line-height: 1.6;
   }
   .day-metrics {
-    margin-top: 6px;
-    padding-top: 4px;
-    border-top: 1px solid #111;
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid #1a1a1a;
+    background: #0d0d0d;
     color: var(--text-dim);
     white-space: pre-wrap;
+    font-size: 1rem;
+    line-height: 1.7;
   }
   .li {
-    padding-left: 1.4em;
-    text-indent: -1.4em;
-    margin-bottom: 2px;
-    line-height: 1.45;
+    padding-left: 1.6em;
+    text-indent: -1.6em;
+    margin-bottom: 8px;
+    line-height: 1.65;
     word-break: break-word;
   }
   .blink-cursor { animation: blk 1s step-end infinite; }
   @keyframes blk { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   @media (max-width: 640px) {
-    .day-entry { padding: 6px 8px; }
-    .day-body { font-size: 0.8rem; }
-    .day-header { font-size: 0.8rem; }
+    .build-log-wrap { padding: 0 16px; }
+    .day-entry { padding: 24px 0; }
+    .day-body { font-size: 1rem; }
+    .day-header { font-size: 1.15rem; }
+    .day-summary { font-size: 1rem; }
   }
-</style>
-
-<style>
   h2.day-header { margin: 0; }
 </style>
