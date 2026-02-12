@@ -1,0 +1,152 @@
+---
+/**
+ * 3D Room Depth Background
+ * Room wireframe + ambient light cone
+ * Pure CSS, zero JS, zero ongoing CPU
+ */
+---
+
+<div class="room-depth">
+  <div class="light-cone"></div>
+  <div class="edge-left"></div>
+  <div class="edge-right"></div>
+  <div class="edge-top"></div>
+  <div class="edge-bottom"></div>
+  <div class="wall-floor"></div>
+  <div class="wall-ceiling"></div>
+</div>
+
+<style>
+  .room-depth {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .light-cone {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 45% 40% at 50% 45%,
+      rgba(200, 255, 0, 0.025) 0%,
+      rgba(200, 255, 0, 0.012) 30%,
+      rgba(200, 255, 0, 0.004) 55%,
+      transparent 75%
+    );
+  }
+
+  .wall-floor {
+    position: absolute;
+    width: 800px;
+    height: 400px;
+    left: 50%;
+    bottom: 0;
+    transform-origin: bottom center;
+    transform: translateX(-50%) rotateX(70deg);
+    border-left: 1px solid rgba(200, 255, 0, 0.03);
+    border-right: 1px solid rgba(200, 255, 0, 0.03);
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent calc(100% / 10 - 1px),
+        rgba(200, 255, 0, 0.02) calc(100% / 10 - 1px),
+        rgba(200, 255, 0, 0.02) calc(100% / 10)
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent calc(100% / 8 - 1px),
+        rgba(200, 255, 0, 0.015) calc(100% / 8 - 1px),
+        rgba(200, 255, 0, 0.015) calc(100% / 8)
+      );
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  }
+
+  .wall-ceiling {
+    position: absolute;
+    width: 800px;
+    height: 400px;
+    left: 50%;
+    top: 0;
+    transform-origin: top center;
+    transform: translateX(-50%) rotateX(-70deg);
+    border-left: 1px solid rgba(200, 255, 0, 0.02);
+    border-right: 1px solid rgba(200, 255, 0, 0.02);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
+  }
+
+  .edge-left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 12%;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent 10%,
+      rgba(200, 255, 0, 0.03) 30%,
+      rgba(200, 255, 0, 0.05) 50%,
+      rgba(200, 255, 0, 0.03) 70%,
+      transparent 90%
+    );
+  }
+
+  .edge-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 12%;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent 10%,
+      rgba(200, 255, 0, 0.03) 30%,
+      rgba(200, 255, 0, 0.05) 50%,
+      rgba(200, 255, 0, 0.03) 70%,
+      transparent 90%
+    );
+  }
+
+  .edge-top {
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    top: 15%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      rgba(200, 255, 0, 0.04),
+      rgba(200, 255, 0, 0.02) 30%,
+      rgba(200, 255, 0, 0.02) 70%,
+      rgba(200, 255, 0, 0.04)
+    );
+  }
+
+  .edge-bottom {
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    bottom: 18%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      rgba(200, 255, 0, 0.05),
+      rgba(200, 255, 0, 0.02) 30%,
+      rgba(200, 255, 0, 0.02) 70%,
+      rgba(200, 255, 0, 0.05)
+    );
+  }
+
+  @media (max-width: 640px) {
+    .edge-left { left: 5%; }
+    .edge-right { right: 5%; }
+    .edge-top { left: 5%; right: 5%; }
+    .edge-bottom { left: 5%; right: 5%; }
+    .wall-floor, .wall-ceiling { width: 120%; left: 50%; }
+  }
+</style>
