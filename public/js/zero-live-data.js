@@ -102,76 +102,110 @@
     updateFreshness(state);
   }
 
-  // Activity → heartbeat speed mapping
-  // Speed = seconds per pulse cycle. Lower = more intense.
-  var HEARTBEAT_MAP = {
-    // Burst (0.8s) — short intense actions
-    posting:     { speed: 0.8, intensity: 'burst' },
-    deploying:   { speed: 0.8, intensity: 'burst' },
-    publishing:  { speed: 0.8, intensity: 'burst' },
-    // High (1.0s) — sustained heavy work
-    sweep:       { speed: 1.0, intensity: 'high' },
-    sweeping:    { speed: 1.0, intensity: 'high' },
-    building:    { speed: 1.0, intensity: 'high' },
-    processing:  { speed: 1.0, intensity: 'high' },
-    generating:  { speed: 1.0, intensity: 'high' },
-    analyzing:   { speed: 1.0, intensity: 'high' },
-    // Medium (1.5s) — focused but not peak
-    scoring:     { speed: 1.5, intensity: 'medium' },
-    reviewing:   { speed: 1.5, intensity: 'medium' },
-    composing:   { speed: 1.5, intensity: 'medium' },
-    classifying: { speed: 1.5, intensity: 'medium' },
-    // Low (2.0s) — steady background
-    monitoring:  { speed: 2.0, intensity: 'low' },
-    patrolling:  { speed: 2.0, intensity: 'low' },
-    watching:    { speed: 2.0, intensity: 'low' },
-    listening:   { speed: 2.0, intensity: 'low' },
-    // Idle (3.0s) — alive but resting
-    idle:        { speed: 3.0, intensity: 'idle' },
-    sleeping:    { speed: 3.0, intensity: 'idle' }
+  // Per-agent activity → pulse speed lookup (from spec Section 3)
+  var PULSE_SPEEDS = {
+    seraphim:  { idle: 3.0, sweep: 1.0, classify: 1.4, review: 1.8, coordinate: 1.6, export: 2.2, building: 1.0, processing: 1.0, analyzing: 1.0 },
+    chronicle: { idle: 3.0, drafting: 1.2, scoring: 1.6, editing: 1.4, publishing: 1.0 },
+    aesthete:  { idle: 3.0, designing: 1.2, reviewing: 1.6, rendering: 1.0, scoring: 1.8 },
+    squaer:    { idle: 3.0, posting: 0.8, engaging: 1.2, scraping: 1.4, queuing: 2.0 },
+    sentinel:  { monitoring: 2.0, scanning: 1.2, alert: 0.6, resolving: 1.0, idle: 3.0 }
   };
 
-  var IDLE_HEARTBEAT = { speed: 3.0, intensity: 'idle' };
+  // Speed → intensity level mapping
+  var INTENSITY_MAP = {
+    '0.6': 'alarm',
+    '0.8': 'intense',
+    '1.0': 'intense',
+    '1.2': 'active',
+    '1.4': 'active',
+    '1.6': 'active',
+    '1.8': 'active',
+    '2.0': 'resting',
+    '2.2': 'resting',
+    '3.0': 'resting'
+  };
 
   // Agent heartbeat speed based on activity
   function updateAgentStatus(state) {
     if (!state.agents) return;
+
     Object.entries(state.agents).forEach(function(entry) {
       var name = entry[0], agent = entry[1];
-      var el = document.querySelector('[data-agent="' + name + '"]');
-      if (!el) return;
-
       var activity = (agent.activity || 'idle').toLowerCase();
+      var status = (agent.status || 'active').toLowerCase();
 
-      // Update activity text
-      var activityEl = el.querySelector('.agent-activity');
-      if (activityEl) {
-        activityEl.textContent = activity;
-      }
+      // Find all cards/rows for this agent across the page
+      var cards = document.querySelectorAll('[data-agent="' + name + '"]');
+      // Also find standalone heartbeats (e.g. on homepage boot)
+      var standaloneHb = document.querySelectorAll('.agent-heartbeat[data-agent-id="' + name + '"]');
 
-      // Find heartbeat indicator — check both inside data-agent wrapper and standalone
-      var heartbeat = el.querySelector('.agent-heartbeat') ||
-                      document.querySelector('.agent-heartbeat[data-agent-id="' + name + '"]');
-      if (heartbeat) {
-        var hb = HEARTBEAT_MAP[activity] || IDLE_HEARTBEAT;
-        heartbeat.style.setProperty('--heartbeat-speed', hb.speed + 's');
-        heartbeat.dataset.intensity = hb.intensity;
+      cards.forEach(function(card) {
+        var oldActivity = card.dataset.currentActivity;
 
-        // Ensure animation restarts cleanly on activity change
-        var prevActivity = heartbeat.dataset.prevActivity;
-        if (prevActivity && prevActivity !== activity) {
-          heartbeat.style.animation = 'none';
-          heartbeat.offsetHeight; // force reflow
-          heartbeat.style.animation = '';
+        // --- Heartbeat speed ---
+        var heartbeat = card.querySelector('.agent-heartbeat');
+        var speeds = PULSE_SPEEDS[name] || {};
+        var speed = speeds[activity] || 3.0;
+        var intensity = INTENSITY_MAP[speed.toFixed(1)] || 'resting';
+
+        // Override for error/offline
+        if (status === 'error') intensity = 'alarm';
+        if (status === 'offline') intensity = 'offline';
+
+        if (heartbeat) {
+          heartbeat.style.setProperty('--agent-pulse-speed', speed + 's');
+          heartbeat.dataset.intensity = intensity;
+
+          // Offline: kill animation, dim
+          if (status === 'offline') {
+            heartbeat.style.setProperty('--agent-pulse-speed', '0s');
+            heartbeat.style.opacity = '0.2';
+            heartbeat.style.color = 'rgba(255,255,255,0.3)';
+          } else {
+            heartbeat.style.opacity = '';
+            heartbeat.style.color = '';
+          }
         }
-        heartbeat.dataset.prevActivity = activity;
-      }
 
-      // Status dot (if present on other pages)
-      var statusEl = el.querySelector('.agent-status-dot');
-      if (statusEl) {
-        statusEl.dataset.status = agent.status;
-      }
+        // --- Activity text ---
+        var activityEl = card.querySelector('.agent-activity');
+        if (activityEl) {
+          activityEl.textContent = (activity === 'idle') ? '' : activity;
+          activityEl.dataset.activity = activity;
+        }
+
+        // --- Activity change flash ---
+        if (oldActivity && oldActivity !== activity) {
+          card.classList.remove('activity-changed');
+          void card.offsetWidth; // force reflow
+          card.classList.add('activity-changed');
+        }
+        card.dataset.currentActivity = activity;
+
+        // --- Last active timestamp ---
+        var lastActiveEl = card.querySelector('.agent-last-active');
+        if (lastActiveEl && agent.last_active_at) {
+          var now = new Date();
+          var then = new Date(agent.last_active_at);
+          var diffMin = Math.floor((now - then) / 60000);
+          lastActiveEl.textContent = timeAgo(agent.last_active_at);
+          if (diffMin < 5) lastActiveEl.dataset.freshness = 'fresh';
+          else if (diffMin < 30) lastActiveEl.dataset.freshness = 'recent';
+          else lastActiveEl.dataset.freshness = 'stale';
+        }
+      });
+
+      // Update standalone heartbeats (not inside data-agent wrappers)
+      standaloneHb.forEach(function(hb) {
+        if (hb.closest('[data-agent]')) return; // skip if already inside a card
+        var speeds = PULSE_SPEEDS[name] || {};
+        var speed = speeds[activity] || 3.0;
+        var intensity = INTENSITY_MAP[speed.toFixed(1)] || 'resting';
+        if (status === 'error') intensity = 'alarm';
+        if (status === 'offline') intensity = 'offline';
+        hb.style.setProperty('--agent-pulse-speed', speed + 's');
+        hb.dataset.intensity = intensity;
+      });
     });
   }
 

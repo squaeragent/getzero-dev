@@ -827,61 +827,96 @@ pre, code {
   .status-card .value { font-size: 1.3rem; }
 }
 
-/* ── AGENT HEARTBEAT INDICATORS ── */
-/* Speed set dynamically via --heartbeat-speed custom property by zero-live-data.js */
+/* ── AGENT ACTIVITY INDICATORS ── */
+/* Heartbeat pulse — speed set via --agent-pulse-speed by zero-live-data.js */
 .agent-heartbeat {
   display: inline;
   color: #00ff41;
-  animation: agent-pulse var(--heartbeat-speed, 3s) ease-in-out infinite;
+  animation: heartbeat-dynamic var(--agent-pulse-speed, 3s) ease-in-out infinite;
+  transition: animation-duration 0.5s ease;
   will-change: opacity, text-shadow;
+  --pulse-glow: rgba(0, 255, 65, 0.15);
+  --pulse-glow-peak: rgba(0, 255, 65, 0.25);
 }
 
-@keyframes agent-pulse {
+@keyframes heartbeat-dynamic {
   0%, 100% {
     opacity: 1;
-    text-shadow: 0 0 var(--heartbeat-glow-sm, 4px) rgba(0,255,65,0.3);
+    text-shadow: 0 0 4px var(--pulse-glow);
   }
   50% {
-    opacity: var(--heartbeat-dim, 0.6);
-    text-shadow: 0 0 var(--heartbeat-glow-lg, 12px) rgba(0,255,65,0.5),
-                 0 0 var(--heartbeat-glow-xl, 30px) rgba(0,255,65,0.03);
+    opacity: 0.7;
+    text-shadow: 0 0 12px var(--pulse-glow-peak),
+                 0 0 30px var(--pulse-glow);
   }
 }
 
-/* Intensity levels — set by JS via data-intensity attribute */
-.agent-heartbeat[data-intensity="burst"] {
-  --heartbeat-dim: 0.4;
-  --heartbeat-glow-sm: 6px;
-  --heartbeat-glow-lg: 16px;
-  --heartbeat-glow-xl: 40px;
+/* Intensity: resting (default) */
+.agent-heartbeat[data-intensity="resting"] {
+  --pulse-glow: rgba(0, 255, 65, 0.15);
+  --pulse-glow-peak: rgba(0, 255, 65, 0.25);
 }
-.agent-heartbeat[data-intensity="high"] {
-  --heartbeat-dim: 0.5;
-  --heartbeat-glow-sm: 5px;
-  --heartbeat-glow-lg: 14px;
-  --heartbeat-glow-xl: 35px;
+/* Intensity: active */
+.agent-heartbeat[data-intensity="active"] {
+  --pulse-glow: rgba(0, 255, 65, 0.3);
+  --pulse-glow-peak: rgba(0, 255, 65, 0.5);
 }
-.agent-heartbeat[data-intensity="medium"] {
-  --heartbeat-dim: 0.6;
-  --heartbeat-glow-sm: 4px;
-  --heartbeat-glow-lg: 10px;
-  --heartbeat-glow-xl: 25px;
+/* Intensity: intense */
+.agent-heartbeat[data-intensity="intense"] {
+  --pulse-glow: rgba(0, 255, 65, 0.5);
+  --pulse-glow-peak: rgba(0, 255, 65, 0.8);
 }
-.agent-heartbeat[data-intensity="low"] {
-  --heartbeat-dim: 0.75;
-  --heartbeat-glow-sm: 3px;
-  --heartbeat-glow-lg: 6px;
-  --heartbeat-glow-xl: 15px;
+/* Intensity: alarm (SENTINEL anomaly / agent error) */
+.agent-heartbeat[data-intensity="alarm"] {
+  --pulse-glow: rgba(255, 176, 0, 0.5);
+  --pulse-glow-peak: rgba(255, 176, 0, 0.9);
+  color: #ffb000;
 }
-.agent-heartbeat[data-intensity="idle"] {
-  --heartbeat-dim: 0.85;
-  --heartbeat-glow-sm: 2px;
-  --heartbeat-glow-lg: 4px;
-  --heartbeat-glow-xl: 8px;
+/* Offline: no pulse */
+.agent-heartbeat[data-intensity="offline"] {
+  animation: none;
+  opacity: 0.2;
+  color: rgba(255,255,255,0.3);
 }
+
+/* Activity dots — cycling ···· when agent is not idle */
+@keyframes activity-dots {
+  0%   { content: '·'; }
+  25%  { content: '··'; }
+  50%  { content: '···'; }
+  75%  { content: '····'; }
+  100% { content: '·'; }
+}
+.agent-activity-dots::after {
+  content: '·';
+  animation: activity-dots 2s step-end infinite;
+  opacity: 0.5;
+  margin-left: 4px;
+}
+.agent-activity[data-activity="idle"] + .agent-activity-dots::after,
+.agent-activity:empty + .agent-activity-dots::after {
+  display: none;
+}
+
+/* Activity change flash — card brightness pulse on state change */
+@keyframes activity-change-flash {
+  0%   { background-color: rgba(0, 255, 65, 0.08); }
+  100% { background-color: transparent; }
+}
+.agent-card.activity-changed {
+  animation: activity-change-flash 0.8s ease-out;
+}
+
+/* Last active timestamp — freshness coloring */
+.agent-last-active { font-size: 0.8em; }
+.agent-last-active[data-freshness="fresh"]  { color: #00ff41; }
+.agent-last-active[data-freshness="recent"] { color: rgba(0, 255, 65, 0.5); }
+.agent-last-active[data-freshness="stale"]  { color: rgba(255, 255, 255, 0.2); }
 
 @media (prefers-reduced-motion: reduce) {
   .agent-heartbeat { animation: none !important; opacity: 1; }
+  .agent-activity-dots::after { animation: none !important; content: '' !important; }
+  .agent-card.activity-changed { animation: none !important; }
 }
 
 /* ── SR-ONLY (screen reader only) ── */
