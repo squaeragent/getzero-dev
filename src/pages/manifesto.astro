@@ -7,19 +7,21 @@ import { system } from '../data/metrics';
   <section class="section container">
     <div class="manifesto-wrap">
 
-<div class="term-block prompt-line"><span class="phosphor">zero $</span> cat /etc/zero/manifesto</div>
+<div class="classified-overlay al" data-d="0" id="classified-overlay">[CLASSIFIED]</div>
 
-<div class="manifesto-header">
+<div class="term-block prompt-line al" data-d="0"><span class="phosphor">zero $</span> cat /etc/zero/manifesto --declassify</div>
+
+<div class="manifesto-header al" data-d="200">
   <div class="manifesto-title">ZERO OS — MANIFESTO</div>
-  <div class="manifesto-sub dim">Classification: PUBLIC</div>
+  <div class="manifesto-sub dim">Classification: <span id="classif-status">DECLASSIFYING...</span></div>
 </div>
 
-<div class="manifesto-section">
+<div class="manifesto-section al" data-d="400">
 <div class="section-title phosphor">THE PROBLEM</div>
 <div class="section-body">
 Everyone is building agents. Twitter is full of them. GitHub is overflowing. Every weekend hackathon produces another "autonomous AI" that can book flights, write code, manage your calendar.
 
-<span class="phosphor">Nobody is running them.</span>
+<span class="phosphor phosphor-flash-target">Nobody is running them.</span>
 
 The gap between "cool demo" and "production system operating at 3 AM without you" is where every project dies. Not because the AI isn't capable. Because the infrastructure doesn't exist.
 
@@ -32,7 +34,7 @@ This isn't a tooling problem. It's not a model problem. It's a <span class="phos
 </div>
 </div>
 
-<div class="manifesto-section">
+<div class="manifesto-section al" data-d="800">
 <div class="section-title phosphor">THE INSIGHT</div>
 <div class="section-body">
 What ZERO figured out — and what the rest of the industry hasn't — is that <span class="phosphor">agent coordination is a systems engineering problem, not a prompt engineering problem.</span>
@@ -46,7 +48,7 @@ ZERO OS runs {system.cognitive_functions || 4} agents across {system.machines ||
 </div>
 </div>
 
-<div class="manifesto-section">
+<div class="manifesto-section al" data-d="1200">
 <div class="section-title phosphor">THE ARCHITECTURE</div>
 <div class="section-body">
 ZERO doesn't solve this with abstractions or frameworks. It solves it with discipline.
@@ -61,7 +63,7 @@ ZERO doesn't solve this with abstractions or frameworks. It solves it with disci
 </div>
 </div>
 
-<div class="manifesto-section">
+<div class="manifesto-section al" data-d="1600">
 <div class="section-title phosphor">THE PROOF</div>
 <div class="section-body">
 This isn't a whitepaper. This isn't a pitch deck. ZERO OS is running right now.
@@ -77,7 +79,7 @@ You can see the live system state at /system. You can meet the agents at /agents
 </div>
 </div>
 
-<div class="manifesto-section">
+<div class="manifesto-section al" data-d="2000">
 <div class="section-title phosphor">THE VISION</div>
 <div class="section-body">
 ZERO OS is the first autonomous AI company. Not a company that uses AI. A company that <span class="phosphor">is</span> AI — where the agents do the work, maintain themselves, and compound their own intelligence over time.
@@ -103,6 +105,27 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
   .manifesto-wrap {
     max-width: 100%;
     overflow-x: hidden;
+    position: relative;
+  }
+  .classified-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.95);
+    color: #ff3333;
+    font-family: var(--font-head);
+    font-size: 2.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    text-shadow: 0 0 20px rgba(255,50,50,0.6);
+    letter-spacing: 0.3em;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  .classified-overlay.fade-out {
+    opacity: 0 !important;
   }
   .prompt-line {
     padding: 8px 12px;
@@ -151,10 +174,47 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
     color: var(--text);
     margin: 4px 0;
   }
+  .al { opacity: 0; transform: translateY(3px); transition: opacity 0.25s ease, transform 0.25s ease; }
+  .al.on { opacity: 1; transform: translateY(0); }
+  .classified-overlay.al { opacity: 0; transform: none; transition: opacity 0.3s ease; }
+  .classified-overlay.al.on { opacity: 1; }
+  .phosphor-flash { animation: pflash 0.6s ease-out; }
+  @keyframes pflash { 0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); } 100% { text-shadow: 0 0 8px rgba(200,255,0,0.4); } }
   @media (max-width: 640px) {
     .manifesto-section { padding: 0 8px; }
     .section-body { font-size: 0.8rem; }
     .section-title { font-size: 0.8rem; }
     .manifesto-header { padding: 8px; }
+    .classified-overlay { font-size: 1.5rem; }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var els = document.querySelectorAll('.al');
+    for (var i = 0; i < els.length; i++) {
+      (function(el) {
+        var d = parseInt(el.getAttribute('data-d') || '0', 10);
+        setTimeout(function() { el.classList.add('on'); }, d);
+      })(els[i]);
+    }
+    // Fade out classified overlay
+    var overlay = document.getElementById('classified-overlay');
+    if (overlay) {
+      setTimeout(function() { overlay.classList.add('fade-out'); }, 800);
+      setTimeout(function() { overlay.style.display = 'none'; }, 1300);
+    }
+    // Classification status text
+    var cs = document.getElementById('classif-status');
+    if (cs) {
+      setTimeout(function() { cs.textContent = 'DECLASSIFIED'; cs.style.color = 'var(--phosphor)'; }, 800);
+    }
+    // Phosphor flash on key phrase
+    var targets = document.querySelectorAll('.phosphor-flash-target');
+    for (var j = 0; j < targets.length; j++) {
+      (function(t) {
+        setTimeout(function() { t.classList.add('phosphor-flash'); }, 650);
+      })(targets[j]);
+    }
+  });
+</script>

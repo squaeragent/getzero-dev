@@ -6,14 +6,17 @@ import { system, infrastructure, functions, problems } from '../data/metrics';
 
 <BaseLayout title="Live System — ZERO" description="Real-time dashboard showing ZERO OS's actual state. Every number is real." current="/system">
   <section class="section container">
-<pre class="term-block"><span class="phosphor">zero $</span> systemctl status zero-os --full
+<pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> diagnostics --full
 
 ● zero-os.service — ZERO OS
   Active: <span class="phosphor">active (running)</span>
   Docs: getzero.dev/system
   PID: 1 (zero-init)
+</pre>
 
+<div class="scan-line al" data-d="300" id="scan-infra">⠋ Scanning infrastructure...</div>
 
+<pre class="term-block al" data-d="800" id="section-infra">
 <span class="phosphor">INFRASTRUCTURE</span>
 ════════════════════════════════════
 
@@ -28,8 +31,12 @@ import { system, infrastructure, functions, problems } from '../data/metrics';
   status .... <span class="phosphor">{infrastructure.mac_mini?.status || 'online'}</span>
   role ...... {infrastructure.mac_mini?.role || 'Distribution Node'}
   services .. OpenClaw, Chrome CDP
+</pre>
 
+<div class="scan-line al" data-d="1000" id="scan-cognitive">⠋ Scanning cognitive functions...</div>
 
+<div class="al" data-d="1500" id="section-cognitive">
+<pre class="term-block">
 <span class="phosphor">COGNITIVE FUNCTIONS</span>
 ════════════════════════════════════
 </pre>
@@ -42,7 +49,11 @@ import { system, infrastructure, functions, problems } from '../data/metrics';
   brain ..... {data.brain_complete ? '██████████ complete' : '████░░░░░░ incomplete'}
 </pre>
 ))}
+</div>
 
+<div class="scan-line al" data-d="1700" id="scan-metrics">⠋ Loading metrics...</div>
+
+<div class="al" data-d="2200" id="section-metrics">
 <pre class="term-block">
 
 <span class="phosphor">METRICS</span>
@@ -50,7 +61,11 @@ import { system, infrastructure, functions, problems } from '../data/metrics';
 </pre>
 
     <MetricsDashboard />
+</div>
 
+<div class="scan-line al" data-d="2400" id="scan-problems">⠋ Checking problems...</div>
+
+<div class="al" data-d="2900" id="section-problems">
 <pre class="term-block">
 
 <span class="amber">OPEN PROBLEMS</span>
@@ -69,5 +84,47 @@ import { system, infrastructure, functions, problems } from '../data/metrics';
 
 <pre class="term-block">
 <span class="phosphor">[EOF]</span></pre>
+</div>
   </section>
 </BaseLayout>
+
+<style>
+  .al { opacity: 0; transform: translateY(3px); transition: opacity 0.25s ease, transform 0.25s ease; }
+  .al.on { opacity: 1; transform: translateY(0); }
+  .scan-line {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    padding: 4px 12px;
+    color: var(--text-dim);
+    transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s ease;
+  }
+  .scan-line.pass { color: var(--phosphor); font-weight: 700; }
+  .scan-line.warn { color: var(--amber); font-weight: 700; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var els = document.querySelectorAll('.al');
+    for (var i = 0; i < els.length; i++) {
+      (function(el) {
+        var d = parseInt(el.getAttribute('data-d') || '0', 10);
+        setTimeout(function() { el.classList.add('on'); }, d);
+      })(els[i]);
+    }
+
+    var swaps = [
+      { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE', cls: 'pass' },
+      { id: 'scan-cognitive', delay: 1450, text: '[PASS] COGNITIVE FUNCTIONS', cls: 'pass' },
+      { id: 'scan-metrics', delay: 2150, text: '[PASS] METRICS', cls: 'pass' },
+      { id: 'scan-problems', delay: 2850, text: '[WARN] OPEN PROBLEMS', cls: 'warn' }
+    ];
+    for (var j = 0; j < swaps.length; j++) {
+      (function(s) {
+        setTimeout(function() {
+          var el = document.getElementById(s.id);
+          if (el) { el.textContent = s.text; el.classList.add(s.cls); }
+        }, s.delay);
+      })(swaps[j]);
+    }
+  });
+</script>

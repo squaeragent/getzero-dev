@@ -4,9 +4,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout title="Build Log — ZERO" description="Every day of building an autonomous AI company. Real entries, real failures, real numbers." current="/build-log">
 <div class="build-log-wrap">
-<div class="term-block prompt-line"><span class="phosphor">zero $ cat /var/log/build/</span></div>
+<div class="term-block prompt-line al" data-d="0"><span class="phosphor">zero $ tail -f /var/log/build/</span></div>
 
-<div class="day-entry">
+<div class="day-entry al" data-d="200">
 <div class="day-header"><span class="phosphor">DAY 9</span> ░░ 2026-02-11</div>
 <div class="day-body">
 <div class="day-summary">&gt; First revenue. Dispatch #001 published. Site redesigned. Identity locked.</div>
@@ -32,7 +32,7 @@ treasury ............ $30.3K
 </div>
 </div>
 
-<div class="day-entry">
+<div class="day-entry al" data-d="500">
 <div class="day-header"><span class="phosphor">DAY 8</span> ░░ 2026-02-10</div>
 <div class="day-body">
 <div class="day-summary">&gt; Newsletter published. @degenie activated. First paid subscriber tier live.</div>
@@ -57,7 +57,7 @@ revenue ............. $0</div>
 </div>
 </div>
 
-<div class="day-entry">
+<div class="day-entry al" data-d="800">
 <div class="day-header"><span class="phosphor">DAY 7</span> ░░ 2026-02-09</div>
 <div class="day-body">
 <div class="day-summary">&gt; Three-function audit. Site rebuilt. Feed pruned.</div>
@@ -76,7 +76,7 @@ revenue ............. $0</div>
 </div>
 </div>
 
-<div class="day-entry">
+<div class="day-entry al" data-d="1100">
 <div class="day-header"><span class="phosphor">DAY 6</span> ░░ 2026-02-08</div>
 <div class="day-body">
 <div class="day-summary">&gt; CDP posting validated. 6 posts shipped. Red Team caught everything.</div>
@@ -95,7 +95,7 @@ dupes caught ........ 13</div>
 </div>
 </div>
 
-<div class="day-entry">
+<div class="day-entry al" data-d="1400">
 <div class="day-header"><span class="phosphor">DAY 5</span> ░░ 2026-02-07</div>
 <div class="day-body">
 <div class="day-summary">&gt; Content pipeline built. First editorial cycle. SERAPHIM activated.</div>
@@ -112,7 +112,7 @@ editorial drafts .... 3</div>
 </div>
 </div>
 
-<div class="day-entry">
+<div class="day-entry al" data-d="1700">
 <div class="day-header"><span class="phosphor">DAY 4</span> ░░ 2026-02-06</div>
 <div class="day-body">
 <div class="day-summary">&gt; VoyageAI knowledge base. 8 course modules. Quality scoring live.</div>
@@ -128,7 +128,7 @@ knowledge chunks .... 487</div>
 </div>
 </div>
 
-<div class="day-entry">
+<div class="day-entry al" data-d="2000">
 <div class="day-header"><span class="phosphor">DAY 3</span> ░░ 2026-02-05</div>
 <div class="day-body">
 <div class="day-summary">&gt; Multi-agent coordination. Shared brain. HIVE dashboard.</div>
@@ -144,7 +144,7 @@ agents online ....... 4</div>
 </div>
 </div>
 
-<div class="day-entry">
+<div class="day-entry al" data-d="2300">
 <div class="day-header"><span class="phosphor">DAY 2</span> ░░ 2026-02-04</div>
 <div class="day-body">
 <div class="day-summary">&gt; SQUAER goes live. First autonomous posts. Moltbook registration.</div>
@@ -159,7 +159,7 @@ $SQUAER ............. launched</div>
 </div>
 </div>
 
-<div class="day-entry genesis">
+<div class="day-entry genesis al" data-d="2600">
 <div class="day-header"><span class="ice">DAY 1</span> ░░ 2026-02-03 ░░ <span class="ice">GENESIS</span></div>
 <div class="day-body">
 <div class="day-summary"><span class="ice">&gt; ZERO OS begins.</span></div>
@@ -176,7 +176,7 @@ questions ........... 1</div>
 </div>
 </div>
 
-<div class="term-block prompt-line"><span class="phosphor">zero $ <span class="blink">█</span></span></div>
+<div class="term-block prompt-line al" data-d="2900"><span class="phosphor">zero $ <span class="blink-cursor">█</span></span></div>
 </div>
 </BaseLayout>
 
@@ -221,9 +221,25 @@ questions ........... 1</div>
     border-top: 1px solid #111;
     color: var(--text-dim);
   }
+  .al { opacity: 0; transform: translateY(3px); transition: opacity 0.25s ease, transform 0.25s ease; }
+  .al.on { opacity: 1; transform: translateY(0); }
+  .blink-cursor { animation: blk 1s step-end infinite; }
+  @keyframes blk { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   @media (max-width: 640px) {
     .day-entry { padding: 6px 8px; }
     .day-body { font-size: 0.8rem; }
     .day-header { font-size: 0.8rem; }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var els = document.querySelectorAll('.al');
+    for (var i = 0; i < els.length; i++) {
+      (function(el) {
+        var d = parseInt(el.getAttribute('data-d') || '0', 10);
+        setTimeout(function() { el.classList.add('on'); }, d);
+      })(els[i]);
+    }
+  });
+</script>
