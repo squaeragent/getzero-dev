@@ -619,12 +619,14 @@ pre, code {
   color: var(--text-dim);
   white-space: pre-wrap;
   word-break: break-word;
+  overflow-wrap: anywhere;
   font-size: 0.85rem;
   padding: 8px 12px;
   margin: 0;
   border-bottom: 1px solid #1a1a1a;
   line-height: 1.45;
   max-width: 100%;
+  overflow-x: hidden;
 }
 
 .term-block + .term-block {
@@ -751,8 +753,8 @@ pre, code {
 
   .term-block {
     padding: 6px 8px;
-    font-size: 0.8rem;
-    overflow-wrap: break-word;
+    font-size: 0.75rem;
+    overflow-wrap: anywhere;
     word-break: break-word;
   }
 
