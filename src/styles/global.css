@@ -633,11 +633,17 @@ pre, code {
 
 /* ── MOBILE ── */
 @media (max-width: 640px) {
-  html { font-size: 15px; }
+  html { font-size: 14px; }
+
+  body {
+    overflow-x: hidden;
+  }
 
   .crt-viewport {
     margin: 2px;
     min-height: calc(100vh - 4px);
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 
   .crt-viewport::before {
@@ -660,12 +666,17 @@ pre, code {
   }
 
   .status-bar {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     padding: 3px 6px;
     gap: 4px;
+    overflow: hidden;
   }
 
   .status-bar .signal {
+    display: none;
+  }
+
+  .status-bar .date-stamp {
     display: none;
   }
 
@@ -741,6 +752,16 @@ pre, code {
   .term-block {
     padding: 6px 8px;
     font-size: 0.8rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .page-content {
+    padding: 8px 10px;
+  }
+
+  .page-content h2 {
+    font-size: 0.85rem;
   }
 
   /* vignette removed */
