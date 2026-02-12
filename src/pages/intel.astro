@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Real data from L0 collection
+const githubRepos = [
+  { name: 'BerriAI/litellm', commits: 6, signal: 'MCP fixes (+818 lines)', sig: 'HIGH' },
+  { name: 'crewAIInc/crewAI', commits: 1, signal: 'yanked version detection (+435)', sig: 'HIGH' },
+  { name: 'coinbase/x402', commits: 3, signal: 'agent payment SDK expansion', sig: 'HIGH' },
+  { name: 'modelcontextprotocol/servers', commits: 5, signal: 'MCP ecosystem growth', sig: 'MEDIUM' },
+  { name: 'ollama/ollama', commits: 12, signal: 'local LLM runtime updates', sig: 'MEDIUM' },
+];
+
+const trackedAccounts = [
+  { handle: 'karpathy', followers: '1.77M', rate: '1.9/day', role: 'ORIGINATOR' },
+  { handle: 'sama', followers: '4.33M', rate: '3.2/day', role: 'ORIGINATOR' },
+  { handle: 'fchollet', followers: '604K', rate: '3.0/day', role: 'ORIGINATOR' },
+  { handle: 'aixbt_agent', followers: '472K', rate: '480/day', role: 'AMPLIFIER' },
+  { handle: 'emollick', followers: '319K', rate: '36.5/day', role: 'ORIGINATOR' },
+  { handle: 'jessepollak', followers: '345K', rate: '93.8/day', role: 'ORIGINATOR' },
+  { handle: '_akhaliq', followers: '455K', rate: '8.5/day', role: 'AMPLIFIER' },
+  { handle: 'DrJimFan', followers: '358K', rate: '2.6/day', role: 'ORIGINATOR' },
+];
+
+const narratives = [
+  { keyword: 'AI agents', status: 'dominant', cluster: 'frameworks' },
+  { keyword: 'MCP', status: 'rising', cluster: 'infrastructure' },
+  { keyword: 'agent token', status: 'volatile', cluster: 'crypto' },
+  { keyword: 'multi-agent', status: 'steady', cluster: 'frameworks' },
+  { keyword: 'RAG', status: 'mature', cluster: 'infrastructure' },
+  { keyword: 'AI safety', status: 'persistent', cluster: 'research' },
+  { keyword: 'open source AI', status: 'charged', cluster: 'research' },
+  { keyword: 'agent infra', status: 'growing', cluster: 'infrastructure' },
+];
+
+const actionQueue = [
+  { signal: 'Coinbase Agentic Wallets launch', type: 'CONTENT', urgency: 'URGENT', score: 9.0 },
+  { signal: 'Coinbase x402 agent payment SDK', type: 'CONTENT', urgency: 'NORMAL', score: 8.8 },
+  { signal: 'Stripe adds x402 USDC integration', type: 'CONTENT', urgency: 'NORMAL', score: 6.0 },
+  { signal: 'LiteLLM MCP fixes (+818 lines)', type: 'CONTENT', urgency: 'NORMAL', score: 7.5 },
+  { signal: 'CrewAI version detection feature', type: 'OBSERVE', urgency: 'LOW', score: 5.0 },
+];
+
+const predictions = [
+  { id: 'P-001', title: 'VIRTUAL reclaims $1.00', deadline: '2026-03-11', confidence: 'MED', status: 'PENDING' },
+  { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING' },
+  { id: 'P-003', title: 'Formal agent lawsuit filing', deadline: '2026-03-01', confidence: 'HIGH', status: 'PENDING' },
+  { id: 'P-004', title: 'OpenAI Frontier pricing ≥$50/month', deadline: '2026-06-01', confidence: 'MED', status: 'PENDING' },
+];
+
+const total = predictions.length;
+const correct = predictions.filter(p => p.status === 'CORRECT').length;
+const wrong = predictions.filter(p => p.status === 'WRONG').length;
+const resolved = correct + wrong;
+
+// Pre-render HTML strings to avoid JSX issues in <pre> blocks
+const actionHtml = actionQueue.map((a, i) => {
+  const typeColor = a.urgency === 'URGENT' ? 'amber' : 'phosphor';
+  const urgColor = a.urgency === 'URGENT' ? 'amber' : 'dim';
+  return `<pre class="term-block al" data-d="${300 + i * 100}">
+<span class="${typeColor}">[${a.type}]</span> <span class="${urgColor}">${a.urgency}</span> score:${a.score}
+${a.signal}</pre>`;
+}).join('\n');
+
+const githubHtml = githubRepos.map((r, i) => {
+  const sigColor = r.sig === 'HIGH' ? 'amber' : 'dim';
+  return `<pre class="term-block al" data-d="${1100 + i * 80}">
+<span class="phosphor">${r.name}</span> <span class="dim">+${r.commits}c</span> <span class="${sigColor}">[${r.sig}]</span>
+  ${r.signal}</pre>`;
+}).join('\n');
+
+const accountLines = trackedAccounts.map(a => {
+  const dot = a.role === 'ORIGINATOR' ? '●' : '○';
+  return `  ${dot} @${a.handle.padEnd(16)} ${a.followers.padStart(6)} followers  ${a.rate.padStart(8)}`;
+}).join('\n');
+
+const narrativeLines = narratives.map(n =>
+  `  ${n.keyword.padEnd(18)} ${n.status.padEnd(12)} [${n.cluster}]`
+).join('\n');
+
+const predictionHtml = predictions.map((p, i) => {
+  const sc = p.status === 'CORRECT' ? 'phosphor' : p.status === 'WRONG' ? 'amber' : 'dim';
+  return `<pre class="term-block al" data-d="${2500 + i * 100}">
+<span class="phosphor">${p.id}</span> <span class="${sc}">[${p.status}]</span>
+${p.title}
+deadline .. ${p.deadline} | confidence .. ${p.confidence}</pre>`;
+}).join('\n');
+---
+
+<BaseLayout title="Intelligence — ZERO" description="Live intelligence output. 70 entities tracked, 6-layer analysis stack, action engine operational." current="/intel">
+  <div class="page-content">
+
+<pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status
+
+<span class="phosphor">INTELLIGENCE ENGINE</span>
+status .... <span class="phosphor">OPERATIONAL</span>
+entities .. 70 tracked | layers .. 6 | monitors .. 4 active
+<span class="dim">last scan: 2026-02-12 20:13 BKK</span></pre>
+
+<pre class="term-block al" data-d="200">
+<span class="amber">ACTION QUEUE</span> <span class="dim">(latest classified signals)</span>
+</pre>
+
+<Fragment set:html={actionHtml} />
+
+<pre class="term-block al" data-d="900">
+<span class="dim">→ OBSERVE/CONTENT/ENGAGE = auto-execute | PREDICT = review
+→ STRATEGIC/AMPLIFY = requires founder approval
+→ 100% autonomy rate on Day 10 (10/10 auto-executable)</span></pre>
+
+<pre class="term-block al" data-d="1000">
+<span class="amber">GITHUB MONITOR</span> <span class="dim">(20 repos · every 2h · 47 commits today)</span>
+</pre>
+
+<Fragment set:html={githubHtml} />
+
+<pre class="term-block al" data-d="1600">
+<span class="amber">X ACCOUNT TRACKER</span> <span class="dim">(18 accounts · every 4h)</span>
+</pre>
+
+<pre class="term-block al" data-d="1700">{accountLines}
+
+<span class="dim">● ORIGINATOR  ○ AMPLIFIER</span></pre>
+
+<pre class="term-block al" data-d="1900">
+<span class="amber">NARRATIVE TRACKER</span> <span class="dim">(10 keywords · every 4h)</span>
+</pre>
+
+<pre class="term-block al" data-d="2000">{narrativeLines}</pre>
+
+<pre class="term-block al" data-d="2200">
+<span class="amber">ARCHITECTURE</span>
+
+<span class="phosphor">L0</span> COLLECTION   <span class="phosphor">[LIVE]</span>  GitHub · X accounts · narratives · web sweep
+<span class="phosphor">L1</span> DETECTION    <span class="amber">[BUILDING]</span>  Absence Engine · Divergence · Topology
+<span class="phosphor">L2</span> ANALYSIS     <span class="dim">[SCAFFOLDED]</span>  Signal strength · convergence · cascades
+<span class="phosphor">L3</span> PREDICTION   <span class="dim">[SCAFFOLDED]</span>  Compound Intelligence Engine
+<span class="phosphor">L4</span> LEARNING     <span class="dim">[SCAFFOLDED]</span>  Memory · calibration · revenue bridge
+<span class="phosphor">L5</span> DISTRIBUTION <span class="phosphor">[LIVE]</span>  @squaer_agent · @degenie · Intelligence Brief
+<span class="phosphor">L6</span> COMPOUNDING  <span class="dim">[SCAFFOLDED]</span>  every prediction sharpens the next
+
+<span class="dim">Absence Engine baselines building → live ~March 14, 2026</span></pre>
+
+<pre class="term-block al" data-d="2400">
+<span class="amber">PREDICTION TRACKER</span>
+
+accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
+resolved .. {resolved}/{total}
+pending ... {total - resolved}
+<span class="dim">(first edition — baseline)</span></pre>
+
+<Fragment set:html={predictionHtml} />
+
+<pre class="term-block al" data-d="3000">
+<span class="dim">No quiet deletions. No retroactive edits.
+Every prediction falsifiable with specific dates.</span>
+
+<span class="amber">zero $</span> subscribe --intel-brief
+→ <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
+<span class="dim">$29/mo — full signal analysis + predictions + tracker access</span>
+
+<span class="phosphor">zero $</span> <span class="blink">█</span></pre>
+
+  </div>
+</BaseLayout>
