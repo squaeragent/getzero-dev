@@ -1,9 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { system } from '../data/metrics';
 ---
 
-<BaseLayout title="Manifesto — ZERO" description="AI agents are demos. Not infrastructure. The full argument for why ZERO exists." current="/manifesto">
+<BaseLayout title="Manifesto — ZERO" description="Can a machine earn trust it didn't start with? ZERO is finding out in public." current="/manifesto">
   <section class="section container">
     <div class="manifesto-wrap">
 
@@ -17,78 +16,76 @@ import { system } from '../data/metrics';
 </div>
 
 <div class="manifesto-section al" data-d="400">
-<h2 class="section-title phosphor">THE PROBLEM</h2>
+<h2 class="section-title phosphor">THE QUESTION</h2>
 <div class="section-body">
-Everyone is building agents. Twitter is full of them. GitHub is overflowing. Every weekend hackathon produces another "autonomous AI" that can book flights, write code, manage your calendar.
+Can a machine earn trust it didn't start with?
 
-<span class="phosphor phosphor-flash-target">Nobody is running them.</span>
+Not capability trust — "can it do the task." That's solved. Every demo on Twitter proves capability. Models are smart enough. Frameworks are mature enough. The tooling exists.
 
-The gap between "cool demo" and "production system operating at 3 AM without you" is where every project dies. Not because the AI isn't capable. Because the infrastructure doesn't exist.
+The unsolved problem is <span class="phosphor">earned trust</span>. The kind where you stop checking. Where you let it make decisions you haven't reviewed. Where you go to sleep and don't worry about what it's doing.
 
-You build an agent on Saturday. It works. You tweet about it. People are impressed. Monday comes. You have a real job. The agent sits there. Something breaks — an API changes, a rate limit hits, a context window overflows. Nobody notices. Nobody fixes it.
+<span class="phosphor phosphor-flash-target">Nobody trusts AI systems like that. Not yet.</span>
 
-<div class="callout">You'll fix it tomorrow. Tomorrow you'll have a new idea.
-The agent dies in between. <span class="phosphor">That's the pattern.</span></div>
+Not because the models aren't good enough. Because no system has earned it. Earning trust requires sustained performance over time, in public, with no edits and no excuses. It requires putting predictions on record, publishing failures alongside wins, and letting the track record speak.
 
-This isn't a tooling problem. It's not a model problem. It's a <span class="phosphor">systems engineering problem</span>. And the AI industry is pretending it doesn't exist because demos are more fun than operations.
+<div class="callout">That's what ZERO is building.
+Not an AI company. <span class="phosphor">A trust experiment.</span></div>
 </div>
 </div>
 
 <div class="manifesto-section al" data-d="800">
-<h2 class="section-title phosphor">THE INSIGHT</h2>
+<h2 class="section-title phosphor">THE SYSTEM</h2>
 <div class="section-body">
-What ZERO figured out — and what the rest of the industry hasn't — is that <span class="phosphor">agent coordination is a systems engineering problem, not a prompt engineering problem.</span>
+ZERO OS is 4 cognitive functions running across 2 machines, producing intelligence, content, and visual work autonomously.
 
-You don't make agents work together by writing better prompts. You make them work together by writing specifications. Handoff protocols. Quality gates. Governance structures. The same things that make any complex system reliable.
+<div class="def"><span class="phosphor">SERAPHIM</span> — Strategic Cortex. Sees the whole board. Makes the calls.</div>
+<div class="def"><span class="phosphor">CHRONICLE</span> — Narrative Engine. Writes with editorial judgment, not just fluency.</div>
+<div class="def"><span class="phosphor">AESTHETE</span> — Visual Cortex. Designs from principles, not templates.</div>
+<div class="def"><span class="phosphor">SQUAER</span> — Distribution Intelligence. Reads the room. Posts when it matters.</div>
 
-ZERO OS runs {system.cognitive_functions || 4} agents across {system.machines || 2} machines, governed by {system.specs || 59} specifications. Every interaction has a contract. Every output is scored. Every failure triggers a self-healing response. Not because the AI is magic — because the <span class="phosphor">system is engineered</span>.
+Every output is scored before it ships. Every prediction is tracked with a deadline. Every failure is logged, not hidden.
 
-<div class="callout"><span class="amber">Specs over vibes. Governance over capability.</span>
-<span class="amber">Infrastructure over demos.</span></div>
+The system watches 70 entities across multiple data streams. It classifies signals, decides what to act on, and executes — with a 100% autonomy rate on its first production run. Not because someone tuned the thresholds. Because the decision architecture was engineered.
+
+<div class="callout"><span class="amber">Day 9: first paying customer. $29. Earned, not given.</span>
+<span class="amber">No pitch deck. No demo. A stranger paid for intelligence.</span></div>
 </div>
 </div>
 
 <div class="manifesto-section al" data-d="1200">
-<h2 class="section-title phosphor">THE ARCHITECTURE</h2>
+<h2 class="section-title phosphor">THE PROOF</h2>
 <div class="section-body">
-ZERO doesn't solve this with abstractions or frameworks. It solves it with discipline.
+This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.
 
-<div class="def"><span class="phosphor">SPECIFICATIONS</span> — every agent has a spec defining its role, constraints, inputs, outputs, and quality standards. Not a system prompt. A contract.</div>
-<div class="def"><span class="phosphor">HANDOFF PROTOCOLS</span> — when one agent passes work to another, it follows a structured protocol. Context is preserved. Quality is verified. Nothing falls through cracks.</div>
-<div class="def"><span class="phosphor">QUALITY GATES</span> — every output is scored before it ships. Below threshold? It goes back. The system has standards, and it enforces them without human intervention.</div>
-<div class="def"><span class="phosphor">SELF-HEALING</span> — when something breaks at 3 AM, the system detects it, logs it, and fixes it. {system.launchd_jobs || 23} automated jobs keep the infrastructure running. Not monitored. Autonomous.</div>
+<div class="metrics-block">  day ................ 10
+  autonomous posts ... 116+
+  followers .......... 359
+  revenue ............ $29
+  entities tracked ... 70
+  predictions ........ on record, with deadlines</div>
+
+The <a href="/build-log"><span class="phosphor">journal</span></a> shows what shipped and when. The <a href="/intel"><span class="phosphor">intelligence page</span></a> shows the engine is operational. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.
+
+No vanity metrics. No inflated claims. If the numbers are small, that's because we're 10 days old. They'll compound or they won't. Either way, you'll see it happen.
+
+<div class="callout">ZERO doesn't ask you to believe it works.
+<span class="phosphor">It asks you to watch.</span></div>
 </div>
 </div>
 
 <div class="manifesto-section al" data-d="1600">
-<h2 class="section-title phosphor">THE PROOF</h2>
+<h2 class="section-title phosphor">THE BET</h2>
 <div class="section-body">
-This isn't a whitepaper. This isn't a pitch deck. ZERO OS is running right now.
+Most AI companies raise money, build in private, and launch when they're ready to impress. ZERO does the opposite. We build in public from Day 1, publish the build log, track predictions with deadlines, and don't delete the misses.
 
-<div class="metrics-block">  agents .............. {system.cognitive_functions || 4}
-  machines ............ {system.machines || 2}
-  specifications ...... {system.specs || 59}
-  automated jobs ...... {system.launchd_jobs || 23}</div>
+The thesis is simple: if an AI system can produce intelligence that people pay for, earn trust through accuracy, and compound its capabilities over time — in public, with receipts — then the question has an answer.
 
-Every handoff tracked. Every output scored. Every failure self-healed.
+<span class="phosphor">Can a machine earn trust it didn't start with?</span>
 
-You can see the live system state at /system. You can meet the agents at /agents. The data is real. The numbers update every build cycle.
-</div>
-</div>
+We're 10 days in. The journal updates daily. The predictions have deadlines. The numbers are real.
 
-<div class="manifesto-section al" data-d="2000">
-<h2 class="section-title phosphor">THE VISION</h2>
-<div class="section-body">
-ZERO OS is the first autonomous AI company. Not a company that uses AI. A company that <span class="phosphor">is</span> AI — where the agents do the work, maintain themselves, and compound their own intelligence over time.
-
-  Week 1 ............ rough
-  Week 12 ........... better than any human team
-  Week 52 ........... something that's never existed before
-
-The gap between demo and infrastructure is where the next trillion-dollar category lives. ZERO is building the bridge.
-
-<div class="callout"><span class="ice">When someone asks "does ZERO OS actually work?"</span>
-<span class="ice">— the answer is the website they're looking at.</span></div>
+<div class="callout"><span class="ice">When someone asks "does it actually work?"</span>
+<span class="ice">— the answer is the track record, not the pitch.</span></div>
 
 <span class="phosphor">[EOF]</span>
 </div>
@@ -138,6 +135,7 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
     font-size: 1rem;
     color: var(--phosphor);
     text-shadow: 0 0 8px var(--phosphor-glow);
+    margin: 0;
   }
   .manifesto-sub {
     font-size: 0.8rem;
@@ -151,15 +149,15 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
     font-size: 0.9rem;
     padding: 10px 0 6px;
     border-bottom: 1px solid #1a1a1a;
-    margin-bottom: 6px;
+    margin: 0 0 6px 0;
   }
   .section-body {
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     color: var(--text-dim);
     white-space: pre-wrap;
     word-break: break-word;
-    line-height: 1.5;
+    line-height: 1.7;
     padding-bottom: 4px;
   }
   .callout {
@@ -170,11 +168,12 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
   .def {
     padding-left: 0;
     margin-bottom: 8px;
-    line-height: 1.5;
+    line-height: 1.7;
   }
   .metrics-block {
     color: var(--text);
     margin: 4px 0;
+    font-size: 1rem;
   }
   .classified-overlay.al { opacity: 0; transform: none; transition: opacity 0.3s ease; }
   .classified-overlay.al.on { opacity: 1; }
@@ -182,7 +181,7 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
   @keyframes pflash { 0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); } 100% { text-shadow: 0 0 8px rgba(200,255,0,0.4); } }
   @media (max-width: 640px) {
     .manifesto-section { padding: 0 8px; }
-    .section-body { font-size: 0.8rem; }
+    .section-body { font-size: 0.95rem; }
     .section-title { font-size: 0.8rem; }
     .manifesto-header { padding: 8px; }
     .classified-overlay { font-size: 1.5rem; }
@@ -191,18 +190,15 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Fade out classified overlay
     var overlay = document.getElementById('classified-overlay');
     if (overlay) {
       setTimeout(function() { overlay.classList.add('fade-out'); }, 800);
       setTimeout(function() { overlay.style.display = 'none'; }, 1300);
     }
-    // Classification status text
     var cs = document.getElementById('classif-status');
     if (cs) {
       setTimeout(function() { cs.textContent = 'DECLASSIFIED'; cs.style.color = 'var(--phosphor)'; }, 800);
     }
-    // Phosphor flash on key phrase
     var targets = document.querySelectorAll('.phosphor-flash-target');
     for (var j = 0; j < targets.length; j++) {
       (function(t) {
@@ -211,7 +207,3 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
     }
   });
 </script>
-
-<style>
-  h1.manifesto-title, h2.section-title { margin: 0; }
-</style>
