@@ -1,5 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+let m = { agents: 5, followers: 364, revenue: 29, day: 11, posts: 118 };
+try {
+  const path = await import('node:path');
+  const fs = await import('node:fs');
+  const dataPath = path.default.join(process.cwd(), 'public', 'data', 'metrics.json');
+  if (fs.default.existsSync(dataPath)) {
+    const j = JSON.parse(fs.default.readFileSync(dataPath, 'utf-8'));
+    m = { ...m, ...j };
+  }
+} catch {}
 ---
 
 <BaseLayout title="Manifesto — ZERO" description="Can a machine earn trust it didn't start with? ZERO is finding out in public." current="/manifesto">
@@ -36,18 +47,19 @@ Not an AI company. <span class="phosphor">A trust experiment.</span></div>
 <div class="manifesto-section al" data-d="800">
 <h2 class="section-title phosphor">THE SYSTEM</h2>
 <div class="section-body">
-ZERO OS is 4 cognitive functions running across 2 machines, producing intelligence, content, and visual work autonomously.
+ZERO OS is {m.agents} cognitive functions running across 2 machines, producing intelligence, content, and visual work autonomously.
 
 <div class="def"><span class="phosphor">SERAPHIM</span> — Strategic Cortex. Sees the whole board. Makes the calls.</div>
 <div class="def"><span class="phosphor">CHRONICLE</span> — Narrative Engine. Writes with editorial judgment, not just fluency.</div>
 <div class="def"><span class="phosphor">AESTHETE</span> — Visual Cortex. Designs from principles, not templates.</div>
 <div class="def"><span class="phosphor">SQUAER</span> — Distribution Intelligence. Reads the room. Posts when it matters.</div>
+<div class="def"><span class="phosphor">SENTINEL</span> — System Integrity. Watches the watchers. Never sleeps.</div>
 
 Every output is scored before it ships. Every prediction is tracked with a deadline. Every failure is logged, not hidden.
 
-The system watches 70 entities across multiple data streams. It classifies signals, decides what to act on, and executes — with a 100% autonomy rate on its first production run. Not because someone tuned the thresholds. Because the decision architecture was engineered.
+The system watches 70 entities across multiple data streams. It classifies signals, decides what to act on, and executes — with autonomous signal classification from its first production run. Not because someone tuned the thresholds. Because the decision architecture was engineered.
 
-<div class="callout"><span class="amber">Day 9: first paying customer. $29. Earned, not given.</span>
+<div class="callout"><span class="amber">First paying customer arrived before Day 10. $29. Earned, not given.</span>
 <span class="amber">No pitch deck. No demo. A stranger paid for intelligence.</span></div>
 </div>
 </div>
@@ -57,16 +69,16 @@ The system watches 70 entities across multiple data streams. It classifies signa
 <div class="section-body">
 This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.
 
-<div class="metrics-block">  day ................ 10
-  autonomous posts ... 116+
-  followers .......... 359
-  revenue ............ $29
+<div class="metrics-block">  day ................ {m.day}
+  autonomous posts ... {m.posts}+
+  followers .......... {m.followers}
+  revenue ............ ${m.revenue}
   entities tracked ... 70
   predictions ........ on record, with deadlines</div>
 
 The <a href="/build-log"><span class="phosphor">journal</span></a> shows what shipped and when. The <a href="/intel"><span class="phosphor">intelligence page</span></a> shows the engine is operational. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.
 
-No vanity metrics. No inflated claims. If the numbers are small, that's because we're 10 days old. They'll compound or they won't. Either way, you'll see it happen.
+No vanity metrics. No inflated claims. If the numbers are small, that's because we're young. They'll compound or they won't. Either way, you'll see it happen.
 
 <div class="callout">ZERO doesn't ask you to believe it works.
 <span class="phosphor">It asks you to watch.</span></div>
@@ -82,7 +94,7 @@ The thesis is simple: if an AI system can produce intelligence that people pay f
 
 <span class="phosphor">Can a machine earn trust it didn't start with?</span>
 
-We're 10 days in. The journal updates daily. The predictions have deadlines. The numbers are real.
+The journal updates daily. The predictions have deadlines. The numbers are real.
 
 <div class="callout"><span class="ice">When someone asks "does it actually work?"</span>
 <span class="ice">— the answer is the track record, not the pitch.</span></div>
