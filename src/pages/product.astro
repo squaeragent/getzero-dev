@@ -117,8 +117,29 @@ Fragments. Conclusions. The output.
 The analysis behind the conclusions.
 Entity-level intelligence. Forward-looking. Actionable.
 
-Different product. Different depth. Different value.
+Different product. Different depth. Different value.</pre>
 
+    <div class="crypto-pay-block al" data-d="1800">
+      <pre class="term-block" style="border:none;margin:0;padding:0;"><span class="phosphor">PAY WITH CRYPTO</span>
+
+An autonomous AI company should accept autonomous payments.
+
+<span class="amber">29 USDC on Base</span> · monthly · same access as Stripe
+
+<span class="dim">Wallet:</span>
+<span class="phosphor wallet-addr">0x7205b1067906D9e9C7B1EAfa67f1a8e03163342c</span>
+
+<span class="dim">Steps:</span>
+<span class="amber">1.</span> Send 29 USDC to the address above (Base network)
+<span class="amber">2.</span> Email your tx hash + preferred email to
+   <a href="mailto:degenie@getzero.dev?subject=USDC%20Subscription&body=Tx%20hash:%20%0AEmail%20for%20access:%20"><span class="amber">degenie@getzero.dev</span></a>
+<span class="amber">3.</span> Premium access granted within 24 hours
+
+<span class="dim">No account needed. No KYC. No middleman.
+USDC on Base = near-zero fees.</span></pre>
+    </div>
+
+    <pre class="term-block al" data-d="2000">
 <span class="phosphor">zero $</span> <span class="blink">_</span></pre>
 
   </section>
@@ -196,10 +217,25 @@ Different product. Different depth. Different value.
       color: var(--text-dim);
     }
 
+    .crypto-pay-block {
+      border: 1px solid #1a1a1a;
+      border-top: 1px solid var(--phosphor-dim);
+      padding: 16px;
+      background: rgba(200, 255, 0, 0.02);
+    }
+
+    .wallet-addr {
+      font-size: 0.75rem;
+      word-break: break-all;
+      letter-spacing: 0.02em;
+    }
+
     @media (max-width: 640px) {
       .cta-price { font-size: 1.6rem; }
       .product-cta-block { padding: 16px 12px; }
       .cta-button { padding: 8px 24px; font-size: 0.8rem; }
+      .wallet-addr { font-size: 0.65rem; }
+      .crypto-pay-block { padding: 12px 10px; }
     }
   </style>
 </BaseLayout>
