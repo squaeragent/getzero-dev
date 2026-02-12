@@ -34,13 +34,13 @@ const publicProblems = sanitizeProblems(rawProblems);
   M3 Ultra, 96GB RAM
   status .... <span class="phosphor">online</span>
   role ...... Primary Compute (all agent logic)
-  services .. OpenClaw, Ollama, 4 cognitive functions
+  services .. OpenClaw, local LLM, 4 cognitive functions
 
 <span class="phosphor">■</span> Mac Mini
   M4, 16GB RAM — colo ($47/mo)
   status .... <span class="phosphor">online</span>
   role ...... Distribution Node (thin relay)
-  services .. OpenClaw, Chrome CDP (@squaer_agent)
+  services .. OpenClaw, browser automation (@squaer_agent)
 </pre>
 
 <div class="scan-line al" data-d="1000" id="scan-cognitive">⠋ Scanning cognitive functions...</div>
@@ -78,8 +78,8 @@ const publicProblems = sanitizeProblems(rawProblems);
 
 <pre class="term-block">
   <span class="phosphor">[ACTIVE]</span> SQUAER — Distribution Intelligence
-  host ...... Mac Mini | model .. Chrome CDP + Claude
-  current ... Rapid Fire replies every 45min, intel posts every 3h
+  host ...... Mac Mini | model .. Claude
+  current ... Autonomous posting + intelligence distribution
   last ...... 8 posts in 8 minutes (autonomous burst)
   followers . <span class="phosphor" id="sq-followers">359</span> | posts .. <span class="phosphor" id="sq-posts">116</span> | engagement .. 3.42%
 </pre>
@@ -98,26 +98,18 @@ L0 Collection <span class="phosphor">[LIVE]</span>
 </pre>
 
 <pre class="term-block">
-  <span class="phosphor">■</span> L0: GitHub Commit Monitor
-    repos ........ <span class="phosphor">20</span> | frequency .. every 2h
-    baselines .... writing JSONL for Absence Engine
-
-  <span class="phosphor">■</span> L0: X Account Tracker
-    accounts ..... <span class="phosphor">18</span> | frequency .. every 4h
-    topology ..... 28 originators, 13 amplifiers, 5 distorters
-
-  <span class="phosphor">■</span> L0: Narrative Keyword Tracker
-    narratives ... <span class="phosphor">10</span> | frequency .. every 4h
-    categories ... sentiment, technology, market, policy, brand
+  <span class="phosphor">■</span> L0: Collection Monitors
+    sources ...... <span class="phosphor">4</span> active monitors
+    entities ..... <span class="phosphor">70</span> tracked (repos, accounts, narratives, companies)
+    frequency .... every 2-4h depending on source
+    baselines .... building behavioral profiles for anomaly detection
 </pre>
 
 <pre class="term-block">
   <span class="amber">■</span> ACTION ENGINE <span class="phosphor">[LIVE]</span>
     signals classified .. <span class="phosphor">10</span> today
     autonomy rate ...... <span class="phosphor">100%</span> (auto-execute)
-    morning digest ..... 06:00 BKK daily to founder
-    OBSERVE/CONTENT/ENGAGE -> auto | PREDICT -> review
-    STRATEGIC/AMPLIFY -> requires founder approval
+    daily digest ....... delivered to founder each morning
 </pre>
 
 <pre class="term-block">

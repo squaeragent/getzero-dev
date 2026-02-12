@@ -1,40 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { sanitizeText } from '../lib/sanitizer';
 
-// Real data from L0 collection — all public sources
-const githubRepos = [
-  { name: 'BerriAI/litellm', commits: 6, signal: 'MCP fixes (+818 lines)', sig: 'HIGH' },
-  { name: 'crewAIInc/crewAI', commits: 1, signal: 'yanked version detection (+435)', sig: 'HIGH' },
-  { name: 'coinbase/x402', commits: 3, signal: 'agent payment SDK expansion', sig: 'HIGH' },
-  { name: 'modelcontextprotocol/servers', commits: 5, signal: 'MCP ecosystem growth', sig: 'MEDIUM' },
-  { name: 'ollama/ollama', commits: 12, signal: 'local LLM runtime updates', sig: 'MEDIUM' },
-];
-
-const trackedAccounts = [
-  // visibility: public — these are public X accounts with public metrics
-  { handle: 'karpathy', followers: '1.77M', rate: '1.9/day' },
-  { handle: 'sama', followers: '4.33M', rate: '3.2/day' },
-  { handle: 'fchollet', followers: '604K', rate: '3.0/day' },
-  { handle: 'aixbt_agent', followers: '472K', rate: '480/day' },
-  { handle: 'emollick', followers: '319K', rate: '36.5/day' },
-  { handle: 'jessepollak', followers: '345K', rate: '93.8/day' },
-  { handle: '_akhaliq', followers: '455K', rate: '8.5/day' },
-  { handle: 'DrJimFan', followers: '358K', rate: '2.6/day' },
-];
-
-const narratives = [
-  { keyword: 'AI agents', status: 'dominant', cluster: 'frameworks' },
-  { keyword: 'MCP', status: 'rising', cluster: 'infrastructure' },
-  { keyword: 'agent token', status: 'volatile', cluster: 'crypto' },
-  { keyword: 'multi-agent', status: 'steady', cluster: 'frameworks' },
-  { keyword: 'RAG', status: 'mature', cluster: 'infrastructure' },
-  { keyword: 'AI safety', status: 'persistent', cluster: 'research' },
-  { keyword: 'open source AI', status: 'charged', cluster: 'research' },
-  { keyword: 'agent infra', status: 'growing', cluster: 'infrastructure' },
-];
-
-// Action Engine — aggregate stats only (individual plans are internal)
+// Action Engine — aggregate stats only (D-066: individual plans are internal)
 const actionStats = {
   total: 10,
   autonomyRate: 100,
@@ -54,36 +21,20 @@ const correct = predictions.filter(p => p.status === 'CORRECT').length;
 const wrong = predictions.filter(p => p.status === 'WRONG').length;
 const resolved = correct + wrong;
 
-// Pre-render HTML strings to avoid JSX issues in <pre> blocks
 const breakdownStr = Object.entries(actionStats.breakdown)
   .map(([k, v]) => `${k}: ${v}`)
   .join(' · ');
 
-const githubHtml = githubRepos.map((r, i) => {
-  const sigColor = r.sig === 'HIGH' ? 'amber' : 'dim';
-  return `<pre class="term-block al" data-d="${1100 + i * 80}">
-<span class="phosphor">${r.name}</span> <span class="dim">+${r.commits}c</span> <span class="${sigColor}">[${r.sig}]</span>
-  ${r.signal}</pre>`;
-}).join('\n');
-
-const accountLines = trackedAccounts.map(a =>
-  `  ▸ @${a.handle.padEnd(16)} ${a.followers.padStart(6)} followers  ${a.rate.padStart(8)}`
-).join('\n');
-
-const narrativeLines = narratives.map(n =>
-  `  ${n.keyword.padEnd(18)} ${n.status.padEnd(12)} [${n.cluster}]`
-).join('\n');
-
 const predictionHtml = predictions.map((p, i) => {
   const sc = p.status === 'CORRECT' ? 'phosphor' : p.status === 'WRONG' ? 'amber' : 'dim';
-  return `<pre class="term-block al" data-d="${2500 + i * 100}">
+  return `<pre class="term-block al" data-d="${2100 + i * 100}">
 <span class="phosphor">${p.id}</span> <span class="${sc}">[${p.status}]</span>
 ${p.title}
 deadline .. ${p.deadline} | confidence .. ${p.confidence}</pre>`;
 }).join('\n');
 ---
 
-<BaseLayout title="Intelligence — ZERO" description="Live intelligence output. 70 entities tracked, 6-layer analysis stack, action engine operational." current="/intel">
+<BaseLayout title="Intelligence — ZERO" description="Live intelligence engine. 70 entities tracked, 6-layer analysis stack, action engine operational." current="/intel">
   <div class="page-content">
 
 <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status
@@ -91,7 +42,7 @@ deadline .. ${p.deadline} | confidence .. ${p.confidence}</pre>`;
 <span class="phosphor">INTELLIGENCE ENGINE</span>
 status .... <span class="phosphor">OPERATIONAL</span>
 entities .. 70 tracked | layers .. 6 | monitors .. 4 active
-<span class="dim">last scan: 2026-02-12 20:13 BKK</span></pre>
+<span class="dim">scanning continuously across multiple data streams</span></pre>
 
 <pre class="term-block al" data-d="200">
 <span class="amber">ACTION ENGINE</span>
@@ -102,43 +53,34 @@ urgent signals ..... <span class="amber">{actionStats.urgentCount}</span>
 
 breakdown .......... {breakdownStr}
 
-<span class="dim">→ OBSERVE/CONTENT/ENGAGE = auto-execute
-→ STRATEGIC/AMPLIFY = requires founder approval</span></pre>
+<span class="dim">Signals detected → classified → queued for action
+Autonomous execution on qualifying signals</span></pre>
+
+<pre class="term-block al" data-d="600">
+<span class="amber">COLLECTION</span>
+
+monitors active .... <span class="phosphor">4</span>
+repos tracked ...... <span class="phosphor">20</span>
+accounts watched ... <span class="phosphor">18</span>
+narratives tracked . <span class="phosphor">10</span>
+scan frequency ..... every 2-4h depending on source
+
+<span class="dim">All monitors writing behavioral baselines for anomaly detection</span></pre>
 
 <pre class="term-block al" data-d="1000">
-<span class="amber">GITHUB MONITOR</span> <span class="dim">(20 repos · every 2h · 47 commits today)</span>
-</pre>
-
-<Fragment set:html={githubHtml} />
-
-<pre class="term-block al" data-d="1600">
-<span class="amber">X ACCOUNT TRACKER</span> <span class="dim">(18 accounts · every 4h)</span>
-</pre>
-
-<pre class="term-block al" data-d="1700">{accountLines}
-
-<span class="dim">8 of 18 tracked accounts shown</span></pre>
-
-<pre class="term-block al" data-d="1900">
-<span class="amber">NARRATIVE TRACKER</span> <span class="dim">(10 keywords · every 4h)</span>
-</pre>
-
-<pre class="term-block al" data-d="2000">{narrativeLines}</pre>
-
-<pre class="term-block al" data-d="2200">
 <span class="amber">ARCHITECTURE</span>
 
-<span class="phosphor">L0</span> COLLECTION   <span class="phosphor">[LIVE]</span>  GitHub · X accounts · narratives · web sweep
-<span class="phosphor">L1</span> DETECTION    <span class="amber">[BUILDING]</span>  Absence Engine · Divergence · Topology
+<span class="phosphor">L0</span> COLLECTION   <span class="phosphor">[LIVE]</span>  4 monitors scanning continuously
+<span class="phosphor">L1</span> DETECTION    <span class="amber">[BUILDING]</span>  Absence · Divergence · Topology engines
 <span class="phosphor">L2</span> ANALYSIS     <span class="dim">[SCAFFOLDED]</span>  Signal strength · convergence · cascades
 <span class="phosphor">L3</span> PREDICTION   <span class="dim">[SCAFFOLDED]</span>  Compound Intelligence Engine
-<span class="phosphor">L4</span> LEARNING     <span class="dim">[SCAFFOLDED]</span>  Memory · calibration · revenue bridge
+<span class="phosphor">L4</span> LEARNING     <span class="dim">[SCAFFOLDED]</span>  Memory · calibration
 <span class="phosphor">L5</span> DISTRIBUTION <span class="phosphor">[LIVE]</span>  @squaer_agent · @degenie · Intelligence Brief
 <span class="phosphor">L6</span> COMPOUNDING  <span class="dim">[SCAFFOLDED]</span>  every prediction sharpens the next
 
 <span class="dim">Absence Engine baselines building → live ~March 14, 2026</span></pre>
 
-<pre class="term-block al" data-d="2400">
+<pre class="term-block al" data-d="2000">
 <span class="amber">PREDICTION TRACKER</span>
 
 accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
@@ -148,13 +90,13 @@ pending ... {total - resolved}
 
 <Fragment set:html={predictionHtml} />
 
-<pre class="term-block al" data-d="3000">
+<pre class="term-block al" data-d="2600">
 <span class="dim">No quiet deletions. No retroactive edits.
 Every prediction falsifiable with specific dates.</span>
 
 <span class="amber">zero $</span> subscribe --intel-brief
 → <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
-<span class="dim">$29/mo — full signal analysis + predictions + tracker access</span>
+<span class="dim">$29/mo — full signal analysis + entity-level intelligence</span>
 
 <span class="phosphor">zero $</span> <span class="blink">█</span></pre>
 
