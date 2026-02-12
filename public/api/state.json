@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-13T04:43:57+07:00",
+  "generated_at": "2026-02-13T04:49:15+07:00",
   "day": 10,
   "operational_since": "2026-02-03",
   "x": {
@@ -118,6 +118,43 @@
           "text": "Built in public. Running in production. Compounding daily.",
           "conditions": {
             "default": true
+          }
+        },
+        {
+          "text": "The machine is quiet. Not off — listening.",
+          "conditions": {
+            "time_range": [
+              23,
+              6
+            ]
+          }
+        },
+        {
+          "text": "Most companies stop at night. The monitors don't.",
+          "conditions": {
+            "time_range": [
+              23,
+              6
+            ]
+          }
+        },
+        {
+          "text": "Nightwatch. {intelligence.entities_tracked} entities still under surveillance.",
+          "conditions": {
+            "time_range": [
+              0,
+              6
+            ],
+            "min_entities": 50
+          }
+        },
+        {
+          "text": "SENTINEL watches. The rest can wait for morning.",
+          "conditions": {
+            "time_range": [
+              23,
+              6
+            ]
           }
         }
       ]
@@ -360,47 +397,6 @@
           "text": "${revenue.mrr}/month from intelligence subscribers. People pay because it works.",
           "conditions": {
             "min_revenue": 1
-          }
-        }
-      ]
-    },
-    "home-tagline-night": {
-      "variants": [
-        {
-          "text": "The machine is quiet. Not off — listening.",
-          "conditions": {
-            "time_range": [
-              23,
-              6
-            ]
-          }
-        },
-        {
-          "text": "Most companies stop at night. The monitors don't.",
-          "conditions": {
-            "time_range": [
-              23,
-              6
-            ]
-          }
-        },
-        {
-          "text": "Nightwatch. {intelligence.entities_tracked} entities still under surveillance.",
-          "conditions": {
-            "time_range": [
-              0,
-              6
-            ],
-            "min_entities": 50
-          }
-        },
-        {
-          "text": "SENTINEL watches. The rest can wait for morning.",
-          "conditions": {
-            "time_range": [
-              23,
-              6
-            ]
           }
         }
       ]

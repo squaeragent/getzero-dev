@@ -282,8 +282,13 @@
     const clone = track.innerHTML;
     track.innerHTML = clone + clone;
 
-    const speed = CONFIG.ticker.speed;
+    let speed = (window.__circadianParams && window.__circadianParams.tickerSpeed) || CONFIG.ticker.speed;
     let pos = 0;
+
+    // Update speed from circadian
+    document.addEventListener('zero-circadian-update', function(e) {
+      speed = e.detail.tickerSpeed || CONFIG.ticker.speed;
+    });
     let halfWidth = track.scrollWidth / 2;
     let lastTime = performance.now();
     let running = true;
@@ -374,9 +379,11 @@
         });
       });
 
-      // Schedule next glitch
-      const next = CONFIG.glitch.minInterval +
-        Math.random() * (CONFIG.glitch.maxInterval - CONFIG.glitch.minInterval);
+      // Schedule next glitch — circadian-aware
+      var cp = window.__circadianParams || {};
+      var gMin = cp.glitchMin || CONFIG.glitch.minInterval;
+      var gMax = cp.glitchMax || CONFIG.glitch.maxInterval;
+      const next = gMin + Math.random() * (gMax - gMin);
       setTimeout(glitch, next);
     }
 
