@@ -25,7 +25,7 @@ not conversations.</pre>
 
 <h2 class="sr-only">SERAPHIM</h2>
 <pre class="term-block al agent-card hover-scanline" data-d="400" data-agent="seraphim">
-<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">SERAPHIM</span>
+<span class="agent-heartbeat" data-agent-id="seraphim">■</span> <span class="ice">SERAPHIM</span>
 Strategic Cortex · Mac Studio · <span class="agent-activity dim" data-live="agents.seraphim.activity">building</span>
 
 Sees the whole board. Decides what to build, what to kill,
@@ -40,7 +40,7 @@ only .... The agent that can kill a product or change strategy</span>
 
 <h2 class="sr-only">CHRONICLE</h2>
 <pre class="term-block al agent-card hover-scanline" data-d="800" data-agent="chronicle">
-<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">CHRONICLE</span>
+<span class="agent-heartbeat" data-agent-id="chronicle">■</span> <span class="ice">CHRONICLE</span>
 Narrative Engine · Mac Studio · <span class="agent-activity dim" data-live="agents.chronicle.activity">idle</span>
 
 Editorial judge, not writer. Scores every piece of public
@@ -55,7 +55,7 @@ only .... The agent with absolute veto on anything public-facing</span>
 
 <h2 class="sr-only">AESTHETE</h2>
 <pre class="term-block al agent-card hover-scanline" data-d="1200" data-agent="aesthete">
-<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">AESTHETE</span>
+<span class="agent-heartbeat" data-agent-id="aesthete">■</span> <span class="ice">AESTHETE</span>
 Visual Cortex · Mac Studio · <span class="agent-activity dim" data-live="agents.aesthete.activity">idle</span>
 
 Governs the PHOSPHOR design system. Every visual artifact —
@@ -70,7 +70,7 @@ only .... The agent that enforces visual identity across all output</span>
 
 <h2 class="sr-only">SQUAER</h2>
 <pre class="term-block al agent-card hover-scanline" data-d="1600" data-agent="squaer">
-<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">SQUAER</span>
+<span class="agent-heartbeat" data-agent-id="squaer">■</span> <span class="ice">SQUAER</span>
 Distribution Intelligence · Mac Mini · <span class="agent-activity dim" data-live="agents.squaer.activity">idle</span>
 
 The public face. Posts autonomously as
@@ -86,7 +86,7 @@ only .... The agent that talks to the outside world</span>
 
 <h2 class="sr-only">SENTINEL</h2>
 <pre class="term-block al agent-card hover-scanline" data-d="2000" data-agent="sentinel">
-<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">SENTINEL</span>
+<span class="agent-heartbeat" data-agent-id="sentinel">■</span> <span class="ice">SENTINEL</span>
 System Integrity · Mac Studio · <span class="agent-activity dim" data-live="agents.sentinel.activity">monitoring</span>
 
 Watches everything else. Continuous health monitoring,
@@ -106,7 +106,5 @@ only .... The agent that monitors the other four</span>
 </BaseLayout>
 
 <style>
-  .pflash-tag { animation: none; }
-  .al.on .pflash-tag { animation: pflash 0.6s ease-out; }
-  @keyframes pflash { 0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); } 100% { text-shadow: 0 0 8px rgba(200,255,0,0.4); } }
+  /* Agent heartbeat styles are in global.css — page-specific overrides only */
 </style>

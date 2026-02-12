@@ -102,40 +102,73 @@
     updateFreshness(state);
   }
 
+  // Activity → heartbeat speed mapping
+  // Speed = seconds per pulse cycle. Lower = more intense.
+  var HEARTBEAT_MAP = {
+    // Burst (0.8s) — short intense actions
+    posting:     { speed: 0.8, intensity: 'burst' },
+    deploying:   { speed: 0.8, intensity: 'burst' },
+    publishing:  { speed: 0.8, intensity: 'burst' },
+    // High (1.0s) — sustained heavy work
+    sweep:       { speed: 1.0, intensity: 'high' },
+    sweeping:    { speed: 1.0, intensity: 'high' },
+    building:    { speed: 1.0, intensity: 'high' },
+    processing:  { speed: 1.0, intensity: 'high' },
+    generating:  { speed: 1.0, intensity: 'high' },
+    analyzing:   { speed: 1.0, intensity: 'high' },
+    // Medium (1.5s) — focused but not peak
+    scoring:     { speed: 1.5, intensity: 'medium' },
+    reviewing:   { speed: 1.5, intensity: 'medium' },
+    composing:   { speed: 1.5, intensity: 'medium' },
+    classifying: { speed: 1.5, intensity: 'medium' },
+    // Low (2.0s) — steady background
+    monitoring:  { speed: 2.0, intensity: 'low' },
+    patrolling:  { speed: 2.0, intensity: 'low' },
+    watching:    { speed: 2.0, intensity: 'low' },
+    listening:   { speed: 2.0, intensity: 'low' },
+    // Idle (3.0s) — alive but resting
+    idle:        { speed: 3.0, intensity: 'idle' },
+    sleeping:    { speed: 3.0, intensity: 'idle' }
+  };
+
+  var IDLE_HEARTBEAT = { speed: 3.0, intensity: 'idle' };
+
   // Agent heartbeat speed based on activity
   function updateAgentStatus(state) {
     if (!state.agents) return;
-    Object.entries(state.agents).forEach(([name, agent]) => {
-      const el = document.querySelector('[data-agent="' + name + '"]');
+    Object.entries(state.agents).forEach(function(entry) {
+      var name = entry[0], agent = entry[1];
+      var el = document.querySelector('[data-agent="' + name + '"]');
       if (!el) return;
 
-      const activityEl = el.querySelector('.agent-activity');
+      var activity = (agent.activity || 'idle').toLowerCase();
+
+      // Update activity text
+      var activityEl = el.querySelector('.agent-activity');
       if (activityEl) {
-        activityEl.textContent = agent.activity || 'idle';
+        activityEl.textContent = activity;
       }
 
-      const heartbeat = el.querySelector('.agent-heartbeat');
+      // Find heartbeat indicator — check both inside data-agent wrapper and standalone
+      var heartbeat = el.querySelector('.agent-heartbeat') ||
+                      document.querySelector('.agent-heartbeat[data-agent-id="' + name + '"]');
       if (heartbeat) {
-        // Circadian-aware idle heartbeat
-        const circadianIdle = (window.__circadianParams && window.__circadianParams.idleHeartbeat) || 3.0;
-        switch (agent.activity) {
-          case 'sweep':
-          case 'posting':
-          case 'processing':
-          case 'scoring':
-          case 'building':
-            heartbeat.style.animationDuration = '1.2s';
-            break;
-          case 'monitoring':
-          case 'reviewing':
-            heartbeat.style.animationDuration = '2s';
-            break;
-          default:
-            heartbeat.style.animationDuration = circadianIdle.toFixed(1) + 's';
+        var hb = HEARTBEAT_MAP[activity] || IDLE_HEARTBEAT;
+        heartbeat.style.setProperty('--heartbeat-speed', hb.speed + 's');
+        heartbeat.dataset.intensity = hb.intensity;
+
+        // Ensure animation restarts cleanly on activity change
+        var prevActivity = heartbeat.dataset.prevActivity;
+        if (prevActivity && prevActivity !== activity) {
+          heartbeat.style.animation = 'none';
+          heartbeat.offsetHeight; // force reflow
+          heartbeat.style.animation = '';
         }
+        heartbeat.dataset.prevActivity = activity;
       }
 
-      const statusEl = el.querySelector('.agent-status-dot');
+      // Status dot (if present on other pages)
+      var statusEl = el.querySelector('.agent-status-dot');
       if (statusEl) {
         statusEl.dataset.status = agent.status;
       }

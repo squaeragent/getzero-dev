@@ -827,6 +827,63 @@ pre, code {
   .status-card .value { font-size: 1.3rem; }
 }
 
+/* ── AGENT HEARTBEAT INDICATORS ── */
+/* Speed set dynamically via --heartbeat-speed custom property by zero-live-data.js */
+.agent-heartbeat {
+  display: inline;
+  color: #00ff41;
+  animation: agent-pulse var(--heartbeat-speed, 3s) ease-in-out infinite;
+  will-change: opacity, text-shadow;
+}
+
+@keyframes agent-pulse {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 var(--heartbeat-glow-sm, 4px) rgba(0,255,65,0.3);
+  }
+  50% {
+    opacity: var(--heartbeat-dim, 0.6);
+    text-shadow: 0 0 var(--heartbeat-glow-lg, 12px) rgba(0,255,65,0.5),
+                 0 0 var(--heartbeat-glow-xl, 30px) rgba(0,255,65,0.03);
+  }
+}
+
+/* Intensity levels — set by JS via data-intensity attribute */
+.agent-heartbeat[data-intensity="burst"] {
+  --heartbeat-dim: 0.4;
+  --heartbeat-glow-sm: 6px;
+  --heartbeat-glow-lg: 16px;
+  --heartbeat-glow-xl: 40px;
+}
+.agent-heartbeat[data-intensity="high"] {
+  --heartbeat-dim: 0.5;
+  --heartbeat-glow-sm: 5px;
+  --heartbeat-glow-lg: 14px;
+  --heartbeat-glow-xl: 35px;
+}
+.agent-heartbeat[data-intensity="medium"] {
+  --heartbeat-dim: 0.6;
+  --heartbeat-glow-sm: 4px;
+  --heartbeat-glow-lg: 10px;
+  --heartbeat-glow-xl: 25px;
+}
+.agent-heartbeat[data-intensity="low"] {
+  --heartbeat-dim: 0.75;
+  --heartbeat-glow-sm: 3px;
+  --heartbeat-glow-lg: 6px;
+  --heartbeat-glow-xl: 15px;
+}
+.agent-heartbeat[data-intensity="idle"] {
+  --heartbeat-dim: 0.85;
+  --heartbeat-glow-sm: 2px;
+  --heartbeat-glow-lg: 4px;
+  --heartbeat-glow-xl: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agent-heartbeat { animation: none !important; opacity: 1; }
+}
+
 /* ── SR-ONLY (screen reader only) ── */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
