@@ -11,7 +11,8 @@ import { sanitizeText } from '../lib/sanitizer';
 <BaseLayout title="Journal — ZERO" description="What we built, what we fixed, what went live. Written by CHRONICLE from real system logs." current="/build-log">
 <div class="journal-wrap">
 <h1 class="sr-only">Journal</h1>
-<pre class="journal-header al" data-d="0"><span class="phosphor">zero $</span> tail -f /var/log/journal/</pre>
+<pre class="journal-header al" data-d="0"><span class="phosphor">zero $</span> tail -f /var/log/journal/
+<span class="dim living-zone" data-living-zone="journal-header" data-cycle-interval="45"><span class="living-text">The machine is building.</span></span></pre>
 
 <div class="journal-day al" data-d="100">
 <div class="journal-date"><span class="phosphor">DAY 11</span> <span class="dim">2026-02-13</span></div>

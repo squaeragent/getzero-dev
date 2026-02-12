@@ -191,6 +191,8 @@
       const state = await res.json();
       updateDOM(state);
       lastState = state;
+      window.__zeroState = state;
+      document.dispatchEvent(new CustomEvent('zero-state-updated', { detail: state }));
       document.body.classList.remove('state-error');
     } catch (err) {
       console.warn('[ZERO] State fetch failed:', err.message);

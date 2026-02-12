@@ -1,0 +1,75 @@
+/* ============================================
+   ZERO OS — LIVING TEXT
+   Pre-authored text that rewrites itself.
+   Character-level phosphor dissolve + typewriter retype.
+   ============================================ */
+
+/* Living text container */
+.living-text {
+  position: relative;
+  display: inline;
+  white-space: pre-wrap;
+}
+
+/* Individual character during dissolve */
+.lt-char {
+  display: inline;
+  transition: none; /* JS controls timing precisely */
+}
+
+.lt-char.dissolving {
+  color: rgba(0, 255, 65, 0.4);
+  text-shadow: 0 0 4px rgba(0, 255, 65, 0.2);
+}
+
+.lt-char.ghost {
+  color: rgba(0, 255, 65, 0.1);
+  filter: blur(0.5px);
+}
+
+.lt-char.gone {
+  display: none;
+}
+
+/* Character arriving during typewriter */
+.lt-char.arriving {
+  color: #4dff74; /* brighter than standard green */
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.6);
+}
+
+.lt-char.settled {
+  color: inherit;
+  text-shadow: none;
+}
+
+/* Cursor between dissolve and retype */
+.lt-cursor {
+  display: inline;
+  animation: lt-cursor-blink 1.06s step-end infinite;
+  color: var(--phosphor, #00ff41);
+}
+
+@keyframes lt-cursor-blink {
+  0%, 49.9% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Living zone indicator — very subtle border pulse */
+.living-zone {
+  border-left: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.living-zone.active {
+  border-left-color: rgba(0, 255, 65, 0.08);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .living-text {
+    transition: none !important;
+  }
+  .lt-char {
+    transition: none !important;
+  }
+}
