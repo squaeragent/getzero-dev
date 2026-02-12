@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LatestTweet from '../components/LatestTweet.astro';
 import BlockLogo from '../components/BlockLogo.astro';
+import GridTunnel from '../components/GridTunnel.astro';
 
 // Load metrics
 let m = { treasury: 30300, agents: 4, followers: 339, revenue: 29, monthly_cost: 5800, day: 9, subscribers: 8, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 80, content_pieces: 15, avg_quality: 8.4, machines: 2, specs: 20, automated_jobs: 12 };
@@ -20,9 +21,10 @@ const agiBars = '█'.repeat(Math.floor(m.agi_score / 8)) + '░'.repeat(10 - Ma
 
 <BaseLayout title="ZERO OS — Terminal" current="/">
   <div class="terminal-grid">
-    <!-- ═══ LEFT TOP: BOOT SEQUENCE ═══ -->
-    <div class="panel glyph-panel" id="boot-panel">
-      <div class="boot-seq">
+    <!-- ═══ LEFT TOP: BOOT SEQUENCE + GRID TUNNEL ═══ -->
+    <div class="panel glyph-panel" id="boot-panel" style="position: relative; overflow: hidden;">
+      <GridTunnel />
+      <div class="boot-seq" style="position: relative; z-index: 2;">
         <div class="bl" data-d="0"><span class="dim">BIOS POST ............</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="200"><span class="dim">MEM TEST: 192GB</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="400"><span class="dim">GPU: M3 ULTRA 76-CORE</span> <span class="phosphor-g">OK</span></div>

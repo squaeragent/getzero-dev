@@ -1,0 +1,153 @@
+---
+/**
+ * Perspective Grid Tunnel — Tron-style depth background
+ * ⟨◇⟩ glyph at the vanishing point
+ * Pure CSS, continuous scroll animation
+ */
+---
+
+<div class="tunnel-container">
+  <div class="grid-floor"></div>
+  <div class="grid-ceiling"></div>
+  <div class="horizon"></div>
+  <div class="depth-vignette"></div>
+  <div class="glyph">
+    <svg viewBox="0 0 400 400">
+      <path d="M 102,82 L 164,75 L 164,103 L 120,98 L 116,102 L 116,298 L 120,302 L 164,297 L 164,325 L 102,318 Z" />
+      <path d="M 298,82 L 236,75 L 236,103 L 280,98 L 284,102 L 284,298 L 280,302 L 236,297 L 236,325 L 298,318 Z" />
+      <polygon points="200,148 252,200 200,252 148,200" />
+    </svg>
+  </div>
+</div>
+
+<style>
+  .tunnel-container {
+    position: absolute;
+    inset: 0;
+    perspective: 600px;
+    perspective-origin: 50% 50%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .grid-floor {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    left: -50%;
+    top: 10%;
+    transform: rotateX(70deg);
+    transform-origin: center top;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent calc(100% / 20 - 1px),
+        rgba(200, 255, 0, 0.08) calc(100% / 20 - 1px),
+        rgba(200, 255, 0, 0.08) calc(100% / 20)
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent calc(100% / 30 - 1px),
+        rgba(200, 255, 0, 0.06) calc(100% / 30 - 1px),
+        rgba(200, 255, 0, 0.06) calc(100% / 30)
+      );
+    animation: gridScroll 8s linear infinite;
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.8) 60%, black 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.8) 60%, black 100%);
+  }
+
+  @keyframes gridScroll {
+    0% { transform: rotateX(70deg) translateY(0); }
+    100% { transform: rotateX(70deg) translateY(calc(100% / 30)); }
+  }
+
+  .grid-ceiling {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    left: -50%;
+    bottom: 10%;
+    transform: rotateX(-70deg);
+    transform-origin: center bottom;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent calc(100% / 20 - 1px),
+        rgba(200, 255, 0, 0.05) calc(100% / 20 - 1px),
+        rgba(200, 255, 0, 0.05) calc(100% / 20)
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent calc(100% / 30 - 1px),
+        rgba(200, 255, 0, 0.04) calc(100% / 30 - 1px),
+        rgba(200, 255, 0, 0.04) calc(100% / 30)
+      );
+    animation: gridScrollCeil 8s linear infinite;
+    mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.6) 60%, black 100%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.6) 60%, black 100%);
+  }
+
+  @keyframes gridScrollCeil {
+    0% { transform: rotateX(-70deg) translateY(0); }
+    100% { transform: rotateX(-70deg) translateY(calc(-100% / 30)); }
+  }
+
+  .horizon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgba(200, 255, 0, 0.15);
+    box-shadow: 0 0 30px 8px rgba(200, 255, 0, 0.06), 0 0 80px 20px rgba(200, 255, 0, 0.03);
+    transform: translateY(-50%);
+  }
+
+  .depth-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 50%,
+      transparent 0%,
+      rgba(5, 5, 5, 0.3) 40%,
+      rgba(5, 5, 5, 0.8) 70%,
+      #050505 100%
+    );
+    pointer-events: none;
+  }
+
+  .glyph {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    animation: glyphPulse 4s ease-in-out infinite;
+  }
+
+  .glyph svg {
+    width: 80px;
+    height: 80px;
+    filter: drop-shadow(0 0 20px rgba(200, 255, 0, 0.4)) drop-shadow(0 0 60px rgba(200, 255, 0, 0.15));
+  }
+
+  .glyph svg path,
+  .glyph svg polygon {
+    fill: #c8ff00;
+  }
+
+  @keyframes glyphPulse {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(200, 255, 0, 0.3)); }
+    50% { filter: drop-shadow(0 0 30px rgba(200, 255, 0, 0.5)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grid-floor, .grid-ceiling { animation: none; }
+    .glyph { animation: none; }
+  }
+</style>
