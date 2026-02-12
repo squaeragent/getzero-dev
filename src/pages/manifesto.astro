@@ -69,11 +69,11 @@ The system watches 70 entities across multiple data streams. It classifies signa
 <div class="section-body">
 This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.
 
-<div class="metrics-block">  day ................ {m.day}
-  autonomous posts ... {m.posts}+
-  followers .......... {m.followers}
-  revenue ............ ${m.revenue}
-  entities tracked ... 70
+<div class="metrics-block">  day ................ <span data-live="day">{m.day}</span>
+  autonomous posts ... <span data-live="x.posts_shipped">{m.posts}</span>+
+  followers .......... <span data-live="x.followers">{m.followers}</span>
+  revenue ............ <span data-live="revenue.total_earned" data-format="currency">${m.revenue}</span>
+  entities tracked ... <span data-live="intelligence.entities_tracked">70</span>
   predictions ........ on record, with deadlines</div>
 
 The <a href="/build-log"><span class="phosphor">journal</span></a> shows what shipped and when. The <a href="/intel"><span class="phosphor">intelligence page</span></a> shows the engine is operational. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.

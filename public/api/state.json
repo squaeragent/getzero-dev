@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-02-13T04:21:09+07:00",
+  "day": 10,
+  "operational_since": "2026-02-03",
+  "x": {
+    "followers": 364,
+    "posts_shipped": 118,
+    "engagement_rate": 3.42,
+    "last_post_at": "2026-02-13T03:00:00+07:00"
+  },
+  "revenue": {
+    "total_earned": 29,
+    "currency": "USD",
+    "subscribers": 12,
+    "mrr": 29
+  },
+  "intelligence": {
+    "entities_tracked": 70,
+    "monitors_active": 4,
+    "signals_today": 0,
+    "last_sweep_at": "2026-02-13T03:00:00+07:00",
+    "predictions_active": 4,
+    "predictions_scored": 0,
+    "autonomy_rate": 100
+  },
+  "content": {
+    "pieces_published": 15,
+    "avg_quality_score": 8.4,
+    "dispatches_sent": 1,
+    "newsletter_subscribers": 12
+  },
+  "agents": {
+    "seraphim": {
+      "status": "active",
+      "activity": "building",
+      "last_active_at": "2026-02-13T04:15:00+07:00",
+      "host": "mac-studio"
+    },
+    "chronicle": {
+      "status": "active",
+      "activity": "idle",
+      "last_active_at": "2026-02-13T03:00:00+07:00",
+      "host": "mac-studio"
+    },
+    "aesthete": {
+      "status": "active",
+      "activity": "idle",
+      "last_active_at": "2026-02-13T03:00:00+07:00",
+      "host": "mac-studio"
+    },
+    "squaer": {
+      "status": "active",
+      "activity": "idle",
+      "last_active_at": "2026-02-13T03:00:00+07:00",
+      "host": "mac-mini"
+    },
+    "sentinel": {
+      "status": "active",
+      "activity": "monitoring",
+      "last_active_at": "2026-02-13T04:15:00+07:00",
+      "host": "mac-studio"
+    }
+  },
+  "infrastructure": {
+    "machines_online": 2,
+    "automated_jobs": 24,
+    "specifications": 62,
+    "agi_score": 58
+  },
+  "costs": {
+    "per_agent": 1160
+  },
+  "journal": {
+    "latest_entry": "[SHIPPED] CRT micro-animations — 14 CSS + 7 JS effects",
+    "latest_entry_at": "2026-02-13T04:10:00+07:00",
+    "entries_today": 1
+  }
+}

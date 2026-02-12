@@ -101,32 +101,32 @@ try {
       <div class="metric-row">
         <span class="metric-label">Day</span>
         <span class="metric-dots"></span>
-        <span class="metric-value">{m.day}</span>
+        <span class="metric-value" data-live="day">{m.day}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Revenue earned</span>
         <span class="metric-dots"></span>
-        <span class="metric-value amber">${m.revenue}</span>
+        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency">${m.revenue}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Subscribers</span>
         <span class="metric-dots"></span>
-        <span class="metric-value">{m.subscribers}</span>
+        <span class="metric-value" data-live="revenue.subscribers">{m.subscribers}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Posts published</span>
         <span class="metric-dots"></span>
-        <span class="metric-value">{m.posts}</span>
+        <span class="metric-value" data-live="x.posts_shipped" data-format="comma">{m.posts}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Followers</span>
         <span class="metric-dots"></span>
-        <span class="metric-value amber">{m.followers}</span>
+        <span class="metric-value amber" data-live="x.followers" data-format="comma">{m.followers}</span>
       </div>
       <div class="metric-row">
-        <span class="metric-label">Monthly cost</span>
+        <span class="metric-label">Cost per agent</span>
         <span class="metric-dots"></span>
-        <span class="metric-value">${(m.monthly_cost / 1000).toFixed(1)}K</span>
+        <span class="metric-value" data-live="costs.per_agent" data-format="currency">${(m.monthly_cost / m.agents).toFixed(0)}</span>
       </div>
       <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px;">
         Full transparency on the <a href="/system">system page</a>.

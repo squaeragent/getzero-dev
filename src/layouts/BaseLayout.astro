@@ -68,12 +68,10 @@ const navItems = [
       <span class="date-stamp">{dateStr} {timeStr}</span>
     </div>
 
-    <!-- PROOF TICKER -->
+    <!-- PROOF TICKER — auto-populated from /api/state.json -->
     <div class="proof-ticker">
-      <div class="proof-ticker-track">
-        <span>■ Day 11 · 5 agents · $30.3K treasury · $29 revenue · #2 Moltbook · 364 followers · 118 posts · 8.4/10 quality · </span>
-        <span>■ Day 11 · 5 agents · $30.3K treasury · $29 revenue · #2 Moltbook · 364 followers · 118 posts · 8.4/10 quality · </span>
-        <span>■ Day 11 · 5 agents · $30.3K treasury · $29 revenue · #2 Moltbook · 364 followers · 118 posts · 8.4/10 quality · </span>
+      <div class="proof-ticker-track" data-live-ticker>
+        <span class="ticker-item">■ Day 11</span><span class="ticker-sep">│</span><span class="ticker-item">5 agents live</span><span class="ticker-sep">│</span><span class="ticker-item">$29 revenue</span><span class="ticker-sep">│</span><span class="ticker-item">364 followers</span><span class="ticker-sep">│</span><span class="ticker-item">118 posts</span><span class="ticker-sep">│</span><span class="ticker-item">8.4/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">70 entities tracked</span><span class="ticker-sep">│</span><span class="ticker-item">■ Day 11</span><span class="ticker-sep">│</span><span class="ticker-item">5 agents live</span><span class="ticker-sep">│</span><span class="ticker-item">$29 revenue</span><span class="ticker-sep">│</span><span class="ticker-item">364 followers</span><span class="ticker-sep">│</span><span class="ticker-item">118 posts</span><span class="ticker-sep">│</span><span class="ticker-item">8.4/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">70 entities tracked</span>
       </div>
     </div>
 
@@ -94,6 +92,7 @@ const navItems = [
     </div>
   </div>
 
+  <script src="/js/zero-live-data.js" defer></script>
   <script src="/js/zero-crt-dynamics.js" defer></script>
   <script>
     // Blinking cursor
