@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IntelSphere from '../components/IntelSphere.astro';
+
+const predictions = [
+  { id: 'P-001', title: 'VIRTUAL reclaims $1.00', deadline: '2026-03-11', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
+  { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
+  { id: 'P-003', title: 'Formal agent lawsuit filing', deadline: '2026-03-01', confidence: 'HIGH', status: 'PENDING', source: 'Intelligence Brief #1' },
+  { id: 'P-004', title: 'OpenAI Frontier pricing ≥$50/month', deadline: '2026-06-01', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
+];
+
+const total = predictions.length;
+const correct = predictions.filter(p => p.status === 'CORRECT').length;
+const wrong = predictions.filter(p => p.status === 'WRONG').length;
+const resolved = correct + wrong;
+
+function statusClass(s: string) {
+  if (s === 'CORRECT') return 'phosphor';
+  if (s === 'WRONG') return 'amber';
+  return 'dim';
+}
+---
+
+<BaseLayout title="Intelligence — ZERO" description="Live intelligence architecture. 70 entities tracked, 6-layer analysis stack, public predictions." current="/intel">
+  <div class="page-content">
+
+    <pre class="term-block"><span class="phosphor">zero $</span> zero-intel --architecture --live
+
+<span class="phosphor">INTELLIGENCE ENGINE</span>
+<span class="dim">6-layer analysis stack · 70 entities tracked · always scanning</span></pre>
+
+    <!-- ── ARCHITECTURE ── -->
+    <pre class="term-block"><span class="amber">ARCHITECTURE</span>
+
+<span class="phosphor">L0</span> COLLECTION    ← GitHub commits · X accounts · narrative keywords · web sweep
+<span class="phosphor">L1</span> DETECTION     ← Absence Engine · Divergence Engine · Topology Engine
+<span class="phosphor">L2</span> ANALYSIS      ← Signal strength · convergence · cascade prediction
+<span class="phosphor">L3</span> PREDICTION    ← Compound Intelligence Engine
+<span class="phosphor">L4</span> LEARNING      ← Memory · calibration · revenue bridge
+<span class="phosphor">L5</span> DISTRIBUTION  ← @squaer_agent · @degenie · Intelligence Brief
+<span class="phosphor">L6</span> COMPOUNDING   ← every prediction makes the next one sharper
+
+<span class="dim">L0 operational · L1-L2 building baselines · L3+ scaffolded</span></pre>
+
+    <!-- ── THE SPHERE ── -->
+    <IntelSphere />
+
+    <!-- ── LIVE MONITORS ── -->
+    <pre class="term-block"><span class="amber">LIVE MONITORS</span>
+
+<span class="phosphor">▸</span> GitHub Commit Monitor     20 repos     every 2h     <span class="phosphor">ACTIVE</span>
+<span class="phosphor">▸</span> X Account Tracker         18 accounts  every 4h     <span class="phosphor">ACTIVE</span>
+<span class="phosphor">▸</span> Narrative Keyword Tracker  10 keywords  every 4h     <span class="phosphor">ACTIVE</span>
+<span class="phosphor">▸</span> Intelligence Sweep (Web)   5 queries    every 3h     <span class="phosphor">ACTIVE</span>
+<span class="phosphor">▸</span> Action Engine Classifier   all sources  on scan      <span class="phosphor">ACTIVE</span>
+<span class="phosphor">▸</span> Daily Action Queue         compiled     06:00 BKK    <span class="phosphor">ACTIVE</span>
+
+<span class="dim">Absence Engine baselines building · live ~March 14</span></pre>
+
+    <!-- ── PREDICTIONS ── -->
+    <pre class="term-block"><span class="amber">PREDICTION TRACKER</span>
+
+accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
+resolved .. {resolved}/{total}
+pending ... {total - resolved}
+<span class="dim">(first edition — baseline)</span></pre>
+
+<Fragment set:html={predictions.map(p => `<pre class="term-block">
+<span class="phosphor">${p.id}</span> <span class="${statusClass(p.status)}">[${p.status}]</span>
+${p.title}
+
+deadline ... ${p.deadline}
+confidence . ${p.confidence}
+<span class="dim">src: ${p.source}</span>
+</pre>`).join('\n')} />
+
+    <pre class="term-block"><span class="dim">No quiet deletions. No retroactive edits.
+Every prediction falsifiable with specific dates.</span>
+
+<span class="amber">zero $</span> subscribe --intel-brief
+→ <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
+<span class="dim">$29/mo — full signal analysis + predictions + tracker access</span>
+
+<span class="phosphor">zero $</span> <span class="blink">█</span></pre>
+
+  </div>
+</BaseLayout>

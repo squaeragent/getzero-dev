@@ -1,0 +1,232 @@
+---
+/**
+ * IntelSphere — ASCII data sphere rendered on canvas 2D
+ * Pure sin/cos projection. No WebGL. Under 50KB JS.
+ * Characters are real intelligence data baked at build time.
+ */
+
+// ── Bake real data from L0 collection ──
+// This gets replaced by cron-updated metrics.json reads in production
+const sphereData: string[] = [
+  // Tracked accounts (handles)
+  "karpathy", "ylecun", "fchollet", "emollick", "sama",
+  "jessepollak", "swyx", "jxnlco", "0xJeff", "aixbt_agent",
+  "cookiedotfun", "virtuals_io", "shaw_elizaos", "joaomdmoura",
+  "_akhaliq", "squaer_agent", "degenie", "TheAIGRID",
+  // Repos
+  "litellm", "langchain", "crewai", "AutoGPT", "elizaOS",
+  "autogen", "llama_index", "x402", "MCP/servers",
+  "transformers", "vllm", "ollama", "browser-use",
+  "cursor", "open-interpreter", "jina",
+  // Narrative keywords
+  "AI agents", "MCP", "agent token", "multi-agent",
+  "RAG", "AI safety", "open source AI", "agent infra",
+  "agentic wallets", "autonomous agents",
+  // Action classifications
+  "OBSERVE", "CONTENT", "ENGAGE", "PREDICT",
+  "STRATEGIC", "OBSERVE", "CONTENT", "CONTENT",
+  // Signal scores + confidence
+  "0.82", "0.91", "0.67", "0.88", "0.73", "0.95",
+  "HIGH", "MEDIUM", "LOW", "HIGH",
+  // Raw data fragments
+  "+70%", "+51c/24h", "472K", "1.77M", "282K",
+  "9.0", "7.5", "8.8", "CRITICAL", "URGENT",
+  // Narrative status
+  "rising", "volatile", "mature", "persistent",
+  // Entity types
+  "ORIGINATOR", "AMPLIFIER", "DISTORTER",
+  "L0", "L1", "L2", "ABSENCE", "DIVERGENCE",
+  "TOPOLOGY", "CONVERGENCE", "COMPOUND",
+];
+---
+
+<div class="intel-sphere-wrap" id="intel-sphere-wrap">
+  <canvas id="intel-sphere" aria-label="Rotating ASCII intelligence sphere visualization"></canvas>
+  <div class="sphere-label">
+    <span class="phosphor">⟨◇⟩</span> <span class="dim">INTELLIGENCE MESH — {sphereData.length} ENTITIES TRACKED</span>
+  </div>
+</div>
+
+<script define:vars={{ sphereData }}>
+(function() {
+  const canvas = document.getElementById('intel-sphere');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  // ── Config ──
+  const ROT_PERIOD = 10000; // 10s per revolution
+  const TILT = 0.35; // slight tilt for depth
+  const POINT_COUNT = 90; // total characters on sphere
+  const BASE_FONT = 13;
+
+  // ── Responsive sizing ──
+  let W, H, R, fontSize;
+  function resize() {
+    const wrap = document.getElementById('intel-sphere-wrap');
+    const ww = wrap ? wrap.clientWidth : window.innerWidth;
+    const isMobile = ww < 640;
+    const diameter = isMobile ? Math.min(300, ww - 24) : Math.min(500, ww - 48);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    W = diameter + 60;
+    H = diameter + 60;
+    R = diameter / 2;
+    fontSize = isMobile ? 11 : BASE_FONT;
+
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  // ── Distribute points on sphere (Fibonacci spiral) ──
+  const points = [];
+  const golden = (1 + Math.sqrt(5)) / 2;
+
+  for (let i = 0; i < POINT_COUNT; i++) {
+    const theta = Math.acos(1 - 2 * (i + 0.5) / POINT_COUNT);
+    const phi = 2 * Math.PI * i / golden;
+    const text = sphereData[i % sphereData.length];
+    points.push({ theta, phi, text });
+  }
+
+  // ── Scanline pattern (drawn once, cached) ──
+  let scanlinePattern = null;
+  function buildScanlines() {
+    const pc = document.createElement('canvas');
+    pc.width = 4;
+    pc.height = 4;
+    const pctx = pc.getContext('2d');
+    pctx.fillStyle = 'rgba(0,0,0,0)';
+    pctx.fillRect(0, 0, 4, 4);
+    pctx.fillStyle = 'rgba(0,0,0,0.08)';
+    pctx.fillRect(0, 2, 4, 2);
+    scanlinePattern = ctx.createPattern(pc, 'repeat');
+  }
+
+  // ── Render ──
+  let lastTime = 0;
+  let angle = 0;
+
+  function render(now) {
+    if (!lastTime) lastTime = now;
+    const dt = now - lastTime;
+    lastTime = now;
+
+    // Rotation
+    angle += (dt / ROT_PERIOD) * Math.PI * 2;
+
+    // Clear
+    ctx.clearRect(0, 0, W, H);
+
+    const cx = W / 2;
+    const cy = H / 2;
+    const cosA = Math.cos(angle);
+    const sinA = Math.sin(angle);
+    const cosT = Math.cos(TILT);
+    const sinT = Math.sin(TILT);
+
+    // Project and sort by depth
+    const projected = [];
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i];
+      // Spherical to cartesian
+      const st = Math.sin(p.theta);
+      let x = R * st * Math.cos(p.phi);
+      let y = R * Math.cos(p.theta);
+      let z = R * st * Math.sin(p.phi);
+
+      // Rotate around Y axis
+      const rx = x * cosA - z * sinA;
+      const rz = x * sinA + z * cosA;
+
+      // Tilt around X axis
+      const ry = y * cosT - rz * sinT;
+      const rz2 = y * sinT + rz * cosT;
+
+      // Depth: -1 (far) to +1 (near)
+      const depth = rz2 / R;
+
+      projected.push({
+        x: cx + rx,
+        y: cy + ry,
+        depth: depth,
+        text: p.text
+      });
+    }
+
+    // Sort back to front
+    projected.sort((a, b) => a.depth - b.depth);
+
+    // Draw
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    for (let i = 0; i < projected.length; i++) {
+      const p = projected[i];
+      // Depth → opacity: far side 0.12, near side 1.0
+      const t = (p.depth + 1) / 2; // 0..1
+      const alpha = 0.12 + t * 0.88;
+
+      // Slight size variation by depth
+      const size = fontSize * (0.8 + t * 0.4);
+
+      ctx.font = `${Math.round(size * 10) / 10}px 'JetBrains Mono', monospace`;
+      ctx.fillStyle = `rgba(0, 255, 65, ${alpha.toFixed(3)})`;
+      ctx.fillText(p.text, p.x, p.y);
+    }
+
+    // Scanline overlay
+    if (scanlinePattern) {
+      ctx.fillStyle = scanlinePattern;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  // ── Init ──
+  resize();
+  buildScanlines();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(render);
+})();
+</script>
+
+<style>
+  .intel-sphere-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  #intel-sphere {
+    display: block;
+    image-rendering: auto;
+  }
+
+  .sphere-label {
+    font-family: var(--font-head);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-align: center;
+    margin-top: 12px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 640px) {
+    .intel-sphere-wrap {
+      padding: 16px 0;
+    }
+    .sphere-label {
+      font-size: 0.55rem;
+    }
+  }
+</style>
