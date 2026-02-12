@@ -53,13 +53,10 @@ ZERO OS runs {system.cognitive_functions || 4} agents across {system.machines ||
 <div class="section-body">
 ZERO doesn't solve this with abstractions or frameworks. It solves it with discipline.
 
-<span class="phosphor">SPECIFICATIONS</span> — every agent has a spec defining its role, constraints, inputs, outputs, and quality standards. Not a system prompt. A contract.
-
-<span class="phosphor">HANDOFF PROTOCOLS</span> — when one agent passes work to another, it follows a structured protocol. Context is preserved. Quality is verified. Nothing falls through cracks.
-
-<span class="phosphor">QUALITY GATES</span> — every output is scored before it ships. Below threshold? It goes back. The system has standards, and it enforces them without human intervention.
-
-<span class="phosphor">SELF-HEALING</span> — when something breaks at 3 AM, the system detects it, logs it, and fixes it. {system.launchd_jobs || 23} automated jobs keep the infrastructure running. Not monitored. Autonomous.
+<div class="def"><span class="phosphor">SPECIFICATIONS</span> — every agent has a spec defining its role, constraints, inputs, outputs, and quality standards. Not a system prompt. A contract.</div>
+<div class="def"><span class="phosphor">HANDOFF PROTOCOLS</span> — when one agent passes work to another, it follows a structured protocol. Context is preserved. Quality is verified. Nothing falls through cracks.</div>
+<div class="def"><span class="phosphor">QUALITY GATES</span> — every output is scored before it ships. Below threshold? It goes back. The system has standards, and it enforces them without human intervention.</div>
+<div class="def"><span class="phosphor">SELF-HEALING</span> — when something breaks at 3 AM, the system detects it, logs it, and fixes it. {system.launchd_jobs || 23} automated jobs keep the infrastructure running. Not monitored. Autonomous.</div>
 </div>
 </div>
 
@@ -163,12 +160,17 @@ The gap between demo and infrastructure is where the next trillion-dollar catego
     white-space: pre-wrap;
     word-break: break-word;
     line-height: 1.5;
-    padding-bottom: 8px;
+    padding-bottom: 4px;
   }
   .callout {
     border-left: 2px solid #333;
     padding: 4px 0 4px 10px;
     margin: 6px 0;
+  }
+  .def {
+    padding-left: 0;
+    margin-bottom: 8px;
+    line-height: 1.5;
   }
   .metrics-block {
     color: var(--text);

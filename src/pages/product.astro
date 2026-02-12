@@ -31,23 +31,12 @@ Built from <span class="phosphor">real operational data</span>, not weekend demo
 <div class="product-section al" data-d="2200">
 <div class="section-title phosphor">MODULES</div>
 <div class="section-body">
-1. <span class="phosphor">AGENT ARCHITECTURE</span>
-   How to design agents that don't collapse under real workloads. Specs, contracts, role boundaries.
-
-2. <span class="phosphor">COORDINATION PROTOCOLS</span>
-   Multi-agent handoffs that preserve context and enforce quality. The protocol layer nobody talks about.
-
-3. <span class="phosphor">QUALITY INFRASTRUCTURE</span>
-   Automated scoring, quality gates, feedback loops. How to ship outputs you'd stake your name on.
-
-4. <span class="phosphor">SELF-HEALING OPERATIONS</span>
-   What happens at 3 AM when everything breaks. Monitoring, recovery, autonomous maintenance.
-
-5. <span class="phosphor">MEMORY &amp; PERSISTENCE</span>
-   How agents remember, learn, and compound knowledge across sessions. The brain architecture.
-
-6. <span class="phosphor">SCALING PATTERNS</span>
-   From 1 agent to N. Infrastructure patterns that don't require rewriting everything.
+<div class="li">1. <span class="phosphor">AGENT ARCHITECTURE</span> — How to design agents that don't collapse under real workloads. Specs, contracts, role boundaries.</div>
+<div class="li">2. <span class="phosphor">COORDINATION PROTOCOLS</span> — Multi-agent handoffs that preserve context and enforce quality. The protocol layer nobody talks about.</div>
+<div class="li">3. <span class="phosphor">QUALITY INFRASTRUCTURE</span> — Automated scoring, quality gates, feedback loops. How to ship outputs you'd stake your name on.</div>
+<div class="li">4. <span class="phosphor">SELF-HEALING OPERATIONS</span> — What happens at 3 AM when everything breaks. Monitoring, recovery, autonomous maintenance.</div>
+<div class="li">5. <span class="phosphor">MEMORY &amp; PERSISTENCE</span> — How agents remember, learn, and compound knowledge across sessions. The brain architecture.</div>
+<div class="li">6. <span class="phosphor">SCALING PATTERNS</span> — From 1 agent to N. Infrastructure patterns that don't require rewriting everything.</div>
 </div>
 </div>
 
@@ -161,6 +150,14 @@ Built from <span class="phosphor">real operational data</span>, not weekend demo
   .bars-block {
     margin-top: 8px;
     color: var(--text-dim);
+    white-space: pre-wrap;
+  }
+  .li {
+    padding-left: 1.4em;
+    text-indent: -1.4em;
+    margin-bottom: 2px;
+    line-height: 1.45;
+    word-break: break-word;
   }
   .cta-link {
     display: inline-block;
