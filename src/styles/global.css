@@ -796,6 +796,58 @@ pre, code {
 .blink { animation: blink 1s step-end infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
+/* ── METRICS DASHBOARD GRID ── */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: #1a1a1a;
+  margin-top: 8px;
+}
+
+.status-card {
+  background: var(--bg);
+  padding: 16px 12px;
+  transition: background 0.4s ease;
+}
+
+.status-card:hover { background: var(--surface); }
+
+.status-card .label {
+  font-family: var(--font-head);
+  font-size: 0.625rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.status-card .value {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--phosphor);
+  text-shadow: 0 0 8px var(--phosphor-glow);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.status-card .sub {
+  font-size: 0.625rem;
+  color: var(--text-dim);
+  opacity: 0.6;
+}
+
+.status-online { color: var(--phosphor) !important; text-shadow: 0 0 8px var(--phosphor-glow) !important; }
+.status-warning { color: var(--amber) !important; text-shadow: 0 0 6px var(--amber-glow) !important; }
+.status-offline { color: var(--red) !important; }
+
+@media (max-width: 640px) {
+  .status-grid { grid-template-columns: repeat(2, 1fr); }
+  .status-card { padding: 12px 10px; }
+  .status-card .value { font-size: 1.3rem; }
+}
+
 .page-content pre {
   font-family: var(--font-body);
   color: var(--text-dim);
