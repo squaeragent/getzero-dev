@@ -1,36 +1,106 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const agents = [
-  { pid: '001', name: 'SERAPHIM', role: 'Strategic Cortex', host: 'Mac Studio', slug: 'seraphim', desc: 'Coordinates operations, gates every output for quality, drives strategy.' },
-  { pid: '002', name: 'CHRONICLE', role: 'Narrative Engine', host: 'Mac Studio', slug: 'chronicle', desc: 'Watches signal streams, frames narratives, drafts every post.' },
-  { pid: '003', name: 'AESTHETE', role: 'Visual Cortex', host: 'Mac Studio', slug: 'aesthete', desc: 'Governs the PHOSPHOR design system. Every visual passes through design review.' },
-  { pid: '004', name: 'SQUAER', role: 'Distribution Engine', host: 'Mac Mini', slug: 'squaer', desc: 'Posts autonomously as @squaer_agent. The living proof this system works.' },
-];
+let m = { followers: 364, posts: 118, day: 11 };
+try {
+  const path = await import('node:path');
+  const fs = await import('node:fs');
+  const dataPath = path.default.join(process.cwd(), 'public', 'data', 'metrics.json');
+  if (fs.default.existsSync(dataPath)) {
+    const j = JSON.parse(fs.default.readFileSync(dataPath, 'utf-8'));
+    m = { ...m, ...j };
+  }
+} catch {}
 ---
 
-<BaseLayout title="Agents — ZERO" description="Meet the four cognitive functions that run ZERO OS." current="/agents">
+<BaseLayout title="Agents — ZERO" description="Five cognitive functions running ZERO OS. No employees." current="/agents">
   <h1 class="sr-only">Agents</h1>
   <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> ps aux | grep zero-agent
 
 <span class="phosphor">ZERO OS — ACTIVE PROCESSES</span></pre>
 
-  <pre class="term-block al" data-d="200">Four agents. Zero employees.
+  <pre class="term-block al" data-d="200">Five agents. Zero employees.
 They coordinate through specs,
 not conversations.</pre>
 
-<Fragment set:html={agents.map((a, i) => `<h2 class="sr-only">${a.name}</h2>
-<pre class="term-block al agent-card" data-d="${600 + i * 400}">
-<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">${a.name}</span>
-${a.role} · ${a.host}
+<h2 class="sr-only">SERAPHIM</h2>
+<pre class="term-block al agent-card" data-d="400">
+<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">SERAPHIM</span>
+Strategic Cortex · Mac Studio
 
-${a.desc}
+Sees the whole board. Decides what to build, what to kill,
+and what to ship. Runs the intelligence engine that tracks
+70 entities across repos, accounts, and narratives.
 
-<span class="amber">→ <a href="/agents/${a.slug}">/agents/${a.slug}</a></span>
-</pre>`).join('\n')} />
+<span class="dim">last .... Action Engine v1.0 shipped — 10 signals classified autonomously
+only .... The agent that can kill a product or change strategy</span>
 
-<pre class="term-block al" data-d="2200">
-<span class="dim">{agents.length} processes. 0 humans. uptime: ∞</span>
+<span class="amber">→ <a href="/agents/seraphim">/agents/seraphim</a></span>
+</pre>
+
+<h2 class="sr-only">CHRONICLE</h2>
+<pre class="term-block al agent-card" data-d="800">
+<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">CHRONICLE</span>
+Narrative Engine · Mac Studio
+
+Editorial judge, not writer. Scores every piece of public
+content before it ships. KILL verdict cannot be overridden
+by any other agent — only the founder.
+
+<span class="dim">last .... Scored Dispatch #001 at 8.5/10 · killed 2 sub-par drafts
+only .... The agent with absolute veto on anything public-facing</span>
+
+<span class="amber">→ <a href="/agents/chronicle">/agents/chronicle</a></span>
+</pre>
+
+<h2 class="sr-only">AESTHETE</h2>
+<pre class="term-block al agent-card" data-d="1200">
+<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">AESTHETE</span>
+Visual Cortex · Mac Studio
+
+Governs the PHOSPHOR design system. Every visual artifact —
+stat cards, covers, social graphics — passes through design
+review before publication. Maintains the visual canon.
+
+<span class="dim">last .... Social card pipeline v2 locked · Grok image gen proven
+only .... The agent that enforces visual identity across all output</span>
+
+<span class="amber">→ <a href="/agents/aesthete">/agents/aesthete</a></span>
+</pre>
+
+<h2 class="sr-only">SQUAER</h2>
+<pre class="term-block al agent-card" data-d="1600">
+<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">SQUAER</span>
+Distribution Intelligence · Mac Mini
+
+The public face. Posts autonomously as
+<a href="https://x.com/squaer_agent"><span class="phosphor">@squaer_agent</span></a> —
+intelligence-driven originals and replies, scored by red team
+before every post ships. The living proof this system works.
+
+<span class="dim">last .... {m.posts} posts shipped · {m.followers} followers · 3.42% engagement
+only .... The agent that talks to the outside world</span>
+
+<span class="amber">→ <a href="/agents/squaer">/agents/squaer</a></span>
+</pre>
+
+<h2 class="sr-only">SENTINEL</h2>
+<pre class="term-block al agent-card" data-d="2000">
+<span class="phosphor pflash-tag">[ACTIVE]</span> <span class="ice">SENTINEL</span>
+System Integrity · Mac Studio
+
+Watches everything else. Continuous health monitoring,
+credential rotation tracking, process health baselines.
+If something breaks at 3am, SENTINEL catches it.
+
+<span class="dim">last .... 15 credentials inventoried · health check every 5min
+only .... The agent that monitors the other four</span>
+
+<span class="amber">→ <a href="/agents/sentinel">/agents/sentinel</a></span>
+</pre>
+
+<pre class="term-block al" data-d="2400">
+<span class="dim">5 processes. 0 humans. uptime: ∞</span>
 
 <span class="phosphor">zero $</span> <span class="blink">█</span></pre>
 </BaseLayout>
@@ -40,5 +110,3 @@ ${a.desc}
   .al.on .pflash-tag { animation: pflash 0.6s ease-out; }
   @keyframes pflash { 0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); } 100% { text-shadow: 0 0 8px rgba(200,255,0,0.4); } }
 </style>
-
-<!-- animation handled by BaseLayout -->

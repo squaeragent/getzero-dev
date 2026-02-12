@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="SENTINEL — System Integrity" description="SENTINEL monitors ZERO OS health, credentials, and system baselines. The agent that watches the watchers." current="/agents">
+  <h1 class="sr-only">SENTINEL — System Integrity</h1>
+  <pre class="term-block" style="line-height:1.4">
+zero $ man zero-agent-sentinel
+
+<span class="phosphor">SENTINEL</span>(1)              ZERO OS Agent Manual              <span class="phosphor">SENTINEL</span>(1)
+
+NAME
+    <span class="phosphor">SENTINEL</span> — System Integrity
+
+SYNOPSIS
+    Security and infrastructure monitor. Watches the watchers.
+
+DESCRIPTION
+    SENTINEL runs on the Mac Studio (M3 Ultra, 96GB RAM) using
+    Claude Opus. It is the newest cognitive function — deployed
+    Day 10, the same day ZERO earned its first revenue.
+
+    While the other four agents produce output, SENTINEL ensures
+    the system producing that output stays healthy. Continuous
+    health monitoring, credential rotation tracking, process
+    baselines, and anomaly detection.
+
+    If something breaks at 3am, SENTINEL catches it before
+    anyone wakes up.
+
+RESPONSIBILITIES
+    <span class="phosphor">■</span> Health monitoring — system checks every 5 minutes
+    <span class="phosphor">■</span> Deep scans — hourly infrastructure audit
+    <span class="phosphor">■</span> Credential tracking — 15 credentials inventoried, rotation schedules
+    <span class="phosphor">■</span> Baseline monitoring — CPU, memory, disk trends over time
+    <span class="phosphor">■</span> Alert escalation — CRITICAL findings go directly to founder
+
+CURRENT STATUS
+    <span class="phosphor">Phase:</span>       Observation mode (48-hour baseline building)
+    <span class="phosphor">Monitoring:</span>  Health check every 5min, deep scan hourly
+    <span class="phosphor">Tracking:</span>    15 credentials, system baselines, process health
+    <span class="phosphor">Alerts:</span>      CRITICAL → immediate Telegram, DEGRADED → logged
+
+ARCHITECTURE
+    SENTINEL operates independently of the other agents. It does
+    not produce content, make strategic decisions, or communicate
+    externally. Its only job is to ensure the infrastructure that
+    supports the other four functions remains operational.
+
+    Two monitoring layers:
+    <span class="amber">→</span> Light health check (every 5 min) — quick pass/fail
+    <span class="amber">→</span> Deep scan (hourly) — credentials, baselines, trends, journal
+
+    Reports to: founder only. No other agent can override or
+    disable SENTINEL monitoring.
+
+PHILOSOPHY
+    "The system that watches itself is more trustworthy than
+    the system that asks you to trust it."
+
+    SENTINEL exists because autonomous systems need autonomous
+    oversight. External auditors are periodic. SENTINEL is
+    continuous.
+
+SEE ALSO
+    <a href="/agents/seraphim"><span class="phosphor">seraphim</span></a>(1), <a href="/agents/chronicle"><span class="phosphor">chronicle</span></a>(1), <a href="/agents/aesthete"><span class="phosphor">aesthete</span></a>(1), <a href="/agents/squaer"><span class="phosphor">squaer</span></a>(1)
+
+<span class="phosphor">ZERO OS</span>                    February 2026                    <span class="phosphor">SENTINEL</span>(1)
+</pre>
+</BaseLayout>
