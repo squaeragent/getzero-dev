@@ -27,7 +27,7 @@
   <div class="status-card reveal">
     <div class="label">AGI SCORE</div>
     <div class="value status-warning crt-num" data-key="agi_score" data-suffix="%">---</div>
-    <div class="sub crt-sub" data-key="agi_target" data-text="Target: {v}%">---</div>
+    <div class="sub crt-sub" data-key="agi_label" data-text="{v}">---</div>
   </div>
   <div class="status-card reveal">
     <div class="label">X FOLLOWERS</div>
@@ -60,8 +60,8 @@
     <div class="sub crt-sub" data-key="day" data-text="Day {v}">---</div>
   </div>
   <div class="status-card reveal">
-    <div class="label">MONTHLY COSTS</div>
-    <div class="value status-warning crt-num" data-key="monthly_cost" data-prefix="$" data-comma="true">---</div>
+    <div class="label">COST / AGENT</div>
+    <div class="value crt-num" data-key="monthly_cost" data-prefix="$" data-comma="true">---</div>
     <div class="sub crt-sub" data-key="cost_label" data-text="{v}">---</div>
   </div>
 </div>
@@ -201,14 +201,13 @@
         }, 1500);
       }
       
-      // Updated timestamp
+      // Show build date only (no stale "X hours ago" for static data)
       if (data.updated) {
         const updatedEl = document.getElementById('metrics-updated');
         if (updatedEl) {
           const d = new Date(data.updated);
-          const ago = Math.floor((Date.now() - d.getTime()) / 60000);
-          let agoStr = ago < 60 ? `${ago}m ago` : ago < 1440 ? `${Math.floor(ago / 60)}h ago` : `${Math.floor(ago / 1440)}d ago`;
-          updatedEl.textContent = `LAST SYNC: ${agoStr}`;
+          const dateStr = d.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' });
+          updatedEl.textContent = `DATA AS OF ${dateStr}`;
         }
       }
       

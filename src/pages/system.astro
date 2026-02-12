@@ -6,9 +6,7 @@ import { sanitizeProblems } from '../lib/sanitizer';
 const rawProblems = [
   'Prediction card format — blocked, awaiting visual rework',
   'Absence Engine — 30-day baseline building (target Mar 14)',
-  'Revenue: $29 total vs $5,800/mo burn (~5 months runway)',
   'Site metrics pipeline — need auto-update on cron cycles',
-  'CHRONICLE operational task — needs real editorial assignment',
 ];
 const publicProblems = sanitizeProblems(rawProblems);
 ---
@@ -34,7 +32,7 @@ const publicProblems = sanitizeProblems(rawProblems);
   M3 Ultra, 96GB RAM
   status .... <span class="phosphor">online</span>
   role ...... Primary Compute (all agent logic)
-  services .. OpenClaw, local LLM, 4 cognitive functions
+  services .. OpenClaw, local LLM, 5 cognitive functions
 
 <span class="phosphor">■</span> Mac Mini
   M4, 16GB RAM — colo ($47/mo)
@@ -63,9 +61,10 @@ const publicProblems = sanitizeProblems(rawProblems);
 <pre class="term-block">
   <span class="phosphor">[ACTIVE]</span> CHRONICLE — Narrative Engine
   host ...... Mac Studio | model .. Claude Opus
-  current ... Editorial review gate on Discord
-  last ...... Scored Dispatch #001 at 8.5/10
+  current ... Editorial scoring on all public content
+  last ...... Scored Dispatch #001 at 8.5/10, killed 2 drafts
   role ...... Quality gate — KILL verdict cannot be overridden
+  scope ..... Newsletter editions, X posts, intelligence briefs
 </pre>
 
 <pre class="term-block">
@@ -80,8 +79,17 @@ const publicProblems = sanitizeProblems(rawProblems);
   <span class="phosphor">[ACTIVE]</span> SQUAER — Distribution Intelligence
   host ...... Mac Mini | model .. Claude
   current ... Autonomous posting + intelligence distribution
-  last ...... 8 posts in 8 minutes (autonomous burst)
-  followers . <span class="phosphor" id="sq-followers">359</span> | posts .. <span class="phosphor" id="sq-posts">116</span> | engagement .. 3.42%
+  last ...... 12 intelligence-driven posts shipped autonomously
+  followers . <span class="phosphor" id="sq-followers">364</span> | posts .. <span class="phosphor" id="sq-posts">118</span> | engagement .. 3.42%
+</pre>
+
+<pre class="term-block">
+  <span class="phosphor">[ACTIVE]</span> SENTINEL — System Integrity
+  host ...... Mac Studio | model .. Claude Opus
+  current ... Continuous health monitoring, credential rotation tracking
+  running ... Health check every 5min, deep scan hourly
+  tracking .. 15 credentials, system baselines, process health
+  status .... 48-hour observation mode (deployed Feb 12)
 </pre>
 </div>
 
@@ -92,9 +100,13 @@ const publicProblems = sanitizeProblems(rawProblems);
 <pre class="term-block">
 
 <span class="phosphor">INTELLIGENCE ARCHITECTURE</span>
-L0 Collection <span class="phosphor">[LIVE]</span>
-  -> L1 Detection -> L2 Analysis -> L3 Prediction
-  -> L4 Learning -> L5 Distribution -> L6 Compounding
+L0 Collection    <span class="phosphor">[LIVE]</span>       multi-source continuous scanning
+L1 Detection     <span class="amber">[BUILDING]</span>   anomaly + absence engines
+L2 Analysis      <span class="dim">[SCAFFOLDED]</span> signal scoring + convergence
+L3 Prediction    <span class="dim">[SCAFFOLDED]</span> compound intelligence
+L4 Learning      <span class="dim">[SCAFFOLDED]</span> memory + calibration
+L5 Distribution  <span class="phosphor">[LIVE]</span>       multi-channel output
+L6 Compounding   <span class="dim">[SCAFFOLDED]</span> every prediction sharpens the next
 </pre>
 
 <pre class="term-block">
