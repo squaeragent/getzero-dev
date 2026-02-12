@@ -1,7 +1,8 @@
 ---
 /**
- * ZERO OS Block Letter Logo — Claude Code / Pixel Brick style
+ * ZERO Block Letter Logo — Claude Code / Pixel Brick style
  * V1: Sharp brutalist — no radius, hard shadows, phosphor green
+ * Animation: Brick cascade — blocks rain in from top, Tetris-style
  */
 
 // Letter pixel maps (8 cols × 10 rows, 2-block-wide strokes)
@@ -54,36 +55,50 @@ const letters: Record<string, number[][]> = {
     [1,1,1,1,1,1,1,1],
     [0,1,1,1,1,1,1,0],
   ],
-  S: [
-    [0,1,1,1,1,1,1,0],
-    [1,1,1,1,1,1,1,1],
-    [1,1,0,0,0,0,0,0],
-    [1,1,1,0,0,0,0,0],
-    [0,1,1,1,1,1,1,0],
-    [0,0,0,0,0,1,1,1],
-    [0,0,0,0,0,0,1,1],
-    [0,0,0,0,0,0,1,1],
-    [1,1,1,1,1,1,1,1],
-    [0,1,1,1,1,1,1,0],
-  ],
 };
 
 const word = "ZERO";
+const COLS = 8;
+const ROWS = 10;
+
+// Pre-compute animation delays per cell
+// For each "on" cell, delay = based on column position across full word + row offset
+// This creates a left-to-right cascade with top-to-bottom rain per column
+let globalCol = 0;
+type CellInfo = { on: boolean; delay: number };
+const letterCells: CellInfo[][] = [];
+
+for (const ch of word) {
+  const grid = letters[ch];
+  if (!grid) continue;
+  const cells: CellInfo[] = [];
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const isOn = grid[r][c] === 1;
+      // Column-first cascade: each global column starts slightly later
+      // Within a column, each row adds a small increment (rain down effect)
+      const colDelay = (globalCol + c) * 35; // 35ms per column across the word
+      const rowDelay = r * 20; // 20ms per row (rain speed)
+      const jitter = Math.floor(Math.random() * 25); // slight randomness
+      cells.push({ on: isOn, delay: isOn ? colDelay + rowDelay + jitter : 0 });
+    }
+  }
+  letterCells.push(cells);
+  globalCol += COLS + 1; // +1 for the gap between letters
+}
 ---
 
-<div class="block-logo" role="img" aria-label="ZERO OS">
-  {word.split('').map((ch) => {
-    if (ch === ' ') return <div class="block-space" />;
-    const grid = letters[ch];
-    if (!grid) return null;
-    return (
-      <div class="block-letter">
-        {grid.flat().map((v) => (
-          <div class:list={['block-cell', v ? 'on' : 'off']} />
-        ))}
-      </div>
-    );
-  })}
+<div class="block-logo" role="img" aria-label="ZERO">
+  {letterCells.map((cells, li) => (
+    <div class="block-letter">
+      {cells.map((cell) => (
+        <div
+          class:list={['block-cell', cell.on ? 'on' : 'off']}
+          style={cell.on ? `--cascade-delay: ${cell.delay}ms` : ''}
+        />
+      ))}
+    </div>
+  ))}
 </div>
 
 <style>
@@ -109,14 +124,39 @@ const word = "ZERO";
     background: #c8ff00;
     border: 1px solid rgba(0,0,0,0.3);
     box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
+
+    /* Cascade animation */
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: brickDrop 0.25s ease-out forwards;
+    animation-delay: var(--cascade-delay, 0ms);
+  }
+
+  @keyframes brickDrop {
+    0% {
+      opacity: 0;
+      transform: translateY(-30px);
+      background: #ffffff;
+      box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.1), inset 1.5px 1.5px 0 rgba(255,255,255,0.3), 0 0 12px rgba(200,255,0,0.6);
+    }
+    40% {
+      opacity: 1;
+      transform: translateY(2px);
+      background: #e0ff66;
+    }
+    70% {
+      transform: translateY(-1px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      background: #c8ff00;
+      box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
+    }
   }
 
   .block-cell.off {
     background: transparent;
-  }
-
-  .block-space {
-    width: 12px;
   }
 
   @media (max-width: 640px) {
@@ -125,15 +165,21 @@ const word = "ZERO";
       --block-size: 7px;
       --block-gap: 1px;
     }
-    .block-space {
-      width: 8px;
-    }
   }
 
   @media (min-width: 641px) and (max-width: 900px) {
     .block-logo {
       --block-size: 8px;
       --block-gap: 1px;
+    }
+  }
+
+  /* Respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .block-cell.on {
+      opacity: 1;
+      transform: none;
+      animation: none;
     }
   }
 </style>
