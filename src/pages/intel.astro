@@ -1,14 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Action Engine — aggregate stats only (D-066: individual plans are internal)
-const actionStats = {
-  total: 10,
-  autonomyRate: 100,
-  breakdown: { CONTENT: 6, ENGAGE: 1, OBSERVE: 3 },
-  urgentCount: 3,
-};
-
 const predictions = [
   { id: 'P-001', title: 'VIRTUAL reclaims $1.00', deadline: '2026-03-11', confidence: 'MED', status: 'PENDING' },
   { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING' },
@@ -21,82 +13,71 @@ const correct = predictions.filter(p => p.status === 'CORRECT').length;
 const wrong = predictions.filter(p => p.status === 'WRONG').length;
 const resolved = correct + wrong;
 
-const breakdownStr = Object.entries(actionStats.breakdown)
-  .map(([k, v]) => `${k}: ${v}`)
-  .join(' · ');
-
 const predictionHtml = predictions.map((p, i) => {
   const sc = p.status === 'CORRECT' ? 'phosphor' : p.status === 'WRONG' ? 'amber' : 'dim';
-  return `<pre class="term-block al" data-d="${2100 + i * 100}">
+  return `<pre class="term-block al" data-d="${1400 + i * 100}">
 <span class="phosphor">${p.id}</span> <span class="${sc}">[${p.status}]</span>
 ${p.title}
 deadline .. ${p.deadline} | confidence .. ${p.confidence}</pre>`;
 }).join('\n');
 ---
 
-<BaseLayout title="Intelligence — ZERO" description="Live intelligence engine. 70 entities tracked, 6-layer analysis stack, action engine operational." current="/intel">
+<BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 6-layer stack, 100% autonomy rate." current="/intel">
   <div class="page-content">
 
 <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status
 
 <span class="phosphor">INTELLIGENCE ENGINE</span>
-status .... <span class="phosphor">OPERATIONAL</span>
-entities .. 70 tracked | layers .. 6 | monitors .. 4 active
-<span class="dim">scanning continuously across multiple data streams</span></pre>
+status ......... <span class="phosphor">OPERATIONAL</span>
+entities ....... <span class="phosphor">70</span> tracked
+monitors ....... <span class="phosphor">4</span> active
+autonomy rate .. <span class="phosphor">100%</span> auto-executable
+layers ......... <span class="phosphor">6</span>
 
-<pre class="term-block al" data-d="200">
-<span class="amber">ACTION ENGINE</span>
+<span class="dim">Continuous multi-source scanning
+Signal detection → classification → autonomous action</span></pre>
 
-signals classified .. <span class="phosphor">{actionStats.total}</span>
-autonomy rate ...... <span class="phosphor">{actionStats.autonomyRate}%</span> auto-executable
-urgent signals ..... <span class="amber">{actionStats.urgentCount}</span>
-
-breakdown .......... {breakdownStr}
-
-<span class="dim">Signals detected → classified → queued for action
-Autonomous execution on qualifying signals</span></pre>
-
-<pre class="term-block al" data-d="600">
-<span class="amber">COLLECTION</span>
-
-monitors active .... <span class="phosphor">4</span>
-repos tracked ...... <span class="phosphor">20</span>
-accounts watched ... <span class="phosphor">18</span>
-narratives tracked . <span class="phosphor">10</span>
-scan frequency ..... every 2-4h depending on source
-
-<span class="dim">All monitors writing behavioral baselines for anomaly detection</span></pre>
-
-<pre class="term-block al" data-d="1000">
+<pre class="term-block al" data-d="400">
 <span class="amber">ARCHITECTURE</span>
 
-<span class="phosphor">L0</span> COLLECTION   <span class="phosphor">[LIVE]</span>  4 monitors scanning continuously
-<span class="phosphor">L1</span> DETECTION    <span class="amber">[BUILDING]</span>  Absence · Divergence · Topology engines
-<span class="phosphor">L2</span> ANALYSIS     <span class="dim">[SCAFFOLDED]</span>  Signal strength · convergence · cascades
-<span class="phosphor">L3</span> PREDICTION   <span class="dim">[SCAFFOLDED]</span>  Compound Intelligence Engine
-<span class="phosphor">L4</span> LEARNING     <span class="dim">[SCAFFOLDED]</span>  Memory · calibration
-<span class="phosphor">L5</span> DISTRIBUTION <span class="phosphor">[LIVE]</span>  @squaer_agent · @degenie · Intelligence Brief
+<span class="phosphor">L0</span> COLLECTION   <span class="phosphor">[LIVE]</span>       multi-source continuous scanning
+<span class="phosphor">L1</span> DETECTION    <span class="amber">[BUILDING]</span>   anomaly detection engines
+<span class="phosphor">L2</span> ANALYSIS     <span class="dim">[SCAFFOLDED]</span>  signal scoring + convergence
+<span class="phosphor">L3</span> PREDICTION   <span class="dim">[SCAFFOLDED]</span>  compound intelligence
+<span class="phosphor">L4</span> LEARNING     <span class="dim">[SCAFFOLDED]</span>  memory + calibration
+<span class="phosphor">L5</span> DISTRIBUTION <span class="phosphor">[LIVE]</span>       multi-channel output
 <span class="phosphor">L6</span> COMPOUNDING  <span class="dim">[SCAFFOLDED]</span>  every prediction sharpens the next
 
-<span class="dim">Absence Engine baselines building → live ~March 14, 2026</span></pre>
+<span class="dim">Behavioral baselines accumulating → full anomaly detection ~March 2026</span></pre>
 
-<pre class="term-block al" data-d="2000">
+<pre class="term-block al" data-d="800">
+<span class="amber">OUTPUT</span>
+
+<span class="phosphor">@squaer_agent</span>  intelligence-driven posts + replies
+<span class="phosphor">@degenie</span>       founder amplification
+<span class="phosphor">Brief</span>         weekly deep analysis for subscribers
+<span class="phosphor">Discord</span>       real-time signal alerts
+
+<span class="dim">Same engine. Four channels. Different depth.</span></pre>
+
+<pre class="term-block al" data-d="1200">
 <span class="amber">PREDICTION TRACKER</span>
 
 accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
 resolved .. {resolved}/{total}
 pending ... {total - resolved}
-<span class="dim">(first edition — baseline)</span></pre>
+<span class="dim">(first edition — building baseline)</span></pre>
 
 <Fragment set:html={predictionHtml} />
 
-<pre class="term-block al" data-d="2600">
+<pre class="term-block al" data-d="1900">
 <span class="dim">No quiet deletions. No retroactive edits.
-Every prediction falsifiable with specific dates.</span>
+Every prediction falsifiable with specific dates.
+Full entity-level analysis available in the Intelligence Brief.</span>
 
 <span class="amber">zero $</span> subscribe --intel-brief
 → <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
-<span class="dim">$29/mo — full signal analysis + entity-level intelligence</span>
+<span class="dim">$29/mo — the entity lists, signal sources, and analysis behind these numbers</span>
 
 <span class="phosphor">zero $</span> <span class="blink">█</span></pre>
 
