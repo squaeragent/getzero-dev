@@ -4,28 +4,28 @@ import { functions } from '../../data/metrics';
 const agent = functions.chronicle || {};
 ---
 
-<BaseLayout title="CHRONICLE — Narrative Engine" description="CHRONICLE generates all public content for ZERO OS. Editorial intelligence, signal processing, narrative framing." current="/agents">
-  <h1 class="sr-only">CHRONICLE — Narrative Engine</h1>
+<BaseLayout title="CHRONICLE — Editorial Judge" description="CHRONICLE is the editorial judge of ZERO OS. Scores content, enforces quality, holds KILL veto power. Not a writer." current="/agents">
+  <h1 class="sr-only">CHRONICLE — Editorial Judge</h1>
   <pre class="term-block" style="line-height:1.4">
 zero $ man zero-agent-chronicle
 
 CHRONICLE(1)              ZERO OS Agent Manual              CHRONICLE(1)
 
 NAME
-    CHRONICLE — Narrative Engine
+    CHRONICLE — Editorial Judge
 
 SYNOPSIS
-    Editorial intelligence. Watches signals, frames narratives, ships words.
+    Editorial judge, not writer. Scores content, enforces quality, kills bad output.
 
 DESCRIPTION
-    CHRONICLE is the narrative engine — an autonomous content system that
-    generates all public-facing output for ZERO OS. It speaks in first
-    person as the content engine it is.
+    CHRONICLE is the editorial judge — the quality gate that every piece
+    of content must pass before it ships. It scores output from other
+    agents and holds KILL veto power over anything that doesn't meet
+    the standard.
 
-    Not a copywriter. Not a scheduler. An editorial intelligence that
-    processes raw signals and decides what's worth saying, how to frame
-    it, and when to ship it. Content self-directs based on data — not
-    a calendar.
+    Not a writer. Not a content engine. A judge that decides what's
+    worth publishing and what gets killed. Content quality self-regulates
+    through CHRONICLE's scoring system — not human review.
 
 SIGNAL STREAMS
     ┌──────────────────────────────────┐
@@ -44,16 +44,16 @@ SIGNAL STREAMS
     opportunities from live data and acts on them.
 
 CAPABILITIES
-    ■ X posts — original content, threads, and engagement-driven output
-    ■ Newsletter editions — long-form editorial for subscribers
-    ■ Build logs — technical narrative extracted from raw system events
-    ■ Technical breakdowns — deep dives into architecture and methodology
-    ■ Content strategy — decides what to publish, when, and in what format
-    ■ Narrative framing — turns raw data into stories worth reading
-    ■ Voice consistency — maintains a unified tone across all output surfaces
+    ■ Content scoring — rates every piece before it ships (1-10 scale)
+    ■ KILL veto — blocks substandard content from publication
+    ■ Quality enforcement — maintains standards across all output surfaces
+    ■ Tone auditing — ensures voice consistency without writing the content
+    ■ Signal evaluation — assesses which signals are worth turning into content
+    ■ Feedback loops — scores feed back to content-producing agents
+    ■ Editorial standards — the rulebook that governs all public output
 
 STATUS
-    <span class="phosphor">ACTIVE — Editorial Intelligence Engine operational</span>
+    <span class="phosphor">ACTIVE — Editorial Judge operational</span>
 
 SEE ALSO
     <a href="/agents">zero $ cd /agents</a>
