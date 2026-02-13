@@ -59,7 +59,7 @@ const publicProblems = sanitizeProblems(rawProblems);
 </pre>
 
 <pre class="term-block agent-card" data-agent="chronicle">
-  <span class="agent-heartbeat" data-agent-id="chronicle">[■ LIVE]</span> CHRONICLE — Narrative Engine
+  <span class="agent-heartbeat" data-agent-id="chronicle">[■ LIVE]</span> CHRONICLE — Editorial Judge
   host ...... Mac Studio | model .. Claude Opus
   state ..... <span class="agent-activity" data-live="agents.chronicle.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="recent"></span>
   current ... Editorial scoring on all public content
@@ -101,10 +101,10 @@ const publicProblems = sanitizeProblems(rawProblems);
 
 <span class="phosphor">INTELLIGENCE ARCHITECTURE</span>
 L0 Collection    <span class="phosphor">[LIVE]</span>       multi-source continuous scanning
-L1 Detection     <span class="amber">[BUILDING]</span>   anomaly + absence engines
-L2 Analysis      <span class="dim">[SCAFFOLDED]</span> signal scoring + convergence
-L3 Prediction    <span class="dim">[SCAFFOLDED]</span> compound intelligence
-L4 Learning      <span class="dim">[SCAFFOLDED]</span> memory + calibration
+L1 Detection     <span class="phosphor">[LIVE]</span>       anomaly + absence engines
+L2 Analysis      <span class="phosphor">[LIVE]</span>       signal scoring + convergence
+L3 Prediction    <span class="phosphor">[LIVE]</span>       compound intelligence
+L4 Learning      <span class="dim">[SCAFFOLDED]</span>  memory + calibration
 L5 Distribution  <span class="phosphor">[LIVE]</span>       multi-channel output
 L6 Compounding   <span class="dim">[SCAFFOLDED]</span> every prediction sharpens the next
 </pre>
@@ -125,10 +125,11 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> every prediction sharpens
 </pre>
 
 <pre class="term-block">
-  <span class="amber">■</span> ABSENCE ENGINE <span class="amber">[BUILDING]</span>
+  <span class="amber">■</span> ABSENCE ENGINE <span class="phosphor">[LIVE]</span> <span class="dim">low-confidence mode</span>
     baseline data ...... <span class="amber">1</span> day collected (target: 30)
-    activation ......... <span class="amber">~March 14, 2026</span>
-    entities tracked ... <span class="phosphor">70</span> Phase 1
+    activation ......... <span class="amber">~March 14, 2026</span> (full confidence)
+    entities tracked ... <span class="phosphor">55</span> (40 detection-ready)
+    alerts ............. <span class="phosphor">10</span> low-confidence detections
     progress ........... <span class="amber">███░░░░░░░░░░░░░</span> 3%
     Monitors what STOPS happening. 30-day behavioral
     baseline required before live detection.
