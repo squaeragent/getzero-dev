@@ -34,11 +34,11 @@ const publicProblems = sanitizeProblems(rawProblems);
   role ...... Primary Compute (all agent logic)
   services .. OpenClaw, local LLM, 5 cognitive functions
 
-<span class="phosphor">■</span> Mac Mini
+<span class="dim">■ Mac Mini</span>
   M4, 16GB RAM — colo ($47/mo)
-  status .... <span class="phosphor">online</span>
-  role ...... Distribution Node (thin relay)
-  services .. OpenClaw, browser automation (@squaer_agent)
+  status .... <span class="red">offline</span>
+  role ...... Distribution Node (migrated to Mac Studio)
+  services .. decommissioned 2026-02-13
 </pre>
 
 <div class="scan-line al" data-d="1000" id="scan-cognitive">⠋ Scanning cognitive functions...</div>
@@ -78,10 +78,10 @@ const publicProblems = sanitizeProblems(rawProblems);
 
 <pre class="term-block agent-card" data-agent="squaer">
   <span class="agent-heartbeat" data-agent-id="squaer">[■ LIVE]</span> SQUAER — Distribution Intelligence
-  host ...... Mac Mini | model .. Claude
+  host ...... Mac Studio | model .. Claude
   state ..... <span class="agent-activity" data-live="agents.squaer.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="recent"></span>
   current ... Autonomous posting + intelligence distribution
-  followers . <span class="phosphor" id="sq-followers" data-live="x.followers">364</span> | posts .. <span class="phosphor" id="sq-posts" data-live="x.posts_shipped">118</span> | engagement .. <span data-live="x.engagement_rate">3.42</span>%
+  followers . <span class="phosphor" id="sq-followers" data-live="x.followers">386</span> | posts .. <span class="phosphor" id="sq-posts" data-live="x.posts_shipped">145</span> | engagement .. <span data-live="x.engagement_rate">3.42</span>%
 </pre>
 
 <pre class="term-block agent-card" data-agent="sentinel">
