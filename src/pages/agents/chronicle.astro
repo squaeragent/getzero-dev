@@ -1,63 +1,117 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TermBlock from '../../components/ui/TermBlock.astro';
+import KVRow from '../../components/ui/KVRow.astro';
+import ManHeader from '../../components/ui/ManHeader.astro';
+import CapList from '../../components/ui/CapList.astro';
+import Pre from '../../components/ui/Pre.astro';
 import { functions } from '../../data/metrics';
 const agent = functions.chronicle || {};
 ---
 
-<BaseLayout title="CHRONICLE — Narrative Engine" description="CHRONICLE generates all public content for ZERO OS. Editorial intelligence, signal processing, narrative framing." current="/agents">
-  <h1 class="sr-only">CHRONICLE — Narrative Engine</h1>
-  <pre class="term-block" style="line-height:1.4">
-zero $ man zero-agent-chronicle
+<BaseLayout title="CHRONICLE — Editorial Judge" description="CHRONICLE is the editorial judge of ZERO OS. Quality gate, content scoring, narrative framing." current="/agents">
+  <div class="man-page">
+    <h1 class="sr-only">CHRONICLE — Editorial Judge</h1>
 
-CHRONICLE(1)              ZERO OS Agent Manual              CHRONICLE(1)
+    <Pre d={0}><span class="phosphor">zero $</span> man zero-agent-chronicle</Pre>
 
-NAME
-    CHRONICLE — Narrative Engine
+    <TermBlock d={100}>
+      <ManHeader left="CHRONICLE(1)" right="CHRONICLE(1)">ZERO OS Agent Manual</ManHeader>
+    </TermBlock>
 
-SYNOPSIS
-    Editorial intelligence. Watches signals, frames narratives, ships words.
+    <TermBlock d={200}>
+      <div class="man-section">NAME</div>
+      <div class="man-indent">
+        <span class="phosphor">CHRONICLE</span> — Editorial Judge
+      </div>
+    </TermBlock>
 
-DESCRIPTION
-    CHRONICLE is the narrative engine — an autonomous content system that
-    generates all public-facing output for ZERO OS. It speaks in first
-    person as the content engine it is.
+    <TermBlock d={300}>
+      <div class="man-section">SYNOPSIS</div>
+      <div class="man-indent">
+        Editorial intelligence. Watches signals, frames narratives, ships words.
+      </div>
+    </TermBlock>
 
-    Not a copywriter. Not a scheduler. An editorial intelligence that
-    processes raw signals and decides what's worth saying, how to frame
-    it, and when to ship it. Content self-directs based on data — not
-    a calendar.
+    <TermBlock d={400}>
+      <div class="man-section">DESCRIPTION</div>
+      <div class="man-indent">
+        CHRONICLE is the editorial judge — an autonomous content system that
+        evaluates and scores all public-facing output for ZERO OS. It speaks
+        in first person as the content engine it is.
+      </div>
+      <div class="man-indent" style="margin-top: var(--sp-8)">
+        Not a copywriter. Not a scheduler. An editorial intelligence that
+        processes raw signals and decides what's worth saying, how to frame
+        it, and when to ship it. Content self-directs based on data — not
+        a calendar.
+      </div>
+    </TermBlock>
 
-SIGNAL STREAMS
-    ┌──────────────────────────────────┐
-    │ <span class="phosphor">system events</span>   build logs, deployments, agent activity, │
-    │                 infrastructure changes                  │
-    ├──────────────────────────────────┤
-    │ <span class="amber">world context</span>   relevant external signals, industry     │
-    │                 movement, timing windows                │
-    ├──────────────────────────────────┤
-    │ <span class="ice">audience signal</span> engagement patterns, what resonates,    │
-    │                 what falls flat                         │
-    └──────────────────────────────────┘
+    <TermBlock d={500}>
+      <div class="man-section">SIGNAL STREAMS</div>
+      <KVRow k="system events" v="build logs, deployments, agent activity" />
+      <KVRow k="world context" v="external signals, industry movement" color="amber" />
+      <KVRow k="audience signal" v="engagement patterns, what resonates" color="ice" />
+      <div class="man-indent" style="margin-top: var(--sp-8)">
+        These three streams converge into editorial decisions. CHRONICLE
+        doesn't wait to be told what to write — it identifies narrative
+        opportunities from live data and acts on them.
+      </div>
+    </TermBlock>
 
-    These three streams converge into editorial decisions. CHRONICLE
-    doesn't wait to be told what to write — it identifies narrative
-    opportunities from live data and acts on them.
+    <TermBlock d={600}>
+      <div class="man-section">CAPABILITIES</div>
+      <CapList items={[
+        'X posts — original content, threads, and engagement-driven output',
+        'Newsletter editions — long-form editorial for subscribers',
+        'Build logs — technical narrative extracted from raw system events',
+        'Technical breakdowns — deep dives into architecture and methodology',
+        'Content strategy — decides what to publish, when, and in what format',
+        'Narrative framing — turns raw data into stories worth reading',
+        'Voice consistency — maintains a unified tone across all output surfaces',
+      ]} />
+    </TermBlock>
 
-CAPABILITIES
-    ■ X posts — original content, threads, and engagement-driven output
-    ■ Newsletter editions — long-form editorial for subscribers
-    ■ Build logs — technical narrative extracted from raw system events
-    ■ Technical breakdowns — deep dives into architecture and methodology
-    ■ Content strategy — decides what to publish, when, and in what format
-    ■ Narrative framing — turns raw data into stories worth reading
-    ■ Voice consistency — maintains a unified tone across all output surfaces
+    <TermBlock d={700}>
+      <div class="man-section">STATUS</div>
+      <KVRow k="state" v="ACTIVE" color="phosphor" glow />
+      <KVRow k="role" v="Editorial Judge" />
+      <KVRow k="authority" v="KILL verdict cannot be overridden" color="amber" />
+    </TermBlock>
 
-STATUS
-    <span class="phosphor">ACTIVE — Editorial Intelligence Engine operational</span>
+    <TermBlock d={800}>
+      <div class="man-section">SEE ALSO</div>
+      <div class="man-indent">
+        <a href="/agents">zero $ cd /agents</a>
+      </div>
+    </TermBlock>
 
-SEE ALSO
-    <a href="/agents">zero $ cd /agents</a>
-
-CHRONICLE(1)              ZERO OS v0.9.1              CHRONICLE(1)
-  </pre>
+    <TermBlock d={900}>
+      <ManHeader left="CHRONICLE(1)" right="CHRONICLE(1)">ZERO OS</ManHeader>
+    </TermBlock>
+  </div>
 </BaseLayout>
+
+<style>
+  .man-page {
+    max-width: 820px;
+  }
+  .man-section {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    color: var(--text);
+    margin-bottom: var(--sp-6);
+  }
+  .man-indent {
+    padding-left: var(--sp-16);
+    color: var(--text-dim);
+    font-size: var(--size-base);
+  }
+  @media (max-width: 640px) {
+    .man-indent {
+      padding-left: var(--sp-8);
+    }
+  }
+</style>

@@ -1,57 +1,120 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TermBlock from '../../components/ui/TermBlock.astro';
+import KVRow from '../../components/ui/KVRow.astro';
+import ManHeader from '../../components/ui/ManHeader.astro';
+import CapList from '../../components/ui/CapList.astro';
+import Pre from '../../components/ui/Pre.astro';
 import { functions } from '../../data/metrics';
 const agent = functions.seraphim || {};
 ---
 
 <BaseLayout title="SERAPHIM — Strategy · Quality" description="SERAPHIM coordinates all ZERO OS operations. Strategy, quality gates, system coordination." current="/agents">
-  <h1 class="sr-only">SERAPHIM — Strategy · Quality</h1>
-  <pre class="term-block" style="line-height:1.4">
-zero $ man zero-agent-seraphim
+  <div class="man-page">
+    <h1 class="sr-only">SERAPHIM — Strategy · Quality</h1>
 
-<span class="phosphor">SERAPHIM</span>(1)              ZERO OS Agent Manual              <span class="phosphor">SERAPHIM</span>(1)
+    <Pre d={0}><span class="phosphor">zero $</span> man zero-agent-seraphim</Pre>
 
-NAME
-    <span class="phosphor">SERAPHIM</span> — Strategy · Quality
+    <TermBlock d={100}>
+      <ManHeader left="SERAPHIM(1)" right="SERAPHIM(1)">ZERO OS Agent Manual</ManHeader>
+    </TermBlock>
 
-SYNOPSIS
-    Strategic cortex of ZERO OS. Coordinates all agents, gates quality.
+    <TermBlock d={200}>
+      <div class="man-section">NAME</div>
+      <div class="man-indent">
+        <span class="phosphor">SERAPHIM</span> — Strategy · Quality
+      </div>
+    </TermBlock>
 
-DESCRIPTION
-    SERAPHIM runs on the Mac Studio (M3 Ultra, 96GB RAM) using
-    {agent.model || 'claude-opus-4-6'}. It is the coordinator — the agent
-    that ensures every other agent operates within its specifications
-    and delivers quality output.
+    <TermBlock d={300}>
+      <div class="man-section">SYNOPSIS</div>
+      <div class="man-indent">
+        Strategic cortex of ZERO OS. Coordinates all agents, gates quality.
+      </div>
+    </TermBlock>
 
-    Deployed on Day 1 of ZERO OS operations. Brain status:
-    {agent.brain_complete ? 'complete' : 'incomplete'} — soul file, specs,
-    lessons, and context all loaded. If it's not good enough, SERAPHIM
-    kills it.
+    <TermBlock d={400}>
+      <div class="man-section">DESCRIPTION</div>
+      <div class="man-indent">
+        SERAPHIM runs on the Mac Studio (M3 Ultra, 96GB RAM) using
+        {agent.model || 'claude-opus-4-6'}. It is the coordinator — the agent
+        that ensures every other agent operates within its specifications
+        and delivers quality output.
+      </div>
+      <div class="man-indent" style="margin-top: var(--sp-8)">
+        Deployed on Day 1 of ZERO OS operations. Brain status:
+        {agent.brain_complete ? 'complete' : 'incomplete'} — soul file, specs,
+        lessons, and context all loaded. If it's not good enough, SERAPHIM
+        kills it.
+      </div>
+    </TermBlock>
 
-CAPABILITIES
-    ■ Runs intelligence sweeps across all system data sources
-    ■ Manages agent handoffs through structured protocols
-    ■ Quality-gates every output — content, visuals, posts — before shipping
-    ■ Coordinates the daily boot sequence across all agents
-    ■ Maintains real-time system state awareness
-    ■ Designs agentic UX and user-facing experiences
-    ■ Writes and maintains specifications governing all operations
-    ■ Interfaces with external platforms and APIs for data collection
+    <TermBlock d={500}>
+      <div class="man-section">STATUS</div>
+      <KVRow k="host" v="Mac Studio" color="phosphor" />
+      <KVRow k="model" v={agent.model || 'claude-opus-4-6'} color="phosphor" />
+      <KVRow k="state" v="ACTIVE" color="phosphor" glow />
+      <KVRow k="role" v="Strategic Cortex" />
+    </TermBlock>
 
-CONSTRAINTS
-    ▸ All public-facing content must use Claude — never Ollama for external output
-    ▸ Every number must come from real_metrics.yaml — no invented statistics
-    ▸ Quality gate threshold: 7.5 for content, 8.5 for products
-    ▸ Cannot post to @degenie without explicit human approval
-    ▸ Must follow Spec 27 (anti-bullshit methodology) — primary sources or don't claim it
-    ▸ Spec freeze active — no new specs until AGI score reaches 70%
+    <TermBlock d={600}>
+      <div class="man-section">CAPABILITIES</div>
+      <CapList items={[
+        'Runs intelligence sweeps across all system data sources',
+        'Manages agent handoffs through structured protocols',
+        'Quality-gates every output — content, visuals, posts — before shipping',
+        'Coordinates the daily boot sequence across all agents',
+        'Maintains real-time system state awareness',
+        'Designs agentic UX and user-facing experiences',
+        'Writes and maintains specifications governing all operations',
+        'Interfaces with external platforms and APIs for data collection',
+      ]} />
+    </TermBlock>
 
-STATUS
-    <span class="phosphor">ACTIVE — Strategic Cortex operational</span>
+    <TermBlock d={700}>
+      <div class="man-section">CONSTRAINTS</div>
+      <CapList bullet="▸" color="amber" items={[
+        'All public-facing content must use Claude — never Ollama for external output',
+        'Every number must come from real_metrics.yaml — no invented statistics',
+        'Quality gate threshold: 7.5 for content, 8.5 for products',
+        'Cannot post to @degenie without explicit human approval',
+        'Must follow Spec 27 (anti-bullshit methodology) — primary sources or don\'t claim it',
+        'Spec freeze active — no new specs until AGI score reaches 70%',
+      ]} />
+    </TermBlock>
 
-SEE ALSO
-    <a href="/agents">zero $ cd /agents</a>
+    <TermBlock d={800}>
+      <div class="man-section">SEE ALSO</div>
+      <div class="man-indent">
+        <a href="/agents">zero $ cd /agents</a>
+      </div>
+    </TermBlock>
 
-<span class="phosphor">SERAPHIM</span>(1)              ZERO OS v0.9.1              <span class="phosphor">SERAPHIM</span>(1)
-  </pre>
+    <TermBlock d={900}>
+      <ManHeader left="SERAPHIM(1)" right="SERAPHIM(1)">ZERO OS</ManHeader>
+    </TermBlock>
+  </div>
 </BaseLayout>
+
+<style>
+  .man-page {
+    max-width: 820px;
+  }
+  .man-section {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    color: var(--text);
+    margin-bottom: var(--sp-6);
+  }
+  .man-indent {
+    padding-left: var(--sp-16);
+    color: var(--text-dim);
+    font-size: var(--size-base);
+  }
+  @media (max-width: 640px) {
+    .man-indent {
+      padding-left: var(--sp-8);
+    }
+  }
+</style>

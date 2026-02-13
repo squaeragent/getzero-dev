@@ -3,28 +3,11 @@
    ZERO OS · getzero.dev
    ═══════════════════════════════════════════════════════════ */
 
+/* ── TOKENS (single source of truth) ── */
+@import './tokens.css';
+
 /* ── RESET ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --phosphor: #c8ff00;
-  --phosphor-dim: #7a9900;
-  --phosphor-glow: #c8ff0066;
-  --amber: #ffb000;
-  --amber-dim: #8a5f00;
-  --amber-glow: #ffb00044;
-  --ice: #00d4ff;
-  --ice-dim: #006b80;
-  --ice-glow: #00d4ff44;
-  --red: #ff3333;
-  --text: #e8e4df;
-  --text-dim: #8a8480;
-  --surface: #0a0a0a;
-  --bg: #050505;
-  --void: #000000;
-  --font-head: 'JetBrains Mono', monospace;
-  --font-body: 'IBM Plex Mono', monospace;
-}
 
 html {
   font-size: 13px;

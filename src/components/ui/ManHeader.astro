@@ -1,0 +1,57 @@
+---
+/**
+ * ManHeader — man page style header/footer
+ * Renders as: LEFT                                RIGHT
+ * Flex space-between, monospace, phosphor.
+ *
+ * Props:
+ *   left   — left text
+ *   right  — right text
+ */
+interface Props {
+  left: string;
+  right: string;
+}
+
+const { left, right } = Astro.props;
+---
+
+<div class="mh">
+  <span class="mh-l">{left}</span>
+  <span class="mh-c"><slot /></span>
+  <span class="mh-r">{right}</span>
+</div>
+
+<style>
+  .mh {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-head);
+    font-size: var(--size-base);
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    padding: var(--sp-2) 0;
+    gap: var(--sp-8);
+    flex-wrap: wrap;
+  }
+  .mh-l, .mh-r {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .mh-c {
+    flex: 1;
+    text-align: center;
+    color: var(--text-dim);
+    font-weight: 400;
+    font-size: var(--size-sm);
+  }
+  @media (max-width: 640px) {
+    .mh {
+      font-size: var(--size-sm);
+    }
+    .mh-c {
+      display: none;
+    }
+  }
+</style>

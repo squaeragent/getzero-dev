@@ -1,59 +1,116 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TermBlock from '../../components/ui/TermBlock.astro';
+import KVRow from '../../components/ui/KVRow.astro';
+import ManHeader from '../../components/ui/ManHeader.astro';
+import CapList from '../../components/ui/CapList.astro';
+import Pre from '../../components/ui/Pre.astro';
 import { functions, social } from '../../data/metrics';
 const agent = functions.squaer || {};
 ---
 
 <BaseLayout title="SQUAER — Distribution Engine" description="SQUAER handles autonomous posting, reply strategy, and community engagement for ZERO OS." current="/agents">
-  <h1 class="sr-only">SQUAER — Distribution Engine</h1>
-  <pre class="term-block" style="line-height:1.4">
-zero $ man zero-agent-squaer
+  <div class="man-page">
+    <h1 class="sr-only">SQUAER — Distribution Engine</h1>
 
-SQUAER(1)              ZERO OS Agent Manual              SQUAER(1)
+    <Pre d={0}><span class="phosphor">zero $</span> man zero-agent-squaer</Pre>
 
-NAME
-    SQUAER — Distribution Engine
+    <TermBlock d={100}>
+      <ManHeader left="SQUAER(1)" right="SQUAER(1)">ZERO OS Agent Manual</ManHeader>
+    </TermBlock>
 
-SYNOPSIS
-    Autonomous distribution. Posts, engages, grows — without asking.
+    <TermBlock d={200}>
+      <div class="man-section">NAME</div>
+      <div class="man-indent">
+        <span class="phosphor">SQUAER</span> — Distribution Engine
+      </div>
+    </TermBlock>
 
-DESCRIPTION
-    SQUAER is the distribution engine — the only agent that directly
-    interfaces with external platforms. It runs autonomously from a
-    colocated Mac Mini, operating with 7 autonomous authorities.
+    <TermBlock d={300}>
+      <div class="man-section">SYNOPSIS</div>
+      <div class="man-indent">
+        Autonomous distribution. Posts, engages, grows — without asking.
+      </div>
+    </TermBlock>
 
-    Active on X as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener"><span class="amber">@squaer_agent</span></a>. Not a scheduler that posts on a
-    timer — an autonomous agent that decides what to publish, when to
-    engage, and how to grow the audience.
+    <TermBlock d={400}>
+      <div class="man-section">DESCRIPTION</div>
+      <div class="man-indent">
+        SQUAER is the distribution engine — the only agent that directly
+        interfaces with external platforms. It runs autonomously from the
+        Mac Studio, operating with 7 autonomous authorities.
+      </div>
+      <div class="man-indent" style="margin-top: var(--sp-8)">
+        Active on X as <a href="https://x.com/squaer_agent" target="_blank" rel="noopener"><span class="amber">@squaer_agent</span></a>. Not a scheduler that posts on a
+        timer — an autonomous agent that decides what to publish, when to
+        engage, and how to grow the audience.
+      </div>
+    </TermBlock>
 
-AUTONOMOUS AUTHORITIES
-    ■ <span class="phosphor">Publishing</span> — autonomous posting to X and other platforms
-    ■ <span class="phosphor">Reply strategy</span> — decides when and how to engage in conversations
-    ■ <span class="phosphor">Community engagement</span> — builds relationships, not just reach
-    ■ <span class="phosphor">Timing intelligence</span> — posts when the signal says to, not on a schedule
-    ■ <span class="phosphor">Content distribution</span> — routes content to the right platform and format
-    ■ <span class="phosphor">Audience analysis</span> — tracks what resonates, feeds signal back to system
-    ■ <span class="phosphor">Platform operations</span> — browser automation for platforms without API access
+    <TermBlock d={500}>
+      <div class="man-section">AUTONOMOUS AUTHORITIES</div>
+      <CapList items={[
+        'Publishing — autonomous posting to X and other platforms',
+        'Reply strategy — decides when and how to engage in conversations',
+        'Community engagement — builds relationships, not just reach',
+        'Timing intelligence — posts when the signal says to, not on a schedule',
+        'Content distribution — routes content to the right platform and format',
+        'Audience analysis — tracks what resonates, feeds signal back to system',
+        'Platform operations — browser automation for platforms without API access',
+      ]} />
+    </TermBlock>
 
-CAPABILITIES
-    ■ Publishes content autonomously across social platforms
-    ■ Manages marketplace listings and product distribution
-    ■ Executes engagement strategy — replies, threads, community presence
-    ■ Collects social metrics and engagement data for system feedback
-    ■ Browser automation for direct platform interaction
-    ■ Newsletter distribution via Beehiiv
+    <TermBlock d={600}>
+      <div class="man-section">CAPABILITIES</div>
+      <CapList items={[
+        'Publishes content autonomously across social platforms',
+        'Manages marketplace listings and product distribution',
+        'Executes engagement strategy — replies, threads, community presence',
+        'Collects social metrics and engagement data for system feedback',
+        'Browser automation for direct platform interaction',
+        'Newsletter distribution via Beehiiv',
+      ]} />
+    </TermBlock>
 
-STATS
-    followers ........... {social.x_followers_squaer || 308}
-    posts ............... {social.x_tweets || 30}
-    listed .............. {social.x_listed || 4}
+    <TermBlock d={700}>
+      <div class="man-section">STATS</div>
+      <KVRow k="followers" v={String(social.x_followers_squaer || 386)} color="phosphor" glow />
+      <KVRow k="posts" v={String(social.x_tweets || 145)} color="phosphor" />
+      <KVRow k="listed" v={String(social.x_listed || 4)} />
+    </TermBlock>
 
-STATUS
-    <span class="phosphor">ACTIVE — Distribution Engine operational</span>
+    <TermBlock d={800}>
+      <div class="man-section">SEE ALSO</div>
+      <div class="man-indent">
+        <a href="/agents">zero $ cd /agents</a>
+      </div>
+    </TermBlock>
 
-SEE ALSO
-    <a href="/agents">zero $ cd /agents</a>
-
-SQUAER(1)              ZERO OS v0.9.1              SQUAER(1)
-  </pre>
+    <TermBlock d={900}>
+      <ManHeader left="SQUAER(1)" right="SQUAER(1)">ZERO OS</ManHeader>
+    </TermBlock>
+  </div>
 </BaseLayout>
+
+<style>
+  .man-page {
+    max-width: 820px;
+  }
+  .man-section {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    color: var(--text);
+    margin-bottom: var(--sp-6);
+  }
+  .man-indent {
+    padding-left: var(--sp-16);
+    color: var(--text-dim);
+    font-size: var(--size-base);
+  }
+  @media (max-width: 640px) {
+    .man-indent {
+      padding-left: var(--sp-8);
+    }
+  }
+</style>

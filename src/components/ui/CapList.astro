@@ -1,0 +1,50 @@
+---
+/**
+ * CapList — capability/bullet list
+ * Terminal-style list with ■ or ▸ bullets.
+ *
+ * Props:
+ *   items    — array of strings
+ *   bullet?  — '■' | '▸' (default: '■')
+ *   color?   — bullet color (default: 'phosphor')
+ */
+interface Props {
+  items: string[];
+  bullet?: '■' | '▸';
+  color?: 'phosphor' | 'amber' | 'ice';
+}
+
+const { items, bullet = '■', color = 'phosphor' } = Astro.props;
+---
+
+<div class="cl">
+  {items.map(item => (
+    <div class="cl-item">
+      <span class={`cl-bullet ${color}`}>{bullet}</span>
+      <span class="cl-text">{item}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .cl {
+    padding: var(--sp-4) 0;
+  }
+  .cl-item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-8);
+    padding: var(--sp-2) 0;
+    font-size: var(--size-base);
+  }
+  .cl-bullet {
+    flex-shrink: 0;
+    font-size: 0.7em;
+  }
+  .cl-bullet.phosphor { color: var(--phosphor); }
+  .cl-bullet.amber    { color: var(--amber); }
+  .cl-bullet.ice      { color: var(--ice); }
+  .cl-text {
+    color: var(--text-dim);
+  }
+</style>

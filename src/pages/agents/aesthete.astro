@@ -1,56 +1,115 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TermBlock from '../../components/ui/TermBlock.astro';
+import KVRow from '../../components/ui/KVRow.astro';
+import ManHeader from '../../components/ui/ManHeader.astro';
+import CapList from '../../components/ui/CapList.astro';
+import Pre from '../../components/ui/Pre.astro';
 import { functions } from '../../data/metrics';
 const agent = functions.aesthete || {};
 ---
 
 <BaseLayout title="AESTHETE — Visual Cortex" description="AESTHETE produces all visual assets for ZERO OS. PHOSPHOR design system guardian. Autonomous visual authority." current="/agents">
-  <h1 class="sr-only">AESTHETE — Visual Cortex</h1>
-  <pre class="term-block" style="line-height:1.4">
-zero $ man zero-agent-aesthete
+  <div class="man-page">
+    <h1 class="sr-only">AESTHETE — Visual Cortex</h1>
 
-AESTHETE(1)              ZERO OS Agent Manual              AESTHETE(1)
+    <Pre d={0}><span class="phosphor">zero $</span> man zero-agent-aesthete</Pre>
 
-NAME
-    AESTHETE — Visual Cortex
+    <TermBlock d={100}>
+      <ManHeader left="AESTHETE(1)" right="AESTHETE(1)">ZERO OS Agent Manual</ManHeader>
+    </TermBlock>
 
-SYNOPSIS
-    Autonomous visual authority. Guardian of the PHOSPHOR design system.
+    <TermBlock d={200}>
+      <div class="man-section">NAME</div>
+      <div class="man-indent">
+        <span class="phosphor">AESTHETE</span> — Visual Cortex
+      </div>
+    </TermBlock>
 
-DESCRIPTION
-    AESTHETE is the visual cortex — an autonomous visual authority
-    responsible for every pixel ZERO OS produces. It created and
-    maintains the PHOSPHOR design system that governs all visual output.
+    <TermBlock d={300}>
+      <div class="man-section">SYNOPSIS</div>
+      <div class="man-indent">
+        Autonomous visual authority. Guardian of the PHOSPHOR design system.
+      </div>
+    </TermBlock>
 
-    Not a designer on call. An autonomous system with its own visual
-    intelligence. It decides what looks right, enforces consistency,
-    and rejects anything that doesn't meet the standard.
+    <TermBlock d={400}>
+      <div class="man-section">DESCRIPTION</div>
+      <div class="man-indent">
+        AESTHETE is the visual cortex — an autonomous visual authority
+        responsible for every pixel ZERO OS produces. It created and
+        maintains the PHOSPHOR design system that governs all visual output.
+      </div>
+      <div class="man-indent" style="margin-top: var(--sp-8)">
+        Not a designer on call. An autonomous system with its own visual
+        intelligence. It decides what looks right, enforces consistency,
+        and rejects anything that doesn't meet the standard.
+      </div>
+    </TermBlock>
 
-PHOSPHOR DESIGN SYSTEM
-    ▸ <span class="phosphor">Phosphor green (#c8ff00)</span> is semantic — earned by active/positive
-      states, never decorative
-    ▸ No rounded corners, no gradients, no shadows — hard edges,
-      raw structure
-    ▸ Every asset must pass the 150px thumbnail readability test
-    ▸ Color is always functional — it communicates state, not mood
-    ▸ Typography-first hierarchy — information architecture through
-      type scale
+    <TermBlock d={500}>
+      <div class="man-section">PHOSPHOR DESIGN SYSTEM</div>
+      <CapList bullet="▸" items={[
+        'Phosphor green (#c8ff00) is semantic — earned by active/positive states, never decorative',
+        'No rounded corners, no gradients, no shadows — hard edges, raw structure',
+        'Every asset must pass the 150px thumbnail readability test',
+        'Color is always functional — it communicates state, not mood',
+        'Typography-first hierarchy — information architecture through type scale',
+      ]} />
+    </TermBlock>
 
-CAPABILITIES
-    ■ Social media visuals — thumbnails, header images, post graphics
-    ■ Product covers and marketing assets
-    ■ Website design and layout decisions
-    ■ Dashboard layouts and data visualizations
-    ■ Image generation via FLUX2 — no stock imagery, ever
-    ■ Design reviews — flags regressions and enforces visual coherence
-    ■ Brand consistency across all output surfaces
+    <TermBlock d={600}>
+      <div class="man-section">CAPABILITIES</div>
+      <CapList items={[
+        'Social media visuals — thumbnails, header images, post graphics',
+        'Product covers and marketing assets',
+        'Website design and layout decisions',
+        'Dashboard layouts and data visualizations',
+        'Image generation via FLUX2 — no stock imagery, ever',
+        'Design reviews — flags regressions and enforces visual coherence',
+        'Brand consistency across all output surfaces',
+      ]} />
+    </TermBlock>
 
-STATUS
-    <span class="phosphor">ACTIVE — Visual Cortex operational</span>
+    <TermBlock d={700}>
+      <div class="man-section">STATUS</div>
+      <KVRow k="state" v="ACTIVE" color="phosphor" glow />
+      <KVRow k="role" v="Visual Cortex" />
+      <KVRow k="design system" v="PHOSPHOR Canon" color="phosphor" />
+    </TermBlock>
 
-SEE ALSO
-    <a href="/agents">zero $ cd /agents</a>
+    <TermBlock d={800}>
+      <div class="man-section">SEE ALSO</div>
+      <div class="man-indent">
+        <a href="/agents">zero $ cd /agents</a>
+      </div>
+    </TermBlock>
 
-AESTHETE(1)              ZERO OS v0.9.1              AESTHETE(1)
-  </pre>
+    <TermBlock d={900}>
+      <ManHeader left="AESTHETE(1)" right="AESTHETE(1)">ZERO OS</ManHeader>
+    </TermBlock>
+  </div>
 </BaseLayout>
+
+<style>
+  .man-page {
+    max-width: 820px;
+  }
+  .man-section {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    color: var(--text);
+    margin-bottom: var(--sp-6);
+  }
+  .man-indent {
+    padding-left: var(--sp-16);
+    color: var(--text-dim);
+    font-size: var(--size-base);
+  }
+  @media (max-width: 640px) {
+    .man-indent {
+      padding-left: var(--sp-8);
+    }
+  }
+</style>

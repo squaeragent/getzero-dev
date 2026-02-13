@@ -1,0 +1,72 @@
+---
+/**
+ * KVRow — key ........ value
+ * Terminal-style key-value pair with dot leaders.
+ * The dots are CSS-generated — no literal characters.
+ *
+ * Props:
+ *   k       — label (left side)
+ *   v       — value (right side)
+ *   color?  — value color: 'phosphor' | 'amber' | 'ice' | 'dim' | 'text' (default: 'text')
+ *   glow?   — add text-shadow glow to value (default: false)
+ */
+interface Props {
+  k: string;
+  v: string;
+  color?: 'phosphor' | 'amber' | 'ice' | 'dim' | 'text';
+  glow?: boolean;
+}
+
+const { k, v, color = 'text', glow = false } = Astro.props;
+const valueClass = `kv-v ${color !== 'text' ? color : ''}${glow ? ' glow' : ''}`;
+---
+
+<div class="kv">
+  <span class="kv-k">{k}</span>
+  <span class="kv-dots"></span>
+  <span class={valueClass}>{v}</span>
+</div>
+
+<style>
+  .kv {
+    display: flex;
+    align-items: baseline;
+    font-size: var(--size-base);
+    padding: var(--sp-2) 0;
+    gap: var(--sp-6);
+  }
+  .kv-k {
+    color: var(--text-dim);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .kv-dots {
+    flex: 1;
+    border-bottom: 1px dotted #222;
+    min-width: 16px;
+    margin-bottom: 4px;
+  }
+  .kv-v {
+    font-family: var(--font-head);
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .kv-v.phosphor { color: var(--phosphor); }
+  .kv-v.amber    { color: var(--amber); }
+  .kv-v.ice      { color: var(--ice); }
+  .kv-v.dim      { color: var(--text-dim); font-weight: 400; }
+  .kv-v.glow     { text-shadow: var(--glow-phosphor); }
+  .kv-v.amber.glow { text-shadow: var(--glow-amber); }
+  .kv-v.ice.glow   { text-shadow: var(--glow-ice); }
+
+  @media (max-width: 640px) {
+    .kv {
+      gap: var(--sp-4);
+    }
+    .kv-dots {
+      min-width: 8px;
+    }
+  }
+</style>

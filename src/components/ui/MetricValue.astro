@@ -1,0 +1,68 @@
+---
+/**
+ * MetricValue — big number with label
+ * For dashboard-style metric display.
+ *
+ * Props:
+ *   label    — what the number represents
+ *   value    — the number/string to display
+ *   sub?     — secondary context line
+ *   color?   — value color (default: 'phosphor')
+ */
+interface Props {
+  label: string;
+  value: string;
+  sub?: string;
+  color?: 'phosphor' | 'amber' | 'ice';
+}
+
+const { label, value, sub, color = 'phosphor' } = Astro.props;
+---
+
+<div class="mv">
+  <div class="mv-label">{label}</div>
+  <div class={`mv-value ${color}`}>{value}</div>
+  {sub && <div class="mv-sub">{sub}</div>}
+</div>
+
+<style>
+  .mv {
+    padding: var(--sp-16) var(--sp-12);
+    background: var(--bg);
+    transition: background 0.4s ease;
+  }
+  .mv:hover {
+    background: var(--surface);
+  }
+  .mv-label {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: var(--sp-6);
+  }
+  .mv-value {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1;
+    margin-bottom: var(--sp-4);
+  }
+  .mv-value.phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
+  .mv-value.amber    { color: var(--amber); text-shadow: var(--glow-amber); }
+  .mv-value.ice      { color: var(--ice); text-shadow: var(--glow-ice); }
+  .mv-sub {
+    font-size: var(--size-xs);
+    color: var(--text-dim);
+    opacity: 0.6;
+  }
+  @media (max-width: 640px) {
+    .mv {
+      padding: var(--sp-12) var(--sp-10);
+    }
+    .mv-value {
+      font-size: 1.3rem;
+    }
+  }
+</style>

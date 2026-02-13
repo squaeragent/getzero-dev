@@ -1,0 +1,48 @@
+---
+/**
+ * Pre — actual preformatted content
+ * ONLY use for content that genuinely needs fixed formatting:
+ * - `zero $` command prompts with output
+ * - ASCII art
+ * - Actual terminal transcripts
+ *
+ * Everything else should use TermBlock + KVRow + CapList.
+ *
+ * Props:
+ *   class? — additional CSS classes
+ *   d?     — stagger animation delay
+ */
+interface Props {
+  class?: string;
+  d?: number;
+}
+
+const { class: className = '', d } = Astro.props;
+const animAttrs = d !== undefined ? { 'data-d': String(d) } : {};
+const hasAnim = d !== undefined;
+---
+
+<pre class:list={['pre-block', hasAnim && 'al', className]} {...animAttrs}><slot /></pre>
+
+<style>
+  .pre-block {
+    font-family: var(--font-body);
+    color: var(--text-dim);
+    font-size: var(--size-base);
+    line-height: 1.45;
+    padding: var(--sp-8) var(--sp-12);
+    border-bottom: var(--border-panel);
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+    margin: 0;
+    background: none;
+    border-top: none;
+  }
+  @media (max-width: 640px) {
+    .pre-block {
+      padding: var(--sp-6) var(--sp-8);
+    }
+  }
+</style>

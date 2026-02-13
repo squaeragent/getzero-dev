@@ -1,0 +1,41 @@
+---
+/**
+ * SectionHead — terminal section header
+ * Renders as: TITLE
+ * With a top rule line for visual separation.
+ *
+ * Props:
+ *   title    — section name
+ *   color?   — 'phosphor' | 'amber' | 'ice' (default: 'phosphor')
+ *   d?       — stagger animation delay
+ */
+interface Props {
+  title: string;
+  color?: 'phosphor' | 'amber' | 'ice';
+  d?: number;
+}
+
+const { title, color = 'phosphor', d } = Astro.props;
+const animAttrs = d !== undefined ? { 'data-d': String(d) } : {};
+const hasAnim = d !== undefined;
+---
+
+<div class:list={['sh', hasAnim && 'al']} {...animAttrs}>
+  <span class={`sh-text ${color}`}>{title}</span>
+</div>
+
+<style>
+  .sh {
+    padding: var(--sp-12) var(--sp-12) var(--sp-4);
+    border-bottom: var(--border-panel);
+  }
+  .sh-text {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    letter-spacing: 0.05em;
+  }
+  .sh-text.phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
+  .sh-text.amber    { color: var(--amber); text-shadow: var(--glow-amber); }
+  .sh-text.ice      { color: var(--ice); text-shadow: var(--glow-ice); }
+</style>

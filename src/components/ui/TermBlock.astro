@@ -1,0 +1,69 @@
+---
+/**
+ * TermBlock — bordered terminal container
+ * The fundamental building block. Left border = pipe character.
+ * Use for any grouped content that needs visual containment.
+ *
+ * Props:
+ *   title?    — optional header text (renders as PHOSPHOR span)
+ *   prompt?   — renders a `zero $ command` header line
+ *   class?    — additional CSS classes
+ *   d?        — stagger animation delay (ms)
+ */
+interface Props {
+  title?: string;
+  prompt?: string;
+  class?: string;
+  d?: number;
+}
+
+const { title, prompt, class: className = '', d } = Astro.props;
+const animAttrs = d !== undefined ? { 'data-d': String(d) } : {};
+const hasAnim = d !== undefined;
+---
+
+<div class:list={['tb', hasAnim && 'al', className]} {...animAttrs}>
+  {prompt && (
+    <div class="tb-prompt">
+      <span class="phosphor">zero $</span> {prompt}
+    </div>
+  )}
+  {title && (
+    <div class="tb-title">{title}</div>
+  )}
+  <slot />
+</div>
+
+<style>
+  .tb {
+    font-family: var(--font-body);
+    color: var(--text-dim);
+    font-size: var(--size-base);
+    line-height: 1.5;
+    padding: var(--sp-8) var(--sp-12);
+    border-bottom: var(--border-panel);
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
+  .tb-prompt {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    margin-bottom: var(--sp-4);
+  }
+  .tb-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--sp-6);
+  }
+  @media (max-width: 640px) {
+    .tb {
+      padding: var(--sp-6) var(--sp-8);
+    }
+  }
+</style>
