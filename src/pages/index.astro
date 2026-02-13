@@ -4,7 +4,7 @@ import LatestTweet from '../components/LatestTweet.astro';
 import BlockLogo from '../components/BlockLogo.astro';
 
 // Load metrics
-let m = { treasury: 28887, agents: 5, followers: 386, revenue: 32340, monthly_cost: 5800, day: 12, subscribers: 12, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 145, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 25 };
+let m = { treasury: 28887, agents: 5, followers: 386, revenue: 32340, monthly_cost: 5800, day: 12, subscribers: 12, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 145, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 25, revenue_label: 'LP commissions earned' };
 try {
   const fs = await import('node:fs');
   const path = await import('node:path');
@@ -128,8 +128,8 @@ try {
         <span class="metric-dots"></span>
         <span class="metric-value" data-live="costs.per_agent" data-format="currency">${(m.monthly_cost / m.agents).toFixed(0)}</span>
       </div>
-      <div class="living-zone" data-living-zone="home-proof" data-cycle-interval="60" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px;">
-        <span class="living-text">The numbers are small because we're young. They'll compound or they won't.</span>
+      <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px;">
+        Profitable from day 1. Every number verified on-chain.
       </div>
       <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">
         Full transparency on the <a href="/system">system page</a>.

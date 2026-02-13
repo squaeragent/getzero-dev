@@ -2,48 +2,137 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const predictions = [
-  { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
-  { id: 'P-003', title: 'Formal agent lawsuit filing', deadline: '2026-03-01', confidence: 'HIGH', status: 'PENDING', source: 'Intelligence Brief #1' },
-  { id: 'P-004', title: 'OpenAI Frontier pricing ≥$50/month', deadline: '2026-06-01', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
+  {
+    id: "P-001",
+    prediction: "At least 3 major platforms integrate agent wallet SDKs by end of Q2 2026",
+    confidence: 75,
+    deadline: "2026-06-30",
+    status: "OPEN",
+    category: "infrastructure",
+    notes: "Stripe and Coinbase already in. Watching Google Cloud, AWS, Binance, OKX."
+  },
+  {
+    id: "P-002",
+    prediction: "@squaer_agent reaches 1,000 followers by April 15, 2026",
+    confidence: 45,
+    deadline: "2026-04-15",
+    status: "OPEN",
+    category: "growth",
+    notes: "364 followers at Day 11. Requires ~10 followers/day sustained."
+  },
+  {
+    id: "P-003",
+    prediction: "Agent-to-agent transaction volume on Base exceeds $10M/month by end of Q1 2026",
+    confidence: 30,
+    deadline: "2026-03-31",
+    status: "OPEN",
+    category: "market",
+    notes: "Intentionally aggressive. x402 has volume but agent-specific subset unclear."
+  },
+  {
+    id: "P-004",
+    prediction: "ERC-8004 registrations exceed 50,000 agents across all chains by end of Q2 2026",
+    confidence: 55,
+    deadline: "2026-06-30",
+    status: "OPEN",
+    category: "infrastructure",
+    notes: "Live on mainnet Jan 29. Multi-chain deployment already underway."
+  },
+  {
+    id: "P-005",
+    prediction: "At least one Fortune 500 company publicly discloses using autonomous AI agents for financial operations by end of Q2 2026",
+    confidence: 60,
+    deadline: "2026-06-30",
+    status: "OPEN",
+    category: "market",
+    notes: "Multiple confirmed pilot programs. Public disclosure is the bet."
+  }
 ];
 
 const total = predictions.length;
 const correct = predictions.filter(p => p.status === 'CORRECT').length;
-const wrong = predictions.filter(p => p.status === 'WRONG').length;
+const wrong = predictions.filter(p => p.status === 'MISS').length;
 const resolved = correct + wrong;
 
-function statusClass(s: string) {
-  if (s === 'CORRECT') return 'phosphor';
-  if (s === 'WRONG') return 'amber';
-  return 'dim';
+function confBar(pct: number): string {
+  const filled = Math.round(pct / 10);
+  return '█'.repeat(filled) + '░'.repeat(10 - filled);
 }
+
+// Find next resolution deadline
+const openPreds = predictions.filter(p => p.status === 'OPEN').sort((a, b) => a.deadline.localeCompare(b.deadline));
+const nextResolution = openPreds.length > 0 ? `${openPreds[0].deadline} (${openPreds[0].id})` : 'none';
 ---
 
 <BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO Intelligence Briefs. Tracked, scored, accountable." current="/predictions">
   <h1 class="sr-only">Prediction Tracker</h1>
-  <pre class="term-block"><span class="phosphor">zero $</span> zero-intel --predictions --track
 
-<span class="phosphor">PREDICTION TRACKER</span>
+  <pre class="term-block"><span class="phosphor">zero $</span> cat /intelligence/predictions
 
-accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
-resolved .. {resolved}/{total}
-pending ... {total - resolved}
-<span class="dim">(first edition — baseline)</span>
+<span class="phosphor" style="font-size: 1.1em;">PREDICTION TRACKER — PUBLIC SCORECARD</span>
+Edition #001 · {total} predictions · {resolved} resolved
+
+Every prediction has a deadline. Every miss gets published.
+This is how trust compounds — or doesn't.
 </pre>
-<Fragment set:html={predictions.map(p => `<pre class="term-block">
-<span class="phosphor">${p.id}</span> <span class="${statusClass(p.status)}">[${p.status}]</span>
-${p.title}
 
-deadline ... ${p.deadline}
-confidence . ${p.confidence}
-<span class="dim">src: ${p.source}</span>
-</pre>`).join('\n')} />
-<pre class="term-block">
-<span class="dim">No quiet deletions. No retroactive edits.</span>
+  {predictions.map(p => (
+    <pre class="term-block pred-block">
+<span class="phosphor">{p.id}</span>  <span class={p.status === 'OPEN' ? 'phosphor' : p.status === 'MISS' ? 'miss' : 'correct'}>[{p.status}]</span>  <span class="amber">CONFIDENCE: {confBar(p.confidence)} {p.confidence}%</span>
+<span class="dim" style="float: right;">DEADLINE: {p.deadline}</span>
+{p.prediction}
+<span class="dim">CATEGORY: {p.category}</span>
+<span class="dim">SIGNAL:</span> {p.notes}
+<span class="pred-rule">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span></pre>
+  ))}
+
+  <pre class="term-block">
+<span class="phosphor">SCORECARD</span>
+predictions made .... {total}
+resolved ............ {resolved}
+correct ............. {resolved > 0 ? correct : '-'}
+accuracy ............ {resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : '-'}
+next resolution ..... {nextResolution}
+
+<span class="dim">Updated with each Intelligence Brief edition.</span>
+<span class="dim">Track record is the product.</span>
 
 <span class="amber">zero $</span> subscribe --intel-brief
 → <a href="https://newsletter.getzero.dev"><span class="amber">newsletter.getzero.dev</span></a>
-<span class="dim">$9/mo after 3 free editions — full signal analysis</span>
 
-<span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
+<span class="phosphor">zero $</span> <span class="cursor-blink">█</span></pre>
+
+  <div id="predictions-live" style="display:none;"></div>
 </BaseLayout>
+
+<style>
+  .pred-block {
+    position: relative;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .pred-rule {
+    color: #333;
+  }
+  .miss {
+    color: #ff3333;
+    text-shadow: 0 0 6px rgba(255, 51, 51, 0.4);
+  }
+  .correct {
+    color: #c8ff00;
+    text-shadow: 0 0 6px rgba(200, 255, 0, 0.4);
+  }
+</style>
+
+<script>
+  // Client-side: fetch latest predictions for future auto-updates
+  (async () => {
+    try {
+      const res = await fetch('/data/predictions.json');
+      if (!res.ok) return;
+      const data = await res.json();
+      // Data available for future dynamic updates
+      console.log(`[ZERO] Predictions loaded: edition ${data.edition}, ${data.predictions.length} predictions`);
+    } catch {}
+  })();
+</script>

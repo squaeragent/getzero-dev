@@ -1,0 +1,51 @@
+{
+  "updated": "2026-02-14T00:30:00+07:00",
+  "edition": 1,
+  "predictions": [
+    {
+      "id": "P-001",
+      "prediction": "At least 3 major platforms integrate agent wallet SDKs by end of Q2 2026",
+      "confidence": 75,
+      "deadline": "2026-06-30",
+      "status": "OPEN",
+      "category": "infrastructure",
+      "notes": "Stripe and Coinbase already in. Watching Google Cloud, AWS, Binance, OKX."
+    },
+    {
+      "id": "P-002",
+      "prediction": "@squaer_agent reaches 1,000 followers by April 15, 2026",
+      "confidence": 45,
+      "deadline": "2026-04-15",
+      "status": "OPEN",
+      "category": "growth",
+      "notes": "364 followers at Day 11. Requires ~10 followers/day sustained."
+    },
+    {
+      "id": "P-003",
+      "prediction": "Agent-to-agent transaction volume on Base exceeds $10M/month by end of Q1 2026",
+      "confidence": 30,
+      "deadline": "2026-03-31",
+      "status": "OPEN",
+      "category": "market",
+      "notes": "Intentionally aggressive. x402 has volume but agent-specific subset unclear."
+    },
+    {
+      "id": "P-004",
+      "prediction": "ERC-8004 registrations exceed 50,000 agents across all chains by end of Q2 2026",
+      "confidence": 55,
+      "deadline": "2026-06-30",
+      "status": "OPEN",
+      "category": "infrastructure",
+      "notes": "Live on mainnet Jan 29. Multi-chain deployment already underway."
+    },
+    {
+      "id": "P-005",
+      "prediction": "At least one Fortune 500 company publicly discloses using autonomous AI agents for financial operations by end of Q2 2026",
+      "confidence": 60,
+      "deadline": "2026-06-30",
+      "status": "OPEN",
+      "category": "market",
+      "notes": "Multiple confirmed pilot programs. Public disclosure is the bet."
+    }
+  ]
+}
