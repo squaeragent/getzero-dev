@@ -1,0 +1,172 @@
+---
+// ActivityFeed — live agent activity log with CRT scramble
+// Fetches /data/activity-feed.json client-side
+---
+
+<div class="activity-feed" id="activity-feed">
+  <div class="feed-header">
+    <span class="phosphor-g">LIVE AGENT FEED</span>
+    <span class="feed-range">last 24h</span>
+  </div>
+  <div class="feed-divider">─────────────────────────────────────────────────────────</div>
+  <pre class="feed-body" id="feed-body"><span class="feed-loading">⠋ Loading activity feed...</span></pre>
+</div>
+
+<style>
+  .activity-feed {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    padding: 12px 0;
+  }
+  .feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+  .feed-range {
+    color: #666;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+  .feed-divider {
+    color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 4px;
+  }
+  .feed-body {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .feed-loading {
+    color: #666;
+  }
+  .feed-line {
+    display: block;
+  }
+  .feed-ts {
+    color: #666;
+  }
+  .feed-agent {
+    color: var(--phosphor, #c8ff00);
+    text-shadow: 0 0 4px rgba(200, 255, 0, 0.3);
+  }
+  .feed-action {
+    color: var(--text, #e0e0e0);
+  }
+  .feed-detail {
+    color: #888;
+  }
+  .feed-amber .feed-agent,
+  .feed-amber .feed-action {
+    color: var(--amber, #ffb000);
+    text-shadow: 0 0 4px rgba(255, 176, 0, 0.3);
+  }
+  .feed-empty {
+    color: #666;
+    letter-spacing: 0.1em;
+  }
+  .phosphor-g {
+    color: var(--phosphor, #c8ff00);
+    text-shadow: 0 0 6px rgba(200, 255, 0, 0.4);
+  }
+</style>
+
+<script>
+  const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
+
+  function scrambleLine(target: string, duration = 600): Promise<string> {
+    return new Promise(resolve => {
+      const el = document.createElement('span');
+      let frame = 0;
+      const fps = 30;
+      const totalFrames = Math.floor(duration / (1000 / fps));
+      const chars = target.split('');
+
+      const interval = setInterval(() => {
+        frame++;
+        const progress = frame / totalFrames;
+        let display = '';
+        for (let i = 0; i < chars.length; i++) {
+          if (chars[i] === ' ' || progress > (i + 1) / chars.length) {
+            display += chars[i];
+          } else {
+            display += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+          }
+        }
+        el.textContent = display;
+        if (frame >= totalFrames) {
+          clearInterval(interval);
+          resolve(target);
+        }
+      }, 1000 / fps);
+    });
+  }
+
+  async function loadFeed() {
+    const body = document.getElementById('feed-body');
+    if (!body) return;
+
+    try {
+      const res = await fetch('/data/activity-feed.json?t=' + Date.now());
+      if (!res.ok) throw new Error('fetch failed');
+      const items = await res.json();
+
+      if (!items || items.length === 0) {
+        body.innerHTML = '<span class="feed-empty">NO RECENT ACTIVITY</span>';
+        return;
+      }
+
+      body.innerHTML = '';
+
+      // Render up to 15 items
+      const show = items.slice(0, 15);
+      show.forEach((item: any, i: number) => {
+        setTimeout(() => {
+          const line = document.createElement('span');
+          line.className = 'feed-line';
+
+          const isAmber = item.type === 'revenue' || item.type === 'alert';
+          if (isAmber) line.classList.add('feed-amber');
+
+          // Parse time
+          let timeStr = '--:--';
+          try {
+            const d = new Date(item.timestamp);
+            timeStr = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+          } catch {}
+
+          const agent = (item.agent || 'UNKNOWN').padEnd(10);
+          const action = item.action || '';
+          const detail = item.detail ? ' — ' + (item.detail.length > 40 ? item.detail.slice(0, 40) + '…' : item.detail) : '';
+
+          line.innerHTML =
+            `<span class="feed-ts">${timeStr}</span>  ` +
+            `<span class="feed-agent">${agent}</span> ` +
+            `<span class="feed-action">${action}</span>` +
+            `<span class="feed-detail">${detail}</span>\n`;
+
+          body.appendChild(line);
+        }, i * 80);
+      });
+
+    } catch (e) {
+      body.innerHTML = '<span class="feed-empty">FEED UNAVAILABLE</span>';
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(loadFeed, 800));
+  } else {
+    setTimeout(loadFeed, 800);
+  }
+</script>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
+import ActivityFeed from '../components/ActivityFeed.astro';
 import { sanitizeProblems } from '../lib/sanitizer';
 
 const rawProblems = [
@@ -135,9 +136,19 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> every prediction sharpens
 </pre>
 </div>
 
-<div class="scan-line al" data-d="2400" id="scan-metrics">⠋ Loading metrics...</div>
+<div class="scan-line al" data-d="2400" id="scan-activity">⠋ Loading activity feed...</div>
 
-<div class="al" data-d="2900" id="section-metrics">
+<div class="al" data-d="2900" id="section-activity">
+<pre class="term-block">
+
+<span class="phosphor">LIVE ACTIVITY LOG</span>
+</pre>
+    <ActivityFeed />
+</div>
+
+<div class="scan-line al" data-d="3200" id="scan-metrics">⠋ Loading metrics...</div>
+
+<div class="al" data-d="3700" id="section-metrics">
 <h2 class="sr-only">Metrics</h2>
 <pre class="term-block">
 
@@ -147,9 +158,9 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> every prediction sharpens
     <MetricsDashboard />
 </div>
 
-<div class="scan-line al" data-d="3100" id="scan-problems">⠋ Checking problems...</div>
+<div class="scan-line al" data-d="3900" id="scan-problems">⠋ Checking problems...</div>
 
-<div class="al" data-d="3600" id="section-problems">
+<div class="al" data-d="4400" id="section-problems">
 <h2 class="sr-only">Open Problems</h2>
 <pre class="term-block">
 
@@ -184,8 +195,9 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> every prediction sharpens
       { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE', cls: 'pass' },
       { id: 'scan-cognitive', delay: 1450, text: '[PASS] COGNITIVE FUNCTIONS', cls: 'pass' },
       { id: 'scan-intel', delay: 2150, text: '[PASS] INTELLIGENCE ARCHITECTURE', cls: 'pass' },
-      { id: 'scan-metrics', delay: 2850, text: '[PASS] METRICS', cls: 'pass' },
-      { id: 'scan-problems', delay: 3550, text: '[WARN] OPEN PROBLEMS', cls: 'warn' }
+      { id: 'scan-activity', delay: 2850, text: '[PASS] ACTIVITY LOG', cls: 'pass' },
+      { id: 'scan-metrics', delay: 3550, text: '[PASS] METRICS', cls: 'pass' },
+      { id: 'scan-problems', delay: 4250, text: '[WARN] OPEN PROBLEMS', cls: 'warn' }
     ];
     for (var j = 0; j < swaps.length; j++) {
       (function(s) {

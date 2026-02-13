@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LatestTweet from '../components/LatestTweet.astro';
 import BlockLogo from '../components/BlockLogo.astro';
+import ActivityFeed from '../components/ActivityFeed.astro';
 
 // Load metrics
 let m = { treasury: 28887, agents: 5, followers: 386, revenue: 32340, monthly_cost: 5800, day: 12, subscribers: 12, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 145, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 25, revenue_label: 'LP commissions earned' };
@@ -134,6 +135,11 @@ try {
       <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">
         Full transparency on the <a href="/system">system page</a>.
       </p>
+    </div>
+
+    <!-- ═══ LIVE AGENT FEED (full width) ═══ -->
+    <div class="panel" style="grid-column: 1 / -1;">
+      <ActivityFeed />
     </div>
 
     <!-- ═══ DISPATCH (full width) ═══ -->
