@@ -1,0 +1,38 @@
+---
+/**
+ * SectionHead — terminal section header.
+ * Usage: <SectionHead>SYSTEM STATUS</SectionHead>
+ * Renders a styled heading matching terminal panel-title aesthetic.
+ */
+interface Props {
+  color?: 'phosphor' | 'amber' | 'ice';
+  class?: string;
+}
+const { color = 'phosphor', class: className } = Astro.props;
+---
+
+<div class:list={["sh", color, className]}>
+  <slot />
+</div>
+
+<style>
+  .sh {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .sh.phosphor {
+    color: var(--phosphor);
+    text-shadow: 0 0 8px var(--phosphor-glow);
+  }
+  .sh.amber {
+    color: var(--amber);
+    text-shadow: 0 0 8px var(--amber-glow);
+  }
+  .sh.ice {
+    color: var(--ice);
+    text-shadow: 0 0 8px var(--ice-glow);
+  }
+</style>

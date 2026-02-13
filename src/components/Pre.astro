@@ -1,0 +1,35 @@
+---
+/**
+ * Pre — wrapper for preformatted content.
+ * Usage: <Pre>code or terminal output here</Pre>
+ * Styled consistently with the terminal aesthetic.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<pre class:list={["pre-block", className]}><slot /></pre>
+
+<style>
+  .pre-block {
+    font-family: var(--font-body);
+    color: var(--text-dim);
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: var(--size-base);
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 8px 0;
+    background: none;
+    line-height: 1.45;
+  }
+  @media (max-width: 640px) {
+    .pre-block {
+      font-size: var(--size-base);
+      padding: 6px 0;
+    }
+  }
+</style>

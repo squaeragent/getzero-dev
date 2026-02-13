@@ -1,0 +1,39 @@
+---
+/**
+ * ManHeader — flex space-between row (left text + right text).
+ * Usage: <ManHeader left="zero $" right="v0.11" />
+ * Common for terminal prompt lines and man-page style headers.
+ */
+interface Props {
+  left: string;
+  right?: string;
+  class?: string;
+}
+const { left, right, class: className } = Astro.props;
+---
+
+<div class:list={["mh", className]}>
+  <span class="mh-l">{left}</span>
+  {right && <span class="mh-r">{right}</span>}
+</div>
+
+<style>
+  .mh {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    color: var(--phosphor);
+    text-shadow: 0 0 6px var(--phosphor-glow);
+    padding: 4px 0;
+  }
+  .mh-r {
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+  @media (max-width: 640px) {
+    .mh { font-size: var(--size-sm); }
+  }
+</style>
