@@ -1,11 +1,10 @@
 {
-  "updated": "2026-02-14T00:26:48+07:00",
+  "updated": "2026-02-14T00:27:41+07:00",
   "day": 12,
   "agents": 5,
   "machines": 1,
   "specs": 62,
-  "automated_jobs": 0
-25,
+  "automated_jobs": 25,
   "agi_score": 58,
   "agi_target": 80,
   "agi_label": "Level 4 cognitive capabilities operational",
@@ -19,7 +18,7 @@
   "operational_since": "2026-02-03",
   "monthly_cost": 1160,
   "cost_label": "Per agent / month",
-  "treasury": 0,
+  "treasury": 26778,
   "subscribers": 12,
   "dispatches": 1
 }
