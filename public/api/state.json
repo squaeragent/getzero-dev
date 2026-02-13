@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-02-13T22:34:09+07:00",
+  "generated_at": "2026-02-13T23:34:09+07:00",
   "day": 10,
   "operational_since": "2026-02-03",
   "x": {
-    "followers": 364,
-    "posts_shipped": 118,
+    "followers": 386,
+    "posts_shipped": 145,
     "engagement_rate": 3.42,
     "last_post_at": "2026-02-13T03:00:00+07:00"
   },
@@ -32,8 +32,8 @@
   "agents": {
     "seraphim": {
       "status": "active",
-      "activity": "building",
-      "last_active_at": "2026-02-12T22:15:01+07:00",
+      "activity": "idle",
+      "last_active_at": "2026-02-13T16:10:13+07:00",
       "host": "mac-studio"
     },
     "chronicle": {
@@ -51,18 +51,18 @@
     "squaer": {
       "status": "active",
       "activity": "idle",
-      "last_active_at": "2026-02-13T03:00:00+07:00",
-      "host": "mac-mini"
+      "last_active_at": "2026-02-13T16:04:54+07:00",
+      "host": "mac-studio"
     },
     "sentinel": {
       "status": "active",
-      "activity": "monitoring",
-      "last_active_at": "2026-02-13T15:34:00+07:00",
+      "activity": "idle",
+      "last_active_at": "2026-02-13T16:34:03+07:00",
       "host": "mac-studio"
     }
   },
   "infrastructure": {
-    "machines_online": 2,
+    "machines_online": 1,
     "automated_jobs": 24,
     "specifications": 62,
     "agi_score": 58
