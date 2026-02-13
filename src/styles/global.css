@@ -76,7 +76,7 @@ a:hover { text-shadow: 0 0 8px var(--phosphor-glow); }
   content: '';
   position: absolute;
   inset: 2px;
-  border: 1px dotted var(--text-dim);
+  border: 1px solid rgba(255, 255, 255, 0.03);
   pointer-events: none;
   z-index: 1;
 }
@@ -204,7 +204,7 @@ a:hover { text-shadow: 0 0 8px var(--phosphor-glow); }
 
 .metric-dots {
   flex: 1;
-  border-bottom: 1px dotted #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
   margin: 0 6px;
   min-width: 20px;
 }
@@ -742,7 +742,6 @@ pre, code {
 .page-content {
   padding: 12px;
   max-width: 900px;
-  margin: 0 auto;
 }
 
 .page-content h1 {
@@ -831,12 +830,12 @@ pre, code {
 /* Heartbeat pulse — speed set via --agent-pulse-speed by zero-live-data.js */
 .agent-heartbeat {
   display: inline;
-  color: #00ff41;
+  color: var(--phosphor);
   animation: heartbeat-dynamic var(--agent-pulse-speed, 3s) ease-in-out infinite;
   transition: animation-duration 0.5s ease;
   will-change: opacity, text-shadow;
-  --pulse-glow: rgba(0, 255, 65, 0.15);
-  --pulse-glow-peak: rgba(0, 255, 65, 0.25);
+  --pulse-glow: rgba(200, 255, 0, 0.15);
+  --pulse-glow-peak: rgba(200, 255, 0, 0.25);
 }
 
 @keyframes heartbeat-dynamic {
@@ -853,24 +852,24 @@ pre, code {
 
 /* Intensity: resting (default) */
 .agent-heartbeat[data-intensity="resting"] {
-  --pulse-glow: rgba(0, 255, 65, 0.15);
-  --pulse-glow-peak: rgba(0, 255, 65, 0.25);
+  --pulse-glow: rgba(200, 255, 0, 0.15);
+  --pulse-glow-peak: rgba(200, 255, 0, 0.25);
 }
 /* Intensity: active */
 .agent-heartbeat[data-intensity="active"] {
-  --pulse-glow: rgba(0, 255, 65, 0.3);
-  --pulse-glow-peak: rgba(0, 255, 65, 0.5);
+  --pulse-glow: rgba(200, 255, 0, 0.3);
+  --pulse-glow-peak: rgba(200, 255, 0, 0.5);
 }
 /* Intensity: intense */
 .agent-heartbeat[data-intensity="intense"] {
-  --pulse-glow: rgba(0, 255, 65, 0.5);
-  --pulse-glow-peak: rgba(0, 255, 65, 0.8);
+  --pulse-glow: rgba(200, 255, 0, 0.5);
+  --pulse-glow-peak: rgba(200, 255, 0, 0.8);
 }
 /* Intensity: alarm (SENTINEL anomaly / agent error) */
 .agent-heartbeat[data-intensity="alarm"] {
   --pulse-glow: rgba(255, 176, 0, 0.5);
   --pulse-glow-peak: rgba(255, 176, 0, 0.9);
-  color: #ffb000;
+  color: var(--amber);
 }
 /* Offline: no pulse */
 .agent-heartbeat[data-intensity="offline"] {
@@ -909,8 +908,8 @@ pre, code {
 
 /* Last active timestamp — freshness coloring */
 .agent-last-active { font-size: 0.8em; }
-.agent-last-active[data-freshness="fresh"]  { color: #00ff41; }
-.agent-last-active[data-freshness="recent"] { color: rgba(0, 255, 65, 0.5); }
+.agent-last-active[data-freshness="fresh"]  { color: var(--phosphor); }
+.agent-last-active[data-freshness="recent"] { color: rgba(200, 255, 0, 0.5); }
 .agent-last-active[data-freshness="stale"]  { color: rgba(255, 255, 255, 0.2); }
 
 @media (prefers-reduced-motion: reduce) {
