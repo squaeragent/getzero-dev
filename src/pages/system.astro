@@ -4,9 +4,9 @@ import MetricsDashboard from '../components/MetricsDashboard.astro';
 import { sanitizeProblems } from '../lib/sanitizer';
 
 const rawProblems = [
-  'Prediction card format — blocked, awaiting visual rework',
-  'Absence Engine — 30-day baseline building (target Mar 14)',
-  'Site metrics pipeline — need auto-update on cron cycles',
+  'Absence Engine — 28 days of baseline remaining (target ~Mar 14)',
+  'L6 Compounding — needs prediction volume before activation',
+  'Gmail SMTP — intermittent timeouts blocking email delivery',
 ];
 const publicProblems = sanitizeProblems(rawProblems);
 ---
@@ -31,14 +31,13 @@ const publicProblems = sanitizeProblems(rawProblems);
 <span class="phosphor">■</span> Mac Studio
   M3 Ultra, 96GB RAM
   status .... <span class="phosphor">online</span>
-  role ...... Primary Compute (all agent logic)
-  services .. OpenClaw, local LLM, 5 cognitive functions
+  role ...... All operations (5 cognitive functions)
+  services .. OpenClaw, Ollama, X API posting, 25+ cron jobs
 
-<span class="phosphor">■</span> Mac Mini
+<span class="dim">■</span> Mac Mini
   M4, 16GB RAM — colo ($47/mo)
-  status .... <span class="phosphor">online</span>
-  role ...... Distribution Node (thin relay)
-  services .. OpenClaw, browser automation (@squaer_agent)
+  status .... <span class="dim">offline</span> <span class="dim">(decommissioned Feb 13)</span>
+  note ...... All operations consolidated to Mac Studio
 </pre>
 
 <div class="scan-line al" data-d="1000" id="scan-cognitive">⠋ Scanning cognitive functions...</div>
@@ -53,9 +52,9 @@ const publicProblems = sanitizeProblems(rawProblems);
   <span class="agent-heartbeat" data-agent-id="seraphim">[■ LIVE]</span> SERAPHIM — Strategic Cortex
   host ...... Mac Studio | model .. Claude Opus
   state ..... <span class="agent-activity" data-live="agents.seraphim.activity" data-activity="building">building</span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="fresh"></span>
-  current ... Action Engine v1.0 shipped, L0 Collection live
-  running ... 3 intelligence monitors on cron (2h/4h/4h)
-  tracking .. 20 repos, 18 X accounts, 10 narratives
+  current ... L2 Analysis Engine shipped, full API posting pipeline
+  running ... 6 intelligence monitors on cron (2-4h cycles)
+  tracking .. 20 repos, 22 X accounts, 14 narratives
 </pre>
 
 <pre class="term-block agent-card" data-agent="chronicle">
@@ -78,10 +77,11 @@ const publicProblems = sanitizeProblems(rawProblems);
 
 <pre class="term-block agent-card" data-agent="squaer">
   <span class="agent-heartbeat" data-agent-id="squaer">[■ LIVE]</span> SQUAER — Distribution Intelligence
-  host ...... Mac Mini | model .. Claude
+  host ...... Mac Studio | model .. Claude Sonnet
   state ..... <span class="agent-activity" data-live="agents.squaer.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="recent"></span>
-  current ... Autonomous posting + intelligence distribution
-  followers . <span class="phosphor" id="sq-followers" data-live="x.followers">364</span> | posts .. <span class="phosphor" id="sq-posts" data-live="x.posts_shipped">118</span> | engagement .. <span data-live="x.engagement_rate">3.42</span>%
+  current ... Full API posting (zero browser dependency)
+  pipeline .. L2 digest → red team → X API post → guard log
+  followers . <span class="phosphor" id="sq-followers" data-live="x.followers">390</span> | posts .. <span class="phosphor" id="sq-posts" data-live="x.posts_shipped">151</span> | engagement .. <span data-live="x.engagement_rate">3.42</span>%
 </pre>
 
 <pre class="term-block agent-card" data-agent="sentinel">
@@ -100,24 +100,31 @@ const publicProblems = sanitizeProblems(rawProblems);
 <pre class="term-block">
 
 <span class="phosphor">INTELLIGENCE ARCHITECTURE</span>
-L0 Collection    <span class="phosphor">[LIVE]</span>       multi-source continuous scanning
-L1 Detection     <span class="phosphor">[LIVE]</span>       anomaly + absence engines
-L2 Analysis      <span class="phosphor">[LIVE]</span>       signal scoring + convergence
-L3 Prediction    <span class="phosphor">[LIVE]</span>       compound intelligence
-L4 Learning      <span class="phosphor">[LIVE]</span>       memory + calibration
-L5 Distribution  <span class="phosphor">[LIVE]</span>       multi-channel output
-L6 Compounding   <span class="dim">[SCAFFOLDED]</span> every prediction sharpens the next
+L0 Collection    <span class="phosphor">[LIVE]</span>       6 monitors, 56 entities, every 2-4h
+L1 Detection     <span class="phosphor">[LIVE]</span>       absence engine (49 detection-ready)
+L2 Analysis      <span class="phosphor">[LIVE]</span>       signal scoring via weights model (Spec 093)
+L3 Prediction    <span class="amber">[BUILDING]</span>   5 active predictions, manual confidence
+L4 Learning      <span class="dim">[SCAFFOLDED]</span>  memory exists, no automated calibration
+L5 Distribution  <span class="phosphor">[LIVE]</span>       full API posting, posting guard, red team
+L6 Compounding   <span class="dim">[SCAFFOLDED]</span> needs prediction volume for feedback cycle
 </pre>
 
 <pre class="term-block">
   <span class="phosphor">■</span> L0: Collection Monitors
-    sources ...... <span class="phosphor">4</span> active monitors
-    entities ..... <span class="phosphor">70</span> tracked (repos, accounts, narratives, companies)
+    sources ...... <span class="phosphor">6</span> active monitors
+    entities ..... <span class="phosphor">56</span> tracked (22 accounts, 20 repos, 14 narratives)
     frequency .... every 2-4h depending on source
-    baselines .... building behavioral profiles for anomaly detection
+    baselines .... 49 entities detection-ready, 2 days of data collected
 </pre>
 
 <pre class="term-block">
+  <span class="phosphor">■</span> L2: ANALYSIS ENGINE <span class="phosphor">[LIVE]</span>
+    script ............. signal_analyzer.py (Spec 093)
+    weights model ...... hardness + convergence + topology + decay
+    last run ........... 36 signals ingested, 15 above threshold
+    top signal ......... llama-index convergence (score: 55.4)
+    cron ............... every 4h at :30 past
+
   <span class="amber">■</span> ACTION ENGINE <span class="phosphor">[LIVE]</span>
     signals classified .. <span class="phosphor">10</span> today
     autonomy rate ...... <span class="phosphor">100%</span> (auto-execute)
@@ -126,13 +133,19 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> every prediction sharpens
 
 <pre class="term-block">
   <span class="amber">■</span> ABSENCE ENGINE <span class="phosphor">[LIVE]</span> <span class="dim">low-confidence mode</span>
-    baseline data ...... <span class="amber">1</span> day collected (target: 30)
+    baseline data ...... <span class="amber">2</span> days collected (target: 30)
     activation ......... <span class="amber">~March 14, 2026</span> (full confidence)
-    entities tracked ... <span class="phosphor">55</span> (40 detection-ready)
+    entities tracked ... <span class="phosphor">56</span> (49 detection-ready)
     alerts ............. <span class="phosphor">10</span> low-confidence detections
-    progress ........... <span class="amber">███░░░░░░░░░░░░░</span> 3%
+    progress ........... <span class="amber">███░░░░░░░░░░░░░</span> 7%
     Monitors what STOPS happening. 30-day behavioral
-    baseline required before live detection.
+    baseline required before high-confidence detection.
+
+  <span class="phosphor">■</span> POSTING GUARD <span class="phosphor">[LIVE]</span>
+    method ............. X API only (zero browser dependency)
+    rate limits ........ 6/hr total, 3/15min, 8 originals/day
+    dedup .............. 70% similarity threshold, 48h window
+    pipelines .......... rapid-fire (replies/hr) + intel-post (originals/3h)
 </pre>
 </div>
 
