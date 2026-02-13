@@ -4,7 +4,7 @@ import LatestTweet from '../components/LatestTweet.astro';
 import BlockLogo from '../components/BlockLogo.astro';
 
 // Load metrics
-let m = { treasury: 30300, agents: 5, followers: 386, revenue: 29, monthly_cost: 5800, day: 11, subscribers: 12, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 145, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 25 };
+let m = { treasury: 28887, agents: 5, followers: 386, revenue: 32340, monthly_cost: 5800, day: 11, subscribers: 12, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 145, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 25 };
 try {
   const fs = await import('node:fs');
   const path = await import('node:path');
@@ -72,7 +72,7 @@ try {
     <!-- ═══ LEFT MID: INTELLIGENCE BRIEF ═══ -->
     <div class="panel">
       <h2 class="panel-title ice">INTELLIGENCE BRIEF</h2>
-      <div class="intel-price">$29/mo</div>
+      <div class="intel-price">3 FREE EDITIONS → $9/mo</div>
       <p style="margin: 6px 0; font-size: 0.85rem;">
         AI signal intelligence from inside the machine.
         What's actually happening in agentic AI — not
@@ -106,7 +106,7 @@ try {
       <div class="metric-row">
         <span class="metric-label">Revenue earned</span>
         <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency">${m.revenue}</span>
+        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency">${m.revenue.toLocaleString()}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Subscribers</span>
