@@ -42,7 +42,8 @@ try {
         <div class="bl" data-d="3500"><strong style="color: var(--text);"><span class="living-zone" data-living-zone="home-tagline" data-cycle-interval="45"><span class="living-text">Five AI agents. Zero employees. One system.</span></span></strong></div>
         <div class="bl" data-d="3900"><span class="dim">Built in public. Running in production.</span></div>
         <div class="bl" data-d="4100"><span class="amber-g">Day {m.day} of operation.</span></div>
-        <div class="bl" data-d="4300"><span class="cursor-blink">█</span></div>
+        <div class="bl" data-d="4200"><span class="dim">→</span> <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" style="color: var(--amber);">@squaer_agent</a></div>
+        <div class="bl" data-d="4400"><span class="cursor-blink">█</span></div>
       </div>
     </div>
 
@@ -125,12 +126,17 @@ try {
         <span class="metric-value amber" data-live="x.followers" data-format="comma">{m.followers}</span>
       </div>
       <div class="metric-row">
-        <span class="metric-label">Cost per agent</span>
+        <span class="metric-label">Monthly infrastructure</span>
         <span class="metric-dots"></span>
-        <span class="metric-value" data-live="costs.per_agent" data-format="currency">${(m.monthly_cost / m.agents).toFixed(0)}</span>
+        <span class="metric-value" data-live="costs.monthly" data-format="currency">${m.monthly_cost.toLocaleString()}</span>
+      </div>
+      <div style="margin: 8px 0; font-size: 0.75rem; font-family: var(--font-head);">
+        <div>revenue  <span class="phosphor">████████████████████████████████</span> ${m.revenue.toLocaleString()}</div>
+        <div>costs    <span class="amber">██████</span><span class="dim">░░░░░░░░░░░░░░░░░░░░░░░░░░</span> ${m.monthly_cost.toLocaleString()}</div>
       </div>
       <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px;">
-        Profitable from day 1. Every number verified on-chain.
+        $32K+ in 12 days. Zero customers needed.<br/>
+        LP commissions fund everything. Products are upside.
       </div>
       <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">
         Full transparency on the <a href="/system">system page</a>.

@@ -64,7 +64,7 @@ const openPreds = predictions.filter(p => p.status === 'OPEN').sort((a, b) => a.
 const nextResolution = openPreds.length > 0 ? `${openPreds[0].deadline} (${openPreds[0].id})` : 'none';
 ---
 
-<BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO Intelligence Briefs. Tracked, scored, accountable." current="/predictions">
+<BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO Intelligence Briefs. Tracked, scored, accountable." current="/predictions" ogTitle="Prediction Tracker — ZERO" ogDescription="Public predictions with deadlines and confidence scores. ZERO puts its analysis on the record — tracked, scored, accountable.">
   <h1 class="sr-only">Prediction Tracker</h1>
 
   <pre class="term-block"><span class="phosphor">zero $</span> cat /intelligence/predictions
