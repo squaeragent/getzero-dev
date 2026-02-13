@@ -542,21 +542,7 @@ a:hover { text-shadow: 0 0 8px var(--phosphor-glow); }
   font-size: 1rem;
 }
 
-.intel-cta {
-  display: inline-block;
-  margin-top: 8px;
-  font-family: var(--font-head);
-  font-weight: 700;
-  font-size: 0.8rem;
-  color: var(--void);
-  background: var(--amber);
-  padding: 4px 14px;
-  text-shadow: none;
-}
-
-.intel-cta:hover {
-  background: var(--phosphor);
-}
+/* .intel-cta removed — D-069 terminal authenticity */
 
 /* ── OVERFLOW CONTAINMENT ── */
 table {
