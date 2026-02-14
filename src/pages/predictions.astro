@@ -2,6 +2,9 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BriefCTA from '../components/BriefCTA.astro';
+import CardFeed from '../components/ui/CardFeed.astro';
+import CardEntry from '../components/ui/CardEntry.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -82,11 +85,11 @@ function catAccuracy(cat: any) {
 </section>
 
 <section class="predictions-section">
-  <div class="section-label"><span class="phosphor">ACTIVE PREDICTIONS</span> <span class="dim">({active} open)</span></div>
+  <SectionTitle>ACTIVE PREDICTIONS <span class="dim">({active} open)</span></SectionTitle>
 
-  <div class="predictions-feed">
+  <CardFeed>
     {predictions.filter((p: any) => p.status === 'active').map((p: any) => (
-      <div class="p-entry">
+      <CardEntry>
         <div class="p-header">
           <span class="p-id phosphor">{p.id}</span>
           <span class="p-tag dim">⏳ OPEN</span>
@@ -104,18 +107,18 @@ function catAccuracy(cat: any) {
             {p.source && <><span class="dim">source</span> <span>{p.source}</span></>}
           </div>
         </div>
-      </div>
+      </CardEntry>
     ))}
-  </div>
+  </CardFeed>
 </section>
 
 {scored > 0 && (
   <section class="predictions-section">
-    <div class="section-label"><span class="phosphor">RESOLVED</span> <span class="dim">({scored} scored)</span></div>
+    <SectionTitle>RESOLVED <span class="dim">({scored} scored)</span></SectionTitle>
 
-    <div class="predictions-feed">
+    <CardFeed>
       {predictions.filter((p: any) => p.status !== 'active').map((p: any) => (
-        <div class="p-entry">
+        <CardEntry>
           <div class="p-header">
             <span class={`p-id ${statusClass(p.status)}`}>{p.id}</span>
             <span class={`p-tag ${statusClass(p.status)}`}>{statusIcon(p.status)} {p.status.toUpperCase()}</span>
@@ -129,14 +132,14 @@ function catAccuracy(cat: any) {
             </div>
             {p.resolution && <div class="p-resolution"><span class="dim">outcome:</span> {p.resolution}</div>}
           </div>
-        </div>
+        </CardEntry>
       ))}
-    </div>
+    </CardFeed>
   </section>
 )}
 
 <section class="predictions-section">
-  <div class="section-label"><span class="phosphor">CATEGORY BREAKDOWN</span></div>
+  <SectionTitle>CATEGORY BREAKDOWN</SectionTitle>
 
   <div class="cat-feed">
     {Object.entries(categories).map(([cat, info]: [string, any]) => (

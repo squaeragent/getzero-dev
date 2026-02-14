@@ -151,7 +151,7 @@ for (const ch of word) {
 
   /* Phase 2: Blocks materialize after expand */
   .block-cell.on {
-    background: #c8ff00;
+    background: var(--phosphor);
     border: 1px solid rgba(0,0,0,0.3);
     box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
     animation: blockMaterialize 0.4s ease-out both;
@@ -184,7 +184,7 @@ for (const ch of word) {
       box-shadow: 0 0 8px rgba(200,255,0,0.4), inset -1.5px -1.5px 0 rgba(0,0,0,0.1), inset 1.5px 1.5px 0 rgba(255,255,255,0.15);
     }
     100% {
-      background: #c8ff00;
+      background: var(--phosphor);
       border-color: rgba(0,0,0,0.3);
       box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
       opacity: 1;

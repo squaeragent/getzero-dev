@@ -2,6 +2,9 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BriefCTA from '../components/BriefCTA.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import CardEntry from '../components/ui/CardEntry.astro';
+import CardFeed from '../components/ui/CardFeed.astro';
 
 const predictions = [
   { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING' },
@@ -42,20 +45,20 @@ layers ......... <span class="phosphor">6</span>
 Signal detection → classification → autonomous action</span></pre>
 
 <section class="intel-section al" data-d="400">
-  <div class="section-label"><span class="amber">ARCHITECTURE</span> <span class="dim">(7 layers)</span></div>
+  <SectionTitle color="amber">ARCHITECTURE <span class="dim">(7 layers)</span></SectionTitle>
 
-  <div class="layer-feed">
+  <CardFeed>
     {layers.map((l) => (
-      <div class="layer-entry">
+      <CardEntry>
         <div class="layer-header">
           <span class="layer-num phosphor">{l.num}</span>
           <span class="layer-name">{l.name}</span>
           <span class={`layer-tag ${l.statusClass}`}>[{l.status}]</span>
         </div>
         <div class="layer-desc">{l.desc}</div>
-      </div>
+      </CardEntry>
     ))}
-  </div>
+  </CardFeed>
 
   <div class="layer-summary dim">4/7 live. 1 building. 2 scaffolded. Honest status — updated in real time.</div>
 </section>

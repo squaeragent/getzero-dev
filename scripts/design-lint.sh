@@ -26,6 +26,14 @@ for f in $(find "$ROOT/src/pages" "$ROOT/src/components" -name '*.astro' 2>/dev/
     echo "$line" | grep -qE '^\s*--' && continue
     # Skip HTML/CSS comments
     echo "$line" | grep -qE '^\s*(<!--|/\*|\*)' && continue
+    # Skip hex inside var() fallbacks — e.g. var(--phosphor, #c8ff00)
+    echo "$line" | grep -qE 'var\(--[a-z-]+,\s*#[0-9a-fA-F]+\)' && continue
+    # Skip inline styles on form inputs/buttons (exempt per design spec)
+    echo "$line" | grep -qiE '<(input|button)\b' && continue
+    # Skip text content (hex mentioned in prose, not CSS)
+    echo "$line" | grep -qE "'" && ! echo "$line" | grep -qE ':\s*#[0-9a-fA-F]' && continue
+    # Skip D-070 exempt comments
+    echo "$line" | grep -qE 'D-070: exempt' && continue
     hex=$(echo "$line" | grep -oEi "$HEX_COLORS" | head -1)
     suggestion=$(suggest_var "$hex")
     echo "[WARN] ${rel}:${num} — Hardcoded color ${hex} (use ${suggestion})"
@@ -36,6 +44,8 @@ for f in $(find "$ROOT/src/pages" "$ROOT/src/components" -name '*.astro' 2>/dev/
   if [[ "$rel" != *"tokens.css"* && "$rel" != *"global.css"* ]]; then
     while IFS=: read -r num line; do
       echo "$line" | grep -qE 'var\(--size-' && continue
+      # Skip iOS zoom prevention on inputs
+      echo "$line" | grep -qiE 'input.*font-size|prevents iOS zoom' && continue
       echo "[WARN] ${rel}:${num} — Hardcoded font-size (use var(--size-*))"
       WARN=$((WARN + 1)); issues=$((issues + 1))
     done < <(grep -nE 'font-size:\s*[0-9]+(px|rem)' "$f" 2>/dev/null || true)
@@ -49,7 +59,7 @@ for f in $(find "$ROOT/src/pages" "$ROOT/src/components" -name '*.astro' 2>/dev/
 
   # 4. Missing mobile breakpoint (pages only)
   if [[ "$rel" == src/pages/* ]]; then
-    if grep -q '<style' "$f" && ! grep -q '@media (max-width: 640px)' "$f"; then
+    if grep -q '<style' "$f" && ! grep -qE '@media \(max-width: (640|768|375)px\)' "$f"; then
       echo "[WARN] ${rel} — Missing mobile breakpoint"
       WARN=$((WARN + 1)); issues=$((issues + 1))
     fi

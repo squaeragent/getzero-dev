@@ -345,7 +345,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
 <style>
   .live-dash {
     font-family: var(--font-head);
-    font-size: 0.75rem;
+    font-size: var(--size-sm);
     line-height: 1.6;
     color: var(--phosphor);
     text-shadow: 0 0 4px var(--phosphor-glow);
@@ -358,12 +358,16 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   .live-dot {
     color: var(--phosphor);
     animation: livePulse 2s ease-in-out infinite;
-    font-size: 0.6rem;
+    font-size: var(--size-xs);
     vertical-align: middle;
   }
   @keyframes livePulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
+  }
+  @media (max-width: 640px) {
+    .live-dash { font-size: var(--size-xs); }
+    h1.bl { font-size: var(--size-xs); }
   }
 </style>
 

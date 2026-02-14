@@ -93,7 +93,7 @@ const infra = [
 
 <div class="al" data-d="800" id="section-infra">
 <SectionTitle>INFRASTRUCTURE</SectionTitle>
-<div class="card-feed">
+<CardFeed>
   {infra.map(m => (
     <div class="card-entry">
       <div class="card-header">
@@ -117,7 +117,7 @@ const infra = [
 
 <div class="al" data-d="1500" id="section-cognitive">
 <SectionTitle>COGNITIVE FUNCTIONS</SectionTitle>
-<div class="card-feed">
+<CardFeed>
   {agents.map(a => (
     <div class="card-entry" data-agent={a.id}>
       <div class="card-header">
@@ -145,7 +145,7 @@ const infra = [
 
 <div class="al" data-d="2200" id="section-intel">
 <SectionTitle>INTELLIGENCE ARCHITECTURE</SectionTitle>
-<div class="card-feed">
+<CardFeed>
   {layers.map(l => (
     <div class="card-entry layer-entry">
       <div class="card-header">
@@ -237,7 +237,7 @@ const infra = [
 </div>
 
 <SectionTitle>DIMENSION BREAKDOWN</SectionTitle>
-<div class="card-feed">
+<CardFeed>
   {dimensions.map(d => (
     <div class="card-entry">
       <div class="card-header">
@@ -300,7 +300,7 @@ const infra = [
 
 <div class="al" data-d="4400" id="section-problems">
 <SectionTitle color="amber">OPEN PROBLEMS</SectionTitle>
-<div class="card-feed">
+<CardFeed>
   {publicProblems.map(p => (
     <div class="card-entry">
       <div class="card-header">
@@ -458,7 +458,7 @@ const infra = [
   .agi-big {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: 2rem;
+    font-size: var(--size-xl);
     text-shadow: 0 0 10px var(--phosphor-glow);
   }
   .agi-meta {
@@ -512,7 +512,7 @@ const infra = [
     .card-entry { padding: var(--sp-10) 0; }
     .layer-entry { padding: var(--sp-6) 0; }
     .kv-label { min-width: 5.5em; }
-    .agi-big { font-size: 1.5rem; }
+    .agi-big { font-size: var(--size-xl); }
   }
 </style>
 
