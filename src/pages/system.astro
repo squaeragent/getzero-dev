@@ -2,6 +2,11 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
+import CardFeed from '../components/ui/CardFeed.astro';
+import CardEntry from '../components/ui/CardEntry.astro';
+import CardHeader from '../components/ui/CardHeader.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import TagBadge from '../components/ui/TagBadge.astro';
 import { sanitizeProblems } from '../lib/sanitizer';
 
 const rawProblems = [
@@ -87,7 +92,7 @@ const infra = [
 <div class="scan-line al" data-d="300" id="scan-infra">⠋ Scanning infrastructure...</div>
 
 <div class="al" data-d="800" id="section-infra">
-<div class="sys-section-title"><span class="phosphor">INFRASTRUCTURE</span></div>
+<SectionTitle>INFRASTRUCTURE</SectionTitle>
 <div class="card-feed">
   {infra.map(m => (
     <div class="card-entry">
@@ -111,7 +116,7 @@ const infra = [
 <div class="scan-line al" data-d="1000" id="scan-cognitive">⠋ Scanning cognitive functions...</div>
 
 <div class="al" data-d="1500" id="section-cognitive">
-<div class="sys-section-title"><span class="phosphor">COGNITIVE FUNCTIONS</span></div>
+<SectionTitle>COGNITIVE FUNCTIONS</SectionTitle>
 <div class="card-feed">
   {agents.map(a => (
     <div class="card-entry" data-agent={a.id}>
@@ -139,7 +144,7 @@ const infra = [
 <div class="scan-line al" data-d="1700" id="scan-intel">⠋ Loading intelligence architecture...</div>
 
 <div class="al" data-d="2200" id="section-intel">
-<div class="sys-section-title"><span class="phosphor">INTELLIGENCE ARCHITECTURE</span></div>
+<SectionTitle>INTELLIGENCE ARCHITECTURE</SectionTitle>
 <div class="card-feed">
   {layers.map(l => (
     <div class="card-entry layer-entry">
@@ -217,7 +222,7 @@ const infra = [
 <div class="scan-line al" data-d="2400" id="scan-agi">⠋ Running intelligence assessment...</div>
 
 <div class="al" data-d="2900" id="section-agi">
-<div class="sys-section-title"><span class="phosphor">INTELLIGENCE ASSESSMENT — AGI TEST v2</span></div>
+<SectionTitle>INTELLIGENCE ASSESSMENT — AGI TEST v2</SectionTitle>
 
 <div class="agi-summary">
   <div class="agi-score-row">
@@ -231,7 +236,7 @@ const infra = [
   </div>
 </div>
 
-<div class="sys-section-title"><span class="phosphor">DIMENSION BREAKDOWN</span></div>
+<SectionTitle>DIMENSION BREAKDOWN</SectionTitle>
 <div class="card-feed">
   {dimensions.map(d => (
     <div class="card-entry">
@@ -286,7 +291,7 @@ const infra = [
 <div class="scan-line al" data-d="3200" id="scan-metrics">⠋ Loading metrics...</div>
 
 <div class="al" data-d="3700" id="section-metrics">
-<div class="sys-section-title"><span class="phosphor">METRICS</span></div>
+<SectionTitle>METRICS</SectionTitle>
 <MetricsDashboard />
 </div>
 
@@ -294,12 +299,12 @@ const infra = [
 <div class="scan-line al" data-d="3900" id="scan-problems">⠋ Checking problems...</div>
 
 <div class="al" data-d="4400" id="section-problems">
-<div class="sys-section-title"><span class="amber">OPEN PROBLEMS</span></div>
+<SectionTitle color="amber">OPEN PROBLEMS</SectionTitle>
 <div class="card-feed">
   {publicProblems.map(p => (
     <div class="card-entry">
       <div class="card-header">
-        <span class="problem-tag amber">WARN</span>
+        <TagBadge color="amber" text="WARN" />
       </div>
       <div class="card-body-text">{p}</div>
     </div>

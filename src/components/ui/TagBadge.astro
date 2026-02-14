@@ -1,0 +1,13 @@
+---
+interface Props { color?: 'phosphor' | 'amber' | 'ice' | 'red' | 'dim'; text: string; }
+const { color = 'phosphor', text } = Astro.props;
+---
+<span class={`tag-badge ${color}`}>{text}</span>
+<style>
+.tag-badge { font-family: var(--font-head); font-weight: 700; font-size: var(--size-xs); text-transform: uppercase; letter-spacing: 0.05em; }
+.tag-badge.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
+.tag-badge.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
+.tag-badge.ice { color: var(--ice); text-shadow: 0 0 6px var(--ice-glow); }
+.tag-badge.red { color: var(--red); }
+.tag-badge.dim { color: var(--text-dim); }
+</style>

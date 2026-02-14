@@ -1,0 +1,12 @@
+---
+interface Props { color?: 'phosphor' | 'amber' | 'ice' | 'red'; }
+const { color = 'phosphor' } = Astro.props;
+---
+<div class={`section-title ${color}`}><slot /></div>
+<style>
+.section-title { font-family: var(--font-head); font-weight: 700; font-size: var(--size-sm); letter-spacing: 0.05em; padding: var(--sp-10) 0 var(--sp-8); border-bottom: var(--border-panel); }
+.section-title.phosphor { color: var(--phosphor); }
+.section-title.amber { color: var(--amber); }
+.section-title.ice { color: var(--ice); }
+.section-title.red { color: var(--red); }
+</style>
