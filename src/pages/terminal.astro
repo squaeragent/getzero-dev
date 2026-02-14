@@ -227,7 +227,7 @@
       },
 
       status: async () => {
-        const s = await fetchJSON('/api/state.json');
+        const s = await fetchJSON('/data/state.json');
         const m = await fetchJSON('/data/metrics.json');
         if (!s) return 'ERROR: Could not fetch state data.';
         const since = new Date(s.operational_since);
@@ -250,7 +250,7 @@ ${dots('Revenue (total)', '$' + (m?.revenue || 32340).toLocaleString())}
       },
 
       agents: async () => {
-        const s = await fetchJSON('/api/state.json');
+        const s = await fetchJSON('/data/state.json');
         if (!s) {
           return `COGNITIVE FUNCTIONS
 ━━━━━━━━━━━━━━━━━━

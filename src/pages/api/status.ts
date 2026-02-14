@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export async function GET() {
-  const stateFile = path.join(process.cwd(), 'public/api/state.json');
+  const stateFile = path.join(process.cwd(), 'public/data/state.json');
   const metricsFile = path.join(process.cwd(), 'public/data/metrics.json');
 
   const state = JSON.parse(fs.readFileSync(stateFile, 'utf-8'));

@@ -1,6 +1,6 @@
 /*
  * ZERO OS — Live Data Feed
- * Polls /api/state.json every 60s
+ * Polls /data/state.json every 60s
  * Updates any element with data-live="path.to.value"
  * Triggers counter animation on value change
  * Updates ticker, agent status, freshness indicators
@@ -9,7 +9,7 @@
   'use strict';
 
   const POLL_INTERVAL = 60000;
-  const STATE_URL = '/api/state.json';
+  const STATE_URL = '/data/state.json';
   let lastState = null;
   let pollTimer = null;
 
