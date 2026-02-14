@@ -63,11 +63,14 @@ const navItems = [
   <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>" type="image/svg+xml" />
   <link rel="stylesheet" href="/css/zero-crt-microanimations.css" />
   <link rel="stylesheet" href="/css/zero-interactions.css" />
-  <link rel="stylesheet" href="/css/zero-living-text.css" />
+  <link rel="preload" as="style" href="/css/zero-living-text.css" />
+  <link rel="stylesheet" href="/css/zero-living-text.css" media="print" onload="this.media='all'" />
   <noscript>
     <style>
       .al, .bl, .boot-line { opacity: 1 !important; transform: none !important; }
@@ -104,7 +107,9 @@ const navItems = [
     </nav>
 
     <!-- CONTENT -->
+    <main>
     <slot />
+    </main>
 
     <!-- FOOTER BAR -->
     <div class="footer-bar">
