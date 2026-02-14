@@ -104,11 +104,15 @@ function catAccuracy(cat: any) {
 
 <section class="category-breakdown">
   <pre class="term-block table-header"><span class="phosphor">CATEGORY BREAKDOWN</span></pre>
-  <pre class="term-block">
-{Object.entries(categories).map(([cat, info]: [string, any]) => 
-  `  ${cat.padEnd(16)} ${String(info.total).padStart(2)} predictions  accuracy: ${catAccuracy(info).padStart(4)}  open: ${info.open}`
-).join('\n')}
-</pre>
+  <pre class="term-block" set:html={
+Object.entries(categories).map(([cat, info]: [string, any]) => {
+  const name = cat.padEnd(16);
+  const tot = String((info as any).total).padStart(2);
+  const acc = catAccuracy(info).padStart(4);
+  const op = (info as any).open;
+  return `  ${name} ${tot} predictions  accuracy: ${acc}  open: ${op}`;
+}).join('\n')
+} />
 </section>
 
 <section class="predictions-methodology">
