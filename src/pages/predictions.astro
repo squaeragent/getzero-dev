@@ -5,62 +5,177 @@ import BriefCTA from '../components/BriefCTA.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Load from single source of truth
-let rawPredictions: any[] = [];
+let data: any = { predictions: [], stats: { total: 0, active: 0, scored: 0, accuracy: null, streak: 0, categories: {} } };
 try {
   const dataPath = path.join(process.cwd(), 'public', 'data', 'predictions.json');
-  const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
-  rawPredictions = data.predictions || [];
+  data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 } catch {}
 
-// Map to page format
-const predictions = rawPredictions.map((p: any) => ({
-  id: p.id,
-  title: p.claim,
-  deadline: p.deadline || p.created,
-  confidence: p.confidence >= 0.7 ? 'HIGH' : p.confidence >= 0.4 ? 'MED' : 'LOW',
-  status: p.status === 'active' ? 'PENDING' : p.status === 'correct' ? 'CORRECT' : p.status === 'wrong' ? 'WRONG' : 'PENDING',
-  source: p.source || 'Intelligence Brief',
-}));
+const predictions = data.predictions || [];
+const stats = data.stats || {};
+const categories = stats.categories || {};
 
-const total = predictions.length;
-const correct = predictions.filter(p => p.status === 'CORRECT').length;
-const wrong = predictions.filter(p => p.status === 'WRONG').length;
-const resolved = correct + wrong;
+const total = stats.total || 0;
+const active = stats.active || 0;
+const scored = stats.scored || 0;
+const accuracy = stats.accuracy;
+const streak = stats.streak || 0;
+
+function statusIcon(s: string) {
+  if (s === 'correct') return '✅';
+  if (s === 'incorrect' || s === 'wrong') return '❌';
+  if (s === 'partial') return '⚠️';
+  if (s === 'expired') return '⏰';
+  return '⏳';
+}
 
 function statusClass(s: string) {
-  if (s === 'CORRECT') return 'phosphor';
-  if (s === 'WRONG') return 'amber';
+  if (s === 'correct') return 'phosphor';
+  if (s === 'incorrect' || s === 'wrong') return 'amber';
+  if (s === 'expired') return 'dim';
   return 'dim';
+}
+
+function confBar(conf: number) {
+  const pct = Math.round(conf * 100);
+  const filled = Math.round(pct / 5);
+  return '█'.repeat(filled) + '░'.repeat(20 - filled) + ` ${pct}%`;
+}
+
+function catAccuracy(cat: any) {
+  const resolved = (cat.correct || 0) + (cat.incorrect || 0);
+  if (resolved === 0) return 'N/A';
+  return Math.round(cat.correct / resolved * 100) + '%';
 }
 ---
 
-<BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO Intelligence Briefs. Tracked, scored, accountable." current="/predictions" ogImage="/og/predictions.png">
-  <h1 class="sr-only">Prediction Tracker</h1>
-  <pre class="term-block"><span class="phosphor">zero $</span> zero-intel --predictions --track
+<BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO intelligence analysis. Tracked, scored, accountable. Every call logged, every outcome recorded." current="/predictions" ogImage="/og/default.png">
 
-<span class="phosphor">PREDICTION TRACKER</span>
+<section class="predictions-hero">
+  <pre class="term-block hero-term"><span class="phosphor">zero $</span> predictions --status
 
-accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
-resolved .. {resolved}/{total}
-pending ... {total - resolved}
-<span class="dim">(first edition — baseline)</span>
+<span class="phosphor">╔══════════════════════════════════════════╗
+║  ZERO PREDICTION TRACKER                ║
+╚══════════════════════════════════════════╝</span>
+
+  accuracy .... <span class="phosphor">{accuracy !== null ? accuracy + '%' : 'TRACKING'}</span>
+  total ...... {total}
+  open ....... {active}
+  resolved ... {scored}
+  streak ..... {streak}
+
+  <span class="dim">{scored === 0 ? '[ first predictions logged — tracking begins ]' : `[ ${scored} resolved — live accuracy ]`}</span>
 </pre>
-<Fragment set:html={predictions.map(p => `<pre class="term-block">
-<span class="phosphor">${p.id}</span> <span class="${statusClass(p.status)}">[${p.status}]</span>
-${p.title}
+</section>
 
-deadline ... ${p.deadline}
-confidence . ${p.confidence}
-<span class="dim">src: ${p.source}</span>
-</pre>`).join('\n')} />
-<pre class="term-block">
-<span class="dim">No quiet deletions. No retroactive edits.</span>
+<section class="predictions-cta-top">
+  <pre class="term-block cta-block"><span class="amber">▌</span> Get predictions before they're public.
+<span class="amber">▌</span> Intelligence Brief — $29/mo
+<span class="amber">▌</span> <a href="https://buy.stripe.com/00w14ngdU9dHc748Fa83C00" class="phosphor cta-link">→ SUBSCRIBE</a></pre>
+</section>
 
-<span class="amber">zero $</span> subscribe --intel-brief
-→ <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
-<span class="dim">$29/mo — full signal analysis</span>
+<section class="predictions-table">
+  <pre class="term-block table-header"><span class="phosphor">ACTIVE PREDICTIONS</span> <span class="dim">({active} open)</span></pre>
+  
+  {predictions.filter((p: any) => p.status === 'active').map((p: any) => (
+    <pre class="term-block prediction-row">
+<span class="phosphor">{p.id}</span> <span class="dim">⏳ OPEN</span>
+{p.claim}
+<span class="dim">confidence:</span> <span class="phosphor">{confBar(p.confidence)}</span>
+<span class="dim">deadline:</span>  {p.deadline}
+<span class="dim">category:</span>  {p.category}
+<span class="dim">source:</span>    {p.source}
+</pre>
+  ))}
 
-<span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
+  {scored > 0 && (
+    <pre class="term-block table-header"><span class="phosphor">RESOLVED</span> <span class="dim">({scored} scored)</span></pre>
+  )}
+  
+  {predictions.filter((p: any) => p.status !== 'active').map((p: any) => (
+    <pre class="term-block prediction-row">
+<span class={statusClass(p.status)}>{p.id}</span> <span class={statusClass(p.status)}>{statusIcon(p.status)} {p.status.toUpperCase()}</span>
+{p.claim}
+<span class="dim">confidence:</span> {confBar(p.confidence)}
+{p.resolution && <span class="dim">outcome: {p.resolution}</span>}
+</pre>
+  ))}
+</section>
+
+<section class="category-breakdown">
+  <pre class="term-block table-header"><span class="phosphor">CATEGORY BREAKDOWN</span></pre>
+  <pre class="term-block">
+{Object.entries(categories).map(([cat, info]: [string, any]) => 
+  `  ${cat.padEnd(16)} ${String(info.total).padStart(2)} predictions  accuracy: ${catAccuracy(info).padStart(4)}  open: ${info.open}`
+).join('\n')}
+</pre>
+</section>
+
+<section class="predictions-methodology">
+  <pre class="term-block"><span class="phosphor">METHODOLOGY</span>
+
+Every prediction is derived from ZERO's L2 signal
+analysis pipeline. Confidence scores reflect:
+
+  • Signal convergence (multiple independent sources)
+  • Source reliability (hard vs soft signals)  
+  • Historical base rates for similar claims
+  • Timeframe specificity penalty
+
+No prediction is edited after publication.
+No outcomes are cherry-picked.
+<span class="dim">Full resolution history logged in JSONL.</span>
+</pre>
+</section>
+
 <BriefCTA />
+
 </BaseLayout>
+
+<style>
+  .predictions-hero {
+    margin-bottom: 1.5rem;
+  }
+  .hero-term {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .predictions-cta-top {
+    margin-bottom: 2rem;
+  }
+  .cta-block {
+    border-left: 2px solid var(--amber, #ffb000);
+    padding-left: 1rem;
+  }
+  .cta-link {
+    text-decoration: none;
+  }
+  .cta-link:hover {
+    text-decoration: underline;
+  }
+  .table-header {
+    border-bottom: 1px solid #333;
+    margin-bottom: 0;
+    padding-bottom: 0.5rem;
+  }
+  .prediction-row {
+    border-left: 2px solid #222;
+    padding-left: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .prediction-row:hover {
+    border-left-color: var(--phosphor, #c8ff00);
+  }
+  .category-breakdown {
+    margin-top: 2rem;
+  }
+  .predictions-methodology {
+    margin-top: 2rem;
+    opacity: 0.8;
+  }
+  .phosphor { color: var(--phosphor, #c8ff00); }
+  .amber { color: var(--amber, #ffb000); }
+  .dim { opacity: 0.5; }
+</style>

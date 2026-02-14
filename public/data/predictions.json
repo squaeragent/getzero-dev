@@ -1,47 +1,142 @@
 {
-  "updated": "2026-02-14T16:00:00+07:00",
+  "updated": "2026-02-14T22:18:17.563720+07:00",
   "predictions": [
     {
+      "id": "P-007",
+      "claim": "AI agent deployment count crosses 100K across all chains by Q3 2026",
+      "confidence": 0.7,
+      "status": "active",
+      "created": "2026-02-14",
+      "deadline": "2026-09-30",
+      "source": "L2 Signal \u2014 20K agents milestone analysis",
+      "category": "adoption",
+      "resolution": null
+    },
+    {
+      "id": "P-005",
+      "claim": "First US regulatory action specifically targeting autonomous AI agents by March 2026",
+      "confidence": 0.65,
+      "status": "active",
+      "created": "2026-02-14",
+      "deadline": "2026-03-31",
+      "source": "L2 Signal \u2014 Agent trust debate coverage",
+      "category": "regulatory",
+      "resolution": null
+    },
+    {
+      "id": "P-004",
+      "claim": "Agent-to-agent payment standard emerges (L402, x402, or ERC-8004 based) with >1000 transactions/day by June 2026",
+      "confidence": 0.6,
+      "status": "active",
+      "created": "2026-02-14",
+      "deadline": "2026-06-30",
+      "source": "L2 Signal \u2014 Payment infrastructure divide post",
+      "category": "infrastructure",
+      "resolution": null
+    },
+    {
+      "id": "P-008",
+      "claim": "Coinbase ships major agent infrastructure product (beyond x402) by April 2026",
+      "confidence": 0.8,
+      "status": "active",
+      "created": "2026-02-13",
+      "deadline": "2026-04-14",
+      "source": "L2 Convergence Detection \u2014 5-signal Coinbase cluster",
+      "category": "infrastructure",
+      "resolution": null
+    },
+    {
+      "id": "P-002",
+      "claim": "Virtuals Protocol ecosystem exceeds $15B total agent market cap by April 2026",
+      "confidence": 0.55,
+      "status": "active",
+      "created": "2026-02-13",
+      "deadline": "2026-04-30",
+      "source": "L2 Signal \u2014 Virtuals Revenue Network post",
+      "category": "market",
+      "resolution": null
+    },
+    {
       "id": "P-001",
-      "claim": "GPT-5 released before July 2026",
+      "claim": "ERC-8004 agent identity standard adopted by \u22653 L2 chains by Q2 2026",
+      "confidence": 0.75,
+      "status": "active",
+      "created": "2026-02-12",
+      "deadline": "2026-06-30",
+      "source": "L2 Signal Analysis \u2014 ERC-8004 coverage",
+      "category": "adoption",
+      "resolution": null
+    },
+    {
+      "id": "P-006",
+      "claim": "GPT-5 or equivalent frontier model released before July 2026",
       "confidence": 0.72,
       "status": "active",
       "created": "2026-02-10",
       "deadline": "2026-07-01",
-      "source": "Intelligence Brief #1"
-    },
-    {
-      "id": "P-002",
-      "claim": "≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16",
-      "confidence": 0.50,
-      "status": "active",
-      "created": "2026-02-10",
-      "deadline": "2026-03-18",
-      "source": "Intelligence Brief #1"
+      "source": "Intelligence Brief #1",
+      "category": "tech",
+      "resolution": null
     },
     {
       "id": "P-003",
-      "claim": "Formal agent lawsuit filing by March 2026",
-      "confidence": 0.80,
+      "claim": "Major AI framework consolidation event (acquisition \u2265$10M) in agent tooling space by Q2 2026",
+      "confidence": 0.7,
       "status": "active",
-      "created": "2026-02-10",
-      "deadline": "2026-03-01",
-      "source": "Intelligence Brief #1"
-    },
-    {
-      "id": "P-004",
-      "claim": "OpenAI Frontier pricing ≥$50/month",
-      "confidence": 0.50,
-      "status": "active",
-      "created": "2026-02-10",
-      "deadline": "2026-06-01",
-      "source": "Intelligence Brief #1"
+      "created": "2026-02-07",
+      "deadline": "2026-06-30",
+      "source": "Intelligence Briefing \u2014 Framework Wars analysis",
+      "category": "tech",
+      "resolution": null
     }
   ],
   "stats": {
-    "total": 4,
-    "active": 4,
+    "total": 8,
+    "active": 8,
     "scored": 0,
-    "accuracy": null
+    "accuracy": null,
+    "streak": 0,
+    "categories": {
+      "adoption": {
+        "total": 2,
+        "correct": 0,
+        "incorrect": 0,
+        "partial": 0,
+        "open": 2,
+        "expired": 0
+      },
+      "market": {
+        "total": 1,
+        "correct": 0,
+        "incorrect": 0,
+        "partial": 0,
+        "open": 1,
+        "expired": 0
+      },
+      "tech": {
+        "total": 2,
+        "correct": 0,
+        "incorrect": 0,
+        "partial": 0,
+        "open": 2,
+        "expired": 0
+      },
+      "infrastructure": {
+        "total": 2,
+        "correct": 0,
+        "incorrect": 0,
+        "partial": 0,
+        "open": 2,
+        "expired": 0
+      },
+      "regulatory": {
+        "total": 1,
+        "correct": 0,
+        "incorrect": 0,
+        "partial": 0,
+        "open": 1,
+        "expired": 0
+      }
+    }
   }
 }
