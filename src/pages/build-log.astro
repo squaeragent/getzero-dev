@@ -52,9 +52,11 @@ function formatDate(date: string): string {
   return (
     <div class={`journal-day al${isGenesis ? ' genesis' : ''}`} data-d={delay}>
       <div class="journal-date">
-        <span class={isGenesis ? 'ice' : 'phosphor'}>DAY {day.day}</span>{' '}
-        <span class="dim">{day.date}</span>
-        {isGenesis && <>{' '}<span class="ice">GENESIS</span></>}
+        <a href={`/build-log/${day.day}`} class="day-link">
+          <span class={isGenesis ? 'ice' : 'phosphor'}>DAY {day.day}</span>{' '}
+          <span class="dim">{day.date}</span>
+          {isGenesis && <>{' '}<span class="ice">GENESIS</span></>}
+        </a>
       </div>
       <pre class="j" set:html={
         day.entries.map((e: any) => {
@@ -145,6 +147,15 @@ function formatDate(date: string): string {
   :global(.tag-failed) { color: var(--red); }
   .blink-cursor { animation: blk 1s step-end infinite; }
   @keyframes blk { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .day-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .day-link:hover :global(.phosphor),
+  .day-link:hover :global(.ice) {
+    text-decoration: underline;
+  }
   @media (max-width: 640px) {
     .journal-wrap { padding: 0 var(--sp-10); }
     .journal-day { padding: 18px 0; }

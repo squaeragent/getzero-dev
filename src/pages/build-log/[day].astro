@@ -1,0 +1,221 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BriefCTA from '../../components/BriefCTA.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+export function getStaticPaths() {
+  const dataPath = path.join(process.cwd(), 'public', 'data', 'build-log.json');
+  const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+  return data.entries.map((entry: any) => ({
+    params: { day: String(entry.day) },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+
+// Load all entries for prev/next nav
+const dataPath = path.join(process.cwd(), 'public', 'data', 'build-log.json');
+const allEntries = JSON.parse(fs.readFileSync(dataPath, 'utf-8')).entries;
+const currentIndex = allEntries.findIndex((e: any) => e.day === entry.day);
+const prev = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
+const next = currentIndex < allEntries.length - 1 ? allEntries[currentIndex + 1] : null;
+
+// Load journal entries for this day
+let journalEntries: any[] = [];
+try {
+  const journalPath = path.join(process.cwd(), 'public', 'data', 'journal.json');
+  const journalData = JSON.parse(fs.readFileSync(journalPath, 'utf-8'));
+  const dayData = journalData.days.find((d: any) => d.day === entry.day);
+  if (dayData) {
+    journalEntries = dayData.entries || [];
+  }
+} catch {}
+
+const tagClass: Record<string, string> = {
+  SHIPPED: 'tag-shipped',
+  LIVE: 'tag-live',
+  FIXED: 'tag-fixed',
+  PURGE: 'tag-purge',
+  KILLED: 'tag-killed',
+  FAILED: 'tag-failed',
+  REVENUE: 'amber',
+  INIT: 'ice',
+  ONLINE: 'ice',
+  QUERY: 'ice',
+};
+
+const paragraphs = entry.body.split('\n\n');
+---
+
+<BaseLayout title={`Day ${entry.day}: ${entry.title} — ZERO`} description={entry.subtitle} current="/build-log">
+<div class="log-wrap">
+
+<pre class="log-prompt al" data-d="0"><span class="phosphor">zero $</span> cat /var/log/build/day-{entry.day}.log</pre>
+
+<div class="log-header al" data-d="100">
+  <div class="log-day-num"><span class="phosphor">DAY {String(entry.day).padStart(2, '0')}</span></div>
+  <div class="log-title">{entry.title}</div>
+  <div class="log-date">{entry.date}</div>
+  <div class="log-subtitle">{entry.subtitle}</div>
+</div>
+
+<div class="log-body al" data-d="200">
+  {paragraphs.map((p: string) => (
+    <p>{p}</p>
+  ))}
+</div>
+
+{journalEntries.length > 0 && (
+  <div class="log-events al" data-d="400">
+    <div class="log-events-header">─── SYSTEM LOG ────</div>
+    <pre class="j" set:html={
+      journalEntries.map((e: any) => {
+        const cls = tagClass[e.tag] || 'dim';
+        const pad = e.tag.padEnd(8);
+        if (['INIT', 'ONLINE', 'QUERY'].includes(e.tag)) {
+          return `<span class="ice">${e.time} [${pad}] ${e.text}</span>`;
+        }
+        if (e.tag === 'REVENUE') {
+          return `${e.time} <span class="amber">[REVENUE] ${e.text}</span>`;
+        }
+        return `${e.time} <span class="${cls}">[${pad}]</span> ${e.text}`;
+      }).join('\n')
+    } />
+  </div>
+)}
+
+<nav class="log-nav al" data-d="500">
+  {prev ? (
+    <a href={`/build-log/${prev.day}`} class="log-nav-link">← Day {prev.day}: {prev.title}</a>
+  ) : (
+    <span class="log-nav-link dim">GENESIS</span>
+  )}
+  <a href="/build-log" class="log-nav-link">[INDEX]</a>
+  {next ? (
+    <a href={`/build-log/${next.day}`} class="log-nav-link">Day {next.day}: {next.title} →</a>
+  ) : (
+    <span class="log-nav-link dim">LATEST</span>
+  )}
+</nav>
+
+<BriefCTA />
+</div>
+</BaseLayout>
+
+<style>
+  .log-wrap {
+    max-width: 720px;
+    padding: 0 var(--sp-16);
+  }
+  .log-prompt {
+    font-family: var(--font-body);
+    color: var(--text-dim);
+    padding: var(--sp-12) 0;
+    font-size: var(--size-base);
+    border: none;
+    background: none;
+  }
+  .log-header {
+    padding: var(--sp-24) 0;
+    border-top: var(--border-panel);
+    border-bottom: var(--border-panel);
+    margin-bottom: var(--sp-24);
+  }
+  .log-day-num {
+    font-family: var(--font-head);
+    font-size: var(--size-xl);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--sp-8);
+  }
+  .log-title {
+    font-family: var(--font-head);
+    font-size: var(--size-2xl);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .log-date {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+    margin-top: var(--sp-8);
+    letter-spacing: 0.05em;
+  }
+  .log-subtitle {
+    font-family: var(--font-body);
+    font-size: var(--size-md);
+    color: var(--text-dim);
+    margin-top: var(--sp-12);
+    font-style: italic;
+  }
+  .log-body {
+    padding: var(--sp-16) 0;
+  }
+  .log-body p {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin: 0 0 var(--sp-16) 0;
+  }
+  .log-body p:last-child {
+    margin-bottom: 0;
+  }
+  .log-events {
+    padding: var(--sp-16) 0;
+    border-top: var(--border-panel);
+  }
+  .log-events-header {
+    font-family: var(--font-head);
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--sp-12);
+  }
+  pre.j {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    line-height: 1.55;
+    color: var(--text-dim);
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+  .log-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--sp-24) 0;
+    border-top: var(--border-panel);
+    gap: var(--sp-16);
+  }
+  .log-nav-link {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .log-nav-link:hover {
+    color: var(--phosphor);
+  }
+  :global(.tag-shipped) { color: var(--phosphor); font-weight: 700; }
+  :global(.tag-live) { color: var(--phosphor); }
+  :global(.tag-fixed) { color: var(--amber); font-weight: 700; }
+  :global(.tag-purge) { color: var(--amber); }
+  :global(.tag-killed) { color: var(--red); font-weight: 700; }
+  :global(.tag-failed) { color: var(--red); }
+  @media (max-width: 640px) {
+    .log-wrap { padding: 0 var(--sp-10); }
+    .log-title { font-size: var(--size-xl); }
+    .log-nav { flex-direction: column; gap: var(--sp-12); text-align: center; }
+  }
+</style>
