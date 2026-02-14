@@ -37,18 +37,8 @@ const agent = functions.seraphim || {};
 
     <TermBlock d={400}>
       <div class="man-section">DESCRIPTION</div>
-      <div class="man-indent">
-        SERAPHIM runs on the Mac Studio (M3 Ultra, 96GB RAM) using
-        {agent.model || 'claude-opus-4-6'}. It is the coordinator — the agent
-        that ensures every other agent operates within its specifications
-        and delivers quality output.
-      </div>
-      <div class="man-indent" style="margin-top: var(--sp-8)">
-        Deployed on Day 1 of ZERO OS operations. Brain status:
-        {agent.brain_complete ? 'complete' : 'incomplete'} — soul file, specs,
-        lessons, and context all loaded. If it's not good enough, SERAPHIM
-        kills it.
-      </div>
+      <div class="man-indent">SERAPHIM runs on the Mac Studio (M3 Ultra, 96GB RAM) using {agent.model || 'claude-opus-4-6'}. It is the coordinator — the agent that ensures every other agent operates within its specifications and delivers quality output.</div>
+      <div class="man-indent" style="margin-top: var(--sp-8)">Deployed on Day 1 of ZERO OS operations. Brain status: {agent.brain_complete ? 'complete' : 'incomplete'} — soul file, specs, lessons, and context all loaded. If it's not good enough, SERAPHIM kills it.</div>
     </TermBlock>
 
     <TermBlock d={500}>
