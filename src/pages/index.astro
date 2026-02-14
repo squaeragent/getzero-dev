@@ -377,13 +377,12 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     const el = document.getElementById('live-revenue');
     if (!el) return;
     try {
-      const res = await fetch(`https://api.dexscreener.com/latest/dex/pairs/base/${PAIR_ADDR}`);
+      const res = await fetch('/api/revenue.json');
       const data = await res.json();
-      const pair = data?.pairs?.[0];
       lastRevenueUpdate = Date.now();
-      const price = pair?.priceUsd ? '$' + parseFloat(pair.priceUsd).toFixed(6) : '—';
-      const vol = pair?.volume?.h24 ? '$' + Math.round(pair.volume.h24).toLocaleString() : '—';
-      const rev = '$' + TOTAL_REVENUE.toLocaleString();
+      const rev = '$' + (data.lp_commissions_total || TOTAL_REVENUE).toLocaleString();
+      const vol = data.volume_24h ? '$' + Math.round(data.volume_24h).toLocaleString() : '—';
+      const price = data.token_price_usd ? '$' + data.token_price_usd.toFixed(6) : '—';
       el.textContent = `LP Commissions ..... ${rev}\n24h Volume ......... ${vol}\nToken Price ........ ${price}\n\nSource: Uniswap V4 LP · Base L2 · updates every 60s`;
     } catch(e) {
       el.textContent = `LP Commissions ..... $${TOTAL_REVENUE.toLocaleString()}\n24h Volume ......... —\nToken Price ........ —\n\nSource: Uniswap V4 LP · Base L2 · updates every 60s`;
@@ -394,7 +393,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   let lastFeedUpdate = 0;
   async function updateFeed() {
     try {
-      const res = await fetch('/data/activity-feed.json');
+      const res = await fetch('/api/feed.json');
       const raw = await res.json();
       lastFeedUpdate = Date.now();
       const container = document.getElementById('live-feed');
