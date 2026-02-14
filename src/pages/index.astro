@@ -372,7 +372,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   let lastRevenueUpdate = 0;
   async function updateRevenue() {
     try {
-      const res = await fetch('/svc/revenue.json');
+      const res = await fetch('https://getzero-dev.vercel.app/svc/revenue.json');
       const d = await res.json();
       lastRevenueUpdate = Date.now();
       const el = document.getElementById('live-revenue');
@@ -388,7 +388,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   let lastFeedUpdate = 0;
   async function updateFeed() {
     try {
-      const res = await fetch('/svc/feed.json');
+      const res = await fetch('https://getzero-dev.vercel.app/svc/feed.json');
       const data = await res.json();
       lastFeedUpdate = Date.now();
       const container = document.getElementById('live-feed');

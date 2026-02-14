@@ -13,5 +13,5 @@ export async function GET() {
     predictions: data.predictions,
     stats: data.stats,
     timestamp: new Date().toISOString()
-  }), { headers: { 'Content-Type': 'application/json' } });
+  }), { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }

@@ -15,5 +15,5 @@ export async function GET() {
     metrics,
     state,
     timestamp: new Date().toISOString()
-  }), { headers: { 'Content-Type': 'application/json' } });
+  }), { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }

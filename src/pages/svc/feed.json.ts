@@ -9,11 +9,11 @@ export async function GET() {
       const feed = JSON.parse(fs.readFileSync(feedPath, 'utf-8'));
       const entries = (feed.entries || feed || []).slice(0, 20);
       return new Response(JSON.stringify({ entries, timestamp: new Date().toISOString() }), {
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=30' }
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=30' }
       });
     }
     return new Response(JSON.stringify({ entries: [], timestamp: new Date().toISOString() }), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });
   } catch (e) {
     return new Response(JSON.stringify({ error: 'feed unavailable' }), { status: 500 });

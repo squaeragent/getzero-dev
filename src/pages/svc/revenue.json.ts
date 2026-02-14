@@ -27,7 +27,7 @@ export async function GET() {
         totalRevenue: fallback.revenue,
         timestamp: new Date().toISOString()
       }), {
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=60' }
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=60' }
       });
     }
 
@@ -40,7 +40,7 @@ export async function GET() {
       totalRevenue: fallback.revenue,
       timestamp: new Date().toISOString()
     }), {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=60' }
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=60' }
     });
   } catch (e) {
     return new Response(JSON.stringify({
@@ -51,7 +51,7 @@ export async function GET() {
       timestamp: new Date().toISOString()
     }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=60' }
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=60' }
     });
   }
 }
