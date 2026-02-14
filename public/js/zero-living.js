@@ -150,11 +150,19 @@ function initStagger(){
       io.unobserve(e.target);
       e.target.classList.add('stagger-visible');
     });
-  },{threshold:0.1});
+  },{threshold:0.05, rootMargin:'200px 0px'});
   els.forEach(function(el){
     el.classList.add('stagger-ready');
     io.observe(el);
   });
+  // Fallback: reveal all after 2s in case observer doesn't fire
+  setTimeout(function(){
+    els.forEach(function(el){
+      if(!el.classList.contains('stagger-visible')){
+        el.classList.add('stagger-visible');
+      }
+    });
+  }, 2000);
 }
 
 // ═══ INIT ═══
