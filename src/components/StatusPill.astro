@@ -1,0 +1,37 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+let m: any = { agents: 5, day: 13, revenue: 33341 };
+try { m = { ...m, ...JSON.parse(fs.readFileSync(path.join(process.cwd(), 'public', 'data', 'metrics.json'), 'utf-8')) }; } catch {}
+---
+<div class="status-pill">
+  <span class="pill-dot">●</span>
+  <span class="pill-text">{m.agents}/5</span>
+  <span class="pill-sep">·</span>
+  <span class="pill-text">Day {m.day}</span>
+  <span class="pill-sep">·</span>
+  <span class="pill-text">${Math.round(m.revenue/1000)}K</span>
+</div>
+<style>
+  .status-pill {
+    position: fixed;
+    top: 42px;
+    right: 16px;
+    background: rgba(10,10,10,0.9);
+    border: 1px solid rgba(200,255,0,0.2);
+    border-radius: 2px;
+    padding: 4px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim, #5a6a5a);
+    z-index: 100;
+    display: none;
+    gap: 4px;
+    align-items: center;
+  }
+  .pill-dot { color: var(--phosphor, #c8ff00); font-size: 8px; }
+  .pill-sep { color: var(--text-dim, #5a6a5a); }
+  @media (min-width: 1200px) {
+    .status-pill { display: flex; }
+  }
+</style>

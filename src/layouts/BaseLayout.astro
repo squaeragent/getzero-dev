@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import RoomDepth from '../components/RoomDepth.astro';
+import StatusPill from '../components/StatusPill.astro';
 
 interface Props {
   title: string;
@@ -122,6 +123,8 @@ const navItems = [
         </a>
       ))}
     </nav>
+
+    <StatusPill />
 
     <!-- CONTENT -->
     <main>

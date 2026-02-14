@@ -3,6 +3,7 @@
  * ZERO Block Letter Logo — Claude Code / Pixel Brick style
  * V1: Sharp brutalist — no radius, hard shadows, phosphor green
  * Animation: CRT power-on — horizontal line expands vertically, blocks materialize
+ * V2: Living logo — breathing, agent status, hover scatter, metric flash
  */
 
 const letters: Record<string, number[][]> = {
@@ -74,11 +75,14 @@ for (const ch of word) {
   }
   letterCells.push(cells);
 }
+
+// Agent mapping: Z=SERAPHIM, E=CHRONICLE+AESTHETE, R=SQUAER, O=SENTINEL
+const letterAgents = ['seraphim', 'chronicle,aesthete', 'squaer', 'sentinel'];
 ---
 
 <div class="block-logo crt-boot" role="img" aria-label="ZERO">
-  {letterCells.map((cells) => (
-    <div class="block-letter">
+  {letterCells.map((cells, li) => (
+    <div class="block-letter" data-letter-index={li} data-agents={letterAgents[li]}>
       {cells.map((cell) => (
         <div
           class:list={['block-cell', cell.on ? 'on' : 'off']}
@@ -117,7 +121,6 @@ for (const ch of word) {
 
   /* ── CRT POWER-ON ANIMATION ── */
 
-  /* Phase 1: Logo starts as compressed horizontal line */
   .crt-boot {
     animation: crtExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
   }
@@ -155,7 +158,6 @@ for (const ch of word) {
     border: 1px solid rgba(0,0,0,0.3);
     box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
     animation: blockMaterialize 0.4s ease-out both;
-    /* Stagger by row — middle rows appear first (CRT draws from center) */
     animation-delay: calc(0.6s + var(--row-delay, 0ms));
   }
 
@@ -224,6 +226,35 @@ for (const ch of word) {
     }
   }
 
+  /* ── BREATHING ANIMATION (after boot) ── */
+  @keyframes logoBreath {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+  }
+
+  .block-logo.breathing .block-letter {
+    animation: logoBreath 4s ease-in-out infinite;
+  }
+  .block-logo.breathing .block-letter[data-letter-index="0"] { animation-delay: 0ms; }
+  .block-logo.breathing .block-letter[data-letter-index="1"] { animation-delay: 200ms; }
+  .block-logo.breathing .block-letter[data-letter-index="2"] { animation-delay: 400ms; }
+  .block-logo.breathing .block-letter[data-letter-index="3"] { animation-delay: 600ms; }
+
+  /* ── HOVER SCATTER (desktop only) ── */
+  @media (hover: hover) {
+    .block-cell.on {
+      transition: transform 0.4s ease-in;
+    }
+    .block-logo:hover .block-cell.on {
+      transition: transform 0.3s ease-out;
+    }
+  }
+
+  /* ── AGENT OFFLINE DIM ── */
+  .block-letter.agent-offline .block-cell.on {
+    opacity: 0.6;
+  }
+
   @media (max-width: 640px) {
     .block-logo {
       gap: 4px;
@@ -246,9 +277,88 @@ for (const ch of word) {
     .block-cell.on {
       animation: none;
       opacity: 1;
+      transition: none !important;
     }
     .crt-scanline {
       display: none;
     }
+    .block-logo.breathing .block-letter {
+      animation: none;
+    }
   }
 </style>
+
+<script>
+  (function() {
+    const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (REDUCED) return;
+
+    const logo = document.querySelector('.block-logo');
+    if (!logo) return;
+
+    // ── 1a. Start breathing after boot completes ──
+    setTimeout(() => {
+      logo.classList.add('breathing');
+    }, 2000);
+
+    // ── 1b. Agent status mapping ──
+    function checkAgentStatus() {
+      fetch('/svc/status.json')
+        .then(r => r.json())
+        .then(data => {
+          const agents = data?.agents || {};
+          document.querySelectorAll('.block-letter[data-agents]').forEach(el => {
+            const mapped = (el.getAttribute('data-agents') || '').split(',');
+            const anyOffline = mapped.some(a => {
+              const info = agents[a];
+              return info && info.status && info.status !== 'online' && info.status !== 'ONLINE';
+            });
+            el.classList.toggle('agent-offline', anyOffline);
+          });
+        })
+        .catch(() => {});
+    }
+    setTimeout(checkAgentStatus, 3000);
+    setInterval(checkAgentStatus, 30000);
+
+    // ── 1c. Hover scatter (desktop only) ──
+    const hasHover = window.matchMedia('(hover: hover)').matches;
+    if (hasHover) {
+      logo.addEventListener('mouseenter', () => {
+        logo.querySelectorAll('.block-cell.on').forEach(cell => {
+          const x = (Math.random() * 6 - 3).toFixed(1);
+          const y = (Math.random() * 6 - 3).toFixed(1);
+          (cell as HTMLElement).style.transform = `translate(${x}px, ${y}px)`;
+        });
+      });
+      logo.addEventListener('mouseleave', () => {
+        logo.querySelectorAll('.block-cell.on').forEach(cell => {
+          (cell as HTMLElement).style.transform = 'translate(0,0)';
+        });
+      });
+    }
+
+    // ── 1d. Metric flash ──
+    let lastFlash = 0;
+    function metricFlash() {
+      const now = Date.now();
+      if (now - lastFlash < 20000) return;
+      const cells = logo.querySelectorAll('.block-cell.on');
+      if (!cells.length) return;
+      const cell = cells[Math.floor(Math.random() * cells.length)] as HTMLElement;
+      lastFlash = now;
+      const orig = cell.style.background;
+      cell.style.background = 'var(--amber)';
+      setTimeout(() => { cell.style.background = orig || ''; }, 150);
+    }
+    function scheduleFlash() {
+      const delay = 30000 + Math.random() * 30000;
+      setTimeout(() => {
+        metricFlash();
+        scheduleFlash();
+      }, delay);
+    }
+    // Start after boot
+    setTimeout(scheduleFlash, 3000);
+  })();
+</script>

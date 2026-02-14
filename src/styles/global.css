@@ -101,6 +101,12 @@ a:hover { text-shadow: 0 0 8px var(--phosphor-glow); }
   gap: 0;
 }
 
+@media (min-width: 1200px) {
+  .terminal-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
 /* ── PANEL ── */
 .panel {
   padding: 10px 12px;

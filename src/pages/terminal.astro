@@ -8,8 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ZERO OS — Terminal</title>
   <meta name="description" content="ZERO OS interactive terminal interface" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/fonts.css" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -223,6 +222,9 @@
   feed          Last 5 activity entries
   about         What is ZERO OS
   manifesto     Core manifesto excerpt
+  cd <path>     Navigate to a page
+  man <agent>   Open agent manual page
+  open <path>   Alias for cd
   clear         Clear terminal`;
       },
 
@@ -362,6 +364,43 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
   "Every system online. Every dollar tracked. Every prediction scored."`;
       },
 
+      cd: async (args) => {
+        const routes = {
+          '/': '/', '/home': '/',
+          '/agents': '/agents', '/agents/seraphim': '/agents/seraphim',
+          '/agents/chronicle': '/agents/chronicle', '/agents/aesthete': '/agents/aesthete',
+          '/agents/squaer': '/agents/squaer', '/agents/sentinel': '/agents/sentinel',
+          '/system': '/system', '/intel': '/intel', '/product': '/product',
+          '/manifesto': '/manifesto', '/build-log': '/build-log', '/journal': '/build-log',
+          '/live': '/live', '/predictions': '/predictions', '/subscribe': '/product',
+        };
+        const target = args[0];
+        if (!target) return 'Usage: cd <path>\nAvailable: ' + Object.keys(routes).join(', ');
+        const route = routes[target] || routes['/' + target];
+        if (route) {
+          await typeLines('Navigating to ' + target + '...', 12);
+          setTimeout(() => { window.location.href = route; }, 800);
+          return null;
+        }
+        return 'Path not found: ' + target + '. Type "cd" for available paths.';
+      },
+
+      man: async (args) => {
+        const agentList = ['seraphim', 'chronicle', 'aesthete', 'squaer', 'sentinel'];
+        const target = (args[0] || '').toLowerCase();
+        if (!target) return 'Usage: man <agent-name>\nAvailable: ' + agentList.join(', ');
+        if (agentList.includes(target)) {
+          await typeLines('Opening manual for ' + target.toUpperCase() + '...', 12);
+          setTimeout(() => { window.location.href = '/agents/' + target; }, 800);
+          return null;
+        }
+        return 'No manual entry for: ' + target;
+      },
+
+      open: async (args) => {
+        return commands['cd'](args);
+      },
+
       clear: async () => {
         output.innerHTML = '';
         return null;
@@ -379,31 +418,37 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'hi': 'Hello, human. System operational.',
       'ping': 'PONG — 0.42ms',
       'exit': 'There is no exit. Type "help" for commands.',
-      'ls': 'agents/  data/  intel/  predictions/  revenue/  manifesto.txt',
+      'ls': 'agents/  build-log/  intel/  live/  manifesto  predictions/  product/  system/',
       'cat': 'Usage: try a command like "status" or "agents"',
       'pwd': '/zero/system/terminal',
       'uname': 'ZERO OS v0.9.1 arm64 Mac Studio M3 Ultra',
       'uptime': 'Use "status" for uptime info.',
       'date': new Date().toUTCString(),
+      'top': 'SERAPHIM: 42% CPU  CHRONICLE: 12%  SQUAER: 28%  AESTHETE: 8%  SENTINEL: 10%',
+      'ps': 'PID  NAME        STATUS\n001  seraphim    running\n002  chronicle   running\n003  aesthete    running\n004  squaer      running\n005  sentinel    running',
+      'neofetch': 'ZERO OS v0.9.1\nHost: Mac Studio M3 Ultra\nRAM: 96GB / 96GB\nAgents: 5/5 ONLINE\nUptime: 13d\nRevenue: $33K+',
     };
 
     async function exec(cmd) {
       const raw = cmd.trim();
-      const lower = raw.toLowerCase();
+      const parts = raw.split(/\s+/);
+      const lower = parts[0].toLowerCase();
+      const args = parts.slice(1);
       if (!lower) return;
 
       printLine('zero@system:~$ ' + raw);
 
       if (commands[lower]) {
-        const result = await commands[lower]();
+        const result = await commands[lower](args);
         if (result !== null && result !== undefined) {
           printLine('');
           await typeLines(result, 12);
           printLine('');
         }
-      } else if (easterEggs[lower]) {
+      } else if (easterEggs[raw.toLowerCase()] || easterEggs[lower]) {
+        const egg = easterEggs[raw.toLowerCase()] || easterEggs[lower];
         printLine('');
-        await typeLines(easterEggs[lower], 12);
+        await typeLines(egg, 12);
         printLine('');
       } else if (lower.startsWith('sudo ') || lower.startsWith('su ')) {
         printLine('');
