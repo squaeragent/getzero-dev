@@ -75,13 +75,15 @@ const paragraphs = entry.body.split('\n\n');
       journalEntries.map((e: any) => {
         const cls = tagClass[e.tag] || 'dim';
         const pad = e.tag.padEnd(8);
+        const ts = `${entry.date}T${e.time}:00+07:00`;
+        const tz = `<span class="tz" data-ts="${ts}">${e.time}</span>`;
         if (['INIT', 'ONLINE', 'QUERY'].includes(e.tag)) {
-          return `<span class="ice">${e.time} [${pad}] ${e.text}</span>`;
+          return `<span class="ice">${tz} [${pad}] ${e.text}</span>`;
         }
         if (e.tag === 'REVENUE') {
-          return `${e.time} <span class="amber">[REVENUE] ${e.text}</span>`;
+          return `${tz} <span class="amber">[REVENUE] ${e.text}</span>`;
         }
-        return `${e.time} <span class="${cls}">[${pad}]</span> ${e.text}`;
+        return `${tz} <span class="${cls}">[${pad}]</span> ${e.text}`;
       }).join('\n')
     } />
   </div>
@@ -219,3 +221,14 @@ const paragraphs = entry.body.split('\n\n');
     .log-nav { flex-direction: column; gap: var(--sp-12); text-align: center; }
   }
 </style>
+
+<script>
+document.querySelectorAll('.tz').forEach(el => {
+  try {
+    const d = new Date(el.dataset.ts);
+    const h = String(d.getHours()).padStart(2, '0');
+    const m = String(d.getMinutes()).padStart(2, '0');
+    el.textContent = h + ':' + m;
+  } catch {}
+});
+</script>

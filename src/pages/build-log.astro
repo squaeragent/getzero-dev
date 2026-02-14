@@ -62,16 +62,18 @@ function formatDate(date: string): string {
         day.entries.map((e: any) => {
           const cls = tagClass[e.tag] || 'dim';
           const isSpecial = ['REVENUE', 'INIT', 'ONLINE', 'QUERY'].includes(e.tag) || e.highlight;
+          const ts = `${day.date}T${e.time}:00+07:00`;
+          const tz = `<span class="tz" data-ts="${ts}">${e.time}</span>`;
           if (isGenesis) {
-            return `<span class="ice">${datePrefix} ${e.time} [${padTag(e.tag)}] ${e.text}</span>`;
+            return `<span class="ice">${datePrefix} ${tz} [${padTag(e.tag)}] ${e.text}</span>`;
           }
           if (e.tag === 'REVENUE') {
-            return `${datePrefix} ${e.time} <span class="amber">[REVENUE] ${e.text}</span>`;
+            return `${datePrefix} ${tz} <span class="amber">[REVENUE] ${e.text}</span>`;
           }
           if (e.highlight) {
-            return `${datePrefix} ${e.time} <span class="${cls}">[${padTag(e.tag)}]</span> <span class="amber">${e.text}</span>`;
+            return `${datePrefix} ${tz} <span class="${cls}">[${padTag(e.tag)}]</span> <span class="amber">${e.text}</span>`;
           }
-          return `${datePrefix} ${e.time} <span class="${cls}">[${padTag(e.tag)}]</span> ${e.text}`;
+          return `${datePrefix} ${tz} <span class="${cls}">[${padTag(e.tag)}]</span> ${e.text}`;
         }).join('\n')
       } />
       <div class={`journal-metrics${isGenesis ? ' genesis-metrics' : ''}`}>
@@ -164,3 +166,14 @@ function formatDate(date: string): string {
     .journal-metrics { font-size: var(--size-sm); padding: var(--sp-10) var(--sp-12); }
   }
 </style>
+
+<script>
+document.querySelectorAll('.tz').forEach(el => {
+  try {
+    const d = new Date(el.dataset.ts);
+    const h = String(d.getHours()).padStart(2, '0');
+    const m = String(d.getMinutes()).padStart(2, '0');
+    el.textContent = h + ':' + m;
+  } catch {}
+});
+</script>
