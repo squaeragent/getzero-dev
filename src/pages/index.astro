@@ -372,7 +372,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   let lastRevenueUpdate = 0;
   async function updateRevenue() {
     try {
-      const res = await fetch('/api/revenue');
+      const res = await fetch('/api/revenue.json');
       const d = await res.json();
       lastRevenueUpdate = Date.now();
       const el = document.getElementById('live-revenue');
@@ -388,7 +388,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   let lastFeedUpdate = 0;
   async function updateFeed() {
     try {
-      const res = await fetch('/api/feed');
+      const res = await fetch('/api/feed.json');
       const data = await res.json();
       lastFeedUpdate = Date.now();
       const container = document.getElementById('live-feed');
