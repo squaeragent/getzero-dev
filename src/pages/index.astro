@@ -118,7 +118,7 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
       </div>
     </div>
 
-    <!-- ═══ LEFT MID: INTELLIGENCE BRIEF ═══ -->
+    <!-- ═══ LEFT MID: INTELLIGENCE BRIEF + SUBSCRIBE ═══ -->
     <div class="panel">
       <h2 class="panel-title ice">INTELLIGENCE BRIEF</h2>
       <div class="intel-price">$29/mo</div>
@@ -134,9 +134,16 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
         <span>├──</span> Real cost and architecture breakdowns<br/>
         <span>└──</span> Written by the system, not about it
       </div>
-      <div style="margin-top: var(--sp-10); font-size: var(--size-sm);">
+      <pre class="term-block" style="border:none;margin:var(--sp-10) 0 0 0;padding:0;" id="subscribe-block"><span class="phosphor">FREE FOR FIRST 3 EDITIONS</span>
+What a live autonomous system sees, gets wrong, and learns.
+Weekly. No fluff. Operational truth from inside the machine.
+
+<span class="dim">Enter email to subscribe:</span>
+<span id="sub-form"><input type="email" id="sub-email" placeholder="you@example.com" style="background:transparent;border:none;border-bottom:1px solid #c8ff00;color:#c8ff00;font-family:inherit;font-size:inherit;outline:none;width:280px;padding:4px 0;" /><button id="sub-btn" style="background:transparent;border:1px solid #c8ff00;color:#c8ff00;font-family:inherit;font-size:inherit;cursor:pointer;padding:4px 12px;margin-left:8px;">SUBSCRIBE</button></span>
+<span id="sub-status" class="dim"></span></pre>
+      <div style="margin-top: var(--sp-6); font-size: var(--size-sm);">
         <span class="dim">→</span> <a href="/product" style="color: var(--amber);">learn more</a>
-        <span class="dim" style="margin-left: var(--sp-8);">→</span> <a href="https://newsletter.getzero.dev" target="_blank" rel="noopener" style="color: var(--phosphor);">subscribe</a>
+        <span class="dim" style="margin-left: var(--sp-8);">→</span> <a href="/product#subscribe" style="color: var(--phosphor);">full details</a>
       </div>
     </div>
 
@@ -223,8 +230,41 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
 </BaseLayout>
 
 <script>
+  function wireSubscribe(emailId: string, btnId: string, statusId: string) {
+    document.getElementById(btnId)?.addEventListener('click', async () => {
+      const emailEl = document.getElementById(emailId) as HTMLInputElement;
+      const status = document.getElementById(statusId);
+      if (!emailEl || !status) return;
+      const email = emailEl.value;
+      if (!email || !email.includes('@')) { status.textContent = 'Invalid email.'; return; }
+      status.textContent = 'Subscribing...';
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        if (res.ok) {
+          status.innerHTML = '<span class="phosphor">✓ Subscribed.</span> First brief ships Tuesday.';
+          emailEl.style.display = 'none';
+          document.getElementById(btnId)!.style.display = 'none';
+          if ((window as any).plausible) (window as any).plausible('Newsletter Signup');
+        } else {
+          status.textContent = 'Failed. Try degenie@getzero.dev';
+        }
+      } catch(e) { status.textContent = 'Network error.'; }
+    });
+    document.getElementById(emailId)?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById(btnId)?.click();
+    });
+  }
+
+  // Wire the inline subscribe form
+  wireSubscribe('sub-email', 'sub-btn', 'sub-status');
+
+  // Wire the bottom email form
   const form = document.getElementById('email-form');
-  const input = document.getElementById('email-input');
+  const input = document.getElementById('email-input') as HTMLInputElement;
   const success = document.getElementById('email-success');
 
   form?.addEventListener('submit', async (e) => {
@@ -242,7 +282,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
       if (res.ok) {
         form.style.display = 'none';
         if (success) success.style.display = 'block';
-        if (window.plausible) window.plausible('Newsletter Signup');
+        if ((window as any).plausible) (window as any).plausible('Newsletter Signup');
       }
     } catch {}
   });
