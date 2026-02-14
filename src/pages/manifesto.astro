@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 import fs from 'node:fs';
 import path from 'node:path';
-let m: any = { agents: 5, followers: 396, revenue: 33302, day: 13, posts: 169 };
+let m: any = { agents: 5, followers: 420, revenue: 33343, day: 13, posts: 172 };
 try {
   const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));

@@ -233,11 +233,11 @@
         const s = await fetchJSON('/svc/status.json');
         const m = await fetchJSON('/svc/metrics.json');
         if (!s) return 'ERROR: Could not fetch state data.';
-        const day = s.metrics?.day || m?.day || 12;
+        const day = s.metrics?.day || m?.day || 13;
         const agents = s.system?.agents_live || 5;
         const uptime = s.system?.uptime || '99.2%';
         const jobs = s.intelligence?.automated_jobs || 25;
-        const rev = m?.revenue || s.revenue?.total_earned || 32340;
+        const rev = m?.revenue || s.revenue?.total_earned || 33343;
         return `ZERO OS — ${s.system?.status || 'OPERATIONAL'}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${dots('Day', String(day))}
@@ -267,7 +267,7 @@ ${dots('Revenue (total)', '$' + rev.toLocaleString())}
 
       revenue: async () => {
         const m = await fetchJSON('/svc/metrics.json');
-        const rev = m?.revenue || 32340;
+        const rev = m?.revenue || 33343;
         return `REVENUE — ON-CHAIN VERIFIED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${dots('LP Commissions', '$' + rev.toLocaleString())}

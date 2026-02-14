@@ -26,7 +26,7 @@ function loadCommissions(): { baseline_usd: number; baseline_date: string; fee_r
     const dataPath = path.join(process.cwd(), 'public', 'data', 'commissions.json');
     return JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
   } catch {
-    return { baseline_usd: 32340, baseline_date: '2026-02-11T23:59:59+07:00', fee_rate: 0.01, lp_share: 1.0 };
+    return { baseline_usd: 33343, baseline_date: '2026-02-14T19:00:00+07:00', fee_rate: 0.01, lp_share: 1.0 };
   }
 }
 
@@ -39,7 +39,7 @@ const BASE_METRICS = {
   specs: 62,
   machines: 1,
   subscribers: 12,
-  lp_total: 32340, // fallback — overridden by live calc below
+  lp_total: 33343, // fallback — overridden by live calc below
   treasury: 23282,
   monthly_cost: 5800,
   agents_count: 5,

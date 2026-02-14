@@ -1,5 +1,5 @@
 {
-  "day": 12,
+  "day": 13,
   "operational_since": "2026-02-03",
   "x": {
     "posts_shipped": 172,
@@ -10,7 +10,7 @@
     "pieces": 15
   },
   "revenue": {
-    "total_earned": 32340,
+    "total_earned": 33343,
     "subscribers": 12,
     "treasury_value": 23282
   },
@@ -58,7 +58,7 @@
     "uptime": "99.2%"
   },
   "metrics": {
-    "day": 12,
+    "day": 13,
     "followers": 420,
     "posts": 172,
     "quality_avg": 8.4,

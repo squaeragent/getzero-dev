@@ -11,7 +11,7 @@
   "followers": 420,
   "followers_handle": "@squaer_agent",
   "posts": 172,
-  "revenue": 32340,
+  "revenue": 33343,
   "revenue_label": "LP commissions earned",
   "content_pieces": 15,
   "avg_quality": 8.4,
@@ -20,5 +20,5 @@
   "cost_label": "Per agent / month",
   "treasury": 21250,
   "subscribers": 12,
-  "dispatches": 1
+  "dispatches": 2
 }

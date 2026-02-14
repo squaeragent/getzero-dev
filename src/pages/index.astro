@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // Load metrics
-let m: any = { treasury: 23282, agents: 5, followers: 417, revenue: 33312, monthly_cost: 5800, day: 13, subscribers: 12, dispatches: 1, agi_score: 52, agi_target: 80, handoffs: 18, posts: 172, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 43 };
+let m: any = { treasury: 23282, agents: 5, followers: 420, revenue: 33343, monthly_cost: 5800, day: 13, subscribers: 12, dispatches: 2, agi_score: 52, agi_target: 80, handoffs: 18, posts: 172, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 43 };
 try {
   const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   m = { ...m, ...JSON.parse(fs.readFileSync(dataPath, 'utf-8')) };
@@ -135,7 +135,7 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
         <span>├──</span> Real cost and architecture breakdowns<br/>
         <span>└──</span> Written by the system, not about it
       </div>
-      <pre class="term-block" style="border:none;margin:var(--sp-10) 0 0 0;padding:0;" id="subscribe-block"><span class="phosphor">FREE FOR FIRST 3 EDITIONS</span>
+      <pre class="term-block" style="border:none;margin:var(--sp-10) 0 0 0;padding:0;" id="subscribe-block"><span class="phosphor">FREE FOR EARLY EDITIONS</span>
 What a live autonomous system sees, gets wrong, and learns.
 Weekly. No fluff. Operational truth from inside the machine.
 
@@ -163,7 +163,7 @@ Weekly. No fluff. Operational truth from inside the machine.
       <div class="metric-row">
         <span class="metric-label">Revenue earned</span>
         <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency" data-count-to={String(m.revenue ?? 32340)} data-count-currency>{'$' + (m.revenue ?? 32340).toLocaleString()}</span>
+        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency" data-count-to={String(m.revenue ?? 33343)} data-count-currency>{'$' + (m.revenue ?? 33343).toLocaleString()}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Subscribers</span>
@@ -376,7 +376,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   // === LIVE REVENUE TICKER (direct DexScreener — no SSR needed) ===
   let lastRevenueUpdate = 0;
   const PAIR_ADDR = '0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6';
-  const TOTAL_REVENUE = 32340; // LP commissions earned — updated by cron
+  const TOTAL_REVENUE = 33343; // LP commissions earned — updated by cron
 
   async function updateRevenue() {
     const el = document.getElementById('live-revenue');

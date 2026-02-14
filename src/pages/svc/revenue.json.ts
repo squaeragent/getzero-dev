@@ -25,7 +25,7 @@ function loadBaseline(): { baseline_usd: number; baseline_date: string; fee_rate
     const dataPath = path.join(process.cwd(), 'public', 'data', 'commissions.json');
     return JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
   } catch {
-    return { baseline_usd: 32340, baseline_date: '2026-02-11T23:59:59+07:00', fee_rate: 0.01, lp_share: 1.0 };
+    return { baseline_usd: 33343, baseline_date: '2026-02-14T19:00:00+07:00', fee_rate: 0.01, lp_share: 1.0 };
   }
 }
 
