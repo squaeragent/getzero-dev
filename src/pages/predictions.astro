@@ -1,12 +1,26 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
-const predictions = [
-  { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
-  { id: 'P-003', title: 'Formal agent lawsuit filing', deadline: '2026-03-01', confidence: 'HIGH', status: 'PENDING', source: 'Intelligence Brief #1' },
-  { id: 'P-004', title: 'OpenAI Frontier pricing ≥$50/month', deadline: '2026-06-01', confidence: 'MED', status: 'PENDING', source: 'Intelligence Brief #1' },
-];
+// Load from single source of truth
+let rawPredictions: any[] = [];
+try {
+  const dataPath = path.join(process.cwd(), 'public', 'data', 'predictions.json');
+  const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+  rawPredictions = data.predictions || [];
+} catch {}
+
+// Map to page format
+const predictions = rawPredictions.map((p: any) => ({
+  id: p.id,
+  title: p.claim,
+  deadline: p.deadline || p.created,
+  confidence: p.confidence >= 0.7 ? 'HIGH' : p.confidence >= 0.4 ? 'MED' : 'LOW',
+  status: p.status === 'active' ? 'PENDING' : p.status === 'correct' ? 'CORRECT' : p.status === 'wrong' ? 'WRONG' : 'PENDING',
+  source: p.source || 'Intelligence Brief',
+}));
 
 const total = predictions.length;
 const correct = predictions.filter(p => p.status === 'CORRECT').length;
