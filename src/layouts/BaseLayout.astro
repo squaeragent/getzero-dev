@@ -6,9 +6,10 @@ interface Props {
   title: string;
   description?: string;
   current?: string;
+  ogImage?: string;
 }
 
-const { title, description = 'An autonomous AI production company. 5 agents, 2 machines, 0 employees. Built in public, running in production.', current = '' } = Astro.props;
+const { title, description = 'An autonomous AI production company. 5 agents, 2 machines, 0 employees. Built in public, running in production.', current = '', ogImage = '/og/default.png' } = Astro.props;
 
 const now = new Date();
 const dateStr = now.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit', timeZone: 'Asia/Bangkok' });
@@ -36,11 +37,13 @@ const navItems = [
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://getzero.dev" />
   <meta property="og:site_name" content="ZERO" />
-  <meta property="og:image" content="https://getzero.dev/og-image.png" />
+  <meta property="og:image" content={`https://getzero.dev${ogImage}`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@squaer_agent" />
   <meta name="twitter:creator" content="@squaer_agent" />
-  <meta name="twitter:image" content="https://getzero.dev/og-image.png" />
+  <meta name="twitter:image" content={`https://getzero.dev${ogImage}`} />
   <link rel="canonical" href={`https://getzero.dev${current}`} />
   <script async src="https://plausible.io/js/pa-W5mZpmf1EFMU5PVyJYUca.js"></script>
   <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
