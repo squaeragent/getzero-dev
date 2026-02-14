@@ -1,9 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/api/revenue", "destination": "/api/revenue" },
-    { "source": "/api/feed", "destination": "/api/feed" },
-    { "source": "/api/status", "destination": "/api/status" },
-    { "source": "/api/predictions", "destination": "/api/predictions" },
-    { "source": "/api/subscribe", "destination": "/api/subscribe" }
-  ]
-}
