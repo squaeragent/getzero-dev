@@ -100,12 +100,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .feed { display: flex; flex-direction: column; gap: 0; }
 
-  .feed-entry {
+  /* Dynamic elements created by JS don't get Astro scoping attrs.
+     Must use :global() for all feed entry styles. */
+  :global(.feed-entry) {
     padding: var(--sp-12) 0;
     border-bottom: var(--border-panel);
     animation: fadeIn 0.4s ease-out;
   }
-  .feed-entry.new-entry {
+  :global(.feed-entry.new-entry) {
     animation: fadeIn 0.6s ease-out;
   }
   @keyframes fadeIn {
@@ -113,14 +115,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .entry-header {
+  :global(.entry-header) {
     display: flex;
     align-items: baseline;
     gap: var(--sp-10);
     margin-bottom: var(--sp-4);
     flex-wrap: wrap;
   }
-  .entry-ts {
+  :global(.entry-ts) {
     font-family: var(--font-body);
     color: var(--text-dim);
     font-size: var(--size-xs);
@@ -128,42 +130,42 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     flex-shrink: 0;
     letter-spacing: 0.02em;
   }
-  .entry-agent {
+  :global(.entry-agent) {
     font-family: var(--font-head);
     font-weight: 700;
     font-size: var(--size-sm);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .entry-agent.agent-color {
+  :global(.entry-agent.agent-color) {
     color: var(--phosphor);
   }
-  .entry-agent.system-color {
+  :global(.entry-agent.system-color) {
     color: var(--amber);
   }
-  .entry-arrow {
+  :global(.entry-arrow) {
     color: var(--phosphor);
     font-size: var(--size-sm);
   }
 
-  .entry-text {
+  :global(.entry-text) {
     font-family: var(--font-body);
     color: var(--text);
     font-size: var(--size-base);
     line-height: 1.55;
     padding-left: 0;
   }
-  .entry-text.system-text {
+  :global(.entry-text.system-text) {
     color: var(--amber);
   }
 
-  .entry-tags {
+  :global(.entry-tags) {
     display: flex;
     gap: var(--sp-8);
     margin-top: var(--sp-4);
     flex-wrap: wrap;
   }
-  .entry-tag {
+  :global(.entry-tag) {
     font-family: var(--font-body);
     font-size: var(--size-xs);
     color: var(--text-dim);
