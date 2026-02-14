@@ -95,6 +95,29 @@ const navItems = [
     </div>
   </div>
 
+  <style>
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        font-size: 0.68rem;
+      }
+      .nav-tab {
+        flex-shrink: 0;
+      }
+      .status-bar {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+      }
+      .footer-bar {
+        font-size: 0.68rem;
+        padding: 3px 8px;
+      }
+    }
+  </style>
   <script src="/js/zero-circadian.js" defer></script>
   <script src="/js/zero-live-data.js" defer></script>
   <script src="/js/zero-living-text.js" defer></script>

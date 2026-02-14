@@ -61,12 +61,24 @@ const valueClass = `kv-v ${color !== 'text' ? color : ''}${glow ? ' glow' : ''}`
   .kv-v.amber.glow { text-shadow: var(--glow-amber); }
   .kv-v.ice.glow   { text-shadow: var(--glow-ice); }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .kv {
       gap: var(--sp-4);
     }
     .kv-dots {
       min-width: 8px;
+    }
+  }
+  @media (max-width: 375px) {
+    .kv {
+      flex-wrap: wrap;
+    }
+    .kv-dots {
+      display: none;
+    }
+    .kv-v {
+      white-space: normal;
+      word-break: break-word;
     }
   }
 </style>
