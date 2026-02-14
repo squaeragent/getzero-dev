@@ -425,15 +425,53 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     el.textContent = `Updated ${ago}s ago`;
   }
 
-  // === BOOT REPLAY (first visit only) ===
-  if (!sessionStorage.getItem('zero-booted')) {
-    sessionStorage.setItem('zero-booted', '1');
-  }
-
   // Init
   updateRevenue();
   updateFeed();
   setInterval(updateRevenue, 60000);
   setInterval(updateFeed, 30000);
   setInterval(tickUpdated, 1000);
+</script>
+
+<script>
+  // === BOOT SEQUENCE ORCHESTRATION ===
+  // Panels after boot should wait until boot animation completes
+  (function() {
+    var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var bootSeen = sessionStorage.getItem('boot-seen');
+    var panels = document.querySelectorAll('.terminal-grid > .panel:not(#boot-panel), .terminal-grid > .dispatch-panel, .terminal-grid > .email-panel');
+    // Also grab LatestTweet component which is a direct child
+    var allAfterBoot = Array.from(document.querySelectorAll('.terminal-grid > *:not(#boot-panel)'));
+
+    if (REDUCED) {
+      // Show everything immediately
+      return;
+    }
+
+    // Hide all panels after boot
+    allAfterBoot.forEach(function(el) {
+      el.style.opacity = '0';
+      el.style.visibility = 'hidden';
+      el.style.transition = 'opacity 0.2s ease, visibility 0s';
+    });
+
+    function revealPanels(baseDelay) {
+      allAfterBoot.forEach(function(el, i) {
+        var delay = baseDelay + i * 200;
+        setTimeout(function() {
+          el.style.opacity = '1';
+          el.style.visibility = 'visible';
+        }, delay);
+      });
+      sessionStorage.setItem('boot-seen', '1');
+    }
+
+    if (bootSeen) {
+      // Returning visitor — quick 500ms fade
+      revealPanels(500);
+    } else {
+      // First visit — wait for boot sequence to finish (last line at 4300ms + buffer)
+      revealPanels(4500);
+    }
+  })();
 </script>

@@ -140,29 +140,32 @@ function initCopy(){
 function initStagger(){
   var els = document.querySelectorAll('.stagger-in');
   if(!els.length) return;
-  if(REDUCED){
-    els.forEach(function(el){el.classList.add('stagger-visible');});
-    return;
-  }
+  if(REDUCED) return; // Elements stay visible by default — no action needed
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(!e.isIntersecting) return;
       io.unobserve(e.target);
-      e.target.classList.add('stagger-visible');
+      staggerChildren(e.target);
     });
   },{threshold:0.05, rootMargin:'200px 0px'});
-  els.forEach(function(el){
-    el.classList.add('stagger-ready');
-    io.observe(el);
-  });
-  // Fallback: reveal all after 2s in case observer doesn't fire
-  setTimeout(function(){
-    els.forEach(function(el){
-      if(!el.classList.contains('stagger-visible')){
-        el.classList.add('stagger-visible');
-      }
-    });
-  }, 2000);
+  els.forEach(function(el){ io.observe(el); });
+}
+
+function staggerChildren(parent){
+  var children = parent.children;
+  for(var i = 0; i < children.length; i++){
+    (function(child, idx){
+      child.style.opacity = '0';
+      child.style.transform = 'translateY(8px)';
+      setTimeout(function(){
+        requestAnimationFrame(function(){
+          child.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          child.style.opacity = '1';
+          child.style.transform = 'none';
+        });
+      }, idx * 40);
+    })(children[i], i);
+  }
 }
 
 // ═══ INIT ═══

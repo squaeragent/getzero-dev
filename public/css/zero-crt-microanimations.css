@@ -366,29 +366,9 @@ body::after {
 
 /* ============================================
    13. STAGGERED ENTRANCE
+   Now handled entirely by JS in zero-living.js.
+   No CSS hiding — missed elements stay visible.
    ============================================ */
-
-.stagger-ready > * {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-.stagger-ready.stagger-visible > * {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stagger-ready.stagger-visible > *:nth-child(1) { transition-delay: 0ms; }
-.stagger-ready.stagger-visible > *:nth-child(2) { transition-delay: 50ms; }
-.stagger-ready.stagger-visible > *:nth-child(3) { transition-delay: 100ms; }
-.stagger-ready.stagger-visible > *:nth-child(4) { transition-delay: 150ms; }
-.stagger-ready.stagger-visible > *:nth-child(5) { transition-delay: 200ms; }
-.stagger-ready.stagger-visible > *:nth-child(6) { transition-delay: 250ms; }
-.stagger-ready.stagger-visible > *:nth-child(7) { transition-delay: 300ms; }
-.stagger-ready.stagger-visible > *:nth-child(8) { transition-delay: 350ms; }
-.stagger-ready.stagger-visible > *:nth-child(9) { transition-delay: 400ms; }
-.stagger-ready.stagger-visible > *:nth-child(10) { transition-delay: 450ms; }
 
 
 /* ============================================
@@ -423,11 +403,7 @@ body::after {
   .blink-cursor {
     animation: none !important;
   }
-  .stagger-ready > * {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
+  /* stagger-ready removed — JS handles stagger animation */
   .hover-glitch:hover {
     text-shadow: 0 0 8px var(--z-green-glow);
   }
