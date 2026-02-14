@@ -151,7 +151,10 @@ function initStagger(){
       e.target.classList.add('stagger-visible');
     });
   },{threshold:0.1});
-  els.forEach(function(el){io.observe(el);});
+  els.forEach(function(el){
+    el.classList.add('stagger-ready');
+    io.observe(el);
+  });
 }
 
 // ═══ INIT ═══
