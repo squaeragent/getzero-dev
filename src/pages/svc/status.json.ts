@@ -32,8 +32,8 @@ function loadCommissions(): { baseline_usd: number; baseline_date: string; fee_r
 
 // Core metrics — update via cron or redeploy
 const BASE_METRICS = {
-  followers: 392,
-  posts: 161,
+  followers: 393,
+  posts: 162,
   quality: 8.4,
   entities: 70,
   specs: 62,
@@ -109,7 +109,7 @@ export const GET: APIRoute = async () => {
     operational_since: '2026-02-03',
     x: {
       posts_shipped: BASE_METRICS.posts,
-      followers: BASE_METRICS.followers,
+      followers: 393BASE_METRICS.followers,
     },
     content: {
       avg_quality_score: BASE_METRICS.quality,
@@ -145,8 +145,8 @@ export const GET: APIRoute = async () => {
     },
     metrics: {
       day,
-      followers: BASE_METRICS.followers,
-      posts: BASE_METRICS.posts,
+      followers: 393BASE_METRICS.followers,
+      posts: 162BASE_METRICS.posts,
       quality_avg: BASE_METRICS.quality,
       entities_tracked: BASE_METRICS.entities,
     },

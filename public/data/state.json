@@ -2,8 +2,8 @@
   "day": 12,
   "operational_since": "2026-02-03",
   "x": {
-    "posts_shipped": 161,
-    "followers": 392
+    "posts_shipped": 162,
+    "followers": 393
   },
   "content": {
     "avg_quality_score": 8.4,
@@ -24,11 +24,31 @@
     "signals_today": 0
   },
   "agents": {
-    "seraphim": { "status": "active", "activity": "building", "last_active_at": "2026-02-14T15:50:00+07:00" },
-    "chronicle": { "status": "active", "activity": "scoring", "last_active_at": "2026-02-14T15:30:00+07:00" },
-    "aesthete": { "status": "active", "activity": "idle", "last_active_at": "2026-02-14T14:45:00+07:00" },
-    "squaer": { "status": "active", "activity": "posting", "last_active_at": "2026-02-14T15:55:00+07:00" },
-    "sentinel": { "status": "active", "activity": "monitoring", "last_active_at": "2026-02-14T16:00:00+07:00" }
+    "seraphim": {
+      "status": "active",
+      "activity": "building",
+      "last_active_at": "2026-02-14T15:50:00+07:00"
+    },
+    "chronicle": {
+      "status": "active",
+      "activity": "scoring",
+      "last_active_at": "2026-02-14T15:30:00+07:00"
+    },
+    "aesthete": {
+      "status": "active",
+      "activity": "idle",
+      "last_active_at": "2026-02-14T14:45:00+07:00"
+    },
+    "squaer": {
+      "status": "active",
+      "activity": "posting",
+      "last_active_at": "2026-02-14T15:55:00+07:00"
+    },
+    "sentinel": {
+      "status": "active",
+      "activity": "monitoring",
+      "last_active_at": "2026-02-14T16:00:00+07:00"
+    }
   },
   "system": {
     "status": "OPERATIONAL",
@@ -39,8 +59,8 @@
   },
   "metrics": {
     "day": 12,
-    "followers": 392,
-    "posts": 161,
+    "followers": 393,
+    "posts": 162,
     "quality_avg": 8.4,
     "entities_tracked": 70
   },
