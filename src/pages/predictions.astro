@@ -31,15 +31,20 @@ function statusIcon(s: string) {
 
 function statusClass(s: string) {
   if (s === 'correct') return 'phosphor';
-  if (s === 'incorrect' || s === 'wrong') return 'amber';
+  if (s === 'incorrect' || s === 'wrong') return 'red';
   if (s === 'expired') return 'dim';
+  if (s === 'partial') return 'amber';
   return 'dim';
 }
 
-function confBar(conf: number) {
+function confPct(conf: number) {
+  return Math.round(conf * 100);
+}
+
+function confBarHtml(conf: number) {
   const pct = Math.round(conf * 100);
   const filled = Math.round(pct / 5);
-  return '█'.repeat(filled) + '░'.repeat(20 - filled) + ` ${pct}%`;
+  return '█'.repeat(filled) + '░'.repeat(20 - filled);
 }
 
 function catAccuracy(cat: any) {
@@ -50,6 +55,8 @@ function catAccuracy(cat: any) {
 ---
 
 <BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO intelligence analysis. Tracked, scored, accountable. Every call logged, every outcome recorded." current="/predictions" ogImage="/og/default.png">
+
+<div class="predictions-wrap">
 
 <section class="predictions-hero">
   <pre class="term-block hero-term"><span class="phosphor">zero $</span> predictions --status
@@ -74,45 +81,76 @@ function catAccuracy(cat: any) {
 <span class="amber">▌</span> <a href="https://buy.stripe.com/00w14ngdU9dHc748Fa83C00" class="phosphor cta-link">→ SUBSCRIBE</a></pre>
 </section>
 
-<section class="predictions-table">
-  <pre class="term-block table-header"><span class="phosphor">ACTIVE PREDICTIONS</span> <span class="dim">({active} open)</span></pre>
-  
-  {predictions.filter((p: any) => p.status === 'active').map((p: any) => (
-    <pre class="term-block prediction-row">
-<span class="phosphor">{p.id}</span> <span class="dim">⏳ OPEN</span>
-{p.claim}
-<span class="dim">confidence:</span> <span class="phosphor">{confBar(p.confidence)}</span>
-<span class="dim">deadline:</span>  {p.deadline}
-<span class="dim">category:</span>  {p.category}
-<span class="dim">source:</span>    {p.source}
-</pre>
-  ))}
+<section class="predictions-section">
+  <div class="section-label"><span class="phosphor">ACTIVE PREDICTIONS</span> <span class="dim">({active} open)</span></div>
 
-  {scored > 0 && (
-    <pre class="term-block table-header"><span class="phosphor">RESOLVED</span> <span class="dim">({scored} scored)</span></pre>
-  )}
-  
-  {predictions.filter((p: any) => p.status !== 'active').map((p: any) => (
-    <pre class="term-block prediction-row">
-<span class={statusClass(p.status)}>{p.id}</span> <span class={statusClass(p.status)}>{statusIcon(p.status)} {p.status.toUpperCase()}</span>
-{p.claim}
-<span class="dim">confidence:</span> {confBar(p.confidence)}
-{p.resolution && <span class="dim">outcome: {p.resolution}</span>}
-</pre>
-  ))}
+  <div class="predictions-feed">
+    {predictions.filter((p: any) => p.status === 'active').map((p: any) => (
+      <div class="p-entry">
+        <div class="p-header">
+          <span class="p-id phosphor">{p.id}</span>
+          <span class="p-tag dim">⏳ OPEN</span>
+        </div>
+        <div class="p-text">{p.claim}</div>
+        <div class="p-meta">
+          <div class="p-conf">
+            <span class="dim">confidence</span>
+            <span class="conf-bar phosphor">{confBarHtml(p.confidence)}</span>
+            <span class="phosphor">{confPct(p.confidence)}%</span>
+          </div>
+          <div class="p-details">
+            <span class="dim">deadline</span> <span>{p.deadline}</span>
+            <span class="dim">category</span> <span>{p.category}</span>
+            {p.source && <><span class="dim">source</span> <span>{p.source}</span></>}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
 </section>
 
-<section class="category-breakdown">
-  <pre class="term-block table-header"><span class="phosphor">CATEGORY BREAKDOWN</span></pre>
-  <pre class="term-block" set:html={
-Object.entries(categories).map(([cat, info]: [string, any]) => {
-  const name = cat.padEnd(16);
-  const tot = String((info as any).total).padStart(2);
-  const acc = catAccuracy(info).padStart(4);
-  const op = (info as any).open;
-  return `  ${name} ${tot} predictions  accuracy: ${acc}  open: ${op}`;
-}).join('\n')
-} />
+{scored > 0 && (
+  <section class="predictions-section">
+    <div class="section-label"><span class="phosphor">RESOLVED</span> <span class="dim">({scored} scored)</span></div>
+
+    <div class="predictions-feed">
+      {predictions.filter((p: any) => p.status !== 'active').map((p: any) => (
+        <div class="p-entry">
+          <div class="p-header">
+            <span class={`p-id ${statusClass(p.status)}`}>{p.id}</span>
+            <span class={`p-tag ${statusClass(p.status)}`}>{statusIcon(p.status)} {p.status.toUpperCase()}</span>
+          </div>
+          <div class="p-text">{p.claim}</div>
+          <div class="p-meta">
+            <div class="p-conf">
+              <span class="dim">confidence</span>
+              <span class="conf-bar">{confBarHtml(p.confidence)}</span>
+              <span>{confPct(p.confidence)}%</span>
+            </div>
+            {p.resolution && <div class="p-resolution"><span class="dim">outcome:</span> {p.resolution}</div>}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+
+<section class="predictions-section">
+  <div class="section-label"><span class="phosphor">CATEGORY BREAKDOWN</span></div>
+
+  <div class="cat-feed">
+    {Object.entries(categories).map(([cat, info]: [string, any]) => (
+      <div class="cat-entry">
+        <div class="cat-header">
+          <span class="cat-name">{cat}</span>
+          <span class="cat-acc phosphor">{catAccuracy(info)}</span>
+        </div>
+        <div class="cat-details dim">
+          {(info as any).total} predictions · {(info as any).open} open
+        </div>
+      </div>
+    ))}
+  </div>
 </section>
 
 <section class="predictions-methodology">
@@ -134,22 +172,28 @@ No outcomes are cherry-picked.
 
 <BriefCTA />
 
+</div>
+
 </BaseLayout>
 
 <style>
+  .predictions-wrap {
+    max-width: 820px;
+    padding: 0 var(--sp-16);
+  }
   .predictions-hero {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--sp-16);
   }
   .hero-term {
-    font-size: 0.95rem;
+    font-size: var(--size-md);
     line-height: 1.6;
   }
   .predictions-cta-top {
-    margin-bottom: 2rem;
+    margin-bottom: var(--sp-24);
   }
   .cta-block {
-    border-left: 2px solid var(--amber, #ffb000);
-    padding-left: 1rem;
+    border-left: 2px solid var(--amber);
+    padding-left: var(--sp-16);
   }
   .cta-link {
     text-decoration: none;
@@ -157,29 +201,138 @@ No outcomes are cherry-picked.
   .cta-link:hover {
     text-decoration: underline;
   }
-  .table-header {
-    border-bottom: 1px solid #333;
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    letter-spacing: 0.05em;
+    padding: var(--sp-8) 0;
+    border-bottom: var(--border-panel);
     margin-bottom: 0;
-    padding-bottom: 0.5rem;
   }
-  .prediction-row {
-    border-left: 2px solid #222;
-    padding-left: 1rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.85rem;
-    line-height: 1.5;
+
+  /* Prediction entries */
+  .predictions-feed,
+  .cat-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .prediction-row:hover {
-    border-left-color: var(--phosphor, #c8ff00);
+  .p-entry {
+    padding: var(--sp-12) 0;
+    border-bottom: var(--border-panel);
   }
-  .category-breakdown {
-    margin-top: 2rem;
+  .p-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-10);
+    margin-bottom: var(--sp-4);
+  }
+  .p-id {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    letter-spacing: 0.05em;
+  }
+  .p-tag {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .p-tag.phosphor {
+    color: var(--phosphor);
+    text-shadow: 0 0 6px var(--phosphor-glow);
+  }
+  .p-tag.amber {
+    color: var(--amber);
+    text-shadow: 0 0 6px var(--amber-glow);
+  }
+  .p-tag.red {
+    color: var(--red);
+  }
+  .p-text {
+    font-family: var(--font-body);
+    color: var(--text);
+    font-size: var(--size-base);
+    line-height: 1.55;
+    margin-bottom: var(--sp-8);
+  }
+  .p-meta {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    color: var(--text-dim);
+  }
+  .p-conf {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-4);
+  }
+  .conf-bar {
+    font-size: var(--size-xs);
+    letter-spacing: -0.05em;
+  }
+  .p-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4) var(--sp-16);
+  }
+  .p-resolution {
+    margin-top: var(--sp-4);
+  }
+
+  /* Category entries */
+  .cat-entry {
+    padding: var(--sp-10) 0;
+    border-bottom: var(--border-panel);
+  }
+  .cat-entry:last-child {
+    border-bottom: none;
+  }
+  .cat-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-10);
+    margin-bottom: var(--sp-2);
+  }
+  .cat-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+  .cat-acc {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+  }
+  .cat-details {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+  }
+
+  .predictions-section {
+    margin-bottom: var(--sp-24);
   }
   .predictions-methodology {
-    margin-top: 2rem;
+    margin-top: var(--sp-24);
     opacity: 0.8;
   }
-  .phosphor { color: var(--phosphor, #c8ff00); }
-  .amber { color: var(--amber, #ffb000); }
-  .dim { opacity: 0.5; }
+
+  .phosphor { color: var(--phosphor); }
+  .amber { color: var(--amber); }
+  .red { color: var(--red); }
+  .dim { color: var(--text-dim); }
+
+  @media (max-width: 640px) {
+    .predictions-wrap { padding: 0 var(--sp-10); }
+    .p-entry { padding: var(--sp-10) 0; }
+    .p-details { gap: var(--sp-4) var(--sp-10); }
+    .p-conf { flex-wrap: wrap; }
+  }
 </style>

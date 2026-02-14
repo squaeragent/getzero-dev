@@ -199,10 +199,15 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
   .proof-metrics .kv {
     display: flex;
     gap: var(--sp-8);
-    padding: var(--sp-2) 0;
+    padding: var(--sp-8) 0;
     font-family: var(--font-body);
     font-size: var(--size-base);
     white-space: normal;
+    border-bottom: var(--border-panel);
+  }
+  .sys-agents .kv:last-child,
+  .proof-metrics .kv:last-child {
+    border-bottom: none;
   }
   .kv-k {
     min-width: 160px;

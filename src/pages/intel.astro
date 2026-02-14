@@ -14,16 +14,20 @@ const correct = predictions.filter(p => p.status === 'CORRECT').length;
 const wrong = predictions.filter(p => p.status === 'WRONG').length;
 const resolved = correct + wrong;
 
-const predictionHtml = predictions.map((p, i) => {
-  const sc = p.status === 'CORRECT' ? 'phosphor' : p.status === 'WRONG' ? 'amber' : 'dim';
-  return `<pre class="term-block al" data-d="${1400 + i * 100}">
-<span class="phosphor">${p.id}</span> <span class="${sc}">[${p.status}]</span>
-${p.title}
-deadline .. ${p.deadline} | confidence .. ${p.confidence}</pre>`;
-}).join('\n');
+const layers = [
+  { num: 'L0', name: 'COLLECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-source continuous scanning' },
+  { num: 'L1', name: 'DETECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'anomaly + absence engines' },
+  { num: 'L2', name: 'ANALYSIS', status: 'LIVE', statusClass: 'phosphor', desc: 'signal scoring via weights model (Spec 093)' },
+  { num: 'L3', name: 'PREDICTION', status: 'BUILDING', statusClass: 'amber', desc: '5 predictions active, manual confidence' },
+  { num: 'L4', name: 'LEARNING', status: 'SCAFFOLDED', statusClass: 'dim', desc: 'memory exists, no automated calibration' },
+  { num: 'L5', name: 'DISTRIBUTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-channel output' },
+  { num: 'L6', name: 'COMPOUNDING', status: 'SCAFFOLDED', statusClass: 'dim', desc: 'every prediction sharpens the next' },
+];
 ---
 
 <BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 6-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
+
+<div class="intel-wrap">
 
 <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status
 
@@ -37,38 +41,74 @@ layers ......... <span class="phosphor">6</span>
 <span class="dim">Continuous multi-source scanning
 Signal detection → classification → autonomous action</span></pre>
 
-<pre class="term-block al" data-d="400">
-<span class="amber">ARCHITECTURE</span>
+<section class="intel-section al" data-d="400">
+  <div class="section-label"><span class="amber">ARCHITECTURE</span> <span class="dim">(7 layers)</span></div>
 
-<span class="phosphor">L0</span> COLLECTION   <span class="phosphor">[LIVE]</span>       multi-source continuous scanning
-<span class="phosphor">L1</span> DETECTION    <span class="phosphor">[LIVE]</span>       anomaly + absence engines
-<span class="phosphor">L2</span> ANALYSIS     <span class="phosphor">[LIVE]</span>       signal scoring via weights model (Spec 093)
-<span class="phosphor">L3</span> PREDICTION   <span class="amber">[BUILDING]</span>   5 predictions active, manual confidence
-<span class="phosphor">L4</span> LEARNING     <span class="dim">[SCAFFOLDED]</span>  memory exists, no automated calibration
-<span class="phosphor">L5</span> DISTRIBUTION <span class="phosphor">[LIVE]</span>       multi-channel output
-<span class="phosphor">L6</span> COMPOUNDING  <span class="dim">[SCAFFOLDED]</span>  every prediction sharpens the next
+  <div class="layer-feed">
+    {layers.map((l) => (
+      <div class="layer-entry">
+        <div class="layer-header">
+          <span class="layer-num phosphor">{l.num}</span>
+          <span class="layer-name">{l.name}</span>
+          <span class={`layer-tag ${l.statusClass}`}>[{l.status}]</span>
+        </div>
+        <div class="layer-desc">{l.desc}</div>
+      </div>
+    ))}
+  </div>
 
-<span class="dim">4/7 live. 1 building. 2 scaffolded. Honest status — updated in real time.</span></pre>
+  <div class="layer-summary dim">4/7 live. 1 building. 2 scaffolded. Honest status — updated in real time.</div>
+</section>
 
-<pre class="term-block al" data-d="800">
-<span class="amber">OUTPUT</span>
+<section class="intel-section al" data-d="800">
+  <div class="section-label"><span class="amber">OUTPUT</span></div>
 
-<span class="phosphor">@squaer_agent</span>  intelligence-driven posts + replies
-<span class="phosphor">Telegram</span>      direct intelligence delivery
-<span class="phosphor">Brief</span>         weekly deep analysis for subscribers
-<span class="phosphor">Discord</span>       real-time signal alerts
+  <div class="output-feed">
+    <div class="o-entry">
+      <div class="o-header"><span class="o-channel phosphor">@squaer_agent</span></div>
+      <div class="o-desc">intelligence-driven posts + replies</div>
+    </div>
+    <div class="o-entry">
+      <div class="o-header"><span class="o-channel phosphor">Telegram</span></div>
+      <div class="o-desc">direct intelligence delivery</div>
+    </div>
+    <div class="o-entry">
+      <div class="o-header"><span class="o-channel phosphor">Brief</span></div>
+      <div class="o-desc">weekly deep analysis for subscribers</div>
+    </div>
+    <div class="o-entry">
+      <div class="o-header"><span class="o-channel phosphor">Discord</span></div>
+      <div class="o-desc">real-time signal alerts</div>
+    </div>
+  </div>
 
-<span class="dim">Same engine. Four channels. Different depth.</span></pre>
+  <div class="layer-summary dim">Same engine. Four channels. Different depth.</div>
+</section>
 
-<pre class="term-block al" data-d="1200">
-<span class="amber">PREDICTION TRACKER</span>
+<section class="intel-section al" data-d="1200">
+  <div class="section-label"><span class="amber">PREDICTION TRACKER</span></div>
 
-accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
+  <pre class="term-block tracker-block">accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
 resolved .. {resolved}/{total}
 pending ... {total - resolved}
 <span class="dim">(first edition — building baseline)</span></pre>
 
-<Fragment set:html={predictionHtml} />
+  <div class="pred-feed">
+    {predictions.map((p, i) => {
+      const sc = p.status === 'CORRECT' ? 'phosphor' : p.status === 'WRONG' ? 'red' : 'dim';
+      return (
+        <div class={`p-entry al`} data-d={`${1400 + i * 100}`}>
+          <div class="p-header">
+            <span class="p-id phosphor">{p.id}</span>
+            <span class={`p-tag ${sc}`}>[{p.status}]</span>
+          </div>
+          <div class="p-text">{p.title}</div>
+          <div class="p-meta dim">deadline {p.deadline} · confidence {p.confidence}</div>
+        </div>
+      );
+    })}
+  </div>
+</section>
 
 <pre class="term-block al" data-d="1900">
 <span class="dim">No quiet deletions. No retroactive edits.
@@ -82,4 +122,150 @@ Full entity-level analysis available in the Intelligence Brief.</span>
 <span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
 
 <BriefCTA />
+
+</div>
+
 </BaseLayout>
+
+<style>
+  .intel-wrap {
+    max-width: 820px;
+    padding: 0 var(--sp-16);
+  }
+
+  .intel-section {
+    margin-bottom: var(--sp-24);
+  }
+  .section-label {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    letter-spacing: 0.05em;
+    padding: var(--sp-8) 0;
+    border-bottom: var(--border-panel);
+  }
+
+  /* Layer entries */
+  .layer-feed,
+  .output-feed,
+  .pred-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .layer-entry {
+    padding: var(--sp-10) 0;
+    border-bottom: var(--border-panel);
+  }
+  .layer-entry:last-child { border-bottom: none; }
+  .layer-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-2);
+  }
+  .layer-num {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+  }
+  .layer-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .layer-tag {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .layer-tag.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
+  .layer-tag.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
+  .layer-tag.dim { color: var(--text-dim); }
+  .layer-desc {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .layer-summary {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    padding: var(--sp-8) 0;
+  }
+
+  /* Output entries */
+  .o-entry {
+    padding: var(--sp-8) 0;
+    border-bottom: var(--border-panel);
+  }
+  .o-entry:last-child { border-bottom: none; }
+  .o-header {
+    margin-bottom: var(--sp-2);
+  }
+  .o-channel {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    letter-spacing: 0.05em;
+  }
+  .o-desc {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+  }
+
+  /* Prediction entries */
+  .tracker-block {
+    margin-bottom: 0;
+  }
+  .p-entry {
+    padding: var(--sp-12) 0;
+    border-bottom: var(--border-panel);
+  }
+  .p-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-10);
+    margin-bottom: var(--sp-4);
+  }
+  .p-id {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    letter-spacing: 0.05em;
+  }
+  .p-tag {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .p-text {
+    font-family: var(--font-body);
+    color: var(--text);
+    font-size: var(--size-base);
+    line-height: 1.55;
+  }
+  .p-meta {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    margin-top: var(--sp-4);
+  }
+
+  .phosphor { color: var(--phosphor); }
+  .amber { color: var(--amber); }
+  .red { color: var(--red); }
+  .dim { color: var(--text-dim); }
+
+  @media (max-width: 640px) {
+    .intel-wrap { padding: 0 var(--sp-10); }
+    .layer-entry { padding: var(--sp-8) 0; }
+    .p-entry { padding: var(--sp-10) 0; }
+  }
+</style>
