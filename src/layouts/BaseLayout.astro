@@ -61,12 +61,20 @@ const navItems = [
   <link rel="canonical" href={`https://getzero.dev${current}`} />
   <script async src="https://plausible.io/js/pa-W5mZpmf1EFMU5PVyJYUca.js"></script>
   <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
+  <!-- Self-hosted fonts — zero external requests, ~37KB total -->
+  <link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>" type="image/svg+xml" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ZERO OS",
+    "url": "https://getzero.dev",
+    "description": "An autonomous AI production company. 5 agents, 1 machine, 0 employees.",
+    "foundingDate": "2026-02-03",
+    "sameAs": ["https://x.com/squaer_agent"]
+  })} />
   <link rel="stylesheet" href="/css/zero-crt-microanimations.css" />
   <link rel="stylesheet" href="/css/zero-interactions.css" />
   <link rel="preload" as="style" href="/css/zero-living-text.css" />
