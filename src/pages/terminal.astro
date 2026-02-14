@@ -115,7 +115,7 @@
     <div id="output"></div>
     <div class="input-line" id="input-row">
       <span class="prompt">zero@system:~$&nbsp;</span>
-      <input type="text" id="input" autocomplete="off" autocapitalize="none" spellcheck="false" autofocus />
+      <input type="text" id="input" autocomplete="off" autocapitalize="none" spellcheck="false" autofocus aria-label="Terminal command input" />
     </div>
   </div>
 
@@ -272,7 +272,7 @@ ${dots('Revenue (total)', '$' + rev.toLocaleString())}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${dots('LP Commissions', '$' + rev.toLocaleString())}
 ${dots('Source', 'Uniswap V4 LP · Base L2')}
-${dots('Period', 'Feb 1-14, 2026')}
+${dots('Period', 'Feb 1 — present')}
 ${dots('Status', 'LIVE — earning daily')}
 
   Type 'price' for current token data.`;
@@ -302,18 +302,18 @@ ${dots('Liquidity', '$' + liq)}
 
       intel: async () => {
         const layers = [
-          ['L1 Collection',    'ACTIVE',  'RSS, X API, on-chain monitors'],
-          ['L2 Processing',    'ACTIVE',  'Entity extraction, dedup, scoring'],
-          ['L3 Analysis',      'ACTIVE',  'Pattern detection, trend mapping'],
-          ['L4 Prediction',    'ACTIVE',  '4 active predictions, 0 scored'],
-          ['L5 Distribution',  'ACTIVE',  'Newsletter, X threads, site'],
-          ['L6 Feedback',      'PARTIAL', 'Manual review, no auto-calibration yet'],
-          ['L7 Meta-learning', 'PLANNED', 'Self-improving analysis pipeline'],
+          ['L0 Collection',    'LIVE',    '6 monitors, multi-source scanning'],
+          ['L1 Detection',     'LIVE',    'Anomaly + absence engines'],
+          ['L2 Analysis',      'LIVE',    'Signal scoring via weights model'],
+          ['L3 Prediction',    'BUILDING','8 predictions active, manual confidence'],
+          ['L4 Learning',      'SCAFFOLD','Memory exists, no auto-calibration'],
+          ['L5 Distribution',  'LIVE',    'Full API posting, red team, newsletter'],
+          ['L6 Compounding',   'SCAFFOLD','Needs prediction volume for feedback'],
         ];
         let out = 'INTELLIGENCE ARCHITECTURE — 7 LAYERS\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
         for (const [name, status, desc] of layers) {
-          const icon = status === 'ACTIVE' ? '●' : status === 'PARTIAL' ? '◐' : '○';
-          out += `  ${icon} ${pad(name, 18)} [${pad(status, 7)}] ${desc}\n`;
+          const icon = status === 'LIVE' ? '●' : status === 'BUILDING' ? '◐' : '○';
+          out += `  ${icon} ${pad(name, 18)} [${pad(status, 8)}] ${desc}\n`;
         }
         return out.trimEnd();
       },
@@ -480,7 +480,12 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'date': new Date().toUTCString(),
       'top': 'SERAPHIM: 42% CPU  CHRONICLE: 12%  SQUAER: 28%  AESTHETE: 8%  SENTINEL: 10%',
       'ps': 'PID  NAME        STATUS\n001  seraphim    running\n002  chronicle   running\n003  aesthete    running\n004  squaer      running\n005  sentinel    running',
-      'neofetch': 'ZERO OS v0.9.1\nHost: Mac Studio M3 Ultra\nRAM: 96GB / 96GB\nAgents: 5/5 ONLINE\nUptime: 13d\nRevenue: $33K+',
+      'neofetch': async () => {
+        const m = await fetchJSON('/svc/metrics.json');
+        const day = m?.day || '?';
+        const rev = m?.revenue ? '$' + m.revenue.toLocaleString() : 'loading...';
+        return `ZERO OS v0.9.1\nHost: Mac Studio M3 Ultra\nRAM: 96GB / 96GB\nAgents: 5/5 ONLINE\nUptime: ${day}d\nRevenue: ${rev}`;
+      },
     };
 
     async function exec(cmd) {
@@ -500,7 +505,8 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
           printLine('');
         }
       } else if (easterEggs[raw.toLowerCase()] || easterEggs[lower]) {
-        const egg = easterEggs[raw.toLowerCase()] || easterEggs[lower];
+        let egg = easterEggs[raw.toLowerCase()] || easterEggs[lower];
+        if (typeof egg === 'function') egg = await egg();
         printLine('');
         await typeLines(egg, 12);
         printLine('');

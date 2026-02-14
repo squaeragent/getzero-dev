@@ -12,10 +12,10 @@
    ============================================ */
 
 :root {
-  --z-green: #00ff41;
-  --z-green-dim: rgba(0, 255, 65, 0.3);
-  --z-green-glow: rgba(0, 255, 65, 0.5);
-  --z-green-ghost: rgba(0, 255, 65, 0.03);
+  --z-green: #c8ff00;
+  --z-green-dim: rgba(200, 255, 0, 0.3);
+  --z-green-glow: rgba(200, 255, 0, 0.5);
+  --z-green-ghost: rgba(200, 255, 0, 0.03);
   --z-amber: #ffb000;
   --z-black: #000000;
   --z-cursor-rate: 1.06s;
@@ -42,9 +42,9 @@ body::before {
     to bottom,
     transparent 0%,
     transparent 48%,
-    rgba(0, 255, 65, 0.03) 49%,
-    rgba(0, 255, 65, 0.06) 50%,
-    rgba(0, 255, 65, 0.03) 51%,
+    rgba(200, 255, 0, 0.03) 49%,
+    rgba(200, 255, 0, 0.06) 50%,
+    rgba(200, 255, 0, 0.03) 51%,
     transparent 52%,
     transparent 100%
   );

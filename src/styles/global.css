@@ -885,7 +885,7 @@ pre, code {
 
 /* Activity change flash — card brightness pulse on state change */
 @keyframes activity-change-flash {
-  0%   { background-color: rgba(0, 255, 65, 0.08); }
+  0%   { background-color: rgba(200, 255, 0, 0.08); }
   100% { background-color: transparent; }
 }
 .agent-card.activity-changed {

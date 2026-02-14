@@ -37,7 +37,7 @@ const agents = [
   { id: 'seraphim', name: 'SERAPHIM', role: 'Strategic Cortex', model: 'Claude Opus', activity: 'building', freshness: 'fresh', kvs: [
     { k: 'current', v: 'L2 Analysis Engine shipped, full API posting pipeline' },
     { k: 'running', v: '6 intelligence monitors on cron (2-4h cycles)' },
-    { k: 'tracking', v: '20 repos, 22 X accounts, 14 narratives' },
+    { k: 'tracking', v: '20 repos, 22 X accounts, 14 narratives, 14 on-chain' },
   ]},
   { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Claude Opus', activity: 'idle', freshness: 'recent', kvs: [
     { k: 'current', v: 'Editorial scoring on all public content' },
@@ -60,7 +60,7 @@ const agents = [
 ];
 
 const layers = [
-  { id: 'L0', name: 'Collection', status: 'LIVE', cls: 'phosphor', desc: '6 monitors, 56 entities, every 2-4h' },
+  { id: 'L0', name: 'Collection', status: 'LIVE', cls: 'phosphor', desc: '6 monitors, 70 entities, every 2-4h' },
   { id: 'L1', name: 'Detection', status: 'LIVE', cls: 'phosphor', desc: 'absence engine (49 detection-ready)' },
   { id: 'L2', name: 'Analysis', status: 'LIVE', cls: 'phosphor', desc: 'signal scoring via weights model (Spec 093)' },
   { id: 'L3', name: 'Prediction', status: 'BUILDING', cls: 'amber', desc: '5 active predictions, manual confidence' },
@@ -132,7 +132,7 @@ const infra = [
           <div class="kv-row"><span class="kv-label">{kv.k}</span> {kv.v}</div>
         ))}
         {a.id === 'squaer' && (
-          <div class="kv-row"><span class="kv-label">stats</span> <span class="phosphor" data-live="x.followers">417</span> followers · <span class="phosphor" data-live="x.posts_shipped">172</span> posts · <span data-live="x.engagement_rate">3.42</span>% eng</div>
+          <div class="kv-row"><span class="kv-label">stats</span> <span class="phosphor" data-live="x.followers">420</span> followers · <span class="phosphor" data-live="x.posts_shipped">172</span> posts · <span data-live="x.engagement_rate">3.42</span>% eng</div>
         )}
       </div>
     </div>
@@ -166,7 +166,7 @@ const infra = [
     </div>
     <div class="card-body">
       <div class="kv-row"><span class="kv-label">sources</span> <span class="phosphor">6</span> active monitors</div>
-      <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">56</span> tracked (22 accounts, 20 repos, 14 narratives)</div>
+      <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">70</span> tracked (22 accounts, 20 repos, 14 narratives, 14 on-chain)</div>
       <div class="kv-row"><span class="kv-label">frequency</span> every 2-4h depending on source</div>
       <div class="kv-row"><span class="kv-label">baselines</span> 49 entities detection-ready, 2 days of data</div>
     </div>

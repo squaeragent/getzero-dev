@@ -28,14 +28,14 @@ const layers = [
   { num: 'L0', name: 'COLLECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-source continuous scanning' },
   { num: 'L1', name: 'DETECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'anomaly + absence engines' },
   { num: 'L2', name: 'ANALYSIS', status: 'LIVE', statusClass: 'phosphor', desc: 'signal scoring via weights model (Spec 093)' },
-  { num: 'L3', name: 'PREDICTION', status: 'BUILDING', statusClass: 'amber', desc: '5 predictions active, manual confidence' },
+  { num: 'L3', name: 'PREDICTION', status: 'BUILDING', statusClass: 'amber', desc: '8 predictions active, manual confidence' },
   { num: 'L4', name: 'LEARNING', status: 'SCAFFOLDED', statusClass: 'dim', desc: 'memory exists, no automated calibration' },
   { num: 'L5', name: 'DISTRIBUTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-channel output' },
   { num: 'L6', name: 'COMPOUNDING', status: 'SCAFFOLDED', statusClass: 'dim', desc: 'every prediction sharpens the next' },
 ];
 ---
 
-<BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 6-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
+<BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 7-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
 
 <div class="intel-wrap">
 
@@ -43,10 +43,10 @@ const layers = [
 
 <span class="phosphor">INTELLIGENCE ENGINE</span>
 status ......... <span class="phosphor">OPERATIONAL</span>
-entities ....... <span class="phosphor" data-live="intelligence.entities_tracked">70</span> tracked
-monitors ....... <span class="phosphor" data-live="intelligence.monitors_active">4</span> active
+entities ....... <span class="phosphor" data-live="intelligence.entities_tracked">56</span> tracked
+monitors ....... <span class="phosphor" data-live="intelligence.monitors_active">6</span> active
 autonomy rate .. <span class="phosphor" data-live="intelligence.autonomy_rate" data-format="percent">100%</span> auto-executable
-layers ......... <span class="phosphor">6</span>
+layers ......... <span class="phosphor">7</span>
 
 <span class="dim">Continuous multi-source scanning
 Signal detection → classification → autonomous action</span></pre>
@@ -135,7 +135,7 @@ Full entity-level analysis available in the Intelligence Brief.</span>
 
 <span class="amber">zero $</span> subscribe --intel-brief
 → <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
-<span class="dim">FREE for early editions → then scales with value delivered</span>
+<span class="dim">Free newsletter + premium analysis for subscribers</span>
 
 <span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
 

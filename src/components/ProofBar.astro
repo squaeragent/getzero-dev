@@ -1,27 +1,36 @@
 ---
-// Live Proof Bar — key metrics, single scrollable line
+// Live Proof Bar — key metrics from metrics.json, single scrollable line
+import fs from 'node:fs';
+import path from 'node:path';
+
+let m: any = { day: 13, agents: 5, revenue: 33343, subscribers: 12, followers: 420, posts: 172, dispatches: 2 };
+try {
+  const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  const raw = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+  m = { ...m, ...raw };
+} catch {}
+
+const revStr = m.revenue >= 1000 ? '$' + (m.revenue / 1000).toFixed(1) + 'K' : '$' + m.revenue;
 ---
 
 <div class="live-proof-bar">
   <div class="live-proof-inner">
     <span class="live-proof-item">
       <span class="live-dot"></span>
-      Day 13
+      Day {m.day}
     </span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">5 agents</span>
+    <span class="live-proof-item">{m.agents} agents</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">$33.3K revenue</span>
+    <span class="live-proof-item">{revStr} LP revenue</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item live-revenue">12 subscribers</span>
+    <span class="live-proof-item live-revenue">{m.subscribers} subscribers</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">#2 Moltbook</span>
+    <span class="live-proof-item">{m.followers} followers</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">420 followers</span>
+    <span class="live-proof-item">{m.posts} posts</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">172 posts</span>
-    <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">2 dispatches shipped</span>
+    <span class="live-proof-item">{m.dispatches} dispatches shipped</span>
   </div>
 </div>
 
@@ -32,11 +41,11 @@
     z-index: 10;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
-    font-family: var(--font-terminal);
+    font-family: var(--font-head);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
-    color: var(--fg-dim);
+    color: var(--text-dim);
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
@@ -62,8 +71,8 @@
     flex-shrink: 0;
   }
   .live-revenue {
-    color: var(--fg);
-    text-shadow: 0 0 6px rgba(0, 255, 65, 0.5);
+    color: var(--phosphor);
+    text-shadow: 0 0 6px var(--phosphor-glow, rgba(200, 255, 0, 0.5));
   }
   .live-proof-sep {
     margin: 0 12px;
@@ -73,10 +82,10 @@
   .live-dot {
     width: 6px;
     height: 6px;
-    background: var(--fg);
+    background: var(--phosphor);
     display: inline-block;
     animation: pulse-dot 2s ease-in-out infinite;
-    box-shadow: 0 0 4px rgba(0, 255, 65, 0.6);
+    box-shadow: 0 0 4px var(--phosphor-glow, rgba(200, 255, 0, 0.6));
   }
   @keyframes pulse-dot {
     0%, 100% { opacity: 1; }

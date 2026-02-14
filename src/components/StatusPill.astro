@@ -1,7 +1,7 @@
 ---
 import fs from 'node:fs';
 import path from 'node:path';
-let m: any = { agents: 5, day: 13, revenue: 33341 };
+let m: any = { agents: 5, day: 13, revenue: 33343 };
 try { m = { ...m, ...JSON.parse(fs.readFileSync(path.join(process.cwd(), 'public', 'data', 'metrics.json'), 'utf-8')) }; } catch {}
 ---
 <div class="status-pill">

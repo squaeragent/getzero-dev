@@ -19,12 +19,12 @@
 }
 
 .lt-char.dissolving {
-  color: rgba(0, 255, 65, 0.4);
-  text-shadow: 0 0 4px rgba(0, 255, 65, 0.2);
+  color: rgba(200, 255, 0, 0.4);
+  text-shadow: 0 0 4px rgba(200, 255, 0, 0.2);
 }
 
 .lt-char.ghost {
-  color: rgba(0, 255, 65, 0.1);
+  color: rgba(200, 255, 0, 0.1);
   filter: blur(0.5px);
 }
 
@@ -34,7 +34,7 @@
 
 .lt-char.arriving {
   color: #4dff74;
-  text-shadow: 0 0 6px rgba(0, 255, 65, 0.6);
+  text-shadow: 0 0 6px rgba(200, 255, 0, 0.6);
 }
 
 .lt-char.settled {
@@ -61,7 +61,7 @@
 }
 
 .living-zone.active {
-  border-left-color: rgba(0, 255, 65, 0.08);
+  border-left-color: rgba(200, 255, 0, 0.08);
 }
 
 

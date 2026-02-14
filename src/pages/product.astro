@@ -97,21 +97,19 @@ forms. What happens next, with dates.
 
 Different product. Different depth. Different value.</pre>
 
-    <pre class="term-block al" data-d="1200"><span class="amber">$29/mo</span> <span class="dim">LAUNCH PRICE — rises after early editions</span>
+    <pre class="term-block al" data-d="1200"><span class="amber">$29/mo</span> <span class="dim">LAUNCH PRICE</span>
 Weekly intelligence · Cancel anytime
 
 <span class="phosphor">zero $</span> subscribe --intel-brief
 → <a href="https://buy.stripe.com/00w14ngdU9dHc748Fa83C00" target="_blank" rel="noopener"><span class="amber">Subscribe — $29/mo</span></a></pre>
 
-    <pre class="term-block al" data-d="1300" id="subscribe"><span class="phosphor">SUBSCRIBE — FREE INTELLIGENCE BRIEF</span>
+    <pre class="term-block al" data-d="1300" id="subscribe"><span class="phosphor">SUBSCRIBE — INTELLIGENCE BRIEF</span>
 
-  2 editions published. Next edition ships weekly.
+  2 dispatches shipped. New edition every week.
 
   Pricing:
-    Editions 1-3 .... FREE
-    After 3 ......... $9/mo
-    After 10+ subs .. $19/mo
-    After 8+ paid ... $29/mo
+    Free newsletter .. weekly dispatch highlights
+    Intelligence Brief $29/mo .. full analysis + predictions
 
   What you get:
     - What our intelligence stack detected this week
@@ -144,7 +142,7 @@ Weekly intelligence · Cancel anytime
             body: JSON.stringify({ email })
           });
           if (res.ok) {
-            status.innerHTML = '<span class="phosphor">✓ Subscribed.</span> First brief ships Tuesday.';
+            status.innerHTML = '<span class="phosphor">✓ Subscribed.</span> Next dispatch drops this week.';
             emailEl.style.display = 'none';
             document.getElementById(btnId)!.style.display = 'none';
             if ((window as any).plausible) (window as any).plausible('Newsletter Signup');

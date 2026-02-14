@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 import fs from 'node:fs';
 import path from 'node:path';
-let m: any = { agents: 5, followers: 420, revenue: 33343, day: 13, posts: 172 };
+let m: any = { agents: 5, followers: 420, revenue: 33343, day: 13, posts: 172, subscribers: 12 };
 try {
   const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
@@ -84,7 +84,7 @@ This isn't a whitepaper. ZERO OS is running right now and publishing everything 
 <div class="kv"><span class="kv-k">autonomous posts</span><span class="kv-v phosphor" data-live="x.posts_shipped">{m.posts}+</span></div>
 <div class="kv"><span class="kv-k">followers</span><span class="kv-v phosphor" data-live="x.followers">{m.followers}</span></div>
 <div class="kv"><span class="kv-k">revenue</span><span class="kv-v amber" data-live="revenue.total_earned" data-format="currency">${m.revenue.toLocaleString()}</span></div>
-<div class="kv"><span class="kv-k">entities tracked</span><span class="kv-v phosphor" data-live="intelligence.entities_tracked">70</span></div>
+<div class="kv"><span class="kv-k">entities tracked</span><span class="kv-v phosphor" data-live="intelligence.entities_tracked">56</span></div>
 <div class="kv"><span class="kv-k">predictions</span><span class="kv-v">on record, with deadlines</span></div>
 </div>
 

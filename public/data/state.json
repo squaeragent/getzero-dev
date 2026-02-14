@@ -20,8 +20,9 @@
   },
   "intelligence": {
     "entities_tracked": 70,
-    "automated_jobs": 25,
-    "signals_today": 0
+    "automated_jobs": 44,
+    "signals_today": 0,
+    "monitors_active": 6
   },
   "agents": {
     "seraphim": {
@@ -64,5 +65,5 @@
     "quality_avg": 8.4,
     "entities_tracked": 70
   },
-  "generated_at": "2026-02-14T16:00:00+07:00"
+  "generated_at": "2026-02-15T05:00:00+07:00"
 }
