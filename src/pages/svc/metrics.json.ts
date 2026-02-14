@@ -50,7 +50,7 @@ export const GET: APIRoute = async () => {
     automated_jobs: 25,
     agi_score: 58,
     followers: 396,
-    posts: 166,
+    posts: 169,
     revenue: 32340,
     content_pieces: 15,
     subscribers: 12,
