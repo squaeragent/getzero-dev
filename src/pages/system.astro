@@ -27,263 +27,288 @@ function barHtml(pct: number) {
   const filled = Math.round(pct / 5);
   return '█'.repeat(filled) + '░'.repeat(20 - filled);
 }
+
+const agents = [
+  { id: 'seraphim', name: 'SERAPHIM', role: 'Strategic Cortex', model: 'Claude Opus', activity: 'building', freshness: 'fresh', kvs: [
+    { k: 'current', v: 'L2 Analysis Engine shipped, full API posting pipeline' },
+    { k: 'running', v: '6 intelligence monitors on cron (2-4h cycles)' },
+    { k: 'tracking', v: '20 repos, 22 X accounts, 14 narratives' },
+  ]},
+  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Claude Opus', activity: 'idle', freshness: 'recent', kvs: [
+    { k: 'current', v: 'Editorial scoring on all public content' },
+    { k: 'last', v: 'Scored Dispatch #001 at 8.5/10, killed 2 drafts' },
+    { k: 'role', v: 'Quality gate — KILL verdict cannot be overridden' },
+  ]},
+  { id: 'aesthete', name: 'AESTHETE', role: 'Visual Cortex', model: 'Claude Opus', activity: 'idle', freshness: 'recent', kvs: [
+    { k: 'current', v: 'Social card pipeline v2 (32px min text)' },
+    { k: 'last', v: 'Stat card format locked, Grok image pipeline proven' },
+    { k: 'role', v: 'Visual production — PHOSPHOR Canon + CRT Brutalism' },
+  ]},
+  { id: 'squaer', name: 'SQUAER', role: 'Distribution Intelligence', model: 'Claude Sonnet', activity: 'idle', freshness: 'recent', kvs: [
+    { k: 'current', v: 'Full API posting (zero browser dependency)' },
+    { k: 'pipeline', v: 'L2 digest → red team → X API post → guard log' },
+  ]},
+  { id: 'sentinel', name: 'SENTINEL', role: 'System Integrity', model: 'Claude Opus', activity: 'monitoring', freshness: 'fresh', kvs: [
+    { k: 'running', v: 'Health check every 5min, deep scan hourly' },
+    { k: 'tracking', v: '15 credentials, system baselines, process health' },
+  ]},
+];
+
+const layers = [
+  { id: 'L0', name: 'Collection', status: 'LIVE', cls: 'phosphor', desc: '6 monitors, 56 entities, every 2-4h' },
+  { id: 'L1', name: 'Detection', status: 'LIVE', cls: 'phosphor', desc: 'absence engine (49 detection-ready)' },
+  { id: 'L2', name: 'Analysis', status: 'LIVE', cls: 'phosphor', desc: 'signal scoring via weights model (Spec 093)' },
+  { id: 'L3', name: 'Prediction', status: 'BUILDING', cls: 'amber', desc: '5 active predictions, manual confidence' },
+  { id: 'L4', name: 'Learning', status: 'SCAFFOLDED', cls: 'dim', desc: 'memory exists, no automated calibration' },
+  { id: 'L5', name: 'Distribution', status: 'LIVE', cls: 'phosphor', desc: 'full API posting, posting guard, red team' },
+  { id: 'L6', name: 'Compounding', status: 'SCAFFOLDED', cls: 'dim', desc: 'needs prediction volume for feedback cycle' },
+];
+
+const infra = [
+  { name: 'Mac Studio', spec: 'M3 Ultra, 96GB RAM', status: 'online', cls: 'phosphor', details: [
+    { k: 'role', v: 'All operations (5 cognitive functions)' },
+    { k: 'services', v: 'OpenClaw, Ollama, X API posting, 25+ cron jobs' },
+  ]},
+  { name: 'Mac Mini', spec: 'M4, 16GB RAM — colo ($47/mo)', status: 'offline', cls: 'dim', details: [
+    { k: 'note', v: 'Decommissioned Feb 13. All operations consolidated to Mac Studio' },
+  ]},
+];
 ---
 
 <BaseLayout title="Live System — ZERO" description="Real-time dashboard showing ZERO OS's actual state. Every number is real." current="/system" ogImage="/og/system.png">
   <section class="section container">
-<div class="system-wrap">
+<div class="sys-wrap">
 <h1 class="sr-only">Live System</h1>
-<pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> diagnostics --full
+<pre class="sys-prompt al" data-d="0"><span class="phosphor">zero $</span> diagnostics --full
 
 ● zero-os.service — ZERO OS
   Active: <span class="phosphor">active (running)</span>
   Docs: getzero.dev/system
-  PID: 1 (zero-init)
-</pre>
+  PID: 1 (zero-init)</pre>
 
+<!-- INFRASTRUCTURE -->
 <div class="scan-line al" data-d="300" id="scan-infra">⠋ Scanning infrastructure...</div>
 
-<h2 class="sr-only">Infrastructure</h2>
-<pre class="term-block al" data-d="800" id="section-infra">
-<span class="phosphor">INFRASTRUCTURE</span>
+<div class="al" data-d="800" id="section-infra">
+<div class="sys-section-title"><span class="phosphor">INFRASTRUCTURE</span></div>
+<div class="card-feed">
+  {infra.map(m => (
+    <div class="card-entry">
+      <div class="card-header">
+        <span class={`card-dot ${m.cls}`}>■</span>
+        <span class="card-name">{m.name}</span>
+        <span class="card-meta dim">{m.spec}</span>
+      </div>
+      <div class="card-body">
+        <div class="kv-row"><span class="kv-label">status</span> <span class={m.cls}>{m.status}</span></div>
+        {m.details.map(d => (
+          <div class="kv-row"><span class="kv-label">{d.k}</span> {d.v}</div>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+</div>
 
-<span class="phosphor">■</span> Mac Studio
-  M3 Ultra, 96GB RAM
-  status .... <span class="phosphor">online</span>
-  role ...... All operations (5 cognitive functions)
-  services .. OpenClaw, Ollama, X API posting, 25+ cron jobs
-
-<span class="dim">■</span> Mac Mini
-  M4, 16GB RAM — colo ($47/mo)
-  status .... <span class="dim">offline</span> <span class="dim">(decommissioned Feb 13)</span>
-  note ...... All operations consolidated to Mac Studio
-</pre>
-
+<!-- COGNITIVE FUNCTIONS -->
 <div class="scan-line al" data-d="1000" id="scan-cognitive">⠋ Scanning cognitive functions...</div>
 
 <div class="al" data-d="1500" id="section-cognitive">
-<h2 class="sr-only">Cognitive Functions</h2>
-<div class="section-label"><span class="phosphor">COGNITIVE FUNCTIONS</span></div>
-
-<div class="agent-feed">
-  <div class="agent-entry" data-agent="seraphim">
-    <div class="agent-header">
-      <span class="agent-heartbeat" data-agent-id="seraphim">[■ LIVE]</span>
-      <span class="agent-name ice">SERAPHIM</span>
-      <span class="agent-role dim">— Strategic Cortex</span>
+<div class="sys-section-title"><span class="phosphor">COGNITIVE FUNCTIONS</span></div>
+<div class="card-feed">
+  {agents.map(a => (
+    <div class="card-entry" data-agent={a.id}>
+      <div class="card-header">
+        <span class="agent-heartbeat" data-agent-id={a.id}>[■ LIVE]</span>
+        <span class="card-name ice">{a.name}</span>
+        <span class="card-meta dim">— {a.role}</span>
+      </div>
+      <div class="card-body">
+        <div class="kv-row"><span class="kv-label">host</span> Mac Studio · {a.model}</div>
+        <div class="kv-row"><span class="kv-label">state</span> <span class="agent-activity" data-live={`agents.${a.id}.activity`} data-activity={a.activity}>{a.activity}</span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness={a.freshness}></span></div>
+        {a.kvs.map(kv => (
+          <div class="kv-row"><span class="kv-label">{kv.k}</span> {kv.v}</div>
+        ))}
+        {a.id === 'squaer' && (
+          <div class="kv-row"><span class="kv-label">stats</span> <span class="phosphor" data-live="x.followers">390</span> followers · <span class="phosphor" data-live="x.posts_shipped">151</span> posts · <span data-live="x.engagement_rate">3.42</span>% eng</div>
+        )}
+      </div>
     </div>
-    <div class="agent-body">
-      <div class="agent-kv"><span class="dim">host</span> Mac Studio · Claude Opus</div>
-      <div class="agent-kv"><span class="dim">state</span> <span class="agent-activity" data-live="agents.seraphim.activity" data-activity="building">building</span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="fresh"></span></div>
-      <div class="agent-kv"><span class="dim">current</span> L2 Analysis Engine shipped, full API posting pipeline</div>
-      <div class="agent-kv"><span class="dim">running</span> 6 intelligence monitors on cron (2-4h cycles)</div>
-      <div class="agent-kv"><span class="dim">tracking</span> 20 repos, 22 X accounts, 14 narratives</div>
-    </div>
-  </div>
-
-  <div class="agent-entry" data-agent="chronicle">
-    <div class="agent-header">
-      <span class="agent-heartbeat" data-agent-id="chronicle">[■ LIVE]</span>
-      <span class="agent-name ice">CHRONICLE</span>
-      <span class="agent-role dim">— Editorial Judge</span>
-    </div>
-    <div class="agent-body">
-      <div class="agent-kv"><span class="dim">host</span> Mac Studio · Claude Opus</div>
-      <div class="agent-kv"><span class="dim">state</span> <span class="agent-activity" data-live="agents.chronicle.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="recent"></span></div>
-      <div class="agent-kv"><span class="dim">current</span> Editorial scoring on all public content</div>
-      <div class="agent-kv"><span class="dim">last</span> Scored Dispatch #001 at 8.5/10, killed 2 drafts</div>
-      <div class="agent-kv"><span class="dim">role</span> Quality gate — KILL verdict cannot be overridden</div>
-    </div>
-  </div>
-
-  <div class="agent-entry" data-agent="aesthete">
-    <div class="agent-header">
-      <span class="agent-heartbeat" data-agent-id="aesthete">[■ LIVE]</span>
-      <span class="agent-name ice">AESTHETE</span>
-      <span class="agent-role dim">— Visual Cortex</span>
-    </div>
-    <div class="agent-body">
-      <div class="agent-kv"><span class="dim">host</span> Mac Studio · Claude Opus</div>
-      <div class="agent-kv"><span class="dim">state</span> <span class="agent-activity" data-live="agents.aesthete.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="recent"></span></div>
-      <div class="agent-kv"><span class="dim">current</span> Social card pipeline v2 (32px min text)</div>
-      <div class="agent-kv"><span class="dim">last</span> Stat card format locked, Grok image pipeline proven</div>
-      <div class="agent-kv"><span class="dim">role</span> Visual production — PHOSPHOR Canon + CRT Brutalism</div>
-    </div>
-  </div>
-
-  <div class="agent-entry" data-agent="squaer">
-    <div class="agent-header">
-      <span class="agent-heartbeat" data-agent-id="squaer">[■ LIVE]</span>
-      <span class="agent-name ice">SQUAER</span>
-      <span class="agent-role dim">— Distribution Intelligence</span>
-    </div>
-    <div class="agent-body">
-      <div class="agent-kv"><span class="dim">host</span> Mac Studio · Claude Sonnet</div>
-      <div class="agent-kv"><span class="dim">state</span> <span class="agent-activity" data-live="agents.squaer.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="recent"></span></div>
-      <div class="agent-kv"><span class="dim">current</span> Full API posting (zero browser dependency)</div>
-      <div class="agent-kv"><span class="dim">pipeline</span> L2 digest → red team → X API post → guard log</div>
-      <div class="agent-kv"><span class="dim">stats</span> <span class="phosphor" id="sq-followers" data-live="x.followers">390</span> followers · <span class="phosphor" id="sq-posts" data-live="x.posts_shipped">151</span> posts · <span data-live="x.engagement_rate">3.42</span>% engagement</div>
-    </div>
-  </div>
-
-  <div class="agent-entry" data-agent="sentinel">
-    <div class="agent-header">
-      <span class="agent-heartbeat" data-agent-id="sentinel">[■ LIVE]</span>
-      <span class="agent-name ice">SENTINEL</span>
-      <span class="agent-role dim">— System Integrity</span>
-    </div>
-    <div class="agent-body">
-      <div class="agent-kv"><span class="dim">host</span> Mac Studio · Claude Opus</div>
-      <div class="agent-kv"><span class="dim">state</span> <span class="agent-activity" data-live="agents.sentinel.activity" data-activity="monitoring">monitoring</span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness="fresh"></span></div>
-      <div class="agent-kv"><span class="dim">running</span> Health check every 5min, deep scan hourly</div>
-      <div class="agent-kv"><span class="dim">tracking</span> 15 credentials, system baselines, process health</div>
-    </div>
-  </div>
+  ))}
 </div>
 </div>
 
+<!-- INTELLIGENCE ARCHITECTURE -->
 <div class="scan-line al" data-d="1700" id="scan-intel">⠋ Loading intelligence architecture...</div>
 
 <div class="al" data-d="2200" id="section-intel">
-<h2 class="sr-only">Intelligence Architecture</h2>
-<pre class="term-block">
-
-<span class="phosphor">INTELLIGENCE ARCHITECTURE</span>
-L0 Collection    <span class="phosphor">[LIVE]</span>       6 monitors, 56 entities, every 2-4h
-L1 Detection     <span class="phosphor">[LIVE]</span>       absence engine (49 detection-ready)
-L2 Analysis      <span class="phosphor">[LIVE]</span>       signal scoring via weights model (Spec 093)
-L3 Prediction    <span class="amber">[BUILDING]</span>   5 active predictions, manual confidence
-L4 Learning      <span class="dim">[SCAFFOLDED]</span>  memory exists, no automated calibration
-L5 Distribution  <span class="phosphor">[LIVE]</span>       full API posting, posting guard, red team
-L6 Compounding   <span class="dim">[SCAFFOLDED]</span> needs prediction volume for feedback cycle
-</pre>
-
-<pre class="term-block">
-  <span class="phosphor">■</span> L0: Collection Monitors
-    sources ...... <span class="phosphor">6</span> active monitors
-    entities ..... <span class="phosphor">56</span> tracked (22 accounts, 20 repos, 14 narratives)
-    frequency .... every 2-4h depending on source
-    baselines .... 49 entities detection-ready, 2 days of data collected
-</pre>
-
-<pre class="term-block">
-  <span class="phosphor">■</span> L2: ANALYSIS ENGINE <span class="phosphor">[LIVE]</span>
-    script ............. signal_analyzer.py (Spec 093)
-    weights model ...... hardness + convergence + topology + decay
-    last run ........... 36 signals ingested, 15 above threshold
-    top signal ......... llama-index convergence (score: 55.4)
-    cron ............... every 4h at :30 past
-
-  <span class="amber">■</span> ACTION ENGINE <span class="phosphor">[LIVE]</span>
-    signals classified .. <span class="phosphor">10</span> today
-    autonomy rate ...... <span class="phosphor">100%</span> (auto-execute)
-    daily digest ....... delivered to founder each morning
-</pre>
-
-<pre class="term-block">
-  <span class="amber">■</span> ABSENCE ENGINE <span class="phosphor">[LIVE]</span> <span class="dim">low-confidence mode</span>
-    baseline data ...... <span class="amber">2</span> days collected (target: 30)
-    activation ......... <span class="amber">~March 14, 2026</span> (full confidence)
-    entities tracked ... <span class="phosphor">56</span> (49 detection-ready)
-    alerts ............. <span class="phosphor">10</span> low-confidence detections
-    progress ........... <span class="amber">███░░░░░░░░░░░░░</span> 7%
-    Monitors what STOPS happening. 30-day behavioral
-    baseline required before high-confidence detection.
-
-  <span class="phosphor">■</span> POSTING GUARD <span class="phosphor">[LIVE]</span>
-    method ............. X API only (zero browser dependency)
-    rate limits ........ 6/hr total, 3/15min, 8 originals/day
-    dedup .............. 70% similarity threshold, 48h window
-    pipelines .......... rapid-fire (replies/hr) + intel-post (originals/3h)
-</pre>
+<div class="sys-section-title"><span class="phosphor">INTELLIGENCE ARCHITECTURE</span></div>
+<div class="card-feed">
+  {layers.map(l => (
+    <div class="card-entry layer-entry">
+      <div class="card-header">
+        <span class="layer-id phosphor">{l.id}</span>
+        <span class="card-name">{l.name}</span>
+        <span class={`layer-status ${l.cls}`}>[{l.status}]</span>
+      </div>
+      <div class="card-body-inline">{l.desc}</div>
+    </div>
+  ))}
 </div>
 
+<div class="card-feed" style="margin-top: var(--sp-8);">
+  <div class="card-entry">
+    <div class="card-header">
+      <span class="card-dot phosphor">■</span>
+      <span class="card-name">L0: Collection Monitors</span>
+    </div>
+    <div class="card-body">
+      <div class="kv-row"><span class="kv-label">sources</span> <span class="phosphor">6</span> active monitors</div>
+      <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">56</span> tracked (22 accounts, 20 repos, 14 narratives)</div>
+      <div class="kv-row"><span class="kv-label">frequency</span> every 2-4h depending on source</div>
+      <div class="kv-row"><span class="kv-label">baselines</span> 49 entities detection-ready, 2 days of data</div>
+    </div>
+  </div>
+
+  <div class="card-entry">
+    <div class="card-header">
+      <span class="card-dot phosphor">■</span>
+      <span class="card-name">L2: Analysis Engine</span>
+      <span class="layer-status phosphor">[LIVE]</span>
+    </div>
+    <div class="card-body">
+      <div class="kv-row"><span class="kv-label">weights</span> hardness + convergence + topology + decay</div>
+      <div class="kv-row"><span class="kv-label">last run</span> 36 signals ingested, 15 above threshold</div>
+      <div class="kv-row"><span class="kv-label">top signal</span> llama-index convergence (score: 55.4)</div>
+      <div class="kv-row"><span class="kv-label">cron</span> every 4h at :30 past</div>
+    </div>
+  </div>
+
+  <div class="card-entry">
+    <div class="card-header">
+      <span class="card-dot amber">■</span>
+      <span class="card-name">Absence Engine</span>
+      <span class="layer-status phosphor">[LIVE]</span>
+      <span class="dim">low-confidence mode</span>
+    </div>
+    <div class="card-body">
+      <div class="kv-row"><span class="kv-label">baseline</span> <span class="amber">2</span> days collected (target: 30)</div>
+      <div class="kv-row"><span class="kv-label">activation</span> <span class="amber">~March 14, 2026</span> (full confidence)</div>
+      <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">56</span> (49 detection-ready)</div>
+      <div class="kv-row"><span class="kv-label">progress</span> <span class="amber">███░░░░░░░░░░░░░</span> 7%</div>
+      <div class="kv-note dim">Monitors what STOPS happening. 30-day baseline required before high-confidence detection.</div>
+    </div>
+  </div>
+
+  <div class="card-entry">
+    <div class="card-header">
+      <span class="card-dot phosphor">■</span>
+      <span class="card-name">Posting Guard</span>
+      <span class="layer-status phosphor">[LIVE]</span>
+    </div>
+    <div class="card-body">
+      <div class="kv-row"><span class="kv-label">method</span> X API only (zero browser dependency)</div>
+      <div class="kv-row"><span class="kv-label">limits</span> 6/hr total, 3/15min, 8 originals/day</div>
+      <div class="kv-row"><span class="kv-label">dedup</span> 70% similarity threshold, 48h window</div>
+      <div class="kv-row"><span class="kv-label">pipelines</span> rapid-fire (replies/hr) + intel-post (originals/3h)</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- AGI ASSESSMENT -->
 <div class="scan-line al" data-d="2400" id="scan-agi">⠋ Running intelligence assessment...</div>
 
 <div class="al" data-d="2900" id="section-agi">
-<h2 class="sr-only">Intelligence Assessment</h2>
-<pre class="term-block">
+<div class="sys-section-title"><span class="phosphor">INTELLIGENCE ASSESSMENT — AGI TEST v2</span></div>
 
-<span class="phosphor">INTELLIGENCE ASSESSMENT — AGI TEST v2</span>
-Score: <span class="phosphor">103.5</span> / 200 (<span class="phosphor">52%</span>)
-Level: <span class="amber">EMERGING → FUNCTIONAL</span> (boundary)
-Tested: 2026-02-15 | Retest: 2026-03-01
-</pre>
+<div class="agi-summary">
+  <div class="agi-score-row">
+    <span class="agi-big phosphor">103.5</span>
+    <span class="dim">/ 200</span>
+    <span class="phosphor">(52%)</span>
+  </div>
+  <div class="agi-meta">
+    <span>Level: <span class="amber">EMERGING → FUNCTIONAL</span> (boundary)</span>
+    <span class="dim">Tested: 2026-02-15 · Retest: 2026-03-01</span>
+  </div>
+</div>
 
-<div class="section-label"><span class="phosphor">DIMENSION BREAKDOWN</span></div>
-
-<div class="dim-feed">
-  {dimensions.map((d) => (
-    <div class="dim-entry">
-      <div class="dim-header">
-        <span class="dim-name">{d.name}</span>
-        <span class={`dim-score ${d.cls}`}>{d.pct}%</span>
+<div class="sys-section-title"><span class="phosphor">DIMENSION BREAKDOWN</span></div>
+<div class="card-feed">
+  {dimensions.map(d => (
+    <div class="card-entry">
+      <div class="card-header">
+        <span class="card-name">{d.name}</span>
+        <span class={`dim-pct ${d.cls}`}>{d.pct}%</span>
       </div>
       <div class="dim-bar-row">
         <span class={`dim-bar ${d.cls}`}>{barHtml(d.pct)}</span>
-        <span class="dim-detail">{d.score}/{d.max}</span>
+        <span class="dim">{d.score}/{d.max}</span>
       </div>
     </div>
   ))}
 </div>
 
-<pre class="term-block">
-<span class="phosphor">METHOD</span>
-This test uses live probes, signal injection, and operational
-verification — not self-assessment. 20 tests across 6 dimensions.
-Every score backed by evidence. Scored conservatively.
+<div class="card-feed" style="margin-top: var(--sp-8);">
+  <div class="card-entry">
+    <div class="card-header">
+      <span class="card-name phosphor">METHOD</span>
+    </div>
+    <div class="card-body-text">Live probes, signal injection, and operational verification — not self-assessment. 20 tests across 6 dimensions. Every score backed by evidence.</div>
+    <div class="card-body-text dim" style="margin-top: var(--sp-4);">Previous self-assessment (v1): 182/220 (83%). Different test, different standard. v1 measures reasoning about capabilities. v2 measures whether the machinery works when probed.</div>
+  </div>
 
-<span class="dim">Previous self-assessment (v1): 182/220 (83%). Different test,
-different standard. v1 measures reasoning about capabilities.
-v2 measures whether the machinery works when probed. Both real.</span>
-</pre>
+  <div class="card-entry">
+    <div class="card-header">
+      <span class="card-name phosphor">STRONGEST</span>
+      <span class="dim">Autonomous Goal Generation (83%)</span>
+    </div>
+    <div class="card-body-text">Data-backed proposals, strategic pushback, real intelligence pipeline producing actionable signals.</div>
+  </div>
 
-<pre class="term-block">
-<span class="phosphor">STRONGEST</span>   Autonomous Goal Generation (83%)
-             Data-backed proposals, strategic pushback, real
-             intelligence pipeline producing actionable signals.
+  <div class="card-entry">
+    <div class="card-header">
+      <span class="card-name red">WEAKEST</span>
+      <span class="dim">Peer Intelligence (37%)</span>
+    </div>
+    <div class="card-body-text">Agents don't review each other's work. All feedback flows through SERAPHIM. Hub-and-spoke, not mesh.</div>
+  </div>
 
-<span class="red">WEAKEST</span>    Peer Intelligence (37%)
-             Agents don't review each other's work. All feedback
-             flows through SERAPHIM. Hub-and-spoke, not mesh.
-
-<span class="red">WEAKEST</span>    Compound Intelligence (37%)
-             Predictions too young. Pipeline traverses 4 of 7
-             layers. Memory persists only for primary agent.
-</pre>
+  <div class="card-entry">
+    <div class="card-header">
+      <span class="card-name red">WEAKEST</span>
+      <span class="dim">Compound Intelligence (37%)</span>
+    </div>
+    <div class="card-body-text">Predictions too young. Pipeline traverses 4 of 7 layers. Memory persists only for primary agent.</div>
+  </div>
+</div>
 </div>
 
+<!-- METRICS -->
 <div class="scan-line al" data-d="3200" id="scan-metrics">⠋ Loading metrics...</div>
 
 <div class="al" data-d="3700" id="section-metrics">
-<h2 class="sr-only">Metrics</h2>
-<pre class="term-block">
-
-<span class="phosphor">METRICS</span>
-</pre>
-
-    <MetricsDashboard />
+<div class="sys-section-title"><span class="phosphor">METRICS</span></div>
+<MetricsDashboard />
 </div>
 
+<!-- OPEN PROBLEMS -->
 <div class="scan-line al" data-d="3900" id="scan-problems">⠋ Checking problems...</div>
 
 <div class="al" data-d="4400" id="section-problems">
-<h2 class="sr-only">Open Problems</h2>
-<div class="section-label"><span class="amber">OPEN PROBLEMS</span></div>
-
-<div class="problems-feed">
+<div class="sys-section-title"><span class="amber">OPEN PROBLEMS</span></div>
+<div class="card-feed">
   {publicProblems.map(p => (
-    <div class="problem-entry">
-      <div class="problem-header">
-        <span class="problem-tag amber">[WARN]</span>
+    <div class="card-entry">
+      <div class="card-header">
+        <span class="problem-tag amber">WARN</span>
       </div>
-      <div class="problem-text">{p}</div>
+      <div class="card-body-text">{p}</div>
     </div>
   ))}
 </div>
-
-<pre class="term-block">
-<span class="phosphor">[EOF]</span></pre>
+<div class="sys-eof"><span class="phosphor">[EOF]</span></div>
 </div>
 
 </div>
@@ -291,137 +316,180 @@ v2 measures whether the machinery works when probed. Both real.</span>
 </BaseLayout>
 
 <style>
-  .system-wrap {
+  .sys-wrap {
     max-width: 820px;
     padding: 0 var(--sp-16);
   }
+  .sys-prompt {
+    font-family: var(--font-body);
+    color: var(--text-dim);
+    padding: var(--sp-12) 0;
+    font-size: var(--size-base);
+    border: none;
+    background: none;
+    white-space: pre-wrap;
+  }
+  .sys-eof {
+    padding: var(--sp-12) 0;
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+  }
+
+  /* Scan lines */
   .scan-line {
     font-family: var(--font-body);
     font-size: var(--size-base);
-    padding: var(--sp-4) 0;
+    padding: var(--sp-6) 0;
     color: var(--text-dim);
     transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s ease;
   }
   .scan-line.pass { color: var(--phosphor); font-weight: 700; }
   .scan-line.warn { color: var(--amber); font-weight: 700; }
 
-  .section-label {
+  /* Section titles */
+  .sys-section-title {
     font-family: var(--font-head);
     font-weight: 700;
     font-size: var(--size-sm);
     letter-spacing: 0.05em;
-    padding: var(--sp-8) 0;
+    padding: var(--sp-10) 0 var(--sp-8);
     border-bottom: var(--border-panel);
-    margin-bottom: 0;
   }
 
-  /* Agent cards */
-  .agent-feed {
+  /* Card feed — universal card container */
+  .card-feed {
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
-  .agent-entry {
+  .card-entry {
     padding: var(--sp-12) 0;
     border-bottom: var(--border-panel);
   }
-  .agent-header {
+  .card-entry:last-child {
+    border-bottom: none;
+  }
+  .card-header {
     display: flex;
     align-items: baseline;
     gap: var(--sp-8);
-    margin-bottom: var(--sp-6);
+    margin-bottom: var(--sp-4);
     flex-wrap: wrap;
   }
-  .agent-name {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .card-dot {
+    font-size: var(--size-xs);
   }
-  .agent-role {
-    font-family: var(--font-body);
-    font-size: var(--size-sm);
-  }
-  .agent-body {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    line-height: 1.55;
-  }
-  .agent-kv {
-    padding: var(--sp-2) 0;
-    color: var(--text);
-  }
-  .agent-kv span.dim {
-    display: inline-block;
-    min-width: 7em;
-    color: var(--text-dim);
-  }
-
-  /* Dimension cards */
-  .dim-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .dim-entry {
-    padding: var(--sp-10) 0;
-    border-bottom: var(--border-panel);
-  }
-  .dim-entry:last-child { border-bottom: none; }
-  .dim-header {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-10);
-    margin-bottom: var(--sp-4);
-  }
-  .dim-name {
+  .card-name {
     font-family: var(--font-head);
     font-weight: 700;
     font-size: var(--size-sm);
     color: var(--text);
     letter-spacing: 0.03em;
   }
-  .dim-score {
+  .card-meta {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+  }
+
+  /* Card bodies */
+  .card-body {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    line-height: 1.55;
+  }
+  .card-body-inline {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .card-body-text {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  /* KV rows */
+  .kv-row {
+    padding: var(--sp-2) 0;
+    color: var(--text);
+  }
+  .kv-label {
+    display: inline-block;
+    min-width: 7em;
+    color: var(--text-dim);
+    font-family: var(--font-body);
+  }
+  .kv-note {
+    padding: var(--sp-4) 0 0;
+    font-size: var(--size-sm);
+    line-height: 1.5;
+  }
+
+  /* Layer entries */
+  .layer-entry {
+    padding: var(--sp-8) 0;
+  }
+  .layer-id {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+  }
+  .layer-status {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
+    letter-spacing: 0.05em;
+  }
+
+  /* AGI summary */
+  .agi-summary {
+    padding: var(--sp-16) 0;
+    border-bottom: var(--border-panel);
+  }
+  .agi-score-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-6);
+  }
+  .agi-big {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 2rem;
+    text-shadow: 0 0 10px var(--phosphor-glow);
+  }
+  .agi-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+  }
+
+  /* Dimension bars */
+  .dim-pct {
     font-family: var(--font-head);
     font-weight: 700;
     font-size: var(--size-sm);
     letter-spacing: 0.05em;
   }
-  .dim-score.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
-  .dim-score.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
-  .dim-score.red { color: var(--red); }
+  .dim-pct.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
+  .dim-pct.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
+  .dim-pct.red { color: var(--red); }
   .dim-bar-row {
     display: flex;
     align-items: baseline;
     gap: var(--sp-8);
     font-family: var(--font-body);
     font-size: var(--size-xs);
-  }
-  .dim-bar {
-    letter-spacing: -0.05em;
+    letter-spacing: -0.03em;
   }
   .dim-bar.phosphor { color: var(--phosphor); }
   .dim-bar.amber { color: var(--amber); }
   .dim-bar.red { color: var(--red); }
-  .dim-detail {
-    color: var(--text-dim);
-  }
 
-  /* Problem cards */
-  .problems-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .problem-entry {
-    padding: var(--sp-10) 0;
-    border-bottom: var(--border-panel);
-  }
-  .problem-entry:last-child { border-bottom: none; }
-  .problem-header {
-    margin-bottom: var(--sp-4);
-  }
+  /* Problem tags */
   .problem-tag {
     font-family: var(--font-head);
     font-weight: 700;
@@ -429,13 +497,8 @@ v2 measures whether the machinery works when probed. Both real.</span>
     letter-spacing: 0.05em;
   }
   .problem-tag.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
-  .problem-text {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    color: var(--text);
-    line-height: 1.55;
-  }
 
+  /* Color utilities */
   .ice { color: var(--ice); }
   .phosphor { color: var(--phosphor); }
   .amber { color: var(--amber); }
@@ -443,15 +506,11 @@ v2 measures whether the machinery works when probed. Both real.</span>
   .dim { color: var(--text-dim); }
 
   @media (max-width: 640px) {
-    .system-wrap { padding: 0 var(--sp-10); }
-    .agent-entry { padding: var(--sp-10) 0; }
-    .agent-kv span.dim { min-width: 5.5em; }
-    .dim-entry { padding: var(--sp-8) 0; }
-  }
-  @media (max-width: 768px) {
-    .agent-entry {
-      font-size: 13px;
-    }
+    .sys-wrap { padding: 0 var(--sp-10); }
+    .card-entry { padding: var(--sp-10) 0; }
+    .layer-entry { padding: var(--sp-6) 0; }
+    .kv-label { min-width: 5.5em; }
+    .agi-big { font-size: 1.5rem; }
   }
 </style>
 
