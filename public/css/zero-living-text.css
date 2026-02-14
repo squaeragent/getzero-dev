@@ -2,6 +2,7 @@
    ZERO OS — LIVING TEXT
    Pre-authored text that rewrites itself.
    Character-level phosphor dissolve + typewriter retype.
+   + Status pulse, cursor blink, counter support.
    ============================================ */
 
 /* Living text container */
@@ -14,7 +15,7 @@
 /* Individual character during dissolve */
 .lt-char {
   display: inline;
-  transition: none; /* JS controls timing precisely */
+  transition: none;
 }
 
 .lt-char.dissolving {
@@ -31,9 +32,8 @@
   display: none;
 }
 
-/* Character arriving during typewriter */
 .lt-char.arriving {
-  color: #4dff74; /* brighter than standard green */
+  color: #4dff74;
   text-shadow: 0 0 6px rgba(0, 255, 65, 0.6);
 }
 
@@ -46,7 +46,7 @@
 .lt-cursor {
   display: inline;
   animation: lt-cursor-blink 1.06s step-end infinite;
-  color: var(--phosphor, #00ff41);
+  color: var(--phosphor, #c8ff00);
 }
 
 @keyframes lt-cursor-blink {
@@ -54,7 +54,7 @@
   50%, 100% { opacity: 0; }
 }
 
-/* Living zone indicator — very subtle border pulse */
+/* Living zone indicator */
 .living-zone {
   border-left: 1px solid transparent;
   transition: border-color 0.3s;
@@ -64,12 +64,96 @@
   border-left-color: rgba(0, 255, 65, 0.08);
 }
 
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .living-text {
-    transition: none !important;
+
+/* ── STATUS LIVE PULSE (heartbeat) ── */
+@keyframes status-pulse {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 4px rgba(200, 255, 0, 0.2);
   }
+  50% {
+    transform: scale(1.15);
+    text-shadow: 0 0 12px rgba(200, 255, 0, 0.5), 0 0 24px rgba(200, 255, 0, 0.15);
+  }
+}
+
+.status-live {
+  display: inline-block;
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+
+/* ── TERMINAL CURSOR (block blink) ── */
+.terminal-cursor::after {
+  content: '\2588';
+  color: var(--phosphor, #c8ff00);
+  animation: lt-cursor-blink 1s step-end infinite;
+}
+
+
+/* ── TYPEWRITER (reserve space, no CLS) ── */
+.typewriter {
+  visibility: visible;
+}
+
+.typewriter[data-tw-ready] {
+  visibility: visible;
+}
+
+
+/* ── COPY TOOLTIP ── */
+[data-copy] {
+  cursor: pointer;
+  position: relative;
+}
+
+[data-copy].copied {
+  border-color: var(--phosphor, #c8ff00) !important;
+  box-shadow: 0 0 6px rgba(200, 255, 0, 0.2);
+}
+
+[data-copy]::before {
+  content: 'copied';
+  position: absolute;
+  top: -1.6em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  color: var(--phosphor, #c8ff00);
+  background: var(--bg, #0a0a0a);
+  padding: 1px 6px;
+  border: 1px solid var(--phosphor, #c8ff00);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+[data-copy].copied::before {
+  opacity: 1;
+}
+
+
+/* ── ACCESSIBILITY ── */
+@media (prefers-reduced-motion: reduce) {
+  .living-text,
   .lt-char {
     transition: none !important;
+  }
+  .lt-cursor {
+    animation: none !important;
+    opacity: 1;
+  }
+  .status-live {
+    animation: none !important;
+    transform: none !important;
+  }
+  .terminal-cursor::after {
+    animation: none !important;
+    opacity: 1;
+  }
+  .typewriter {
+    visibility: visible !important;
   }
 }

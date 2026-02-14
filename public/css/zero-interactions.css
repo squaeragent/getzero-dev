@@ -49,13 +49,69 @@ a:focus-visible {
 }
 
 
+/* ── 1b. NAV UNDERLINE DRAW ── */
+.nav-tab {
+  position: relative;
+}
+
+.nav-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--phosphor, #c8ff00);
+  transition: width 0.3s ease;
+}
+
+.nav-tab:hover::after,
+.nav-tab.active::after {
+  width: 100%;
+}
+
+/* ── 1c. BUTTON PRESS ── */
+button,
+.email-submit {
+  transition: transform 0.1s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:active,
+.email-submit:active {
+  transform: scale(0.97);
+}
+
+button:focus-visible,
+.email-submit:focus-visible {
+  box-shadow: 0 0 8px rgba(200, 255, 0, 0.25);
+}
+
+/* ── 1d. EXTERNAL LINK ARROW ── */
+a[href^="http"]:not(.nav-tab):not(.nav-live)::after {
+  content: '\2197';
+  display: inline-block;
+  margin-left: 2px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-size: 0.8em;
+}
+
+a[href^="http"]:not(.nav-tab):not(.nav-live):hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /* ── 2. CARD HOVER TRANSITIONS — subtle background shift on hover ── */
 .card-entry {
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-entry:hover {
   background-color: rgba(200, 255, 0, 0.02);
+  transform: translateY(-2px);
+  border-color: rgba(200, 255, 0, 0.3);
+  box-shadow: 0 0 8px rgba(200, 255, 0, 0.15);
 }
 
 /* Feature entries on product page */
@@ -210,9 +266,14 @@ a {
   .edition-card,
   .status-card,
   .nav-tab,
-  a {
+  a,
+  button,
+  .email-submit {
     transition: none !important;
   }
+  .nav-tab::after { transition: none !important; width: 0 !important; }
+  .nav-tab.active::after { width: 100% !important; }
+  a[href^="http"]::after { opacity: 1 !important; transform: none !important; transition: none !important; }
   .skeleton { animation: none; background: rgba(200, 255, 0, 0.03); }
 }
 
@@ -228,5 +289,9 @@ a {
     background-color: transparent;
     box-shadow: none;
     border-color: inherit;
+    transform: none;
   }
+  .nav-tab::after { width: 0 !important; }
+  .nav-tab.active::after { width: 100% !important; }
+  a[href^="http"]::after { display: none; }
 }

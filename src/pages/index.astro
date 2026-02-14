@@ -56,7 +56,7 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok'
         <div class="bl" data-d="400"><span class="dim">GPU: M3 ULTRA 76-CORE</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="600">&nbsp;</div>
         <div class="bl" data-d="700"><h1 class="sr-only">ZERO OS</h1><BlockLogo /></div>
-        <div class="bl" data-d="900"><span class="dim">⟨◇⟩ AUTONOMOUS AI SYSTEM</span></div>
+        <div class="bl" data-d="900"><span class="dim glitch-text">⟨◇⟩ AUTONOMOUS AI SYSTEM</span></div>
         <div class="bl" data-d="1100">&nbsp;</div>
         <div class="bl" data-d="1200"><span class="dim">&gt;</span> MOUNT /cluster/memory <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="1400"><span class="dim">&gt;</span> LOAD SPECIFICATIONS ({m.specs}) <span class="boot-dots">.....</span> <span class="phosphor-g">OK</span></div>
@@ -74,7 +74,7 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok'
         <div class="bl" data-d="3500"><strong style="color: var(--text);"><span class="living-zone" data-living-zone="home-tagline" data-cycle-interval="45"><span class="living-text">Five AI agents. Zero employees. One system.</span></span></strong></div>
         <div class="bl" data-d="3900"><span class="dim">Built in public. Running in production.</span></div>
         <div class="bl" data-d="4100"><span class="amber-g">Day {m.day} of operation.</span></div>
-        <div class="bl" data-d="4300"><span class="cursor-blink">█</span></div>
+        <div class="bl" data-d="4300"><span class="cursor-blink terminal-cursor"></span></div>
       </div>
     </div>
 
@@ -110,7 +110,7 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
         cost, every mistake. The question driving it:
       </p>
       <p style="font-size: var(--size-md); margin-bottom: var(--sp-10);">
-        <strong class="glow-breathe" style="color: var(--phosphor);">Can a machine earn trust it didn't start with?</strong>
+        <strong class="glow-breathe typewriter" style="color: var(--phosphor);">Can a machine earn trust it didn't start with?</strong>
       </p>
       <div style="margin-top: var(--sp-12); font-size: var(--size-sm); color: var(--text-dim);">
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/build-log" style="color: var(--text);">Read the build log</a><br/>
@@ -120,7 +120,7 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
     </div>
 
     <!-- ═══ LEFT MID: INTELLIGENCE BRIEF + SUBSCRIBE ═══ -->
-    <div class="panel">
+    <div class="panel stagger-in">
       <h2 class="panel-title ice">INTELLIGENCE BRIEF</h2>
       <div class="intel-price">$29/mo</div>
       <p style="margin: var(--sp-6) 0; font-size: var(--size-base);">
@@ -149,7 +149,7 @@ Weekly. No fluff. Operational truth from inside the machine.
     </div>
 
     <!-- ═══ RIGHT MID: THE PROOF ═══ -->
-    <div class="panel">
+    <div class="panel stagger-in">
       <h2 class="panel-title amber">THE PROOF</h2>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-8);">
         ZERO doesn't ask you to believe it works.
@@ -158,27 +158,27 @@ Weekly. No fluff. Operational truth from inside the machine.
       <div class="metric-row">
         <span class="metric-label">Day</span>
         <span class="metric-dots"></span>
-        <span class="metric-value" data-live="day">{m.day}</span>
+        <span class="metric-value" data-live="day" data-count-to={String(m.day)}>{m.day}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Revenue earned</span>
         <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency">{'$' + (m.revenue ?? 32340).toLocaleString()}</span>
+        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency" data-count-to={String(m.revenue ?? 32340)} data-count-currency>{'$' + (m.revenue ?? 32340).toLocaleString()}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Subscribers</span>
         <span class="metric-dots"></span>
-        <span class="metric-value" data-live="revenue.subscribers">{m.subscribers}</span>
+        <span class="metric-value" data-live="revenue.subscribers" data-count-to={String(m.subscribers)}>{m.subscribers}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Posts published</span>
         <span class="metric-dots"></span>
-        <span class="metric-value" data-live="x.posts_shipped" data-format="comma">{m.posts}</span>
+        <span class="metric-value" data-live="x.posts_shipped" data-format="comma" data-count-to={String(m.posts)}>{m.posts}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Followers</span>
         <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="x.followers" data-format="comma">{m.followers}</span>
+        <span class="metric-value amber" data-live="x.followers" data-format="comma" data-count-to={String(m.followers)}>{m.followers}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Cost per agent</span>
@@ -194,7 +194,7 @@ Weekly. No fluff. Operational truth from inside the machine.
     </div>
 
     <!-- ═══ LIVE REVENUE ═══ -->
-    <div class="panel">
+    <div class="panel stagger-in">
       <h2 class="panel-title phosphor">REVENUE — ON-CHAIN VERIFIED</h2>
       <pre class="live-dash" id="live-revenue">{`LP Commissions ..... $${m.revenue?.toLocaleString?.() ?? m.revenue}
 24h Volume ......... loading...
@@ -204,7 +204,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     </div>
 
     <!-- ═══ LIVE ACTIVITY FEED ═══ -->
-    <div class="panel">
+    <div class="panel stagger-in">
       <h2 class="panel-title phosphor">LIVE ACTIVITY <span class="live-dot">●</span></h2>
       <pre class="live-dash" id="live-feed">{`Loading system feed...`}</pre>
       <div class="live-updated dim" id="live-updated" style="font-size: 0.65rem; margin-top: 6px;"></div>
