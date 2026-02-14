@@ -377,7 +377,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     const el = document.getElementById('live-revenue');
     if (!el) return;
     try {
-      const res = await fetch('/api/revenue.json');
+      const res = await fetch('/svc/revenue.json');
       const data = await res.json();
       lastRevenueUpdate = Date.now();
       const rev = '$' + (data.lp_commissions_total || TOTAL_REVENUE).toLocaleString();
@@ -393,7 +393,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   let lastFeedUpdate = 0;
   async function updateFeed() {
     try {
-      const res = await fetch('/api/feed.json');
+      const res = await fetch('/svc/feed.json');
       const raw = await res.json();
       lastFeedUpdate = Date.now();
       const container = document.getElementById('live-feed');

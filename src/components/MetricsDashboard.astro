@@ -152,7 +152,7 @@
   
   async function loadMetrics() {
     try {
-      const res = await fetch('/api/metrics.json?t=' + Date.now());
+      const res = await fetch('/svc/metrics.json?t=' + Date.now());
       if (!res.ok) return;
       const data = await res.json();
       

@@ -227,8 +227,8 @@
       },
 
       status: async () => {
-        const s = await fetchJSON('/api/status.json');
-        const m = await fetchJSON('/api/metrics.json');
+        const s = await fetchJSON('/svc/status.json');
+        const m = await fetchJSON('/svc/metrics.json');
         if (!s) return 'ERROR: Could not fetch state data.';
         const day = s.metrics?.day || m?.day || 12;
         const agents = s.system?.agents_live || 5;
@@ -263,7 +263,7 @@ ${dots('Revenue (total)', '$' + rev.toLocaleString())}
       },
 
       revenue: async () => {
-        const m = await fetchJSON('/api/metrics.json');
+        const m = await fetchJSON('/svc/metrics.json');
         const rev = m?.revenue || 32340;
         return `REVENUE — ON-CHAIN VERIFIED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -277,7 +277,7 @@ ${dots('Status', 'LIVE — earning daily')}
 
       price: async () => {
         try {
-          const data = await fetchJSON('/api/revenue.json');
+          const data = await fetchJSON('/svc/revenue.json');
           if (data && data.token_price_usd) {
             const price = data.token_price_usd.toFixed(10);
             const change = data.price_change_24h;
@@ -316,7 +316,7 @@ ${dots('Liquidity', '$' + liq)}
       },
 
       predictions: async () => {
-        const p = await fetchJSON('/api/predictions.json');
+        const p = await fetchJSON('/svc/predictions.json');
         if (!p) return 'ERROR: Could not fetch predictions.';
         let out = `PREDICTIONS (${p.stats.active} active, ${p.stats.scored} scored)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
         for (const pr of p.predictions) {
@@ -328,7 +328,7 @@ ${dots('Liquidity', '$' + liq)}
       },
 
       feed: async () => {
-        const raw = await fetchJSON('/api/feed.json');
+        const raw = await fetchJSON('/svc/feed.json');
         const f = raw?.entries || raw;
         if (!f) return 'ERROR: Could not fetch activity feed.';
         let out = 'ACTIVITY FEED — LAST 5\n━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
@@ -349,7 +349,7 @@ collects signals, generates analysis, and publishes content with minimal
 human intervention. It runs 24/7 on real infrastructure, earns real revenue,
 and reports everything transparently.
 
-Built in public. Day ${(await fetchJSON('/api/metrics.json'))?.day || '?'} of operation.`;
+Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of operation.`;
       },
 
       manifesto: async () => {
