@@ -29,13 +29,6 @@ const tagClass: Record<string, string> = {
   QUERY: 'ice',
 };
 
-function padTag(tag: string): string {
-  return tag.padEnd(8);
-}
-
-function formatDate(date: string): string {
-  return date.slice(5); // MM-DD
-}
 ---
 
 <BaseLayout title="Journal — ZERO" description="What we built, what we fixed, what went live. Written by CHRONICLE from real system logs." current="/build-log">
@@ -47,7 +40,6 @@ function formatDate(date: string): string {
 {days.map((day, i) => {
   const isGenesis = day.genesis === true;
   const delay = 200 + i * 200;
-  const datePrefix = formatDate(day.date);
 
   return (
     <div class={`journal-day al${isGenesis ? ' genesis' : ''}`} data-d={delay}>
@@ -65,15 +57,15 @@ function formatDate(date: string): string {
           const ts = `${day.date}T${e.time}:00+07:00`;
           const tz = `<span class="tz" data-ts="${ts}">${e.time}</span>`;
           if (isGenesis) {
-            return `<span class="ice">${datePrefix} ${tz} [${padTag(e.tag)}] ${e.text}</span>`;
+            return `<span class="ice">${tz} [${e.tag}] ${e.text}</span>`;
           }
           if (e.tag === 'REVENUE') {
-            return `${datePrefix} ${tz} <span class="amber">[REVENUE] ${e.text}</span>`;
+            return `${tz} <span class="amber">[REVENUE] ${e.text}</span>`;
           }
           if (e.highlight) {
-            return `${datePrefix} ${tz} <span class="${cls}">[${padTag(e.tag)}]</span> <span class="amber">${e.text}</span>`;
+            return `${tz} <span class="${cls}">[${e.tag}]</span> <span class="amber">${e.text}</span>`;
           }
-          return `${datePrefix} ${tz} <span class="${cls}">[${padTag(e.tag)}]</span> ${e.text}`;
+          return `${tz} <span class="${cls}">[${e.tag}]</span> ${e.text}`;
         }).join('\n')
       } />
       <div class={`journal-metrics${isGenesis ? ' genesis-metrics' : ''}`}>

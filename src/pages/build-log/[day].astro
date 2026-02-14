@@ -74,16 +74,15 @@ const paragraphs = entry.body.split('\n\n');
     <pre class="j" set:html={
       journalEntries.map((e: any) => {
         const cls = tagClass[e.tag] || 'dim';
-        const pad = e.tag.padEnd(8);
         const ts = `${entry.date}T${e.time}:00+07:00`;
         const tz = `<span class="tz" data-ts="${ts}">${e.time}</span>`;
         if (['INIT', 'ONLINE', 'QUERY'].includes(e.tag)) {
-          return `<span class="ice">${tz} [${pad}] ${e.text}</span>`;
+          return `<span class="ice">${tz} [${e.tag}] ${e.text}</span>`;
         }
         if (e.tag === 'REVENUE') {
           return `${tz} <span class="amber">[REVENUE] ${e.text}</span>`;
         }
-        return `${tz} <span class="${cls}">[${pad}]</span> ${e.text}`;
+        return `${tz} <span class="${cls}">[${e.tag}]</span> ${e.text}`;
       }).join('\n')
     } />
   </div>
