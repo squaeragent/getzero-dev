@@ -1036,14 +1036,6 @@ pre, code {
   }
 
   /* ── Product page ── */
-  .crypto-pay-block {
-    padding: var(--sp-8) var(--sp-6);
-  }
-
-  .wallet-addr {
-    font-size: var(--size-xs);
-    word-break: break-all;
-  }
 
   #sub-email-product {
     width: 100% !important;
@@ -1148,8 +1140,4 @@ pre, code {
     font-size: 0.75rem;
   }
 
-  /* ── Wallet address ── */
-  .wallet-addr {
-    font-size: 0.6rem;
-  }
 }

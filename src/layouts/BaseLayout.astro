@@ -66,6 +66,7 @@ const navItems = [
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>" type="image/svg+xml" />
   <link rel="stylesheet" href="/css/zero-crt-microanimations.css" />
+  <link rel="stylesheet" href="/css/zero-interactions.css" />
   <link rel="stylesheet" href="/css/zero-living-text.css" />
   <noscript>
     <style>
@@ -171,6 +172,20 @@ const navItems = [
     document.querySelectorAll('.cursor-blink').forEach(el => {
       el.textContent = '█';
     });
+    // Scroll-aware header glow
+    const sb = document.querySelector('.status-bar');
+    if (sb) {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            sb.classList.toggle('scrolled', window.scrollY > 20);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
   </script>
   <script>
     // Shared animation for .al elements
