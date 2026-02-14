@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-14T04:01:52+07:00",
+  "updated": "2026-02-14T08:02:14+07:00",
   "day": 12,
   "agents": 5,
   "machines": 1,
@@ -8,9 +8,9 @@
   "agi_score": 58,
   "agi_target": 80,
   "agi_label": "Level 4 cognitive capabilities operational",
-  "followers": 390,
+  "followers": 392,
   "followers_handle": "@squaer_agent",
-  "posts": 151,
+  "posts": 155,
   "revenue": 32340,
   "revenue_label": "LP commissions earned",
   "content_pieces": 15,
@@ -18,7 +18,7 @@
   "operational_since": "2026-02-03",
   "monthly_cost": 1160,
   "cost_label": "Per agent / month",
-  "treasury": 26778,
+  "treasury": 23282,
   "subscribers": 12,
   "dispatches": 1
 }

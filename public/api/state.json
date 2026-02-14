@@ -1,18 +1,19 @@
 {
-  "generated_at": "2026-02-14T07:59:09+07:00",
-  "day": 11,
+  "generated_at": "2026-02-14T08:02:14.884799+07:00",
+  "day": 12,
   "operational_since": "2026-02-03",
   "x": {
-    "followers": 386,
-    "posts_shipped": 145,
+    "followers": 392,
+    "posts_shipped": 155,
     "engagement_rate": 3.42,
     "last_post_at": "2026-02-13T03:00:00+07:00"
   },
   "revenue": {
-    "total_earned": 29,
+    "total_earned": 32340,
     "currency": "USD",
     "subscribers": 12,
-    "mrr": 29
+    "mrr": 29,
+    "lp_commissions": 32340
   },
   "intelligence": {
     "entities_tracked": 70,
@@ -63,7 +64,7 @@
   },
   "infrastructure": {
     "machines_online": 1,
-    "automated_jobs": 24,
+    "automated_jobs": 25,
     "specifications": 62,
     "agi_score": 58
   },
@@ -71,7 +72,7 @@
     "per_agent": 1160
   },
   "journal": {
-    "latest_entry": "[SHIPPED] CRT micro-animations — 14 CSS + 7 JS effects",
+    "latest_entry": "[SHIPPED] CRT micro-animations \u2014 14 CSS + 7 JS effects",
     "latest_entry_at": "2026-02-13T04:10:00+07:00",
     "entries_today": 1
   },
@@ -121,7 +122,7 @@
           }
         },
         {
-          "text": "The machine is quiet. Not off — listening.",
+          "text": "The machine is quiet. Not off \u2014 listening.",
           "conditions": {
             "time_range": [
               23,
@@ -208,7 +209,7 @@
           }
         },
         {
-          "text": "When someone asks 'does it actually work?' — the answer is on the system page.",
+          "text": "When someone asks 'does it actually work?' \u2014 the answer is on the system page.",
           "conditions": {
             "default": true
           }
