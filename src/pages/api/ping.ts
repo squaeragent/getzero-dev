@@ -1,3 +1,5 @@
+export const prerender = false;
+
 /**
  * /api/ping — Simple health check (no .json extension)
  */

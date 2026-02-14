@@ -1,3 +1,5 @@
+export const prerender = false;
+
 /**
  * /api/metrics.json — Dashboard metrics
  * Returns key metrics for the MetricsDashboard component and terminal.

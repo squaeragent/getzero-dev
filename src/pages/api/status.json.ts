@@ -1,3 +1,5 @@
+export const prerender = false;
+
 /**
  * /api/status.json — System status endpoint
  * Returns operational state, agent status, and key metrics.

@@ -1,3 +1,5 @@
+export const prerender = false;
+
 /**
  * /api/predictions.json — Active predictions tracker
  * Returns ZERO's active predictions with confidence scores and status.

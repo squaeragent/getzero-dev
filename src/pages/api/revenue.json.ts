@@ -1,3 +1,5 @@
+export const prerender = false;
+
 /**
  * /api/revenue.json — Live LP revenue data
  * Fetches DexScreener pair data server-side with 60s CDN cache.

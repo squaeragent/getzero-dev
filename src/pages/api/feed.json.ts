@@ -1,3 +1,5 @@
+export const prerender = false;
+
 /**
  * /api/feed.json — Agent activity feed
  * Returns recent agent actions for the homepage live feed and terminal.
