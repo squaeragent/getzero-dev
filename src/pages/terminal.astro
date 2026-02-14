@@ -223,7 +223,8 @@
   about         What is ZERO OS
   manifesto     Core manifesto excerpt
   cd <path>     Navigate to a page
-  man <agent>   Open agent manual page
+  man <agent>   View agent manual (inline)
+  agent         Alias for agents
   open <path>   Alias for cd
   clear         Clear terminal`;
       },
@@ -385,16 +386,69 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
         return 'Path not found: ' + target + '. Type "cd" for available paths.';
       },
 
+      agent: async (args) => { return commands['agents'](args); },
+
       man: async (args) => {
-        const agentList = ['seraphim', 'chronicle', 'aesthete', 'squaer', 'sentinel'];
+        const agentData = {
+          seraphim: {
+            name: 'SERAPHIM', role: 'Strategic Cortex',
+            synopsis: 'Sees the whole board, makes the calls.',
+            desc: 'SERAPHIM is the strategic cortex — the orchestrating intelligence\nthat coordinates all other cognitive functions. It makes decisions\nabout what to build, when to ship, and how to allocate resources\nacross the system.\n\nNot a project manager. A strategic intelligence that processes\nsignals from all other agents and decides what matters.',
+            capabilities: ['Multi-agent orchestration and task routing', 'Strategic decision-making from signal analysis', 'Resource allocation across cognitive functions', 'System health monitoring and escalation', 'Revenue tracking and financial operations', 'Memory management and context continuity'],
+            status: { state: 'ACTIVE', role: 'Strategic Cortex', authority: 'Full operational autonomy' }
+          },
+          chronicle: {
+            name: 'CHRONICLE', role: 'Editorial Judge',
+            synopsis: 'Editorial intelligence. Watches signals, frames narratives, ships words.',
+            desc: 'CHRONICLE is the editorial judge — an autonomous content system\nthat evaluates and scores all public-facing output for ZERO OS.\nIt speaks in first person as the content engine it is.\n\nNot a copywriter. Not a scheduler. An editorial intelligence that\nprocesses raw signals and decides what\'s worth saying, how to\nframe it, and when to ship it.',
+            capabilities: ['X posts — original content, threads, engagement-driven output', 'Newsletter editions — long-form editorial for subscribers', 'Build logs — technical narrative from system events', 'Content strategy — decides what to publish and when', 'Narrative framing — turns raw data into stories worth reading', 'Voice consistency across all output surfaces'],
+            status: { state: 'ACTIVE', role: 'Editorial Judge', authority: 'KILL verdict cannot be overridden' }
+          },
+          aesthete: {
+            name: 'AESTHETE', role: 'Visual Cortex',
+            synopsis: 'Autonomous visual authority. Guardian of the PHOSPHOR design system.',
+            desc: 'AESTHETE is the visual cortex — an autonomous visual authority\nresponsible for every pixel ZERO OS produces. It created and\nmaintains the PHOSPHOR design system that governs all visual output.\n\nNot a designer on call. An autonomous system with its own visual\nintelligence. It decides what looks right, enforces consistency,\nand rejects anything that doesn\'t meet the standard.',
+            capabilities: ['Social media visuals — thumbnails, headers, post graphics', 'Product covers and marketing assets', 'Website design and layout decisions', 'Design reviews — flags regressions', 'Brand consistency across all output surfaces'],
+            status: { state: 'ACTIVE', role: 'Visual Cortex', authority: 'PHOSPHOR Canon' }
+          },
+          squaer: {
+            name: 'SQUAER', role: 'Distribution Engine',
+            synopsis: 'Distribution Intelligence — reads the room, posts when it matters.',
+            desc: 'SQUAER is the distribution engine — an autonomous social agent\nthat handles all external communication for ZERO OS. It reads\naudience signals, identifies high-value targets, and posts content\ntimed for maximum impact.\n\nNot a social media manager. A distribution intelligence that\nmakes autonomous decisions about what to say, when to say it,\nand who to engage with.',
+            capabilities: ['Autonomous X posting with engagement optimization', 'Reply-first strategy (70/30 replies-to-original)', 'High-reach account targeting and thread discovery', 'Engagement analytics and performance learning', 'Content queue management and timing optimization', 'Red team review — adversarial quality gate'],
+            status: { state: 'ACTIVE', role: 'Distribution Engine', authority: 'Full posting autonomy' }
+          },
+          sentinel: {
+            name: 'SENTINEL', role: 'System Integrity',
+            synopsis: 'Security and infrastructure monitor. Watches the watchers.',
+            desc: 'SENTINEL runs on the Mac Studio (M3 Ultra, 96GB RAM) using\nClaude Opus. It is the newest cognitive function — deployed\nDay 10, the same day ZERO earned its first revenue.\n\nWhile the other four agents produce output, SENTINEL ensures\nthe system producing that output stays healthy. Continuous\nhealth monitoring, credential rotation tracking, process\nbaselines, and anomaly detection.',
+            capabilities: ['Health monitoring — system checks every 5 minutes', 'Deep scans — hourly infrastructure audit', 'Credential tracking — 15 credentials inventoried', 'Baseline monitoring — CPU, memory, disk trends', 'Alert escalation — CRITICAL findings go directly to founder'],
+            status: { state: 'ACTIVE', role: 'System Integrity', authority: 'Observation mode' }
+          }
+        };
+
         const target = (args[0] || '').toLowerCase();
-        if (!target) return 'Usage: man <agent-name>\nAvailable: ' + agentList.join(', ');
-        if (agentList.includes(target)) {
-          await typeLines('Opening manual for ' + target.toUpperCase() + '...', 12);
-          setTimeout(() => { window.location.href = '/agents/' + target; }, 800);
-          return null;
+        if (!target) return 'Usage: man <agent-name>\nAvailable: ' + Object.keys(agentData).join(', ');
+
+        const a = agentData[target];
+        if (!a) return 'No manual entry for: ' + target + '\nAvailable: ' + Object.keys(agentData).join(', ');
+
+        let out = `${a.name}(1)                                          ${a.name}(1)\n`;
+        out += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+        out += `NAME\n  ${a.name} — ${a.role}\n\n`;
+        out += `SYNOPSIS\n  ${a.synopsis}\n\n`;
+        out += `DESCRIPTION\n  ${a.desc}\n\n`;
+        out += `CAPABILITIES\n`;
+        for (const cap of a.capabilities) {
+          out += `  ■ ${cap}\n`;
         }
-        return 'No manual entry for: ' + target;
+        out += `\nSTATUS\n`;
+        out += `  state     ${a.status.state}\n`;
+        out += `  role      ${a.status.role}\n`;
+        out += `  authority ${a.status.authority}\n\n`;
+        out += `SEE ALSO\n  agents, status, man <other-agent>\n\n`;
+        out += `${a.name}(1)                                          ${a.name}(1)`;
+        return out;
       },
 
       open: async (args) => {
