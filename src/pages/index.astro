@@ -185,6 +185,23 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
       </p>
     </div>
 
+    <!-- ═══ LIVE REVENUE ═══ -->
+    <div class="panel">
+      <h2 class="panel-title phosphor">REVENUE — ON-CHAIN VERIFIED</h2>
+      <pre class="live-dash" id="live-revenue">{`LP Commissions ..... $${m.revenue?.toLocaleString?.() ?? m.revenue}
+24h Volume ......... loading...
+Token Price ........ loading...
+
+Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
+    </div>
+
+    <!-- ═══ LIVE ACTIVITY FEED ═══ -->
+    <div class="panel">
+      <h2 class="panel-title phosphor">LIVE ACTIVITY <span class="live-dot">●</span></h2>
+      <pre class="live-dash" id="live-feed">{`Loading system feed...`}</pre>
+      <div class="live-updated dim" id="live-updated" style="font-size: 0.65rem; margin-top: 6px;"></div>
+    </div>
+
     <!-- ═══ DISPATCH (full width) ═══ -->
     <LatestTweet />
 
@@ -298,4 +315,74 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
   }
   h1.bl { margin: 0; font-size: var(--size-sm); font-family: var(--font-head); font-weight: 700; line-height: 1.5; }
   h2.panel-title { margin: 0; margin-bottom: var(--sp-6); }
+  .live-dot {
+    color: var(--phosphor);
+    animation: livePulse 2s ease-in-out infinite;
+    font-size: 0.6rem;
+    vertical-align: middle;
+  }
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
 </style>
+
+<script>
+  // === LIVE REVENUE TICKER ===
+  let lastRevenueUpdate = 0;
+  async function updateRevenue() {
+    try {
+      const res = await fetch('/api/revenue.json');
+      const d = await res.json();
+      lastRevenueUpdate = Date.now();
+      const el = document.getElementById('live-revenue');
+      if (!el) return;
+      const price = d.price ? '$' + parseFloat(d.price).toFixed(6) : '—';
+      const vol = d.volume24h ? '$' + Math.round(d.volume24h).toLocaleString() : '—';
+      const rev = d.totalRevenue ? '$' + Number(d.totalRevenue).toLocaleString() : '—';
+      el.textContent = `LP Commissions ..... ${rev}\n24h Volume ......... ${vol}\nToken Price ........ ${price}\n\nSource: Uniswap V4 LP · Base L2 · updates every 60s`;
+    } catch(e) {}
+  }
+
+  // === LIVE ACTIVITY FEED ===
+  let lastFeedUpdate = 0;
+  async function updateFeed() {
+    try {
+      const res = await fetch('/api/feed.json');
+      const data = await res.json();
+      lastFeedUpdate = Date.now();
+      const container = document.getElementById('live-feed');
+      if (!container || !data.entries?.length) return;
+      let lines = [];
+      for (const entry of data.entries.slice(0, 8)) {
+        const t = new Date(entry.time || entry.timestamp || entry.ts);
+        const hh = String(t.getHours()).padStart(2, '0');
+        const mm = String(t.getMinutes()).padStart(2, '0');
+        const agent = (entry.agent || 'SYSTEM').toUpperCase().padEnd(12);
+        const action = entry.action || entry.activity || 'idle';
+        lines.push(`  ${hh}:${mm}  ${agent} ${action}`);
+      }
+      container.textContent = lines.join('\n');
+    } catch(e) {}
+  }
+
+  // === UPDATED TIMER ===
+  function tickUpdated() {
+    const el = document.getElementById('live-updated');
+    if (!el || !lastFeedUpdate) return;
+    const ago = Math.round((Date.now() - lastFeedUpdate) / 1000);
+    el.textContent = `Updated ${ago}s ago`;
+  }
+
+  // === BOOT REPLAY (first visit only) ===
+  if (!sessionStorage.getItem('zero-booted')) {
+    sessionStorage.setItem('zero-booted', '1');
+  }
+
+  // Init
+  updateRevenue();
+  updateFeed();
+  setInterval(updateRevenue, 60000);
+  setInterval(updateFeed, 30000);
+  setInterval(tickUpdated, 1000);
+</script>
