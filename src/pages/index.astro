@@ -1,16 +1,48 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LatestTweet from '../components/LatestTweet.astro';
 import BlockLogo from '../components/BlockLogo.astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
 // Load metrics
-let m = { treasury: 30300, agents: 5, followers: 364, revenue: 29, monthly_cost: 5800, day: 11, subscribers: 12, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 118, content_pieces: 15, avg_quality: 8.4, machines: 2, specs: 62, automated_jobs: 24 };
+let m: any = { treasury: 30300, agents: 5, followers: 364, revenue: 29, monthly_cost: 5800, day: 11, subscribers: 12, dispatches: 1, agi_score: 58, agi_target: 80, handoffs: 18, posts: 118, content_pieces: 15, avg_quality: 8.4, machines: 2, specs: 62, automated_jobs: 24 };
 try {
-  const fs = await import('node:fs');
-  const path = await import('node:path');
-  const dataPath = path.default.join(process.cwd(), 'public', 'data', 'metrics.json');
-  m = { ...m, ...JSON.parse(fs.default.readFileSync(dataPath, 'utf-8')) };
+  const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  m = { ...m, ...JSON.parse(fs.readFileSync(dataPath, 'utf-8')) };
 } catch {}
+
+// Load state for uptime calculation
+let state: any = {};
+try {
+  const statePath = path.join(process.cwd(), 'public', 'api', 'state.json');
+  state = JSON.parse(fs.readFileSync(statePath, 'utf-8'));
+} catch {}
+
+// Load activity feed
+let feed: any[] = [];
+try {
+  const feedPath = path.join(process.cwd(), 'public', 'data', 'activity-feed.json');
+  feed = JSON.parse(fs.readFileSync(feedPath, 'utf-8'));
+} catch {}
+
+// Calculate uptime
+const opSince = m.operational_since || state.operational_since || '2026-02-03';
+const uptimeMs = Date.now() - new Date(opSince).getTime();
+const uptimeDays = Math.floor(uptimeMs / 86400000);
+const uptimeHours = Math.floor((uptimeMs % 86400000) / 3600000);
+
+// Format feed entries
+const recentFeed = feed.slice(0, 5).map((e: any) => {
+  const t = new Date(e.time);
+  const hh = String(t.getHours()).padStart(2, '0');
+  const mm = String(t.getMinutes()).padStart(2, '0');
+  return { time: `${hh}:${mm}`, agent: e.agent.padEnd(10), action: e.action };
+});
+
+const renderTime = new Date().toISOString();
 ---
 
 <BaseLayout title="ZERO OS — Terminal" current="/">
@@ -42,6 +74,23 @@ try {
         <div class="bl" data-d="3900"><span class="dim">Built in public. Running in production.</span></div>
         <div class="bl" data-d="4100"><span class="amber-g">Day {m.day} of operation.</span></div>
         <div class="bl" data-d="4300"><span class="cursor-blink">█</span></div>
+      </div>
+    </div>
+
+    <!-- ═══ RIGHT TOP: LIVE STATUS ═══ -->
+    <div class="panel">
+      <h2 class="panel-title phosphor">LIVE STATUS</h2>
+      <pre class="live-dash">{`SYSTEM STATUS ................ OPERATIONAL
+AGENTS ACTIVE ................ ${state.agents?.active ?? 4}/${m.agents}
+UPTIME ....................... ${uptimeDays}d ${uptimeHours}h
+REVENUE (ON-CHAIN) ........... $${m.revenue?.toLocaleString?.() ?? m.revenue}
+FOLLOWERS .................... ${m.followers}
+POSTS SHIPPED ................ ${m.posts}
+
+LAST HOUR:
+${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
+      <div style="font-size: 0.65rem; color: var(--text-dim); margin-top: 6px;">
+        rendered {renderTime}
       </div>
     </div>
 
@@ -237,6 +286,16 @@ try {
 </script>
 
 <style>
+  .live-dash {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--phosphor);
+    text-shadow: 0 0 4px var(--phosphor-glow);
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
   h1.bl { margin: 0; font-size: var(--size-sm); font-family: var(--font-head); font-weight: 700; line-height: 1.5; }
   h2.panel-title { margin: 0; margin-bottom: var(--sp-6); }
 </style>
