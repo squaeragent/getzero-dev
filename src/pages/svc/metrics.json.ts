@@ -49,7 +49,7 @@ export const GET: APIRoute = async () => {
     specs: 62,
     automated_jobs: 43,
     agi_score: 52,
-    followers: 417,
+    followers: 420,
     posts: 172,
     revenue: 32340,
     content_pieces: 15,

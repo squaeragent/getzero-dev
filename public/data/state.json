@@ -3,7 +3,7 @@
   "operational_since": "2026-02-03",
   "x": {
     "posts_shipped": 172,
-    "followers": 417
+    "followers": 420
   },
   "content": {
     "avg_quality_score": 8.4,
@@ -59,7 +59,7 @@
   },
   "metrics": {
     "day": 12,
-    "followers": 417,
+    "followers": 420,
     "posts": 172,
     "quality_avg": 8.4,
     "entities_tracked": 70

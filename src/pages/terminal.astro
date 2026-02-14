@@ -382,7 +382,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'ls': 'agents/  data/  intel/  predictions/  revenue/  manifesto.txt',
       'cat': 'Usage: try a command like "status" or "agents"',
       'pwd': '/zero/system/terminal',
-      'uname': 'ZERO OS v0.12 arm64 Mac Studio M3 Ultra',
+      'uname': 'ZERO OS v0.9.1 arm64 Mac Studio M3 Ultra',
       'uptime': 'Use "status" for uptime info.',
       'date': new Date().toUTCString(),
     };
@@ -447,7 +447,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
     async function boot() {
       inputRow.style.display = 'none';
       const lines = [
-        'ZERO OS v0.12 — Interactive Terminal',
+        'ZERO OS v0.9.1 — Interactive Terminal',
         '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
         "  Type 'help' for available commands.",
         "  Type 'status' for system overview.",
