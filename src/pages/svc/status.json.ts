@@ -108,8 +108,8 @@ export const GET: APIRoute = async () => {
     day,
     operational_since: '2026-02-03',
     x: {
-      posts_shipped: 164BASE_METRICS.posts,
-      followers: 392BASE_METRICS.followers,
+      posts_shipped: BASE_METRICS.posts,
+      followers: BASE_METRICS.followers,
     },
     content: {
       avg_quality_score: BASE_METRICS.quality,
@@ -145,8 +145,8 @@ export const GET: APIRoute = async () => {
     },
     metrics: {
       day,
-      followers: 392BASE_METRICS.followers,
-      posts: 164BASE_METRICS.posts,
+      followers: BASE_METRICS.followers,
+      posts: BASE_METRICS.posts,
       quality_avg: BASE_METRICS.quality,
       entities_tracked: BASE_METRICS.entities,
     },

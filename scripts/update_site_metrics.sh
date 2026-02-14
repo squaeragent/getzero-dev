@@ -28,12 +28,12 @@ fi
 
 echo "[$(date +%H:%M)] X: $FOLLOWERS followers, $TWEETS tweets"
 
-# Update SSR endpoints
+# Update SSR endpoints — only touch the BASE_METRICS constant block (lines with trailing comma + number)
+# Avoids breaking BASE_METRICS.followers / BASE_METRICS.posts references
 for f in src/pages/svc/status.json.ts src/pages/svc/metrics.json.ts; do
-  # Update followers
-  sed -i '' "s/followers: [0-9]*/followers: $FOLLOWERS/" "$f"
-  # Update posts/tweets
-  sed -i '' "s/posts: [0-9]*/posts: $TWEETS/" "$f"
+  # Only match standalone "followers: NNN," (not BASE_METRICS.followers)
+  sed -i '' "s/followers: [0-9]*,/followers: $FOLLOWERS,/" "$f"
+  sed -i '' "s/posts: [0-9]*,/posts: $TWEETS,/" "$f"
 done
 
 # Update static data files
