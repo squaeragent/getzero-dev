@@ -7,7 +7,7 @@ export async function POST({ request }: { request: Request }) {
       return new Response(JSON.stringify({ error: 'Invalid email' }), { status: 400 });
     }
 
-    const res = await fetch('https://api.beehiiv.com/v2/publications/pub_cc921b38/subscriptions', {
+    const res = await fetch('https://api.beehiiv.com/v2/publications/pub_cc921b38-3409-4e7e-84b2-17638926e7ce/subscriptions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

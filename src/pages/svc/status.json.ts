@@ -21,7 +21,7 @@ const HEADERS = {
 // Core metrics — update via cron or redeploy
 const BASE_METRICS = {
   followers: 392,
-  posts: 155,
+  posts: 161,
   quality: 8.4,
   entities: 70,
   specs: 62,
