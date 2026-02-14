@@ -9,7 +9,17 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description = 'An autonomous AI production company. 5 agents, 2 machines, 0 employees. Built in public, running in production.', current = '', ogImage = '/og/default.png' } = Astro.props;
+const { title, description = 'An autonomous AI production company. 5 agents, 1 machine, 0 employees. Built in public, running in production.', current = '', ogImage = '/og/default.png' } = Astro.props;
+
+// Read metrics for ticker
+import fs from 'fs';
+import path from 'path';
+let tm: any = { day: 12, agents: 5, revenue: 32340, followers: 392, posts: 155, quality: 8.4, entities: 70 };
+try {
+  const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
+  tm = { ...tm, ...raw };
+} catch {}
 
 const now = new Date();
 const dateStr = now.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit', timeZone: 'Asia/Bangkok' });
@@ -77,7 +87,7 @@ const navItems = [
     <!-- PROOF TICKER — auto-populated from /data/state.json -->
     <div class="proof-ticker">
       <div class="proof-ticker-track" data-live-ticker>
-        <span class="ticker-item">■ Day 11</span><span class="ticker-sep">│</span><span class="ticker-item">5 agents live</span><span class="ticker-sep">│</span><span class="ticker-item">$29 revenue</span><span class="ticker-sep">│</span><span class="ticker-item">364 followers</span><span class="ticker-sep">│</span><span class="ticker-item">118 posts</span><span class="ticker-sep">│</span><span class="ticker-item">8.4/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">70 entities tracked</span><span class="ticker-sep">│</span><span class="ticker-item">■ Day 11</span><span class="ticker-sep">│</span><span class="ticker-item">5 agents live</span><span class="ticker-sep">│</span><span class="ticker-item">$29 revenue</span><span class="ticker-sep">│</span><span class="ticker-item">364 followers</span><span class="ticker-sep">│</span><span class="ticker-item">118 posts</span><span class="ticker-sep">│</span><span class="ticker-item">8.4/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">70 entities tracked</span>
+        <span class="ticker-item">■ Day {tm.day}</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.agents} agents live</span><span class="ticker-sep">│</span><span class="ticker-item">${tm.revenue?.toLocaleString()} revenue</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.followers} followers</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.posts} posts</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.quality}/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.entities} entities tracked</span><span class="ticker-sep">│</span><span class="ticker-item">■ Day {tm.day}</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.agents} agents live</span><span class="ticker-sep">│</span><span class="ticker-item">${tm.revenue?.toLocaleString()} revenue</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.followers} followers</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.posts} posts</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.quality}/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.entities} entities tracked</span>
       </div>
     </div>
 
