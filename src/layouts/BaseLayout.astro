@@ -132,9 +132,22 @@ const navItems = [
         flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
-        mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        scrollbar-width: none;
+        -ms-overflow-style: none;
         font-size: 0.68rem;
+        position: relative;
+      }
+      .nav-bar::-webkit-scrollbar { display: none; }
+      .nav-bar::after {
+        content: '';
+        position: sticky;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 32px;
+        flex-shrink: 0;
+        background: linear-gradient(to right, transparent, var(--bg, #0a0a0a));
+        pointer-events: none;
       }
       .nav-tab {
         flex-shrink: 0;

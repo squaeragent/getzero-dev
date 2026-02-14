@@ -6,16 +6,23 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
 import CardEntry from '../components/ui/CardEntry.astro';
 import CardFeed from '../components/ui/CardFeed.astro';
 
-const predictions = [
-  { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING' },
-  { id: 'P-003', title: 'Formal agent lawsuit filing', deadline: '2026-03-01', confidence: 'HIGH', status: 'PENDING' },
-  { id: 'P-004', title: 'OpenAI Frontier pricing ≥$50/month', deadline: '2026-06-01', confidence: 'MED', status: 'PENDING' },
-];
-
-const total = predictions.length;
-const correct = predictions.filter(p => p.status === 'CORRECT').length;
-const wrong = predictions.filter(p => p.status === 'WRONG').length;
-const resolved = correct + wrong;
+// Predictions loaded from SSR endpoint at build time — single source of truth
+let predictions: any[] = [];
+let total = 0, correct = 0, wrong = 0, resolved = 0;
+try {
+  const fs = await import('fs');
+  const path = await import('path');
+  const predPath = path.default.join(process.cwd(), 'public', 'data', 'predictions.json');
+  const raw = JSON.parse(fs.default.readFileSync(predPath, 'utf-8'));
+  predictions = raw.predictions || [];
+  total = predictions.length;
+  correct = predictions.filter((p: any) => ['CORRECT', 'correct', 'resolved_correct'].includes(p.status)).length;
+  wrong = predictions.filter((p: any) => ['WRONG', 'wrong', 'resolved_wrong'].includes(p.status)).length;
+  resolved = correct + wrong;
+} catch {
+  // Fallback if file not found
+  total = 8; resolved = 0; correct = 0; wrong = 0;
+}
 
 const layers = [
   { num: 'L0', name: 'COLLECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-source continuous scanning' },
@@ -97,19 +104,27 @@ pending ... {total - resolved}
 <span class="dim">(first edition — building baseline)</span></pre>
 
   <div class="pred-feed">
-    {predictions.map((p, i) => {
-      const sc = p.status === 'CORRECT' ? 'phosphor' : p.status === 'WRONG' ? 'red' : 'dim';
+    {predictions.slice(0, 4).map((p: any, i: number) => {
+      const status = (p.status || 'active').toUpperCase();
+      const displayStatus = status === 'ACTIVE' ? 'OPEN' : status;
+      const sc = displayStatus === 'CORRECT' ? 'phosphor' : displayStatus === 'WRONG' ? 'red' : 'dim';
+      const confPct = typeof p.confidence === 'number' ? `${Math.round(p.confidence * 100)}%` : p.confidence;
       return (
         <div class={`p-entry al`} data-d={`${1400 + i * 100}`}>
           <div class="p-header">
             <span class="p-id phosphor">{p.id}</span>
-            <span class={`p-tag ${sc}`}>[{p.status}]</span>
+            <span class={`p-tag ${sc}`}>[{displayStatus}]</span>
           </div>
-          <div class="p-text">{p.title}</div>
-          <div class="p-meta dim">deadline {p.deadline} · confidence {p.confidence}</div>
+          <div class="p-text">{p.claim || p.title || p.prediction}</div>
+          <div class="p-meta dim">deadline {p.deadline} · confidence {confPct}</div>
         </div>
       );
     })}
+    {total > 4 && (
+      <div class="p-entry al" data-d="1800">
+        <a href="/predictions" class="p-more phosphor">→ View all {total} predictions</a>
+      </div>
+    )}
   </div>
 </section>
 
@@ -260,6 +275,13 @@ Full entity-level analysis available in the Intelligence Brief.</span>
     font-size: var(--size-xs);
     margin-top: var(--sp-4);
   }
+  .p-more {
+    font-family: var(--font-head);
+    font-size: var(--size-sm);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+  }
+  .p-more:hover { text-decoration: underline; }
 
   .phosphor { color: var(--phosphor); }
   .amber { color: var(--amber); }

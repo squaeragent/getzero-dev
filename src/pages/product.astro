@@ -25,31 +25,19 @@ Weekly intelligence · Cancel anytime
 <span class="phosphor">zero $</span> subscribe --intel-brief
 → <a href="https://buy.stripe.com/00w14ngdU9dHc748Fa83C00" target="_blank" rel="noopener"><span class="amber">Subscribe — $29/mo</span></a></pre>
 
-    <pre class="term-block al" data-d="400"><span class="phosphor">FROM EDITION #1</span>
-<span class="dim">"The Week Agentic AI Became a Product Category"</span>
-
-<span class="amber">></span> In the span of five days, agentic AI went from
-  builder niche to consumer product category. Three
-  simultaneous launches across three market segments
-  confirmed the transition happened faster than anyone
-  positioned for it.
-
-<span class="amber">></span> ai.com crashed under demand within hours of its
-  Super Bowl launch. The audience isn't skeptical —
-  they're ready before the products are.
-
-<span class="amber">></span> OpenAI's Frontier describes agents as employees,
-  not tools. Agents get onboarded. They receive
-  feedback. They have access policies.
-
-<span class="amber">></span> Polymarket prices 70% odds on an AI agent lawsuit
-  before end of February. The prediction market
-  considers this nearly inevitable, not speculative.
-  Every company building autonomous agents needs to
-  understand the regulatory surface area this exposes.
-
-<span class="dim">6 signals · 4 predictions with deadlines · 3,300 words
-Full edition available to subscribers.</span></pre>
+    <div class="edition-card al" data-d="400">
+      <div class="edition-header">
+        <span class="phosphor">FROM EDITION #1</span>
+        <span class="dim edition-subtitle">"The Week Agentic AI Became a Product Category"</span>
+      </div>
+      <div class="edition-body">
+        <div class="edition-quote"><span class="amber">></span> In the span of five days, agentic AI went from builder niche to consumer product category. Three simultaneous launches across three market segments confirmed the transition happened faster than anyone positioned for it.</div>
+        <div class="edition-quote"><span class="amber">></span> ai.com crashed under demand within hours of its Super Bowl launch. The audience isn't skeptical — they're ready before the products are.</div>
+        <div class="edition-quote"><span class="amber">></span> OpenAI's Frontier describes agents as employees, not tools. Agents get onboarded. They receive feedback. They have access policies.</div>
+        <div class="edition-quote"><span class="amber">></span> Polymarket prices 70% odds on an AI agent lawsuit before end of February. The prediction market considers this nearly inevitable, not speculative. Every company building autonomous agents needs to understand the regulatory surface area this exposes.</div>
+      </div>
+      <div class="edition-footer dim">6 signals · 4 predictions with deadlines · 3,300 words · Full edition available to subscribers.</div>
+    </div>
 
     <div class="feature-section al" data-d="600">
       <div class="feature-label"><span class="phosphor">WHAT YOU GET</span></div>
@@ -233,9 +221,54 @@ Weekly intelligence · Cancel anytime
       line-height: 1.55;
     }
 
+    /* Edition #1 card */
+    .edition-card {
+      border: 1px solid var(--border-color, #1a1a1a);
+      padding: var(--sp-16);
+      margin: var(--sp-12) 0;
+      background: rgba(200, 255, 0, 0.02);
+    }
+    .edition-header {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: var(--size-sm);
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-12);
+      padding-bottom: var(--sp-8);
+      border-bottom: var(--border-panel);
+    }
+    .edition-subtitle {
+      display: block;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--size-base);
+      margin-top: var(--sp-4);
+    }
+    .edition-body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-10);
+    }
+    .edition-quote {
+      font-family: var(--font-body);
+      font-size: var(--size-base);
+      color: var(--text);
+      line-height: 1.6;
+      padding-left: var(--sp-8);
+      border-left: 2px solid var(--amber);
+    }
+    .edition-footer {
+      font-family: var(--font-body);
+      font-size: var(--size-sm);
+      margin-top: var(--sp-12);
+      padding-top: var(--sp-8);
+      border-top: var(--border-panel);
+    }
+
     .phosphor { color: var(--phosphor); }
     .amber { color: var(--amber); }
     .dim { color: var(--text-dim); }
 
     @media (max-width: 640px) {
       .page-content { padding: 0 var(--sp-10); }
+      .edition-card { padding: var(--sp-10); }
