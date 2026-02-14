@@ -35,6 +35,7 @@ const navItems = [
   { href: '/manifesto', label: '[MANIFESTO]' },
   { href: '/product', label: '[BRIEF]' },
   { href: '/product#subscribe', label: '[SUBSCRIBE]' },
+  { href: '/live', label: '[LIVE]', live: true },
 ];
 ---
 
@@ -94,7 +95,10 @@ const navItems = [
     <!-- NAVIGATION -->
     <nav class="nav-bar">
       {navItems.map(item => (
-        <a href={item.href} class={`nav-tab hover-glitch${current === item.href ? ' active' : ''}`}>{item.label}</a>
+        <a href={item.href} class={`nav-tab hover-glitch${current === item.href ? ' active' : ''}${item.live ? ' nav-live' : ''}`}>
+          {item.live && <span class="nav-live-dot" />}
+          {item.label}
+        </a>
       ))}
     </nav>
 
@@ -109,6 +113,20 @@ const navItems = [
   </div>
 
   <style>
+    .nav-live-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #c8ff00;
+      margin-right: 4px;
+      vertical-align: middle;
+      animation: navPulse 2s ease-in-out infinite;
+    }
+    @keyframes navPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
     @media (max-width: 768px) {
       .nav-bar {
         flex-wrap: nowrap;
