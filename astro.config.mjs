@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://getzero.dev',
-  output: 'static',
+  output: 'server',
   adapter: vercel(),
   integrations: [sitemap()],
 });

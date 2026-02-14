@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 let m = { agents: 5, followers: 364, revenue: 29, day: 11, posts: 118 };
@@ -117,7 +118,7 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.95);
-    color: #ff3333;
+    color: var(--red);
     font-family: var(--font-head);
     font-size: 2.5rem;
     font-weight: 700;
@@ -134,58 +135,58 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     opacity: 0 !important;
   }
   .prompt-line {
-    padding: 8px 12px;
+    padding: var(--sp-8) var(--sp-12);
   }
   .manifesto-header {
-    padding: 10px 12px;
-    border-top: 1px solid var(--phosphor-dim);
-    border-bottom: 1px solid var(--phosphor-dim);
+    padding: var(--sp-10) var(--sp-12);
+    border-top: var(--border-phosphor);
+    border-bottom: var(--border-phosphor);
   }
   .manifesto-title {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: 1rem;
+    font-size: var(--size-lg);
     color: var(--phosphor);
-    text-shadow: 0 0 8px var(--phosphor-glow);
+    text-shadow: var(--glow-phosphor);
     margin: 0;
   }
   .manifesto-sub {
-    font-size: 0.8rem;
+    font-size: var(--size-sm);
   }
   .manifesto-section {
-    padding: 0 12px;
+    padding: 0 var(--sp-12);
   }
   .section-title {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: 0.9rem;
-    padding: 10px 0 6px;
-    border-bottom: 1px solid #1a1a1a;
-    margin: 0 0 6px 0;
+    font-size: var(--size-md);
+    padding: var(--sp-10) 0 var(--sp-6);
+    border-bottom: var(--border-panel);
+    margin: 0 0 var(--sp-6) 0;
   }
   .section-body {
     font-family: var(--font-body);
-    font-size: 1.1rem;
+    font-size: var(--size-lg);
     color: var(--text-dim);
     white-space: pre-wrap;
     word-break: break-word;
     line-height: 1.7;
-    padding-bottom: 4px;
+    padding-bottom: var(--sp-4);
   }
   .callout {
-    padding: 8px 0;
-    margin: 6px 0;
+    padding: var(--sp-8) 0;
+    margin: var(--sp-6) 0;
     color: var(--text);
   }
   .def {
     padding-left: 0;
-    margin-bottom: 8px;
+    margin-bottom: var(--sp-8);
     line-height: 1.7;
   }
   .metrics-block {
     color: var(--text);
-    margin: 4px 0;
-    font-size: 1rem;
+    margin: var(--sp-4) 0;
+    font-size: var(--size-lg);
   }
   .classified-overlay.al { opacity: 0; transform: none; transition: opacity 0.3s ease; }
   .classified-overlay.al.on { opacity: 1; }

@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
 import { sanitizeProblems } from '../lib/sanitizer';
@@ -183,8 +184,8 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> needs prediction volume f
 <style>
   .scan-line {
     font-family: var(--font-body);
-    font-size: 0.85rem;
-    padding: 4px 12px;
+    font-size: var(--size-base);
+    padding: var(--sp-4) var(--sp-12);
     color: var(--text-dim);
     transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s ease;
   }
