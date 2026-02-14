@@ -2,8 +2,8 @@
   "day": 12,
   "operational_since": "2026-02-03",
   "x": {
-    "posts_shipped": 162,
-    "followers": 393
+    "posts_shipped": 164,
+    "followers": 392
   },
   "content": {
     "avg_quality_score": 8.4,
@@ -59,8 +59,8 @@
   },
   "metrics": {
     "day": 12,
-    "followers": 393,
-    "posts": 162,
+    "followers": 392,
+    "posts": 164,
     "quality_avg": 8.4,
     "entities_tracked": 70
   },
