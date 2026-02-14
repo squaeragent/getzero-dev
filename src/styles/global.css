@@ -962,6 +962,117 @@ pre, code {
     max-width: 100%;
     height: auto;
   }
+
+  /* ── Agent index cards ── */
+  .agent-card {
+    padding: var(--sp-6) var(--sp-8);
+    font-size: 13px;
+  }
+
+  /* ── Agent man pages ── */
+  .man-page {
+    max-width: 100%;
+    padding: 0 var(--sp-8);
+  }
+
+  .man-indent {
+    padding-left: var(--sp-10);
+    font-size: 0.85rem;
+  }
+
+  /* ── Status grid (system page) ── */
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .status-card {
+    padding: 10px 8px;
+  }
+
+  /* ── Manifesto ── */
+  .manifesto-wrap {
+    max-width: 100%;
+  }
+
+  .manifesto-section {
+    padding: 0 var(--sp-8);
+  }
+
+  .section-body {
+    font-size: var(--size-md);
+    line-height: 1.6;
+  }
+
+  .callout {
+    padding: var(--sp-6) 0;
+  }
+
+  .metrics-block {
+    font-size: var(--size-md);
+  }
+
+  /* ── Build log ── */
+  .journal-wrap {
+    padding: 0 var(--sp-10);
+  }
+
+  .journal-day {
+    padding: 16px 0;
+  }
+
+  .journal-date {
+    font-size: var(--size-lg);
+  }
+
+  pre.j {
+    font-size: var(--size-base);
+    line-height: 1.65;
+  }
+
+  .journal-metrics {
+    font-size: var(--size-sm);
+    padding: var(--sp-8) var(--sp-10);
+  }
+
+  /* ── Product page ── */
+  .crypto-pay-block {
+    padding: var(--sp-8) var(--sp-6);
+  }
+
+  .wallet-addr {
+    font-size: var(--size-xs);
+    word-break: break-all;
+  }
+
+  #sub-email-product {
+    width: 100% !important;
+    max-width: 280px;
+    font-size: 14px !important;
+  }
+
+  /* ── System page scan lines ── */
+  .scan-line {
+    font-size: var(--size-sm);
+    padding: var(--sp-4) var(--sp-8);
+  }
+
+  /* ── Predictions page ── */
+  .term-block pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* ── Inner page content ── */
+  .page-content {
+    padding: 8px 10px;
+  }
+
+  .page-content pre {
+    font-size: 0.8rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
 }
 
 /* Extra small screens (iPhone SE, 375px) */
@@ -985,5 +1096,60 @@ pre, code {
 
   .metric-dots {
     min-width: 10px;
+  }
+
+  /* ── Agent cards tighter ── */
+  .agent-card {
+    padding: var(--sp-4) var(--sp-6);
+    font-size: 12px;
+  }
+
+  .man-indent {
+    padding-left: var(--sp-6);
+    font-size: 0.8rem;
+  }
+
+  /* ── Status grid single column ── */
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .status-card .value {
+    font-size: 1.1rem;
+  }
+
+  /* ── Build log tighter ── */
+  .journal-wrap {
+    padding: 0 var(--sp-6);
+  }
+
+  .journal-metrics {
+    font-size: var(--size-xs);
+    padding: var(--sp-6) var(--sp-8);
+  }
+
+  /* ── Section body tighter ── */
+  .section-body {
+    font-size: var(--size-base);
+    line-height: 1.5;
+  }
+
+  /* ── Term blocks extra small ── */
+  .term-block {
+    padding: 4px 6px;
+    font-size: 0.7rem;
+  }
+
+  .page-content {
+    padding: 6px 8px;
+  }
+
+  .page-content pre {
+    font-size: 0.75rem;
+  }
+
+  /* ── Wallet address ── */
+  .wallet-addr {
+    font-size: 0.6rem;
   }
 }
