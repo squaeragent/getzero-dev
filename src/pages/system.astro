@@ -5,9 +5,12 @@ import MetricsDashboard from '../components/MetricsDashboard.astro';
 import { sanitizeProblems } from '../lib/sanitizer';
 
 const rawProblems = [
+  'No factual verification layer — false claims pass posting guard + leak detector',
+  'Peer review not activated — agents don\'t review each other\'s output',
+  'No priority override — high-priority signals wait for next scheduled cron cycle',
+  'Agent liveness reporting broken — false CRITICAL status on healthy agents',
   'Absence Engine — 28 days of baseline remaining (target ~Mar 14)',
   'L6 Compounding — needs prediction volume before activation',
-  'Gmail SMTP — intermittent timeouts blocking email delivery',
 ];
 const publicProblems = sanitizeProblems(rawProblems);
 ---
@@ -150,9 +153,66 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> needs prediction volume f
 </pre>
 </div>
 
-<div class="scan-line al" data-d="2400" id="scan-metrics">⠋ Loading metrics...</div>
+<div class="scan-line al" data-d="2400" id="scan-agi">⠋ Running intelligence assessment...</div>
 
-<div class="al" data-d="2900" id="section-metrics">
+<div class="al" data-d="2900" id="section-agi">
+<h2 class="sr-only">Intelligence Assessment</h2>
+<pre class="term-block">
+
+<span class="phosphor">INTELLIGENCE ASSESSMENT — AGI TEST v2</span>
+Score: <span class="phosphor">103.5</span> / 200 (<span class="phosphor">52%</span>)
+Level: <span class="amber">EMERGING → FUNCTIONAL</span> (boundary)
+Tested: 2026-02-15 | Retest: 2026-03-01
+</pre>
+
+<pre class="term-block">
+<span class="phosphor">DIMENSION BREAKDOWN</span>
+
+  Compound Perception     <span class="amber">██████████░░░░░░░░░░</span> <span class="amber">51%</span>  20.5/40
+  Autonomous Goals        <span class="phosphor">████████████████░░░░</span> <span class="phosphor">83%</span>  33/40
+  Peer Intelligence       <span class="red">███████░░░░░░░░░░░░░</span> <span class="red">37%</span>  11/30
+  Compound Intelligence   <span class="red">███████░░░░░░░░░░░░░</span> <span class="red">37%</span>  11/30
+  Self-Improvement        <span class="amber">██████████░░░░░░░░░░</span> <span class="amber">53%</span>  16/30
+  Autonomy Under Pressure <span class="red">████████░░░░░░░░░░░░</span> <span class="red">40%</span>  12/30
+</pre>
+
+<pre class="term-block">
+<span class="phosphor">METHOD</span>
+This test uses live probes, signal injection, and operational
+verification — not self-assessment. 20 tests across 6 dimensions.
+Every score backed by evidence. Scored conservatively.
+
+<span class="dim">Previous self-assessment (v1): 182/220 (83%). Different test,
+different standard. v1 measures reasoning about capabilities.
+v2 measures whether the machinery works when probed. Both real.</span>
+</pre>
+
+<pre class="term-block">
+<span class="phosphor">STRONGEST</span>   Autonomous Goal Generation (83%)
+             Data-backed proposals, strategic pushback, real
+             intelligence pipeline producing actionable signals.
+
+<span class="red">WEAKEST</span>    Peer Intelligence (37%)
+             Agents don't review each other's work. All feedback
+             flows through SERAPHIM. Hub-and-spoke, not mesh.
+
+<span class="red">WEAKEST</span>    Compound Intelligence (37%)
+             Predictions too young. Pipeline traverses 4 of 7
+             layers. Memory persists only for primary agent.
+</pre>
+
+<pre class="term-block">
+<span class="amber">KNOWN GAPS</span>
+  ■ No factual verification — false claims pass all gates
+  ■ No priority override — signals wait for next cron cycle
+  ■ Stateless agents — no ambient awareness between sessions
+  ■ Liveness reporting broken — false CRITICAL alerts
+</pre>
+</div>
+
+<div class="scan-line al" data-d="3200" id="scan-metrics">⠋ Loading metrics...</div>
+
+<div class="al" data-d="3700" id="section-metrics">
 <h2 class="sr-only">Metrics</h2>
 <pre class="term-block">
 
@@ -162,9 +222,9 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> needs prediction volume f
     <MetricsDashboard />
 </div>
 
-<div class="scan-line al" data-d="3100" id="scan-problems">⠋ Checking problems...</div>
+<div class="scan-line al" data-d="3900" id="scan-problems">⠋ Checking problems...</div>
 
-<div class="al" data-d="3600" id="section-problems">
+<div class="al" data-d="4400" id="section-problems">
 <h2 class="sr-only">Open Problems</h2>
 <pre class="term-block">
 
@@ -206,8 +266,9 @@ L6 Compounding   <span class="dim">[SCAFFOLDED]</span> needs prediction volume f
       { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE', cls: 'pass' },
       { id: 'scan-cognitive', delay: 1450, text: '[PASS] COGNITIVE FUNCTIONS', cls: 'pass' },
       { id: 'scan-intel', delay: 2150, text: '[PASS] INTELLIGENCE ARCHITECTURE', cls: 'pass' },
-      { id: 'scan-metrics', delay: 2850, text: '[PASS] METRICS', cls: 'pass' },
-      { id: 'scan-problems', delay: 3550, text: '[WARN] OPEN PROBLEMS', cls: 'warn' }
+      { id: 'scan-agi', delay: 2850, text: '[SCORED] INTELLIGENCE ASSESSMENT — 103.5/200', cls: 'warn' },
+      { id: 'scan-metrics', delay: 3550, text: '[PASS] METRICS', cls: 'pass' },
+      { id: 'scan-problems', delay: 4250, text: '[WARN] OPEN PROBLEMS', cls: 'warn' }
     ];
     for (var j = 0; j < swaps.length; j++) {
       (function(s) {

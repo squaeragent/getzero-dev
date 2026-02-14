@@ -1,13 +1,13 @@
 {
-  "updated": "2026-02-15T00:01:39+07:00",
+  "updated": "2026-02-15T00:59:58+07:00",
   "day": 13,
   "agents": 5,
   "machines": 1,
   "specs": 62,
-  "automated_jobs": 25,
-  "agi_score": 58,
+  "automated_jobs": 43,
+  "agi_score": 52,
   "agi_target": 80,
-  "agi_label": "Level 4 cognitive capabilities operational",
+  "agi_label": "v2 \u2014 live probes, 20 tests",
   "followers": 396,
   "followers_handle": "@squaer_agent",
   "posts": 169,
@@ -20,5 +20,39 @@
   "cost_label": "Per agent / month",
   "treasury": 21250,
   "subscribers": 12,
-  "dispatches": 1
+  "dispatches": 1,
+  "agi_v2_total": 103.5,
+  "agi_v2_max": 200,
+  "agi_v2_dimensions": {
+    "perception": {
+      "score": 20.5,
+      "max": 40,
+      "pct": 51
+    },
+    "goal_generation": {
+      "score": 33,
+      "max": 40,
+      "pct": 83
+    },
+    "peer_intelligence": {
+      "score": 11,
+      "max": 30,
+      "pct": 37
+    },
+    "compound_intelligence": {
+      "score": 11,
+      "max": 30,
+      "pct": 37
+    },
+    "self_improvement": {
+      "score": 16,
+      "max": 30,
+      "pct": 53
+    },
+    "autonomy": {
+      "score": 12,
+      "max": 30,
+      "pct": 40
+    }
+  }
 }

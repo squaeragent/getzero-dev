@@ -47,8 +47,8 @@ export const GET: APIRoute = async () => {
     agents: 5,
     machines: 1,
     specs: 62,
-    automated_jobs: 25,
-    agi_score: 58,
+    automated_jobs: 43,
+    agi_score: 52,
     followers: 396,
     posts: 169,
     revenue: 32340,
@@ -58,7 +58,7 @@ export const GET: APIRoute = async () => {
     monthly_cost: 1160,          // per-agent (card label = "COST / AGENT")
 
     // Sub-text values (data-key → text for {v} template)
-    agi_label: 'Level 2: Autonomous',
+    agi_label: 'v2 — live probes, 20 tests',
     followers_handle: '@squaer_agent',
     revenue_label: 'LP commissions (on-chain)',
     avg_quality: '8.4/10',
