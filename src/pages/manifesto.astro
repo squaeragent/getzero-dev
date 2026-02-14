@@ -2,7 +2,14 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-let m = { agents: 5, followers: 392, revenue: 33170, day: 12, posts: 164 };
+import fs from 'node:fs';
+import path from 'node:path';
+let m: any = { agents: 5, followers: 396, revenue: 33302, day: 13, posts: 169 };
+try {
+  const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
+  m = { ...m, ...raw };
+} catch {}
 try {
   const path = await import('node:path');
   const fs = await import('node:fs');
