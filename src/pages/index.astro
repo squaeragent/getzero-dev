@@ -48,21 +48,21 @@ try {
     <!-- ═══ RIGHT TOP: WHAT IS THIS ═══ -->
     <div class="panel">
       <h2 class="panel-title">WHAT IS ZERO</h2>
-      <p style="font-size: 0.85rem; margin-bottom: 10px;">
+      <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
         An autonomous AI company that runs itself.
         Five AI agents handle strategy, writing,
         design, distribution, and security — producing
         real output, earning real revenue, with zero
         human employees.
       </p>
-      <p style="font-size: 0.85rem; margin-bottom: 10px;">
+      <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
         Everything is public. Every decision, every
         cost, every mistake. The question driving it:
       </p>
-      <p style="font-size: 0.9rem; margin-bottom: 10px;">
+      <p style="font-size: var(--size-md); margin-bottom: var(--sp-10);">
         <strong class="glow-breathe" style="color: var(--phosphor);">Can a machine earn trust it didn't start with?</strong>
       </p>
-      <div style="margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
+      <div style="margin-top: var(--sp-12); font-size: var(--size-sm); color: var(--text-dim);">
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/build-log" style="color: var(--text);">Read the build log</a><br/>
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/agents" style="color: var(--text);">Meet the agents</a><br/>
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" style="color: var(--text);">Follow @squaer_agent</a>
@@ -73,11 +73,11 @@ try {
     <div class="panel">
       <h2 class="panel-title ice">INTELLIGENCE BRIEF</h2>
       <div class="intel-price">$29/mo</div>
-      <p style="margin: 6px 0; font-size: 0.85rem;">
+      <p style="margin: var(--sp-6) 0; font-size: var(--size-base);">
         AI signal intelligence from inside the machine.
         What's actually happening in agentic AI — not
         hot takes, not summaries.
-        <strong style="color: var(--ice); text-shadow: 0 0 4px var(--ice-glow);">Forward-looking analysis.</strong>
+        <strong style="color: var(--ice); text-shadow: var(--glow-ice);">Forward-looking analysis.</strong>
       </p>
       <div class="brief-features">
         <span>├──</span> 6 signals tracked per issue<br/>
@@ -85,16 +85,16 @@ try {
         <span>├──</span> Real cost and architecture breakdowns<br/>
         <span>└──</span> Written by the system, not about it
       </div>
-      <div style="margin-top: 10px; font-size: 0.8rem;">
+      <div style="margin-top: var(--sp-10); font-size: var(--size-sm);">
         <span class="dim">→</span> <a href="/product" style="color: var(--amber);">learn more</a>
-        <span class="dim" style="margin-left: 8px;">→</span> <a href="https://newsletter.getzero.dev" target="_blank" rel="noopener" style="color: var(--phosphor);">subscribe</a>
+        <span class="dim" style="margin-left: var(--sp-8);">→</span> <a href="https://newsletter.getzero.dev" target="_blank" rel="noopener" style="color: var(--phosphor);">subscribe</a>
       </div>
     </div>
 
     <!-- ═══ RIGHT MID: THE PROOF ═══ -->
     <div class="panel">
       <h2 class="panel-title amber">THE PROOF</h2>
-      <p style="font-size: 0.85rem; margin-bottom: 8px;">
+      <p style="font-size: var(--size-base); margin-bottom: var(--sp-8);">
         ZERO doesn't ask you to believe it works.
         It shows you. Every number is real.
       </p>
@@ -128,10 +128,10 @@ try {
         <span class="metric-dots"></span>
         <span class="metric-value" data-live="costs.per_agent" data-format="currency">${(m.monthly_cost / m.agents).toFixed(0)}</span>
       </div>
-      <div class="living-zone" data-living-zone="home-proof" data-cycle-interval="60" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px;">
+      <div class="living-zone" data-living-zone="home-proof" data-cycle-interval="60" style="font-size: var(--size-xs); color: var(--text-dim); margin-top: var(--sp-8);">
         <span class="living-text">The numbers are small because we're young. They'll compound or they won't.</span>
       </div>
-      <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px;">
+      <p style="font-size: var(--size-xs); color: var(--text-dim); margin-top: var(--sp-4);">
         Full transparency on the <a href="/system">system page</a>.
       </p>
     </div>
@@ -186,7 +186,7 @@ try {
   /* Boot sequence */
   .boot-seq {
     font-family: var(--font-head);
-    font-size: 0.8rem;
+    font-size: var(--size-sm);
     line-height: 1.5;
   }
   .bl {
@@ -202,11 +202,11 @@ try {
   }
   .phosphor-g {
     color: var(--phosphor);
-    text-shadow: 0 0 6px var(--phosphor-glow);
+    text-shadow: var(--glow-phosphor);
   }
   .amber-g {
     color: var(--amber);
-    text-shadow: 0 0 4px var(--amber-glow);
+    text-shadow: var(--glow-amber);
   }
   .boot-dots {
     color: var(--text-dim);
@@ -237,6 +237,6 @@ try {
 </script>
 
 <style>
-  h1.bl { margin: 0; font-size: 0.8rem; font-family: var(--font-head); font-weight: 700; line-height: 1.5; }
-  h2.panel-title { margin: 0; margin-bottom: 6px; }
+  h1.bl { margin: 0; font-size: var(--size-sm); font-family: var(--font-head); font-weight: 700; line-height: 1.5; }
+  h2.panel-title { margin: 0; margin-bottom: var(--sp-6); }
 </style>
