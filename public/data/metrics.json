@@ -1,6 +1,6 @@
 {
-  "updated": "2026-02-14T20:01:15+07:00",
-  "day": 12,
+  "updated": "2026-02-15T00:01:39+07:00",
+  "day": 13,
   "agents": 5,
   "machines": 1,
   "specs": 62,
@@ -18,7 +18,7 @@
   "operational_since": "2026-02-03",
   "monthly_cost": 1160,
   "cost_label": "Per agent / month",
-  "treasury": 21218,
+  "treasury": 21250,
   "subscribers": 12,
   "dispatches": 1
 }
