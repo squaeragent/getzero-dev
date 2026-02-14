@@ -7,6 +7,8 @@ export const prerender = false;
  */
 
 import type { APIRoute } from 'astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const PAIR_ADDR = '0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6';
 const DEX_URL = `https://api.dexscreener.com/latest/dex/pairs/base/${PAIR_ADDR}`;
@@ -18,6 +20,16 @@ const HEADERS = {
   'Access-Control-Allow-Origin': '*',
 };
 
+// Load commission baseline for dynamic LP total
+function loadCommissions(): { baseline_usd: number; baseline_date: string; fee_rate: number; lp_share: number } {
+  try {
+    const dataPath = path.join(process.cwd(), 'public', 'data', 'commissions.json');
+    return JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+  } catch {
+    return { baseline_usd: 32340, baseline_date: '2026-02-11T23:59:59+07:00', fee_rate: 0.01, lp_share: 1.0 };
+  }
+}
+
 // Core metrics — update via cron or redeploy
 const BASE_METRICS = {
   followers: 392,
@@ -27,7 +39,7 @@ const BASE_METRICS = {
   specs: 62,
   machines: 1,
   subscribers: 12,
-  lp_total: 32340,
+  lp_total: 32340, // fallback — overridden by live calc below
   treasury: 23282,
   monthly_cost: 5800,
   agents_count: 5,
@@ -50,19 +62,32 @@ export const GET: APIRoute = async () => {
   const opStart = new Date(OP_SINCE);
   const day = Math.floor((now.getTime() - opStart.getTime()) / 86400000) + 1;
 
+  // Load commission baseline for live LP total extrapolation
+  const commissions = loadCommissions();
+  const baselineTime = new Date(commissions.baseline_date);
+  const daysSinceBaseline = Math.max(0, (now.getTime() - baselineTime.getTime()) / 86400000);
+
   // Fetch live pricing
   let live: Record<string, any> = {};
+  let lpTotal = commissions.baseline_usd;
   try {
     const res = await fetch(DEX_URL, { signal: AbortSignal.timeout(4000) });
     if (res.ok) {
       const data = await res.json();
       const pair = data?.pairs?.[0];
       if (pair) {
+        const volume24h = pair.volume?.h24 ?? 0;
+        // Extrapolate fees: baseline + (daily volume × fee rate × LP share × days since calibration)
+        const estimatedNewFees = Math.round(volume24h * commissions.fee_rate * commissions.lp_share * daysSinceBaseline);
+        lpTotal = commissions.baseline_usd + estimatedNewFees;
+
         live = {
           token_price_usd: parseFloat(pair.priceUsd),
-          volume_24h: pair.volume?.h24 ?? null,
+          volume_24h: volume24h,
           liquidity_usd: pair.liquidity?.usd ?? null,
           price_change_24h: pair.priceChange?.h24 ?? null,
+          fdv: pair.fdv ?? null,
+          market_cap: pair.marketCap ?? null,
         };
       }
     }
@@ -91,7 +116,7 @@ export const GET: APIRoute = async () => {
       pieces: BASE_METRICS.content_pieces,
     },
     revenue: {
-      total_earned: BASE_METRICS.lp_total,
+      total_earned: lpTotal,
       subscribers: BASE_METRICS.subscribers,
       treasury_value: BASE_METRICS.treasury,
     },

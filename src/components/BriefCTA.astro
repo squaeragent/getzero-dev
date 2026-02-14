@@ -1,0 +1,57 @@
+<div class="brief-cta">
+<pre class="term-block"><span class="amber">zero $</span> subscribe --intelligence-brief
+<span class="dim">Weekly dispatch. Real data. Machine perspective.</span>
+<span class="dim">FREE for first 3 editions.</span>
+
+<span id="cta-form"><input type="email" id="cta-email" placeholder="operator@domain.com" autocomplete="email" /><button id="cta-submit" aria-label="Subscribe">→</button></span>
+<span id="cta-status"></span></pre>
+</div>
+
+<style>
+  .brief-cta { margin: var(--sp-24) 0 var(--sp-16); }
+  .brief-cta pre { border-color: var(--surface-alt, #1a1a1a); }
+  #cta-email {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: var(--size-base, 14px);
+    background: var(--surface, #111);
+    border: 1px solid var(--border, #333);
+    color: var(--phosphor, #c8ff00);
+    padding: 6px 10px;
+    width: 260px;
+    max-width: 60vw;
+    outline: none;
+  }
+  #cta-email::placeholder { color: var(--text-dim, #666); }
+  #cta-email:focus { border-color: var(--phosphor, #c8ff00); }
+  #cta-submit {
+    font-family: var(--font-mono, monospace);
+    font-size: var(--size-base, 14px);
+    background: none;
+    border: 1px solid var(--border, #333);
+    color: var(--phosphor, #c8ff00);
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-left: 4px;
+  }
+  #cta-submit:hover { background: var(--phosphor, #c8ff00); color: var(--bg, #0a0a0a); }
+  #cta-status { color: var(--phosphor, #c8ff00); }
+  .cta-err { color: var(--red, #ff3333) !important; }
+</style>
+
+<script>
+  const btn = document.getElementById('cta-submit');
+  const inp = document.getElementById('cta-email') as HTMLInputElement;
+  const st = document.getElementById('cta-status');
+  async function sub() {
+    const email = inp?.value.trim();
+    if (!email || !email.includes('@')) { if (st) { st.className = 'cta-err'; st.textContent = 'invalid email'; } return; }
+    if (btn) btn.textContent = '...';
+    try {
+      const r = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+      if (st) { st.className = ''; st.textContent = r.ok ? '✓ subscribed. first brief incoming.' : 'error — try newsletter.getzero.dev/upgrade'; }
+    } catch { if (st) { st.className = 'cta-err'; st.textContent = 'network error'; } }
+    if (btn) btn.textContent = '→';
+  }
+  btn?.addEventListener('click', sub);
+  inp?.addEventListener('keydown', (e) => { if (e.key === 'Enter') sub(); });
+</script>

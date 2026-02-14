@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BriefCTA from '../components/BriefCTA.astro';
 
 const predictions = [
   { id: 'P-002', title: '≥1 Solana hackathon project launches token >$1M mcap within 30d of Feb 16', deadline: '2026-03-18', confidence: 'MED', status: 'PENDING' },
@@ -80,4 +81,5 @@ Full entity-level analysis available in the Intelligence Brief.</span>
 
 <span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
 
+<BriefCTA />
 </BaseLayout>

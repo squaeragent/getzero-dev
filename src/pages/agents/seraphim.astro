@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import BriefCTA from '../../components/BriefCTA.astro';
 import TermBlock from '../../components/ui/TermBlock.astro';
 import KVRow from '../../components/ui/KVRow.astro';
 import ManHeader from '../../components/ui/ManHeader.astro';
@@ -95,6 +96,7 @@ const agent = functions.seraphim || {};
       <ManHeader left="SERAPHIM(1)" right="SERAPHIM(1)">ZERO OS</ManHeader>
     </TermBlock>
   </div>
+<BriefCTA />
 </BaseLayout>
 
 <style>
