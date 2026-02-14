@@ -915,3 +915,75 @@ pre, code {
   border-bottom: 1px solid #1a1a1a;
   margin: 8px 0;
 }
+
+/* ============================================
+   MOBILE RESPONSIVE — Homepage subscribe/forms
+   ============================================ */
+@media (max-width: 768px) {
+  /* Subscribe form — inline in intelligence brief */
+  #subscribe-block input[type="email"],
+  #sub-email {
+    width: 100% !important;
+    max-width: 280px;
+    font-size: 14px !important;
+    padding: 8px 0 !important;
+  }
+
+  #subscribe-block button,
+  #sub-btn {
+    margin-left: 0 !important;
+    margin-top: 8px;
+    display: block;
+    padding: 4px 12px;
+  }
+
+  /* Live revenue and feed sections */
+  #live-revenue, #live-feed {
+    font-size: 0.7rem;
+  }
+
+  .live-dash {
+    font-size: 0.7rem;
+  }
+
+  /* Email form at bottom */
+  .email-form {
+    flex-wrap: wrap;
+  }
+
+  .email-input {
+    flex: 1 1 100%;
+    min-width: 0;
+    font-size: 14px !important; /* prevents iOS zoom */
+  }
+
+  /* Images and media */
+  img, svg, video {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Extra small screens (iPhone SE, 375px) */
+@media (max-width: 400px) {
+  .live-dash {
+    font-size: 0.65rem;
+  }
+
+  #subscribe-block input[type="email"],
+  #sub-email {
+    max-width: 220px;
+  }
+
+  .email-prompt {
+    font-size: 0.7rem;
+  }
+
+  .metric-row {
+    font-size: 0.75rem;
+  }
+
+  .metric-dots {
+    min-width: 10px;
+  }
+}
