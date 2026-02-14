@@ -34,13 +34,13 @@ try {
   }
 } catch {}
 
-const tagClass: Record<string, string> = {
-  SHIPPED: 'tag-shipped',
-  LIVE: 'tag-live',
-  FIXED: 'tag-fixed',
-  PURGE: 'tag-purge',
-  KILLED: 'tag-killed',
-  FAILED: 'tag-failed',
+const tagColors: Record<string, string> = {
+  SHIPPED: 'phosphor',
+  LIVE: 'phosphor',
+  FIXED: 'amber',
+  PURGE: 'amber',
+  KILLED: 'red',
+  FAILED: 'red',
   REVENUE: 'amber',
   INIT: 'ice',
   ONLINE: 'ice',
@@ -71,20 +71,24 @@ const paragraphs = entry.body.split('\n\n');
 {journalEntries.length > 0 && (
   <div class="log-events al" data-d="400">
     <div class="log-events-header">─── SYSTEM LOG ────</div>
-    <pre class="j" set:html={
-      journalEntries.map((e: any) => {
-        const cls = tagClass[e.tag] || 'dim';
+    <div class="log-entries">
+      {journalEntries.map((e: any) => {
+        const colorClass = tagColors[e.tag] || 'dim';
+        const isSystem = ['INIT', 'ONLINE', 'QUERY'].includes(e.tag);
         const ts = `${entry.date}T${e.time}:00+07:00`;
-        const tz = `<span class="tz" data-ts="${ts}">${e.time}</span>`;
-        if (['INIT', 'ONLINE', 'QUERY'].includes(e.tag)) {
-          return `<span class="ice">${tz} [${e.tag}] ${e.text}</span>`;
-        }
-        if (e.tag === 'REVENUE') {
-          return `${tz} <span class="amber">[REVENUE] ${e.text}</span>`;
-        }
-        return `${tz} <span class="${cls}">[${e.tag}]</span> ${e.text}`;
-      }).join('\n')
-    } />
+        return (
+          <div class="log-entry">
+            <div class="log-entry-header">
+              <span class="log-ts tz" data-ts={ts}>{e.time}</span>
+              <span class={`log-tag ${colorClass}`}>{e.tag}</span>
+            </div>
+            <div class={`log-entry-text${isSystem ? ` ${colorClass}` : ''}${e.tag === 'REVENUE' ? ' amber' : ''}`}>
+              {e.text}
+            </div>
+          </div>
+        );
+      })}
+    </div>
   </div>
 )}
 
@@ -178,18 +182,52 @@ const paragraphs = entry.body.split('\n\n');
     letter-spacing: 0.1em;
     margin-bottom: var(--sp-12);
   }
-  pre.j {
+  .log-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .log-entry {
+    padding: var(--sp-10) 0;
+    border-bottom: var(--border-panel);
+  }
+  .log-entry:last-child {
+    border-bottom: none;
+  }
+  .log-entry-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-10);
+    margin-bottom: var(--sp-4);
+  }
+  .log-ts {
     font-family: var(--font-body);
+    color: var(--text-dim);
+    font-size: var(--size-xs);
+    min-width: 3.5em;
+    flex-shrink: 0;
+  }
+  .log-tag {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .log-tag.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
+  .log-tag.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
+  .log-tag.ice { color: var(--ice); text-shadow: 0 0 6px var(--ice-glow); }
+  .log-tag.red { color: var(--red); }
+  .log-tag.dim { color: var(--text-dim); }
+  .log-entry-text {
+    font-family: var(--font-body);
+    color: var(--text);
     font-size: var(--size-sm);
     line-height: 1.55;
-    color: var(--text-dim);
-    white-space: pre-wrap;
-    word-break: break-word;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: none;
   }
+  .log-entry-text.amber { color: var(--amber); }
+  .log-entry-text.ice { color: var(--ice); }
+  .log-entry-text.phosphor { color: var(--phosphor); }
   .log-nav {
     display: flex;
     justify-content: space-between;
@@ -208,12 +246,6 @@ const paragraphs = entry.body.split('\n\n');
   .log-nav-link:hover {
     color: var(--phosphor);
   }
-  :global(.tag-shipped) { color: var(--phosphor); font-weight: 700; }
-  :global(.tag-live) { color: var(--phosphor); }
-  :global(.tag-fixed) { color: var(--amber); font-weight: 700; }
-  :global(.tag-purge) { color: var(--amber); }
-  :global(.tag-killed) { color: var(--red); font-weight: 700; }
-  :global(.tag-failed) { color: var(--red); }
   @media (max-width: 640px) {
     .log-wrap { padding: 0 var(--sp-10); }
     .log-title { font-size: var(--size-xl); }

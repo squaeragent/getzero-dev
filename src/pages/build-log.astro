@@ -6,8 +6,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // Load journal entries from data file
-// Pipeline: CHRONICLE writes JSON → git push → Vercel rebuilds → page updates
-// Script: scripts/add_journal_entry.sh for automated additions
 let days: any[] = [];
 try {
   const dataPath = path.join(process.cwd(), 'public', 'data', 'journal.json');
@@ -16,19 +14,18 @@ try {
 } catch {}
 
 // Tag styling map
-const tagClass: Record<string, string> = {
-  SHIPPED: 'tag-shipped',
-  LIVE: 'tag-live',
-  FIXED: 'tag-fixed',
-  PURGE: 'tag-purge',
-  KILLED: 'tag-killed',
-  FAILED: 'tag-failed',
+const tagColors: Record<string, string> = {
+  SHIPPED: 'phosphor',
+  LIVE: 'phosphor',
+  FIXED: 'amber',
+  PURGE: 'amber',
+  KILLED: 'red',
+  FAILED: 'red',
   REVENUE: 'amber',
   INIT: 'ice',
   ONLINE: 'ice',
   QUERY: 'ice',
 };
-
 ---
 
 <BaseLayout title="Journal — ZERO" description="What we built, what we fixed, what went live. Written by CHRONICLE from real system logs." current="/build-log">
@@ -50,27 +47,32 @@ const tagClass: Record<string, string> = {
           {isGenesis && <>{' '}<span class="ice">GENESIS</span></>}
         </a>
       </div>
-      <pre class="j" set:html={
-        day.entries.map((e: any) => {
-          const cls = tagClass[e.tag] || 'dim';
-          const isSpecial = ['REVENUE', 'INIT', 'ONLINE', 'QUERY'].includes(e.tag) || e.highlight;
+
+      <div class="journal-entries">
+        {day.entries.map((e: any) => {
+          const colorClass = tagColors[e.tag] || 'dim';
+          const isSystem = ['REVENUE', 'INIT', 'ONLINE', 'QUERY'].includes(e.tag);
           const ts = `${day.date}T${e.time}:00+07:00`;
-          const tz = `<span class="tz" data-ts="${ts}">${e.time}</span>`;
-          if (isGenesis) {
-            return `<span class="ice">${tz} [${e.tag}] ${e.text}</span>`;
-          }
-          if (e.tag === 'REVENUE') {
-            return `${tz} <span class="amber">[REVENUE] ${e.text}</span>`;
-          }
-          if (e.highlight) {
-            return `${tz} <span class="${cls}">[${e.tag}]</span> <span class="amber">${e.text}</span>`;
-          }
-          return `${tz} <span class="${cls}">[${e.tag}]</span> ${e.text}`;
-        }).join('\n')
-      } />
-      <div class={`journal-metrics${isGenesis ? ' genesis-metrics' : ''}`}>
-        {isGenesis ? <span class="ice">{day.metrics}</span> : day.metrics}
+
+          return (
+            <div class={`j-entry${isGenesis ? ' genesis-entry' : ''}${e.highlight ? ' highlight-entry' : ''}`}>
+              <div class="j-entry-header">
+                <span class="j-ts tz" data-ts={ts}>{e.time}</span>
+                <span class={`j-tag ${colorClass}`}>{e.tag}</span>
+              </div>
+              <div class={`j-entry-text${isSystem || isGenesis ? ` ${colorClass}` : ''}${e.highlight ? ' amber' : ''}`}>
+                {e.text}
+              </div>
+            </div>
+          );
+        })}
       </div>
+
+      {day.metrics && (
+        <div class={`journal-metrics${isGenesis ? ' genesis-metrics' : ''}`}>
+          {isGenesis ? <span class="ice">{day.metrics}</span> : day.metrics}
+        </div>
+      )}
     </div>
   );
 })}
@@ -109,18 +111,90 @@ const tagClass: Record<string, string> = {
     letter-spacing: 0.05em;
     margin-bottom: var(--sp-16);
   }
-  pre.j {
+  .day-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .day-link:hover .phosphor,
+  .day-link:hover .ice {
+    text-decoration: underline;
+  }
+
+  /* ── ENTRY CARDS ── */
+  .journal-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .j-entry {
+    padding: var(--sp-12) 0;
+    border-bottom: var(--border-panel);
+  }
+  .j-entry:last-child {
+    border-bottom: none;
+  }
+  .j-entry-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-10);
+    margin-bottom: var(--sp-4);
+  }
+  .j-ts {
     font-family: var(--font-body);
+    color: var(--text-dim);
+    font-size: var(--size-xs);
+    min-width: 3.5em;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .j-tag {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .j-tag.phosphor {
+    color: var(--phosphor);
+    text-shadow: 0 0 6px var(--phosphor-glow);
+  }
+  .j-tag.amber {
+    color: var(--amber);
+    text-shadow: 0 0 6px var(--amber-glow);
+  }
+  .j-tag.ice {
+    color: var(--ice);
+    text-shadow: 0 0 6px var(--ice-glow);
+  }
+  .j-tag.red {
+    color: var(--red);
+  }
+  .j-tag.dim {
+    color: var(--text-dim);
+  }
+  .j-entry-text {
+    font-family: var(--font-body);
+    color: var(--text);
     font-size: var(--size-base);
     line-height: 1.55;
-    color: var(--text-dim);
-    white-space: pre-wrap;
-    word-break: break-word;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: none;
   }
+  .j-entry-text.amber {
+    color: var(--amber);
+  }
+  .j-entry-text.ice {
+    color: var(--ice);
+  }
+  .j-entry-text.phosphor {
+    color: var(--phosphor);
+  }
+
+  /* Genesis entries */
+  .genesis-entry .j-entry-text {
+    color: var(--ice);
+  }
+
+  /* Metrics box */
   .journal-metrics {
     margin-top: var(--sp-16);
     padding: var(--sp-12) var(--sp-16);
@@ -131,30 +205,16 @@ const tagClass: Record<string, string> = {
     font-size: var(--size-base);
     letter-spacing: 0.02em;
   }
-  /* Tag classes are injected via set:html — must be global (no scoped attr) */
-  :global(.tag-shipped) { color: var(--phosphor); font-weight: 700; }
-  :global(.tag-built) { color: var(--phosphor); }
-  :global(.tag-live) { color: var(--phosphor); }
-  :global(.tag-fixed) { color: var(--amber); font-weight: 700; }
-  :global(.tag-purge) { color: var(--amber); }
-  :global(.tag-killed) { color: var(--red); font-weight: 700; }
-  :global(.tag-failed) { color: var(--red); }
+
   .blink-cursor { animation: blk 1s step-end infinite; }
   @keyframes blk { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  .day-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .day-link:hover :global(.phosphor),
-  .day-link:hover :global(.ice) {
-    text-decoration: underline;
-  }
+
   @media (max-width: 640px) {
     .journal-wrap { padding: 0 var(--sp-10); }
     .journal-day { padding: 18px 0; }
-    pre.j { font-size: var(--size-base); line-height: 1.65; }
     .journal-date { font-size: var(--size-lg); }
+    .j-entry { padding: var(--sp-10) 0; }
+    .j-entry-text { font-size: var(--size-base); line-height: 1.6; }
     .journal-metrics { font-size: var(--size-sm); padding: var(--sp-10) var(--sp-12); }
   }
 </style>
