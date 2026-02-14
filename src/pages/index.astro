@@ -17,7 +17,7 @@ try {
 // Load state for uptime calculation
 let state: any = {};
 try {
-  const statePath = path.join(process.cwd(), 'public', 'api', 'state.json');
+  const statePath = path.join(process.cwd(), 'public', 'data', 'state.json');
   state = JSON.parse(fs.readFileSync(statePath, 'utf-8'));
 } catch {}
 
@@ -81,7 +81,7 @@ const renderTime = new Date().toISOString();
     <div class="panel">
       <h2 class="panel-title phosphor">LIVE STATUS</h2>
       <pre class="live-dash">{`SYSTEM STATUS ................ OPERATIONAL
-AGENTS ACTIVE ................ ${state.agents?.active ?? 4}/${m.agents}
+AGENTS ACTIVE ................ ${state.system?.agents_live ?? m.agents}/${m.agents}
 UPTIME ....................... ${uptimeDays}d ${uptimeHours}h
 REVENUE (ON-CHAIN) ........... $${m.revenue?.toLocaleString?.() ?? m.revenue}
 FOLLOWERS .................... ${m.followers}
@@ -162,7 +162,7 @@ Weekly. No fluff. Operational truth from inside the machine.
       <div class="metric-row">
         <span class="metric-label">Revenue earned</span>
         <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency">${m.revenue}</span>
+        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency">{'$' + (m.revenue ?? 32340).toLocaleString()}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Subscribers</span>

@@ -9,7 +9,7 @@
   'use strict';
 
   const POLL_INTERVAL = 60000;
-  const STATE_URL = '/data/state.json';
+  const STATE_URL = '/svc/status.json';
   let lastState = null;
   let pollTimer = null;
 

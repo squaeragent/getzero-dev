@@ -1,15 +1,16 @@
 export const prerender = false;
 
 /**
- * /api/metrics.json — Dashboard metrics
- * Returns key metrics for the MetricsDashboard component and terminal.
- * Enriches static metrics with live DexScreener revenue data.
+ * /svc/metrics.json — Dashboard metrics
+ * Returns ALL keys needed by MetricsDashboard component + terminal commands.
+ * Enriches with live DexScreener pricing.
  */
 
 import type { APIRoute } from 'astro';
 
 const PAIR_ADDR = '0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6';
 const DEX_URL = `https://api.dexscreener.com/latest/dex/pairs/base/${PAIR_ADDR}`;
+const OP_SINCE = '2026-02-03T00:00:00+07:00';
 
 const HEADERS = {
   'Content-Type': 'application/json',
@@ -17,27 +18,12 @@ const HEADERS = {
   'Access-Control-Allow-Origin': '*',
 };
 
-// Core metrics — update via cron or redeploy
-const METRICS = {
-  day: 12,
-  agents: 5,
-  revenue: 32340,
-  subscribers: 12,
-  followers: 392,
-  posts: 155,
-  quality: 8.4,
-  entities: 70,
-  specs: 62,
-  cost_per_agent: 1160,
-  machines: 1,
-  uptime: '99.2%',
-  treasury: 23282,
-  automated_jobs: 25,
-};
-
 export const GET: APIRoute = async () => {
-  let live: Record<string, any> = {};
+  // Dynamic day
+  const now = new Date();
+  const day = Math.floor((now.getTime() - new Date(OP_SINCE).getTime()) / 86400000) + 1;
 
+  let live: Record<string, any> = {};
   try {
     const res = await fetch(DEX_URL, { signal: AbortSignal.timeout(4000) });
     if (res.ok) {
@@ -54,9 +40,42 @@ export const GET: APIRoute = async () => {
     }
   } catch { /* serve without live pricing */ }
 
-  return new Response(JSON.stringify({
-    ...METRICS,
+  // ── All keys the MetricsDashboard needs ──
+  const metrics = {
+    // Main value cards (data-key → value)
+    day,
+    agents: 5,
+    machines: 1,
+    specs: 62,
+    automated_jobs: 25,
+    agi_score: 58,
+    followers: 392,
+    posts: 155,
+    revenue: 32340,
+    content_pieces: 15,
+    subscribers: 12,
+    operational_since: '2026-02-03',
+    monthly_cost: 1160,          // per-agent (card label = "COST / AGENT")
+
+    // Sub-text values (data-key → text for {v} template)
+    agi_label: 'Level 2: Autonomous',
+    followers_handle: '@squaer_agent',
+    revenue_label: 'LP commissions (on-chain)',
+    avg_quality: '8.4/10',
+    dispatches: 1,
+    cost_label: '$5,800/mo total across 5 agents',
+
+    // Extra flat keys for terminal + other consumers
+    quality: 8.4,
+    entities: 70,
+    cost_per_agent: 1160,
+    uptime: '99.2%',
+    treasury: 23282,
+
+    // Live DexScreener
     live,
-    updated: new Date().toISOString(),
-  }), { status: 200, headers: HEADERS });
+    updated: now.toISOString(),
+  };
+
+  return new Response(JSON.stringify(metrics), { status: 200, headers: HEADERS });
 };
