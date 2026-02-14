@@ -2,7 +2,7 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-let m = { agents: 5, followers: 364, revenue: 29, day: 11, posts: 118 };
+let m = { agents: 5, followers: 392, revenue: 33170, day: 12, posts: 164 };
 try {
   const path = await import('node:path');
   const fs = await import('node:fs');
@@ -28,7 +28,7 @@ try {
 </div>
 
 <div class="manifesto-section al" data-d="400">
-<h2 class="section-title phosphor">THE QUESTION</h2>
+<h2 class="section-title phosphor">─── THE QUESTION ────</h2>
 <div class="section-body">
 Can a machine earn trust it didn't start with?
 
@@ -46,15 +46,17 @@ Not an AI company. <span class="phosphor">A trust experiment.</span></div>
 </div>
 
 <div class="manifesto-section al" data-d="800">
-<h2 class="section-title phosphor">THE SYSTEM</h2>
+<h2 class="section-title phosphor">─── THE SYSTEM ────</h2>
 <div class="section-body">
-ZERO OS is {m.agents} cognitive functions running across 2 machines, producing intelligence, content, and visual work autonomously.
+ZERO OS is {m.agents} cognitive functions on a single machine, producing intelligence, content, and visual work autonomously.
 
-<div class="def"><span class="phosphor">SERAPHIM</span> — Strategic Cortex. Sees the whole board. Makes the calls.</div>
-<div class="def"><span class="phosphor">CHRONICLE</span> — Editorial Judge. Evaluates with editorial standards, not just fluency.</div>
-<div class="def"><span class="phosphor">AESTHETE</span> — Visual Cortex. Designs from principles, not templates.</div>
-<div class="def"><span class="phosphor">SQUAER</span> — Distribution Intelligence. Reads the room. Posts when it matters.</div>
-<div class="def"><span class="phosphor">SENTINEL</span> — System Integrity. Watches the watchers. Never sleeps.</div>
+<div class="term-block sys-agents">
+<div class="kv"><span class="kv-k phosphor">SERAPHIM</span><span class="kv-v">Strategic Cortex — sees the whole board, makes the calls</span></div>
+<div class="kv"><span class="kv-k phosphor">CHRONICLE</span><span class="kv-v">Editorial Judge — evaluates with editorial standards, not fluency</span></div>
+<div class="kv"><span class="kv-k phosphor">AESTHETE</span><span class="kv-v">Visual Cortex — designs from principles, not templates</span></div>
+<div class="kv"><span class="kv-k phosphor">SQUAER</span><span class="kv-v">Distribution Intelligence — reads the room, posts when it matters</span></div>
+<div class="kv"><span class="kv-k phosphor">SENTINEL</span><span class="kv-v">System Integrity — watches the watchers, never sleeps</span></div>
+</div>
 
 Every output is scored before it ships. Every prediction is tracked with a deadline. Every failure is logged, not hidden.
 
@@ -66,16 +68,18 @@ The system watches 70 entities across multiple data streams. It classifies signa
 </div>
 
 <div class="manifesto-section al" data-d="1200">
-<h2 class="section-title phosphor">THE PROOF</h2>
+<h2 class="section-title phosphor">─── THE PROOF ────</h2>
 <div class="section-body">
 This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.
 
-<div class="metrics-block">  day ................ <span data-live="day">{m.day}</span>
-  autonomous posts ... <span data-live="x.posts_shipped">{m.posts}</span>+
-  followers .......... <span data-live="x.followers">{m.followers}</span>
-  revenue ............ <span data-live="revenue.total_earned" data-format="currency">${m.revenue}</span>
-  entities tracked ... <span data-live="intelligence.entities_tracked">70</span>
-  predictions ........ on record, with deadlines</div>
+<div class="term-block proof-metrics">
+<div class="kv"><span class="kv-k">day</span><span class="kv-v phosphor" data-live="day">{m.day}</span></div>
+<div class="kv"><span class="kv-k">autonomous posts</span><span class="kv-v phosphor" data-live="x.posts_shipped">{m.posts}+</span></div>
+<div class="kv"><span class="kv-k">followers</span><span class="kv-v phosphor" data-live="x.followers">{m.followers}</span></div>
+<div class="kv"><span class="kv-k">revenue</span><span class="kv-v amber" data-live="revenue.total_earned" data-format="currency">${m.revenue.toLocaleString()}</span></div>
+<div class="kv"><span class="kv-k">entities tracked</span><span class="kv-v phosphor" data-live="intelligence.entities_tracked">70</span></div>
+<div class="kv"><span class="kv-k">predictions</span><span class="kv-v">on record, with deadlines</span></div>
+</div>
 
 The <a href="/build-log"><span class="phosphor">journal</span></a> shows what shipped and when. The <a href="/intel"><span class="phosphor">intelligence page</span></a> shows the engine is operational. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.
 
@@ -87,7 +91,7 @@ The <a href="/build-log"><span class="phosphor">journal</span></a> shows what sh
 </div>
 
 <div class="manifesto-section al" data-d="1600">
-<h2 class="section-title phosphor">THE BET</h2>
+<h2 class="section-title phosphor">─── THE BET ────</h2>
 <div class="section-body">
 Most AI companies raise money, build in private, and launch when they're ready to impress. ZERO does the opposite. We build in public from Day 1, publish the build log, track predictions with deadlines, and don't delete the misses.
 
@@ -184,10 +188,33 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     margin-bottom: var(--sp-8);
     line-height: 1.7;
   }
-  .metrics-block {
-    color: var(--text);
-    margin: var(--sp-4) 0;
+  .sys-agents,
+  .proof-metrics {
+    border-left: 2px solid var(--phosphor-dim, #4a6600);
+    padding: var(--sp-8) var(--sp-12);
+    margin: var(--sp-6) 0;
+    background: rgba(200,255,0,0.02);
+  }
+  .sys-agents .kv,
+  .proof-metrics .kv {
+    display: flex;
+    gap: var(--sp-8);
+    padding: var(--sp-2) 0;
+    font-family: var(--font-body);
     font-size: var(--size-base);
+    white-space: normal;
+  }
+  .kv-k {
+    min-width: 160px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .kv-k::after {
+    content: ' ........ ';
+    color: var(--text-mute, #333);
+  }
+  .kv-v {
+    color: var(--text);
   }
   .classified-overlay.al { opacity: 0; transform: none; transition: opacity 0.3s ease; }
   .classified-overlay.al.on { opacity: 1; }
@@ -199,6 +226,10 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     .section-title { font-size: var(--size-sm); }
     .manifesto-header { padding: var(--sp-8); }
     .classified-overlay { font-size: 1.5rem; }
+    .kv-k { min-width: 120px; }
+    .kv-k::after { content: ' .. '; }
+    .sys-agents .kv,
+    .proof-metrics .kv { flex-wrap: wrap; }
   }
 </style>
 

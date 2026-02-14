@@ -1,9 +1,9 @@
 {
-  "baseline_usd": 32340,
-  "baseline_date": "2026-02-11T23:59:59+07:00",
+  "baseline_usd": 33170,
+  "baseline_date": "2026-02-14T19:00:00+07:00",
   "fee_rate": 0.01,
   "lp_share": 1.0,
-  "notes": "Cumulative LP commissions from SQUAER/WETH pool. Fee rate is pool's swap fee (1%). LP share is 1.0 if sole LP provider. Update baseline periodically from on-chain data.",
-  "last_calibration": "2026-02-11",
-  "calibration_source": "manual_wallet_audit"
+  "notes": "Cumulative LP commissions from SQUAER/WETH pool. Recalibrated Feb 14 from extrapolation model. Fee rate is pool's swap fee (1%). LP share is 1.0 if sole LP provider.",
+  "last_calibration": "2026-02-14",
+  "calibration_source": "extrapolation_model_snapshot"
 }
