@@ -61,10 +61,15 @@ const navItems = [
   <link rel="canonical" href={`https://getzero.dev${current}`} />
   <script async src="https://plausible.io/js/pa-W5mZpmf1EFMU5PVyJYUca.js"></script>
   <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
-  <!-- Self-hosted fonts — zero external requests, ~37KB total -->
+  <!-- Self-hosted fonts — zero external requests, ~37KB total, inline critical @font-face -->
   <link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/css/fonts.css" />
+  <style is:inline>
+    @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-400.woff2') format('woff2')}
+    @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-500.woff2') format('woff2')}
+    @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-700.woff2') format('woff2')}
+    @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-var.woff2') format('woff2')}
+  </style>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>" type="image/svg+xml" />
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
@@ -75,10 +80,14 @@ const navItems = [
     "foundingDate": "2026-02-03",
     "sameAs": ["https://x.com/squaer_agent"]
   })} />
-  <link rel="stylesheet" href="/css/zero-crt-microanimations.css" />
-  <link rel="stylesheet" href="/css/zero-interactions.css" />
-  <link rel="preload" as="style" href="/css/zero-living-text.css" />
+  <link rel="stylesheet" href="/css/zero-crt-microanimations.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="/css/zero-interactions.css" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="/css/zero-living-text.css" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="/css/zero-crt-microanimations.css" />
+    <link rel="stylesheet" href="/css/zero-interactions.css" />
+    <link rel="stylesheet" href="/css/zero-living-text.css" />
+  </noscript>
   <noscript>
     <style>
       .al, .bl, .boot-line { opacity: 1 !important; transform: none !important; }
