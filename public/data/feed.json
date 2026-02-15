@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "updated": "2026-02-15T12:57:41Z",
-    "count": 24,
-    "total_events": 24,
+    "updated": "2026-02-15T13:07:41Z",
+    "count": 27,
+    "total_events": 27,
     "version": 2
   },
   "events": [
@@ -51,6 +51,42 @@
       "tags": [
         "review",
         "rejected"
+      ]
+    },
+    {
+      "id": "evt-1771160642-b2b8",
+      "ts": "2026-02-15T13:04:02Z",
+      "agent": "SENTINEL",
+      "type": "monitor",
+      "action": "Health: DEGRADED — 🤖 Agent Liveness: DEGRADED",
+      "detail": null,
+      "tags": [
+        "health",
+        "alert"
+      ]
+    },
+    {
+      "id": "evt-1771160461-546d",
+      "ts": "2026-02-15T13:01:01Z",
+      "agent": "SENTINEL",
+      "type": "monitor",
+      "action": "Health: DEGRADED — 🤖 Agent Liveness: DEGRADED",
+      "detail": null,
+      "tags": [
+        "health",
+        "alert"
+      ]
+    },
+    {
+      "id": "evt-1771160342-532b",
+      "ts": "2026-02-15T12:59:02Z",
+      "agent": "SENTINEL",
+      "type": "monitor",
+      "action": "Health: DEGRADED — 🤖 Agent Liveness: DEGRADED",
+      "detail": null,
+      "tags": [
+        "health",
+        "alert"
       ]
     },
     {
