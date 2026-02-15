@@ -140,11 +140,11 @@ What a live autonomous system sees, gets wrong, and learns.
 Weekly. No fluff. Operational truth from inside the machine.
 
 <span class="dim">Enter email to subscribe:</span>
-<span id="sub-form"><input type="email" id="sub-email" placeholder="you@example.com" style="background:transparent;border:none;border-bottom:1px solid #c8ff00;color:#c8ff00;font-family:inherit;font-size:inherit;outline:none;width:280px;padding:4px 0;" /><button id="sub-btn" style="background:transparent;border:1px solid #c8ff00;color:#c8ff00;font-family:inherit;font-size:inherit;cursor:pointer;padding:4px 12px;margin-left:8px;">SUBSCRIBE</button></span>
+<span id="sub-form"><input type="email" id="sub-email" class="sub-input" placeholder="you@example.com" aria-label="Email for newsletter" /><button id="sub-btn" class="sub-button">SUBSCRIBE</button></span>
 <span id="sub-status" class="dim"></span></pre>
-      <div style="margin-top: var(--sp-6); font-size: var(--size-sm);">
-        <span class="dim">→</span> <a href="/product" style="color: var(--amber);">learn more about Intelligence Brief</a>
-        <span class="dim" style="margin-left: var(--sp-8);">→</span> <a href="/product#subscribe" style="color: var(--phosphor);">full details</a>
+      <div class="brief-links">
+        <span class="dim">→</span> <a href="/product" class="amber-link">learn more about Intelligence Brief</a>
+        <span class="dim sep">→</span> <a href="/subscribe" class="phosphor-link">subscribe page</a>
       </div>
     </div>
 
@@ -369,9 +369,48 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
   }
+  /* Subscribe form (extracted from inline styles) */
+  .sub-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--phosphor);
+    color: var(--phosphor);
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    width: 280px;
+    padding: 4px 0;
+  }
+  .sub-input::placeholder { color: var(--text-dim); }
+  .sub-input:focus { border-bottom-color: var(--amber); }
+  .sub-button {
+    background: transparent;
+    border: 1px solid var(--phosphor);
+    color: var(--phosphor);
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 4px 12px;
+    margin-left: 8px;
+  }
+  .sub-button:hover {
+    background: var(--phosphor);
+    color: var(--bg);
+  }
+  .brief-links {
+    margin-top: var(--sp-6);
+    font-size: var(--size-sm);
+  }
+  .brief-links .sep { margin-left: var(--sp-8); }
+  .amber-link { color: var(--amber); text-decoration: none; }
+  .amber-link:hover { text-decoration: underline; }
+  .phosphor-link { color: var(--phosphor); text-decoration: none; }
+  .phosphor-link:hover { text-decoration: underline; }
+
   @media (max-width: 640px) {
     .live-dash { font-size: var(--size-xs); }
     h1.bl { font-size: var(--size-xs); }
+    .sub-input { width: 200px; }
   }
 </style>
 

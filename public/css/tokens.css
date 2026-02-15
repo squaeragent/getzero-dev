@@ -1,0 +1,85 @@
+/* ═══════════════════════════════════════════════════════════
+   PHOSPHOR DESIGN TOKENS
+   Single source of truth for all visual properties.
+   Change a token here → entire site updates.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── PALETTE ── */
+  --phosphor:       #c8ff00;
+  --phosphor-dim:   #7a9900;
+  --phosphor-glow:  #c8ff0066;
+  --amber:          #ffb000;
+  --amber-dim:      #8a5f00;
+  --amber-glow:     #ffb00044;
+  --ice:            #00d4ff;
+  --ice-dim:        #006b80;
+  --ice-glow:       #00d4ff44;
+  --red:            #ff3333;
+  --text:           #e8e4df;
+  --text-dim:       #a09a94;
+  --surface:        #0a0a0a;
+  --bg:             #050505;
+  --void:           #000000;
+  --border:         #1a1a1a;
+
+  /* ── TYPOGRAPHY ── */
+  --font-head:  'JetBrains Mono', monospace;
+  --font-body:  'IBM Plex Mono', monospace;
+
+  /* Scale: use rem so mobile override on html font-size cascades */
+  --size-xs:    0.65rem;   /* badges, timestamps, labels */
+  --size-sm:    0.75rem;   /* footer, nav, secondary */
+  --size-base:  0.85rem;   /* body text, term-blocks */
+  --size-md:    0.95rem;   /* emphasis, page headings */
+  --size-lg:    1.1rem;    /* panel titles, hero text */
+  --size-xl:    1.2rem;    /* day headers, section anchors */
+
+  /* ── SPACING ── */
+  --sp-2:   2px;
+  --sp-4:   4px;
+  --sp-6:   6px;
+  --sp-8:   8px;
+  --sp-10:  10px;
+  --sp-12:  12px;
+  --sp-16:  16px;
+  --sp-24:  24px;
+  --sp-32:  32px;
+
+  /* ── BORDERS ── */
+  --border-panel:   1px solid var(--border);
+  --border-phosphor: 1px solid var(--phosphor-dim);
+  --border-left-accent: 2px solid var(--border);
+
+  /* ── EFFECTS ── */
+  --glow-phosphor: 0 0 8px var(--phosphor-glow);
+  --glow-amber:    0 0 8px var(--amber-glow);
+  --glow-ice:      0 0 8px var(--ice-glow);
+}
+
+/* ── MOBILE TOKEN OVERRIDES ── */
+@media (max-width: 768px) {
+  :root {
+    --size-xs:    0.65rem;
+    --size-sm:    0.75rem;
+    --size-base:  0.85rem;
+    --size-lg:    1rem;
+    --size-xl:    1.2rem;
+    --sp-page:    16px;
+  }
+}
+@media (max-width: 640px) {
+  :root {
+    --size-xs:    0.6rem;
+    --size-sm:    0.65rem;
+    --size-base:  0.8rem;
+    --size-md:    0.85rem;
+    --size-lg:    1rem;
+    --size-xl:    1.05rem;
+  }
+}
+@media (max-width: 375px) {
+  :root {
+    --sp-page:    12px;
+  }
+}
