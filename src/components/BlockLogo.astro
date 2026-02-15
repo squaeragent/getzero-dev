@@ -226,19 +226,29 @@ const letterAgents = ['seraphim', 'chronicle,aesthete', 'squaer', 'sentinel'];
     }
   }
 
-  /* ── BREATHING ANIMATION (after boot) ── */
+  /* ── BREATHING ANIMATION (after boot) — speed via --breath-speed ── */
   @keyframes logoBreath {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.85; }
   }
 
   .block-logo.breathing .block-letter {
-    animation: logoBreath 4s ease-in-out infinite;
+    animation: logoBreath var(--breath-speed, 4s) ease-in-out infinite;
+    cursor: pointer;
   }
   .block-logo.breathing .block-letter[data-letter-index="0"] { animation-delay: 0ms; }
   .block-logo.breathing .block-letter[data-letter-index="1"] { animation-delay: 200ms; }
   .block-logo.breathing .block-letter[data-letter-index="2"] { animation-delay: 400ms; }
   .block-logo.breathing .block-letter[data-letter-index="3"] { animation-delay: 600ms; }
+
+  /* Revenue flash — amber pulse on individual cells */
+  @keyframes revenueFlash {
+    0% { background: var(--amber, #ffb000); box-shadow: 0 0 8px rgba(255,176,0,0.6); }
+    100% { background: var(--phosphor, #c8ff00); box-shadow: none; }
+  }
+  .block-cell.revenue-flash {
+    animation: revenueFlash 0.5s ease-out;
+  }
 
   /* ── HOVER SCATTER (desktop only) ── */
   @media (hover: hover) {
@@ -301,7 +311,8 @@ const letterAgents = ['seraphim', 'chronicle,aesthete', 'squaer', 'sentinel'];
       logo.classList.add('breathing');
     }, 2000);
 
-    // ── 1b. Agent status mapping ──
+    // ── 1b. Agent status mapping + data heartbeat ──
+    let lastRevenue = 0;
     function checkAgentStatus() {
       fetch('/svc/status.json')
         .then(r => r.json())
@@ -309,12 +320,46 @@ const letterAgents = ['seraphim', 'chronicle,aesthete', 'squaer', 'sentinel'];
           const agents = data?.agents || {};
           document.querySelectorAll('.block-letter[data-agents]').forEach(el => {
             const mapped = (el.getAttribute('data-agents') || '').split(',');
-            const anyOffline = mapped.some(a => {
+            let maxIntensity = 0;
+            let anyOffline = false;
+
+            mapped.forEach(a => {
               const info = agents[a];
-              return info && info.status && info.status !== 'online' && info.status !== 'ONLINE';
+              if (!info) return;
+              if (info.status && info.status !== 'online' && info.status !== 'ONLINE') {
+                anyOffline = true;
+                return;
+              }
+              // Map activity recency to breathing speed
+              const lastActive = info.lastActive || info.last_active;
+              if (lastActive) {
+                const mins = (Date.now() - new Date(lastActive).getTime()) / 60000;
+                if (mins < 5) maxIntensity = Math.max(maxIntensity, 3);
+                else if (mins < 30) maxIntensity = Math.max(maxIntensity, 2);
+                else if (mins < 120) maxIntensity = Math.max(maxIntensity, 1);
+              }
             });
+
             el.classList.toggle('agent-offline', anyOffline);
+            // Set breathing speed based on agent activity
+            const speeds = ['6s', '4s', '2.5s', '1.5s'];
+            (el as HTMLElement).style.setProperty('--breath-speed', speeds[maxIntensity]);
           });
+
+          // Revenue glow — flash random cells when revenue changes
+          const rev = data?.revenue?.total_earned || data?.metrics?.revenue;
+          if (rev && lastRevenue && rev > lastRevenue) {
+            const cells = logo.querySelectorAll('.block-cell.on');
+            const count = Math.min(5, Math.floor((rev - lastRevenue) / 100) + 1);
+            for (let i = 0; i < count; i++) {
+              const cell = cells[Math.floor(Math.random() * cells.length)] as HTMLElement;
+              if (cell) {
+                cell.classList.add('revenue-flash');
+                setTimeout(() => cell.classList.remove('revenue-flash'), 600);
+              }
+            }
+          }
+          if (rev) lastRevenue = rev;
         })
         .catch(() => {});
     }
@@ -338,7 +383,23 @@ const letterAgents = ['seraphim', 'chronicle,aesthete', 'squaer', 'sentinel'];
       });
     }
 
-    // ── 1d. Metric flash ──
+    // ── 1d. Click to navigate ──
+    const letterRoutes: Record<string, string> = {
+      '0': '/agents/seraphim',
+      '1': '/agents/chronicle',
+      '2': '/agents/squaer',
+      '3': '/agents/sentinel',
+    };
+    document.querySelectorAll('.block-letter[data-letter-index]').forEach(el => {
+      const idx = el.getAttribute('data-letter-index') || '';
+      const route = letterRoutes[idx];
+      if (route) {
+        (el as HTMLElement).title = el.getAttribute('data-agents')?.split(',')[0]?.toUpperCase() || '';
+        el.addEventListener('click', () => { window.location.href = route; });
+      }
+    });
+
+    // ── 1e. Metric flash ──
     let lastFlash = 0;
     function metricFlash() {
       const now = Date.now();

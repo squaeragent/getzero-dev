@@ -78,8 +78,8 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok'
       </div>
     </div>
 
-    <!-- ═══ RIGHT TOP: LIVE STATUS ═══ -->
-    <div class="panel">
+    <!-- ═══ LIVE STATUS ═══ -->
+    <div class="panel status-panel">
       <h2 class="panel-title phosphor">LIVE STATUS</h2>
       <pre class="live-dash">{`SYSTEM STATUS ................ OPERATIONAL
 AGENTS ACTIVE ................ ${state.system?.agents_live ?? m.agents}/${m.agents}
@@ -95,8 +95,8 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
       </div>
     </div>
 
-    <!-- ═══ RIGHT TOP: WHAT IS THIS ═══ -->
-    <div class="panel">
+    <!-- ═══ WHAT IS ZERO ═══ -->
+    <div class="panel what-panel">
       <h2 class="panel-title">WHAT IS ZERO</h2>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
         An autonomous AI company that runs itself.
@@ -119,8 +119,8 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
       </div>
     </div>
 
-    <!-- ═══ LEFT MID: INTELLIGENCE BRIEF + SUBSCRIBE ═══ -->
-    <div class="panel stagger-in">
+    <!-- ═══ INTELLIGENCE BRIEF + SUBSCRIBE ═══ -->
+    <div class="panel stagger-in brief-panel">
       <h2 class="panel-title ice">INTELLIGENCE BRIEF</h2>
       <div class="intel-price">$29/mo</div>
       <p style="margin: var(--sp-6) 0; font-size: var(--size-base);">
@@ -148,8 +148,8 @@ Weekly. No fluff. Operational truth from inside the machine.
       </div>
     </div>
 
-    <!-- ═══ RIGHT MID: THE PROOF ═══ -->
-    <div class="panel stagger-in">
+    <!-- ═══ THE PROOF ═══ -->
+    <div class="panel stagger-in proof-panel">
       <h2 class="panel-title amber">THE PROOF</h2>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-8);">
         ZERO doesn't ask you to believe it works.
@@ -194,7 +194,7 @@ Weekly. No fluff. Operational truth from inside the machine.
     </div>
 
     <!-- ═══ LIVE REVENUE ═══ -->
-    <div class="panel stagger-in">
+    <div class="panel stagger-in revenue-panel">
       <h2 class="panel-title phosphor">REVENUE — ON-CHAIN VERIFIED</h2>
       <pre class="live-dash" id="live-revenue">{`LP Commissions ..... $${m.revenue?.toLocaleString?.() ?? m.revenue}
 24h Volume ......... loading...
@@ -207,10 +207,60 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     </div>
 
     <!-- ═══ LIVE ACTIVITY FEED ═══ -->
-    <div class="panel stagger-in">
+    <div class="panel stagger-in feed-panel">
       <h2 class="panel-title phosphor">LIVE ACTIVITY <span class="live-dot">●</span></h2>
       <pre class="live-dash" id="live-feed">{`Loading system feed...`}</pre>
       <div class="live-updated dim" id="live-updated" style="font-size: 0.65rem; margin-top: 6px;"></div>
+    </div>
+
+    <!-- ═══ COGNITIVE MESH ═══ -->
+    <div class="panel stagger-in mesh-panel">
+      <h2 class="panel-title phosphor">COGNITIVE MESH</h2>
+      <div class="mesh-grid" id="mesh-grid">
+        <div class="mesh-agent" data-mesh-agent="seraphim">
+          <span class="mesh-dot" data-intensity="resting">●</span>
+          <span class="mesh-name">SERAPHIM</span>
+          <span class="mesh-role">cortex</span>
+          <span class="mesh-act" id="mesh-sera">—</span>
+        </div>
+        <div class="mesh-agent" data-mesh-agent="chronicle">
+          <span class="mesh-dot" data-intensity="resting">●</span>
+          <span class="mesh-name">CHRONICLE</span>
+          <span class="mesh-role">editorial</span>
+          <span class="mesh-act" id="mesh-chron">—</span>
+        </div>
+        <div class="mesh-agent" data-mesh-agent="aesthete">
+          <span class="mesh-dot" data-intensity="resting">●</span>
+          <span class="mesh-name">AESTHETE</span>
+          <span class="mesh-role">visual</span>
+          <span class="mesh-act" id="mesh-aesth">—</span>
+        </div>
+        <div class="mesh-agent" data-mesh-agent="squaer">
+          <span class="mesh-dot" data-intensity="resting">●</span>
+          <span class="mesh-name">SQUAER</span>
+          <span class="mesh-role">distribution</span>
+          <span class="mesh-act" id="mesh-squa">—</span>
+        </div>
+        <div class="mesh-agent" data-mesh-agent="sentinel">
+          <span class="mesh-dot" data-intensity="resting">●</span>
+          <span class="mesh-name">SENTINEL</span>
+          <span class="mesh-role">integrity</span>
+          <span class="mesh-act" id="mesh-sent">—</span>
+        </div>
+      </div>
+      <div class="mesh-footer dim" style="font-size:var(--size-xs);margin-top:var(--sp-6);">
+        <span id="mesh-uptime">{uptimeDays}d {uptimeHours}h uptime</span> · <a href="/agents" style="color:var(--text-dim);">details →</a>
+      </div>
+    </div>
+
+    <!-- ═══ MINI TERMINAL (desktop) ═══ -->
+    <div class="panel stagger-in miniterm-panel">
+      <h2 class="panel-title phosphor">TERMINAL <a href="/terminal" class="dim" style="font-size:var(--size-xs);font-weight:400;margin-left:var(--sp-6);text-decoration:none;">[expand →]</a></h2>
+      <div class="miniterm-output" id="miniterm-output"></div>
+      <div class="miniterm-input">
+        <span class="miniterm-prompt">$</span>
+        <input type="text" id="miniterm-input" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Mini terminal input" placeholder="type help..." />
+      </div>
     </div>
 
     <!-- ═══ DISPATCH (full width) ═══ -->
@@ -293,6 +343,160 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
 </script>
 
 <style>
+  /* ═══ 3-COLUMN COMMAND CENTER (desktop ≥1200px) ═══ */
+  @media (min-width: 1200px) {
+    .terminal-grid {
+      grid-template-columns: 2fr 1.5fr 1fr;
+      grid-template-rows: auto;
+    }
+    /* System column (left) */
+    #boot-panel    { grid-column: 1; grid-row: 1; }
+    .what-panel    { grid-column: 1; grid-row: 2; }
+    .brief-panel   { grid-column: 1; grid-row: 3; }
+    .email-panel   { grid-column: 1; grid-row: 4; }
+
+    /* Evidence column (center) */
+    .proof-panel    { grid-column: 2; grid-row: 1 / 3; }
+    .revenue-panel  { grid-column: 2; grid-row: 3; }
+    .mesh-panel     { grid-column: 2; grid-row: 4; }
+
+    /* Pulse column (right) */
+    .status-panel   { grid-column: 3; grid-row: 1; }
+    .feed-panel     { grid-column: 3; grid-row: 2; }
+    .miniterm-panel { grid-column: 3; grid-row: 3 / 5; }
+
+    /* Full width bottom */
+    .dispatch-panel { grid-column: 1 / -1; }
+
+    /* Panel borders for 3-col */
+    .proof-panel,
+    .revenue-panel,
+    .mesh-panel    { border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
+    .status-panel,
+    .feed-panel,
+    .miniterm-panel { border-left: 1px solid #1a1a1a; }
+  }
+
+  /* Hide miniterm on mobile/tablet */
+  @media (max-width: 1199px) {
+    .miniterm-panel { display: none; }
+  }
+
+  /* ═══ COGNITIVE MESH PANEL ═══ */
+  .mesh-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .mesh-agent {
+    display: grid;
+    grid-template-columns: 16px 90px 80px 1fr;
+    align-items: baseline;
+    font-size: var(--size-sm);
+    padding: 2px 0;
+    gap: 4px;
+  }
+  .mesh-dot {
+    color: var(--phosphor);
+    text-shadow: 0 0 6px var(--phosphor-glow);
+    font-size: 8px;
+    animation: meshPulse 3s ease-in-out infinite;
+  }
+  .mesh-dot[data-intensity="active"] {
+    animation-duration: 1.8s;
+    text-shadow: 0 0 10px var(--phosphor-glow);
+  }
+  .mesh-dot[data-intensity="intense"] {
+    animation-duration: 1s;
+    color: var(--phosphor);
+    text-shadow: 0 0 14px rgba(200,255,0,0.6);
+  }
+  .mesh-dot[data-intensity="offline"] {
+    animation: none;
+    opacity: 0.25;
+    color: var(--text-dim);
+    text-shadow: none;
+  }
+  @keyframes meshPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .mesh-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    color: var(--text);
+    font-size: var(--size-sm);
+  }
+  .mesh-role {
+    color: var(--text-dim);
+    font-size: var(--size-xs);
+  }
+  .mesh-act {
+    color: var(--text-dim);
+    font-size: var(--size-xs);
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .mesh-agent {
+      grid-template-columns: 14px 80px 1fr;
+      font-size: var(--size-xs);
+    }
+    .mesh-role { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mesh-dot { animation: none !important; opacity: 1; }
+  }
+
+  /* ═══ MINI TERMINAL ═══ */
+  .miniterm-output {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    color: var(--phosphor);
+    line-height: 1.5;
+    min-height: 90px;
+    max-height: 180px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    scrollbar-width: thin;
+    scrollbar-color: var(--phosphor-dim) transparent;
+  }
+  .miniterm-output::-webkit-scrollbar { width: 4px; }
+  .miniterm-output::-webkit-scrollbar-thumb { background: var(--phosphor-dim); }
+  .miniterm-input {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: var(--sp-4);
+    border-top: 1px solid #1a1a1a;
+    padding-top: var(--sp-4);
+  }
+  .miniterm-prompt {
+    color: var(--phosphor);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    user-select: none;
+  }
+  .miniterm-input input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--phosphor);
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    caret-color: var(--phosphor);
+    padding: 0;
+  }
+  .miniterm-input input::placeholder {
+    color: var(--phosphor-dim);
+    opacity: 0.5;
+  }
+
   /* Boot sequence */
   .boot-seq {
     font-family: var(--font-head);
@@ -517,3 +721,54 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     }
   })();
 </script>
+
+<script>
+  // === COGNITIVE MESH — live agent status ===
+  (function() {
+    var meshAgents = document.querySelectorAll('.mesh-agent[data-mesh-agent]');
+    if (!meshAgents.length) return;
+
+    async function updateMesh() {
+      try {
+        var res = await fetch('/svc/status.json');
+        var data = await res.json();
+        var agents = data?.agents || {};
+        var feed = data?.recent_activity || [];
+
+        meshAgents.forEach(function(el) {
+          var name = el.getAttribute('data-mesh-agent');
+          var info = agents[name];
+          var dot = el.querySelector('.mesh-dot');
+          var act = el.querySelector('.mesh-act');
+          if (!dot || !act) return;
+
+          if (!info) {
+            dot.setAttribute('data-intensity', 'resting');
+            act.textContent = '—';
+            return;
+          }
+
+          // Determine intensity from last active time
+          var lastActive = info.lastActive || info.last_active;
+          if (lastActive) {
+            var mins = (Date.now() - new Date(lastActive).getTime()) / 60000;
+            if (mins < 5) dot.setAttribute('data-intensity', 'intense');
+            else if (mins < 30) dot.setAttribute('data-intensity', 'active');
+            else if (mins < 120) dot.setAttribute('data-intensity', 'resting');
+            else dot.setAttribute('data-intensity', 'offline');
+          }
+
+          // Show last activity
+          var activity = info.activity || info.last_action || info.status || '—';
+          act.textContent = activity.length > 20 ? activity.substring(0, 20) + '…' : activity;
+        });
+      } catch(e) {}
+    }
+
+    // Initial + interval
+    setTimeout(updateMesh, 2000);
+    setInterval(updateMesh, 30000);
+  })();
+</script>
+
+<script src="/js/mini-terminal.js" defer></script>
