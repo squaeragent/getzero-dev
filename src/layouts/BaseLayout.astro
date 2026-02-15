@@ -23,13 +23,15 @@ try {
 
 // Tab navigation
 const tabs = [
-  { href: '/feed', label: '◆ FEED', id: 'feed' },
-  { href: '/system', label: '⊞ SYSTEM', id: 'system' },
-  { href: '/intel', label: '◇ INTEL', id: 'intel' },
+  { href: '/', label: '◇', id: 'home' },
+  { href: '/feed', label: 'FEED', id: 'feed' },
+  { href: '/system', label: 'SYSTEM', id: 'system' },
+  { href: '/intel', label: 'INTEL', id: 'intel' },
 ];
 
 // Map current path to active tab
 function isActive(href: string) {
+  if (href === '/') return current === '/' || current === 'home' || current === '';
   return current.startsWith(href);
 }
 ---
@@ -115,8 +117,9 @@ function isActive(href: string) {
       {tabs.map(tab => (
         <a
           href={tab.href}
-          class={`tab-item${isActive(tab.href) ? ' tab-active' : ''}`}
+          class={`tab-item${tab.id === 'home' ? ' tab-home' : ''}${isActive(tab.href) ? ' tab-active' : ''}`}
           aria-current={isActive(tab.href) ? 'page' : undefined}
+          aria-label={tab.id === 'home' ? 'Home' : undefined}
         >
           {tab.label}
         </a>
@@ -155,26 +158,39 @@ function isActive(href: string) {
 
     .main-content {
       flex: 1;
-      padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: 60px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    @media (max-width: 640px) {
+      .main-content {
+        padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+      }
     }
 
     /* ── BOTTOM TAB BAR ── */
     .tab-bar {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: calc(52px + env(safe-area-inset-bottom, 0px));
-      padding-bottom: env(safe-area-inset-bottom, 0px);
+      bottom: 6px;
+      left: 7px;
+      right: 7px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0;
       background: var(--bg, #050505);
       border-top: 1px solid var(--phosphor-dim);
-      box-shadow: 0 -2px 12px rgba(200, 255, 0, 0.05);
       z-index: 100;
+    }
+    @media (max-width: 640px) {
+      .tab-bar {
+        bottom: 4px;
+        left: 5px;
+        right: 5px;
+        height: calc(48px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
     }
     .tab-item {
       flex: 1;
@@ -190,6 +206,10 @@ function isActive(href: string) {
       text-decoration: none;
       position: relative;
       transition: color 0.15s ease;
+    }
+    .tab-home {
+      flex: 0.5;
+      font-size: 1rem;
     }
     .tab-item:hover {
       color: var(--text);
