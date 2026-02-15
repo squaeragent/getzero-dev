@@ -30,11 +30,11 @@ const p = patterns[variant] || patterns.line;
 
 <div class:list={['hazard', `hazard--${variant}`, `hazard--${color}`]} role="separator">
   {text ? (
-    <span class="hazard__wing">{p.left.repeat(3)}</span>
+    <span class="hazard__wing">{p.left.repeat(120)}</span>
     <span class="hazard__text">{text}</span>
-    <span class="hazard__wing">{p.right.repeat(3)}</span>
+    <span class="hazard__wing">{p.right.repeat(120)}</span>
   ) : (
-    <span class="hazard__full">{p.char.repeat(60)}</span>
+    <span class="hazard__full">{p.char.repeat(200)}</span>
   )}
 </div>
 
