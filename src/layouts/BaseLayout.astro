@@ -23,14 +23,13 @@ try {
 
 // Tab navigation
 const tabs = [
-  { href: '/', label: '◆ FEED', id: 'feed' },
+  { href: '/feed', label: '◆ FEED', id: 'feed' },
   { href: '/system', label: '⊞ SYSTEM', id: 'system' },
   { href: '/intel', label: '◇ INTEL', id: 'intel' },
 ];
 
 // Map current path to active tab
 function isActive(href: string) {
-  if (href === '/') return current === '/' || current === '';
   return current.startsWith(href);
 }
 ---
@@ -39,7 +38,7 @@ function isActive(href: string) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta property="og:title" content={title} />
@@ -156,7 +155,7 @@ function isActive(href: string) {
 
     .main-content {
       flex: 1;
-      padding-bottom: 60px; /* space for tab bar */
+      padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
       overflow-y: auto;
     }
 
@@ -164,15 +163,17 @@ function isActive(href: string) {
     .tab-bar {
       position: fixed;
       bottom: 0;
-      left: 6px;
-      right: 6px;
-      height: 52px;
+      left: 0;
+      right: 0;
+      height: calc(52px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0;
-      background: var(--bg);
+      background: var(--bg, #050505);
       border-top: 1px solid var(--phosphor-dim);
+      box-shadow: 0 -2px 12px rgba(200, 255, 0, 0.05);
       z-index: 100;
     }
     .tab-item {
