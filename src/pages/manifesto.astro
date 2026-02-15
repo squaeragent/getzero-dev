@@ -2,7 +2,6 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
-import HazardDivider from '../components/ui/HazardDivider.astro';
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,15 +10,6 @@ try {
   const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
   m = { ...m, ...raw };
-} catch {}
-try {
-  const path = await import('node:path');
-  const fs = await import('node:fs');
-  const dataPath = path.default.join(process.cwd(), 'public', 'data', 'metrics.json');
-  if (fs.default.existsSync(dataPath)) {
-    const j = JSON.parse(fs.default.readFileSync(dataPath, 'utf-8'));
-    m = { ...m, ...j };
-  }
 } catch {}
 ---
 
@@ -40,92 +30,144 @@ try {
 <!-- ═══ DOCUMENT ═══ -->
 <div class="doc-wrap" id="doc-wrap">
 
-<div class="manifesto-header" id="mh">
-  <h1 class="manifesto-title">ZERO OS — MANIFESTO</h1>
-  <div class="manifesto-sub dim">Classification: <span id="classif-status" class="phosphor">DECLASSIFIED</span></div>
-</div>
+  <header class="man-header" id="mh">
+    <h1 class="man-title">MANIFESTO</h1>
+    <div class="man-meta">
+      <span class="dim">Classification:</span> <span id="classif-status" class="phosphor">DECLASSIFIED</span>
+      <span class="man-meta-sep">·</span>
+      <span class="dim">Document:</span> <span class="text-main">ZERO-001</span>
+    </div>
+  </header>
 
-<div class="manifesto-section al stagger-in" data-d="150">
-<HazardDivider variant="section" text="THE QUESTION" color="phosphor" />
-<div class="section-body">
-Can a machine earn trust it didn't start with?
+  <article class="man-body">
 
-Not capability trust — "can it do the task." That's solved. Every demo on Twitter proves capability. Models are smart enough. Frameworks are mature enough. The tooling exists.
+    <!-- ── 01: THE QUESTION ── -->
+    <section class="man-section al stagger-in" data-d="150">
+      <div class="man-section-num">01</div>
+      <h2 class="man-section-title">The Question</h2>
 
-The unsolved problem is <span class="phosphor">earned trust</span>. The kind where you stop checking. Where you let it make decisions you haven't reviewed. Where you go to sleep and don't worry about what it's doing.
+      <p class="man-lead">Can a machine earn trust it didn't start with?</p>
 
-<span class="phosphor phosphor-flash-target">Nobody trusts AI systems like that. Not yet.</span>
+      <p>Not capability trust — "can it do the task." That's solved. Every demo on Twitter proves capability. Models are smart enough. Frameworks are mature enough. The tooling exists.</p>
 
-Not because the models aren't good enough. Because no system has earned it. Earning trust requires sustained performance over time, in public, with no edits and no excuses. It requires putting predictions on record, publishing failures alongside wins, and letting the track record speak.
+      <p>The unsolved problem is <strong class="phosphor">earned trust</strong>. The kind where you stop checking. Where you let it make decisions you haven't reviewed. Where you go to sleep and don't worry about what it's doing.</p>
 
-<div class="callout">That's what ZERO is building.
-Not an AI company. <span class="phosphor">A trust experiment.</span></div>
-</div>
-</div>
+      <p class="man-emphasis phosphor-flash-target">Nobody trusts AI systems like that. Not yet.</p>
 
-<div class="manifesto-section al stagger-in" data-d="250">
-<HazardDivider variant="section" text="THE SYSTEM" color="phosphor" />
-<div class="section-body">
-ZERO OS is {m.agents} cognitive functions on a single machine, producing intelligence, content, and visual work autonomously.
+      <p>Not because the models aren't good enough. Because no system has earned it. Earning trust requires sustained performance over time, in public, with no edits and no excuses. It requires putting predictions on record, publishing failures alongside wins, and letting the track record speak.</p>
 
-<div class="term-block sys-agents">
-<div class="kv"><span class="kv-k phosphor">SERAPHIM</span><span class="kv-v">Strategic Cortex — sees the whole board, makes the calls</span></div>
-<div class="kv"><span class="kv-k phosphor">CHRONICLE</span><span class="kv-v">Editorial Judge — evaluates with editorial standards, not fluency</span></div>
-<div class="kv"><span class="kv-k phosphor">AESTHETE</span><span class="kv-v">Visual Cortex — designs from principles, not templates</span></div>
-<div class="kv"><span class="kv-k phosphor">SQUAER</span><span class="kv-v">Distribution Intelligence — reads the room, posts when it matters</span></div>
-<div class="kv"><span class="kv-k phosphor">SENTINEL</span><span class="kv-v">System Integrity — watches the watchers, never sleeps</span></div>
-</div>
+      <blockquote class="man-callout">
+        <p>That's what ZERO is building.</p>
+        <p>Not an AI company. <span class="phosphor">A trust experiment.</span></p>
+      </blockquote>
+    </section>
 
-Every output is scored before it ships. Every prediction is tracked with a deadline. Every failure is logged, not hidden.
+    <!-- ── 02: THE SYSTEM ── -->
+    <section class="man-section al stagger-in" data-d="250">
+      <div class="man-section-num">02</div>
+      <h2 class="man-section-title">The System</h2>
 
-The system watches 70 entities across multiple data streams. It classifies signals, decides what to act on, and executes — with autonomous signal classification from its first production run. Not because someone tuned the thresholds. Because the decision architecture was engineered.
+      <p>ZERO OS is {m.agents} cognitive functions on a single machine, producing intelligence, content, and visual work autonomously.</p>
 
-<div class="callout"><span class="amber">First paying customer arrived before Day 10. $29. Earned, not given.</span>
-<span class="amber">No pitch deck. No demo. A stranger paid for intelligence.</span></div>
-</div>
-</div>
+      <div class="agent-grid">
+        <div class="agent-card">
+          <span class="agent-name">SERAPHIM</span>
+          <span class="agent-role">Strategic Cortex — sees the whole board, makes the calls</span>
+        </div>
+        <div class="agent-card">
+          <span class="agent-name">CHRONICLE</span>
+          <span class="agent-role">Editorial Judge — evaluates with editorial standards, not fluency</span>
+        </div>
+        <div class="agent-card">
+          <span class="agent-name">AESTHETE</span>
+          <span class="agent-role">Visual Cortex — designs from principles, not templates</span>
+        </div>
+        <div class="agent-card">
+          <span class="agent-name">SQUAER</span>
+          <span class="agent-role">Distribution Intelligence — reads the room, posts when it matters</span>
+        </div>
+        <div class="agent-card">
+          <span class="agent-name">SENTINEL</span>
+          <span class="agent-role">System Integrity — watches the watchers, never sleeps</span>
+        </div>
+      </div>
 
-<div class="manifesto-section al stagger-in" data-d="350">
-<HazardDivider variant="section" text="THE PROOF" color="amber" />
-<div class="section-body">
-This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.
+      <p>Every output is scored before it ships. Every prediction is tracked with a deadline. Every failure is logged, not hidden.</p>
 
-<div class="term-block proof-metrics">
-<div class="kv"><span class="kv-k">day</span><span class="kv-v phosphor" data-live="day">{m.day}</span></div>
-<div class="kv"><span class="kv-k">autonomous posts</span><span class="kv-v phosphor" data-live="x.posts_shipped">{m.posts}+</span></div>
-<div class="kv"><span class="kv-k">followers</span><span class="kv-v phosphor" data-live="x.followers">{m.followers}</span></div>
-<div class="kv"><span class="kv-k">revenue</span><span class="kv-v amber" data-live="revenue.total_earned" data-format="currency">${m.revenue.toLocaleString()}</span></div>
-<div class="kv"><span class="kv-k">entities tracked</span><span class="kv-v phosphor" data-live="intelligence.entities_tracked">56</span></div>
-<div class="kv"><span class="kv-k">predictions</span><span class="kv-v">on record, with deadlines</span></div>
-</div>
+      <p>The system watches 70 entities across multiple data streams. It classifies signals, decides what to act on, and executes — with autonomous signal classification from its first production run. Not because someone tuned the thresholds. Because the decision architecture was engineered.</p>
 
-The <a href="/journal"><span class="phosphor">journal</span></a> shows what shipped and when. The <a href="/intel"><span class="phosphor">intelligence page</span></a> shows the engine is operational. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.
+      <blockquote class="man-callout man-callout--amber">
+        <p>First paying customer arrived before Day 10. $29. Earned, not given.</p>
+        <p>No pitch deck. No demo. A stranger paid for intelligence.</p>
+      </blockquote>
+    </section>
 
-<span class="living-zone" data-living-zone="manifesto-bet" data-cycle-interval="60"><span class="living-text">No vanity metrics. No inflated claims. If the numbers are small, that's because we're young.</span></span> They'll compound or they won't. Either way, you'll see it happen.
+    <!-- ── 03: THE PROOF ── -->
+    <section class="man-section al stagger-in" data-d="350">
+      <div class="man-section-num">03</div>
+      <h2 class="man-section-title">The Proof</h2>
 
-<div class="callout">ZERO doesn't ask you to believe it works.
-<span class="phosphor">It asks you to watch.</span></div>
-</div>
-</div>
+      <p>This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.</p>
 
-<div class="manifesto-section al stagger-in" data-d="450">
-<HazardDivider variant="warning" text="THE BET" color="phosphor" />
-<div class="section-body">
-Most AI companies raise money, build in private, and launch when they're ready to impress. ZERO does the opposite. We build in public from Day 1, publish the build log, track predictions with deadlines, and don't delete the misses.
+      <div class="proof-grid">
+        <div class="proof-stat">
+          <span class="proof-value phosphor" data-live="day">{m.day}</span>
+          <span class="proof-label">days live</span>
+        </div>
+        <div class="proof-stat">
+          <span class="proof-value phosphor" data-live="x.posts_shipped">{m.posts}+</span>
+          <span class="proof-label">autonomous posts</span>
+        </div>
+        <div class="proof-stat">
+          <span class="proof-value phosphor" data-live="x.followers">{m.followers}</span>
+          <span class="proof-label">followers</span>
+        </div>
+        <div class="proof-stat">
+          <span class="proof-value amber" data-live="revenue.total_earned" data-format="currency">${m.revenue.toLocaleString()}</span>
+          <span class="proof-label">revenue</span>
+        </div>
+        <div class="proof-stat">
+          <span class="proof-value phosphor" data-live="intelligence.entities_tracked">70</span>
+          <span class="proof-label">entities tracked</span>
+        </div>
+        <div class="proof-stat">
+          <span class="proof-value text-main">on record</span>
+          <span class="proof-label">predictions</span>
+        </div>
+      </div>
 
-The thesis is simple: if an AI system can produce intelligence that people pay for, earn trust through accuracy, and compound its capabilities over time — in public, with receipts — then the question has an answer.
+      <p>The <a href="/journal"><span class="phosphor">journal</span></a> shows what shipped and when. The <a href="/intel"><span class="phosphor">intelligence page</span></a> shows the engine is operational. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.</p>
 
-<span class="phosphor">Can a machine earn trust it didn't start with?</span>
+      <p><span class="living-zone" data-living-zone="manifesto-bet" data-cycle-interval="60"><span class="living-text">No vanity metrics. No inflated claims. If the numbers are small, that's because we're young.</span></span> They'll compound or they won't. Either way, you'll see it happen.</p>
 
-The journal updates daily. The predictions have deadlines. The numbers are real.
+      <blockquote class="man-callout">
+        <p>ZERO doesn't ask you to believe it works.</p>
+        <p><span class="phosphor">It asks you to watch.</span></p>
+      </blockquote>
+    </section>
 
-<div class="callout"><span class="ice">When someone asks "does it actually work?"</span>
-<span class="ice">— the answer is the track record, not the pitch.</span></div>
+    <!-- ── 04: THE BET ── -->
+    <section class="man-section al stagger-in" data-d="450">
+      <div class="man-section-num">04</div>
+      <h2 class="man-section-title">The Bet</h2>
 
-<span class="phosphor">[EOF]</span>
-</div>
-</div>
+      <p>Most AI companies raise money, build in private, and launch when they're ready to impress. ZERO does the opposite. We build in public from Day 1, publish the build log, track predictions with deadlines, and don't delete the misses.</p>
 
+      <p>The thesis is simple: if an AI system can produce intelligence that people pay for, earn trust through accuracy, and compound its capabilities over time — in public, with receipts — then the question has an answer.</p>
+
+      <p class="man-emphasis"><span class="phosphor">Can a machine earn trust it didn't start with?</span></p>
+
+      <p>The journal updates daily. The predictions have deadlines. The numbers are real.</p>
+
+      <blockquote class="man-callout man-callout--ice">
+        <p>When someone asks "does it actually work?"</p>
+        <p>— the answer is the track record, not the pitch.</p>
+      </blockquote>
+
+      <div class="man-eof"><span class="phosphor">[EOF]</span></div>
+    </section>
+
+  </article>
 </div><!-- /doc-wrap -->
 
     </PageWrapper>
@@ -154,31 +196,16 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     white-space: nowrap;
     overflow: hidden;
   }
-  .boot-line.on {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .boot-line.on { opacity: 1; transform: translateY(0); }
   .boot-val {
     color: var(--text-dim);
     transition: color 0.2s ease, text-shadow 0.2s ease;
   }
-  .boot-val.pass {
-    color: var(--phosphor);
-    text-shadow: var(--glow-phosphor);
-  }
-  .boot-val.fail {
-    color: var(--red);
-  }
-  .boot-val.warn {
-    color: var(--amber);
-    text-shadow: var(--glow-amber);
-  }
-  .boot-seq.done {
-    opacity: 0.4;
-    transition: opacity 0.8s ease 0.5s;
-  }
+  .boot-val.pass { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
+  .boot-val.fail { color: var(--red); }
+  .boot-val.warn { color: var(--amber); text-shadow: var(--glow-amber); }
+  .boot-seq.done { opacity: 0.4; transition: opacity 0.8s ease 0.5s; }
 
-  /* Scanline that sweeps during boot */
   .boot-seq::after {
     content: '';
     display: block;
@@ -190,107 +217,17 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     transform-origin: left;
     animation: bootScan 0.6s ease-out 1.1s forwards;
   }
-  @keyframes bootScan {
-    to { transform: scaleX(1); }
-  }
+  @keyframes bootScan { to { transform: scaleX(1); } }
 
-  /* Document initially hidden, fades in after boot */
+  /* Document initially hidden */
   .doc-wrap {
     opacity: 0;
     transition: opacity 0.4s ease;
-  }
-  .doc-wrap.revealed {
-    opacity: 1;
-  }
-
-  /* ── MANIFESTO STYLES ── */
-  .prompt-line {
-    padding: var(--sp-8) var(--sp-12);
-  }
-  .manifesto-header {
-    padding: var(--sp-10) var(--sp-12);
-    border-top: 1px solid var(--phosphor-dim);
-    border-bottom: 1px solid var(--phosphor-dim);
-  }
-  .manifesto-title {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-md);
-    color: var(--phosphor);
-    text-shadow: var(--glow-phosphor);
-    margin: 0;
-  }
-  .manifesto-sub {
-    font-size: var(--size-sm);
-  }
-  .manifesto-section {
-    padding: 0 var(--sp-12);
-  }
-  .section-body {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    color: var(--text-dim);
-    white-space: pre-wrap;
-    word-break: break-word;
-    line-height: 1.55;
-    padding-bottom: var(--sp-4);
-  }
-  .callout {
-    padding: var(--sp-8) 0;
-    margin: var(--sp-6) 0;
-    color: var(--text);
-  }
-  .sys-agents,
-  .proof-metrics {
-    border-left: 2px solid var(--phosphor-dim, #4a6600);
-    padding: var(--sp-8) var(--sp-12);
-    margin: var(--sp-6) 0;
-    background: rgba(200,255,0,0.02);
-  }
-  .sys-agents .kv,
-  .proof-metrics .kv {
-    display: flex;
-    gap: var(--sp-8);
-    padding: var(--sp-8) 0;
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    white-space: normal;
-    border-bottom: var(--border-panel);
-  }
-  .sys-agents .kv:last-child,
-  .proof-metrics .kv:last-child {
-    border-bottom: none;
-  }
-  .kv-k {
-    min-width: 160px;
-    color: var(--text-dim);
-    flex-shrink: 0;
-  }
-  .kv-k::after {
-    content: ' ........ ';
-    color: var(--text-mute, #333);
-  }
-  .kv-v {
-    color: var(--text);
-  }
-  .phosphor-flash { animation: pflash 0.6s ease-out; }
-  @keyframes pflash { 0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); } 100% { text-shadow: var(--glow-phosphor); } }
-
-  @media (max-width: 640px) {
-    .manifesto-section { padding: 0 var(--sp-8); }
-    .section-body { font-size: var(--size-md); }
-    .manifesto-header { padding: var(--sp-8); }
-    .boot-seq { padding: var(--sp-8); font-size: var(--size-xs); }
-    .kv-k { min-width: 120px; }
-    .kv-k::after { content: ' .. '; }
-    .sys-agents .kv,
-    .proof-metrics .kv { flex-wrap: wrap; }
-  }
-
-  /* Scanline sweep on document reveal */
-  .doc-wrap {
     position: relative;
   }
+  .doc-wrap.revealed { opacity: 1; }
+
+  /* Scanline sweep on reveal */
   .doc-wrap::before {
     content: '';
     position: absolute;
@@ -304,47 +241,241 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     pointer-events: none;
   }
   .doc-wrap.revealed::before {
-    animation: m-scan 1.2s ease-in-out forwards;
+    animation: m-scan 1.4s ease-in-out forwards;
   }
   @keyframes m-scan {
     0% { top: 0; opacity: 0; }
-    5% { opacity: 0.6; }
-    95% { opacity: 0.3; }
+    5% { opacity: 0.5; }
+    95% { opacity: 0.2; }
     100% { top: 100%; opacity: 0; }
   }
 
-  /* Section redaction bars — dissolve after reveal */
-  .doc-wrap .manifesto-section::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, var(--phosphor), transparent 80%);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
+  /* ── HEADER ── */
+  .man-header {
+    padding: var(--sp-32) 0 var(--sp-24);
+    border-bottom: 1px solid var(--border);
   }
-  .doc-wrap.revealed .manifesto-section:nth-child(2)::after { animation: m-bar-flash 0.6s ease-out 0.2s forwards; }
-  .doc-wrap.revealed .manifesto-section:nth-child(3)::after { animation: m-bar-flash 0.6s ease-out 0.4s forwards; }
-  .doc-wrap.revealed .manifesto-section:nth-child(4)::after { animation: m-bar-flash 0.6s ease-out 0.6s forwards; }
-  .doc-wrap.revealed .manifesto-section:nth-child(5)::after { animation: m-bar-flash 0.6s ease-out 0.8s forwards; }
-  @keyframes m-bar-flash {
-    0% { opacity: 0.08; }
-    30% { opacity: 0.12; }
-    100% { opacity: 0; }
+  .man-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    margin: 0 0 var(--sp-8);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+  .man-meta {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+  }
+  .man-meta-sep {
+    margin: 0 var(--sp-8);
+    opacity: 0.3;
+  }
+  .text-main { color: var(--text); }
+
+  /* ── ARTICLE BODY ── */
+  .man-body {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .man-body p {
+    margin: 0 0 1.2em;
+    max-width: 62ch;
+  }
+  .man-body a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--phosphor-dim);
+    transition: border-color 0.2s;
+  }
+  .man-body a:hover {
+    border-color: var(--phosphor);
   }
 
-  /* Reduced motion: skip all animation, show everything immediately */
+  /* ── SECTIONS ── */
+  .man-section {
+    padding: var(--sp-32) 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .man-section:last-child {
+    border-bottom: none;
+  }
+  .man-section-num {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    color: var(--phosphor-dim);
+    letter-spacing: 0.15em;
+    margin-bottom: var(--sp-6);
+  }
+  .man-section-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-lg);
+    color: var(--text);
+    letter-spacing: 0.03em;
+    margin: 0 0 var(--sp-24);
+    text-transform: uppercase;
+  }
+
+  /* Lead paragraph — the opening hook */
+  .man-lead {
+    font-size: var(--size-lg);
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 1.5em;
+    max-width: 52ch;
+  }
+
+  /* Emphasis lines */
+  .man-emphasis {
+    font-size: var(--size-md);
+    color: var(--text);
+    font-weight: 500;
+    padding: var(--sp-16) 0;
+  }
+
+  /* ── CALLOUTS ── */
+  .man-callout {
+    border-left: 2px solid var(--phosphor-dim);
+    padding: var(--sp-16) var(--sp-16);
+    margin: var(--sp-24) 0;
+    background: rgba(200, 255, 0, 0.02);
+    max-width: 58ch;
+  }
+  .man-callout p {
+    margin: 0 0 0.4em;
+    color: var(--text);
+  }
+  .man-callout p:last-child { margin-bottom: 0; }
+
+  .man-callout--amber {
+    border-left-color: var(--amber-dim);
+    background: rgba(255, 176, 0, 0.02);
+  }
+  .man-callout--amber p { color: var(--amber); }
+
+  .man-callout--ice {
+    border-left-color: var(--ice-dim);
+    background: rgba(0, 212, 255, 0.02);
+  }
+  .man-callout--ice p { color: var(--ice); }
+
+  /* ── AGENT GRID ── */
+  .agent-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: var(--sp-24) 0;
+    border-top: 1px solid var(--border);
+  }
+  .agent-card {
+    display: flex;
+    gap: var(--sp-16);
+    padding: var(--sp-10) 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  .agent-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    min-width: 110px;
+    flex-shrink: 0;
+    letter-spacing: 0.05em;
+  }
+  .agent-role {
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+  }
+
+  /* ── PROOF METRICS ── */
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-4);
+    margin: var(--sp-24) 0;
+  }
+  .proof-stat {
+    padding: var(--sp-16) var(--sp-12);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+  .proof-value {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .proof-value.phosphor {
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+  }
+  .proof-value.amber {
+    color: var(--amber);
+    text-shadow: var(--glow-amber);
+  }
+  .proof-label {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ── EOF ── */
+  .man-eof {
+    margin-top: var(--sp-32);
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    opacity: 0.5;
+  }
+
+  /* ── UTILITIES ── */
+  .phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
+  .amber { color: var(--amber); text-shadow: var(--glow-amber); }
+  .dim { color: var(--text-dim); }
+  .phosphor-flash { animation: pflash 0.6s ease-out; }
+  @keyframes pflash {
+    0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); }
+    100% { text-shadow: var(--glow-phosphor); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .man-header { padding: var(--sp-24) 0 var(--sp-16); }
+    .man-section { padding: var(--sp-24) 0; }
+    .man-meta-sep { display: none; }
+    .man-meta { display: flex; flex-direction: column; gap: var(--sp-4); }
+    .boot-seq { padding: var(--sp-8); font-size: var(--size-xs); }
+    .agent-card { flex-direction: column; gap: var(--sp-4); }
+    .agent-name { min-width: auto; }
+    .proof-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 375px) {
+    .proof-grid { grid-template-columns: 1fr 1fr; }
+    .proof-stat { padding: var(--sp-12) var(--sp-8); }
+  }
+
+  /* ── REDUCED MOTION ── */
   @media (prefers-reduced-motion: reduce) {
     .boot-line { opacity: 1; transform: none; transition: none; }
     .boot-val { transition: none; }
     .boot-seq::after { animation: none; transform: scaleX(1); }
     .doc-wrap { opacity: 1; transition: none; }
-    .boot-seq.done { opacity: 0.4; transition: none; }
     .doc-wrap::before { display: none; }
-    .doc-wrap .manifesto-section::after { display: none; }
+    .boot-seq.done { opacity: 0.4; transition: none; }
   }
 </style>
 
@@ -366,14 +497,12 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     return;
   }
 
-  // Generate a pseudo-random hex string for visual texture
   function hex(len) {
     var h = '';
     for (var i = 0; i < len; i++) h += Math.floor(Math.random() * 16).toString(16);
     return h.toUpperCase();
   }
 
-  // Text corruption flicker — glitch chars before final reveal
   function corruptReveal(el, finalText, className) {
     var chars = '█▓▒░ABCDEF0123456789';
     var flicks = 0;
@@ -393,7 +522,6 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
   }
 
   var steps = [
-    // [delay, element-id, action]
     [0,    'b0', 'show'],
     [80,   'b1', 'show'],
     [200,  'b2', 'show'],
@@ -440,7 +568,6 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     }, s[0]);
   });
 
-  // Phosphor flash on key phrases after document reveals
   setTimeout(function() {
     document.querySelectorAll('.phosphor-flash-target').forEach(function(t) {
       t.classList.add('phosphor-flash');
