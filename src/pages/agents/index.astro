@@ -4,6 +4,7 @@ import PageWrapper from '../../components/ui/PageWrapper.astro';
 import HeroNumeral from '../../components/ui/HeroNumeral.astro';
 import StatusDot from '../../components/ui/StatusDot.astro';
 import BarGauge from '../../components/ui/BarGauge.astro';
+import HazardDivider from '../../components/ui/HazardDivider.astro';
 import DataPanel from '../../components/ui/DataPanel.astro';
 
 let m = { followers: 420, posts: 172, day: 13 };
@@ -80,7 +81,7 @@ const agents = [
     <HeroNumeral value="5" label="ACTIVE PROCESSES" sub="Zero employees. Coordination through specs, not conversations." color="ice" />
   </div>
 
-  <div class="section-label ice-label">COGNITIVE FUNCTIONS</div>
+  <HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="ice" />
 
   <div class="agents-grid">
     {agents.map((a, i) => (
@@ -116,18 +117,6 @@ const agents = [
 </BaseLayout>
 
 <style>
-  .section-label {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: var(--sp-12) 0 var(--sp-6);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: var(--sp-8);
-  }
-  .ice-label { color: var(--ice); border-bottom-color: var(--ice-dim); }
-
   .hero-row {
     border-bottom: 1px solid var(--border);
   }

@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import BriefCTA from '../components/BriefCTA.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
 import BarGauge from '../components/ui/BarGauge.astro';
 import StatusDot from '../components/ui/StatusDot.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
@@ -48,7 +49,8 @@ const liveLayers = layers.filter(l => l.s === 'nominal').length;
   <HeroNumeral value="70" label="ENTITIES TRACKED" sub="22 accounts · 20 repos · 14 narratives · 14 on-chain" color="phosphor" />
 </div>
 
-<div class="section-label phosphor-label">ARCHITECTURE</div>
+<!-- ═══ ARCHITECTURE ═══ -->
+<HazardDivider variant="section" text="ARCHITECTURE" color="phosphor" />
 
 <div class="layer-stack">
   {layers.map(l => (
@@ -65,7 +67,8 @@ const liveLayers = layers.filter(l => l.s === 'nominal').length;
 
 <div class="layer-summary dim">{liveLayers}/7 live. Honest status — updated in real time.</div>
 
-<div class="section-label amber-label">OUTPUT CHANNELS</div>
+<!-- ═══ OUTPUT ═══ -->
+<HazardDivider variant="section" text="OUTPUT CHANNELS" color="amber" />
 
 <div class="output-grid">
   <DataPanel title="@SQUAER_AGENT" status="X" color="phosphor" compact>
@@ -82,7 +85,8 @@ const liveLayers = layers.filter(l => l.s === 'nominal').length;
   </DataPanel>
 </div>
 
-<div class="section-label amber-label">PREDICTION TRACKER</div>
+<!-- ═══ PREDICTION TRACKER ═══ -->
+<HazardDivider variant="warning" text="PREDICTION TRACKER" color="amber" />
 
 <pre class="term-block tracker-block">accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'TRACKING'}</span>
 resolved .. {resolved}/{total}
@@ -132,19 +136,6 @@ Every prediction falsifiable with specific dates.</span>
 </BaseLayout>
 
 <style>
-  .section-label {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: var(--sp-12) 0 var(--sp-6);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: var(--sp-8);
-  }
-  .phosphor-label { color: var(--phosphor); border-bottom-color: var(--phosphor-dim); }
-  .amber-label { color: var(--amber); border-bottom-color: var(--amber-dim); }
-
   .hero-row {
     border-bottom: 1px solid var(--border);
   }

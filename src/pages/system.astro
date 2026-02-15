@@ -6,6 +6,7 @@ import MetricsDashboard from '../components/MetricsDashboard.astro';
 import HeroNumeral from '../components/ui/HeroNumeral.astro';
 import BarGauge from '../components/ui/BarGauge.astro';
 import StatusDot from '../components/ui/StatusDot.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
 import { sanitizeProblems } from '../lib/sanitizer';
 
@@ -66,7 +67,7 @@ const layers = [
 
   <!-- LEFT COLUMN: Infrastructure + Intelligence Layers -->
   <div class="cmd-col">
-    <div class="section-label phosphor-label">INFRASTRUCTURE</div>
+    <HazardDivider variant="section" text="INFRASTRUCTURE" color="phosphor" />
     <DataPanel title="MAC STUDIO M3 ULTRA" status="● ONLINE" color="phosphor" compact>
       <div class="kv-row"><span class="kv-label">memory</span> 96GB Unified</div>
       <div class="kv-row"><span class="kv-label">role</span> All ops (5 agents)</div>
@@ -74,7 +75,7 @@ const layers = [
       <div class="kv-row"><span class="kv-label">crons</span> 25+ scheduled jobs</div>
     </DataPanel>
 
-    <div class="section-label phosphor-label">INTELLIGENCE STACK</div>
+    <HazardDivider variant="section" text="INTELLIGENCE STACK" color="phosphor" />
     <div class="layer-stack">
       {layers.map(l => (
         <div class="layer-row">
@@ -97,7 +98,7 @@ const layers = [
 
   <!-- RIGHT COLUMN: Agent Grid -->
   <div class="cmd-col">
-    <div class="section-label ice-label">COGNITIVE FUNCTIONS</div>
+    <HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="ice" />
     <div class="agent-grid-compact">
       {agents.map(a => (
         <div class="agent-cell">
@@ -128,7 +129,7 @@ const layers = [
 <div class="scan-line al" data-d="1200" id="scan-agi">⠋ Running intelligence assessment...</div>
 
 <div class="al" data-d="1700" id="section-agi">
-<div class="section-label amber-label">INTELLIGENCE ASSESSMENT</div>
+<HazardDivider variant="warning" text="INTELLIGENCE ASSESSMENT" color="amber" />
 
 <div class="agi-grid">
   <!-- LEFT: Big score -->
@@ -167,7 +168,7 @@ const layers = [
 <div class="scan-line al" data-d="2000" id="scan-metrics">⠋ Loading metrics...</div>
 
 <div class="al" data-d="2500" id="section-metrics">
-<div class="section-label phosphor-label">METRICS</div>
+<HazardDivider variant="section" text="METRICS" color="phosphor" />
 <MetricsDashboard />
 </div>
 
@@ -175,7 +176,7 @@ const layers = [
 <div class="scan-line al" data-d="2700" id="scan-problems">⠋ Checking problems...</div>
 
 <div class="al" data-d="3200" id="section-problems">
-<div class="section-label amber-label">OPEN PROBLEMS</div>
+<HazardDivider variant="warning" text="OPEN PROBLEMS" color="amber" />
 
 <div class="problems-grid">
   {publicProblems.map(p => (
@@ -194,20 +195,6 @@ const layers = [
 </BaseLayout>
 
 <style>
-  .section-label {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: var(--sp-12) 0 var(--sp-6);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: var(--sp-8);
-  }
-  .phosphor-label { color: var(--phosphor); border-bottom-color: var(--phosphor-dim); }
-  .amber-label { color: var(--amber); border-bottom-color: var(--amber-dim); }
-  .ice-label { color: var(--ice); border-bottom-color: var(--ice-dim); }
-
   .sys-wrap {}
   .sys-prompt {
     font-family: var(--font-body);

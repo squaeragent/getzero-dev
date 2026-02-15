@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import BriefCTA from '../components/BriefCTA.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
 import BarGauge from '../components/ui/BarGauge.astro';
 import HeroNumeral from '../components/ui/HeroNumeral.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
@@ -89,7 +90,8 @@ function catAccuracy(cat: any) {
 <span class="amber">▌</span> <a href="https://buy.stripe.com/00w14ngdU9dHc748Fa83C00" class="phosphor cta-link">→ SUBSCRIBE</a></pre>
 </section>
 
-<div class="section-label phosphor-label">{`ACTIVE PREDICTIONS (${active} open)`}</div>
+<!-- ═══ ACTIVE PREDICTIONS ═══ -->
+<HazardDivider variant="section" text={`ACTIVE PREDICTIONS (${active} open)`} color="phosphor" />
 
 <div class="pred-feed">
   {predictions.filter((p: any) => p.status === 'active').map((p: any) => (
@@ -110,7 +112,7 @@ function catAccuracy(cat: any) {
 
 {scored > 0 && (
   <>
-    <div class="section-label amber-label">{`RESOLVED (${scored} scored)`}</div>
+    <HazardDivider variant="warning" text={`RESOLVED (${scored} scored)`} color="amber" />
 
     <div class="pred-feed">
       {predictions.filter((p: any) => p.status !== 'active').map((p: any) => (
@@ -130,7 +132,8 @@ function catAccuracy(cat: any) {
   </>
 )}
 
-<div class="section-label dim-label">CATEGORY BREAKDOWN</div>
+<!-- ═══ CATEGORY BREAKDOWN ═══ -->
+<HazardDivider variant="section" text="CATEGORY BREAKDOWN" color="dim" />
 
 <div class="cat-grid">
   {Object.entries(categories).map(([cat, info]: [string, any]) => (
@@ -159,20 +162,6 @@ function catAccuracy(cat: any) {
 </BaseLayout>
 
 <style>
-  .section-label {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: var(--sp-12) 0 var(--sp-6);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: var(--sp-8);
-  }
-  .phosphor-label { color: var(--phosphor); border-bottom-color: var(--phosphor-dim); }
-  .amber-label { color: var(--amber); border-bottom-color: var(--amber-dim); }
-  .dim-label { color: var(--text-dim); }
-
   .hero-stats {
     border-bottom: 1px solid var(--border);
   }
