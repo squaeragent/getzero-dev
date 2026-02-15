@@ -333,6 +333,16 @@ const tagColors: Record<string, string> = {
     .stat-cell { padding: var(--sp-6) var(--sp-8); }
     .stat-cell__val { font-size: var(--size-lg); }
   }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    .live-indicator .dot { animation: none !important; opacity: 1; }
+    .scanning { animation: none !important; opacity: 0.6; }
+    .term-prompt .cursor { animation: none !important; opacity: 1; }
+    .blink-cursor { animation: none !important; opacity: 1; }
+    :global(.feed-entry),
+    :global(.feed-entry.new-entry) { animation: none !important; }
+  }
 </style>
 
 <PageWrapper size="wide">

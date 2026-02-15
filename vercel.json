@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/build-log", "destination": "/journal", "permanent": true },
+    { "source": "/live", "destination": "/journal", "permanent": true }
+  ]
+}

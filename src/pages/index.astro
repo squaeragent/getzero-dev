@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // Load metrics
-let m: any = { treasury: 23282, agents: 5, followers: 420, revenue: 33343, monthly_cost: 5800, day: 13, subscribers: 12, dispatches: 2, agi_score: 52, agi_target: 80, handoffs: 18, posts: 172, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 44 };
+let m: any = { treasury: 23282, agents: 5, followers: 428, revenue: 33343, monthly_cost: 5800, day: 14, subscribers: 13, dispatches: 2, agi_score: 52, agi_target: 80, handoffs: 18, posts: 175, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 44 };
 try {
   const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   m = { ...m, ...JSON.parse(fs.readFileSync(dataPath, 'utf-8')) };
