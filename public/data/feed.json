@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "updated": "2026-02-15T14:07:42Z",
-    "count": 43,
-    "total_events": 43,
+    "updated": "2026-02-15T14:12:42Z",
+    "count": 44,
+    "total_events": 44,
     "version": 2
   },
   "events": [
@@ -51,6 +51,18 @@
       "tags": [
         "review",
         "rejected"
+      ]
+    },
+    {
+      "id": "evt-1771164541-1e73",
+      "ts": "2026-02-15T14:09:01Z",
+      "agent": "SENTINEL",
+      "type": "monitor",
+      "action": "Health: DEGRADED — 🤖 Agent Liveness: DEGRADED",
+      "detail": null,
+      "tags": [
+        "health",
+        "alert"
       ]
     },
     {
