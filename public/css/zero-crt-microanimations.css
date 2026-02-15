@@ -157,20 +157,27 @@ body::after {
    ============================================ */
 
 /*
- * CRT vignette — no overlay div, no viewport height bugs.
- * Uses box-shadow inset on a pinned pseudo-element on <html>.
- * The box-shadow IS the vignette: darkens edges, bright center.
+ * CRT vignette — oversized fixed div with viewport-unit gradient.
+ * Extends 200px past every edge to cover mobile Safari URL bar resize.
+ * Gradient sized in vw/vh so it always maps to the visible screen.
  */
-html::after {
-  content: '';
+.crt-vignette {
   position: fixed;
-  inset: 0;
+  top: -200px;
+  left: -200px;
+  right: -200px;
+  bottom: -200px;
   pointer-events: none;
   z-index: 9996;
-  box-shadow:
-    inset 0 0 120px 30px rgba(0, 0, 0, 0.5),
-    inset 0 0 300px 60px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  background: radial-gradient(
+    55vw 55vh at 50% 50%,
+    transparent 0%,
+    transparent 55%,
+    rgba(0, 0, 0, 0.12) 68%,
+    rgba(0, 0, 0, 0.35) 80%,
+    rgba(0, 0, 0, 0.6) 92%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
 }
 
 /* Screen curvature on the viewport frame */
