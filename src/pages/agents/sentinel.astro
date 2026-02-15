@@ -16,6 +16,7 @@ const agentId = "SENTINEL";
 <pre class="term-prompt al" data-d="0"><span class="prompt">zero $</span> man zero-agent-sentinel</pre>
 
 <div class="agent-hero">
+  <img src="/img/agents/sentinel.png" alt="SENTINEL" class="agent-avatar" width="80" height="80" />
   <h1><span id="agent-status"><StatusDot status="offline" label="SENTINEL" /></span></h1>
   <span class="agent-model">System Integrity</span>
 </div>
@@ -161,4 +162,15 @@ const agentId = "SENTINEL";
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
   @media(max-width:640px){.man-indent{padding-left:var(--sp-8)}.cap-item{padding-left:var(--sp-8)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+  .agent-avatar {
+    width: 80px;
+    height: 80px;
+    border: 1px solid var(--border);
+    image-rendering: pixelated;
+    flex-shrink: 0;
+  }
+  @media (max-width: 640px) {
+    .agent-avatar { width: 56px; height: 56px; }
+  }
 </style>

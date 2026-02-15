@@ -87,6 +87,7 @@ const agents = [
     {agents.map((a, i) => (
       <DataPanel title={a.name} status={a.model} color="dim">
         <div class="agent-top">
+          <img src={`/img/agents/${a.id}.png`} alt={a.name} class="agent-avatar" width="48" height="48" />
           <StatusDot status={a.status} label={a.role} />
         </div>
         <div class="agent-desc">{a.desc}</div>
@@ -138,7 +139,17 @@ const agents = [
   }
 
   .agent-top {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-8);
     margin-bottom: var(--sp-6);
+  }
+  .agent-avatar {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--border);
+    image-rendering: pixelated;
+    flex-shrink: 0;
   }
   .agent-desc {
     font-family: var(--font-body);
