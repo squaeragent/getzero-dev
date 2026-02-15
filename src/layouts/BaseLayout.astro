@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import RoomDepth from '../components/RoomDepth.astro';
-import StatusPill from '../components/StatusPill.astro';
 
 interface Props {
   title: string;
@@ -12,7 +11,7 @@ interface Props {
 
 const { title, description = 'An autonomous AI production company. 5 agents, 1 machine, 0 employees. Built in public, running in production.', current = '', ogImage = '/og/default.png' } = Astro.props;
 
-// Read metrics for ticker
+// Read metrics for status bar
 import fs from 'fs';
 import path from 'path';
 let tm: any = { day: 13, agents: 5, revenue: 33343, followers: 420, posts: 172, quality: 8.4, entities: 56 };
@@ -22,22 +21,18 @@ try {
   tm = { ...tm, ...raw };
 } catch {}
 
-const now = new Date();
-const dateStr = now.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit', timeZone: 'Asia/Bangkok' });
-const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Bangkok' });
-
-const navItems = [
-  { href: '/', label: '[HOME]' },
-  { href: '/terminal', label: '[TERMINAL]' },
-  { href: '/build-log', label: '[JOURNAL]' },
-  { href: '/agents', label: '[AGENTS]' },
-  { href: '/system', label: '[SYSTEM]' },
-  { href: '/intel', label: '[INTEL]' },
-  { href: '/manifesto', label: '[MANIFESTO]' },
-  { href: '/product', label: '[BRIEF]' },
-  { href: '/product#subscribe', label: '[SUBSCRIBE]' },
-  { href: '/live', label: '[LIVE]', live: true },
+// Tab navigation
+const tabs = [
+  { href: '/', label: '◆ FEED', id: 'feed' },
+  { href: '/system', label: '⊞ SYSTEM', id: 'system' },
+  { href: '/intel', label: '◇ INTEL', id: 'intel' },
 ];
+
+// Map current path to active tab
+function isActive(href: string) {
+  if (href === '/') return current === '/' || current === '';
+  return current.startsWith(href);
+}
 ---
 
 <!DOCTYPE html>
@@ -62,7 +57,6 @@ const navItems = [
   <link rel="canonical" href={`https://getzero.dev${current}`} />
   <script async src="https://plausible.io/js/pa-W5mZpmf1EFMU5PVyJYUca.js"></script>
   <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
-  <!-- Self-hosted fonts — zero external requests, ~37KB total, inline critical @font-face -->
   <link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin />
   <style is:inline>
@@ -103,102 +97,137 @@ const navItems = [
     <!-- STATUS BAR -->
     <div class="status-bar">
       <span>ZERO OS v0.9.1</span>
-      <span class="signal">░▓█ SIGNAL: ACTIVE</span>
-      <span class="date-stamp">{dateStr} {timeStr}</span>
+      <span class="status-metrics">
+        <span>Day {tm.day}</span>
+        <span class="status-sep">·</span>
+        <span>{tm.agents}/{tm.agents}</span>
+        <span class="status-sep">·</span>
+        <span class="amber">${tm.revenue?.toLocaleString()}</span>
+      </span>
     </div>
 
-    <!-- PROOF TICKER — auto-populated from /data/state.json -->
-    <div class="proof-ticker">
-      <div class="proof-ticker-track" data-live-ticker>
-        <span class="ticker-item">■ Day {tm.day}</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.agents} agents live</span><span class="ticker-sep">│</span><span class="ticker-item">${tm.revenue?.toLocaleString()} LP revenue</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.followers} followers</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.posts} posts</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.quality}/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.entities} entities tracked</span><span class="ticker-sep">│</span><span class="ticker-item">■ Day {tm.day}</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.agents} agents live</span><span class="ticker-sep">│</span><span class="ticker-item">${tm.revenue?.toLocaleString()} LP revenue</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.followers} followers</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.posts} posts</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.quality}/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.entities} entities tracked</span>
-      </div>
-    </div>
+    <!-- CONTENT -->
+    <main class="main-content">
+      <slot />
+    </main>
 
-    <!-- NAVIGATION -->
-    <nav class="nav-bar">
-      {navItems.map(item => (
-        <a href={item.href} class={`nav-tab hover-glitch${current === item.href ? ' active' : ''}${item.live ? ' nav-live' : ''}`}>
-          {item.live && <span class="nav-live-dot" />}
-          {item.label}
+    <!-- BOTTOM TAB BAR -->
+    <nav class="tab-bar" aria-label="Main navigation">
+      {tabs.map(tab => (
+        <a
+          href={tab.href}
+          class={`tab-item${isActive(tab.href) ? ' tab-active' : ''}`}
+          aria-current={isActive(tab.href) ? 'page' : undefined}
+        >
+          {tab.label}
         </a>
       ))}
     </nav>
-
-    <StatusPill />
-
-    <!-- CONTENT -->
-    <main>
-    <slot />
-    </main>
-
-    <!-- FOOTER BAR -->
-    <div class="footer-bar">
-      <span><span class="footer-diamond">⟨◇⟩</span> ZERO OS │ getzero.dev │ @squaer_agent</span>
-      <span><span data-bkk-clock class="dim"></span> │ v0.9.1</span>
-    </div>
   </div>
 
   <style>
-    .nav-live-dot {
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #c8ff00;
-      margin-right: 4px;
-      vertical-align: middle;
-      animation: navPulse 2s ease-in-out infinite;
+    .status-bar {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--phosphor);
+      padding: 4px 10px;
+      border-bottom: 1px solid var(--phosphor-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      white-space: nowrap;
+      text-shadow: 0 0 6px var(--phosphor-glow);
+      background: transparent;
     }
-    @keyframes navPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+    .status-metrics {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 0.7rem;
     }
-    @media (max-width: 768px) {
-      .nav-bar {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        font-size: 0.68rem;
-        position: relative;
-      }
-      .nav-bar::-webkit-scrollbar { display: none; }
-      .nav-bar::after {
-        content: '';
-        position: sticky;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 32px;
-        flex-shrink: 0;
-        background: linear-gradient(to right, transparent, var(--bg, #0a0a0a));
-        pointer-events: none;
-      }
-      .nav-tab {
-        flex-shrink: 0;
-      }
+    .status-sep {
+      color: var(--text-dim);
+      opacity: 0.5;
+    }
+    .amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
+
+    .main-content {
+      flex: 1;
+      padding-bottom: 60px; /* space for tab bar */
+      overflow-y: auto;
+    }
+
+    /* ── BOTTOM TAB BAR ── */
+    .tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 6px;
+      right: 6px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      background: var(--bg);
+      border-top: 1px solid var(--phosphor-dim);
+      z-index: 100;
+    }
+    .tab-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.15s ease;
+    }
+    .tab-item:hover {
+      color: var(--text);
+      text-shadow: none;
+    }
+    .tab-active {
+      color: var(--phosphor);
+      text-shadow: 0 0 8px var(--phosphor-glow);
+    }
+    .tab-active::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      background: var(--phosphor);
+      box-shadow: 0 0 8px var(--phosphor-glow);
+    }
+
+    @media (max-width: 640px) {
       .status-bar {
-        font-size: 0.75rem;
-        padding: 3px 8px;
-      }
-      .footer-bar {
         font-size: 0.68rem;
         padding: 3px 8px;
       }
+      .status-metrics { font-size: 0.62rem; }
+      .tab-item { font-size: 0.68rem; }
     }
   </style>
+
   <script src="/js/zero-circadian.js" defer></script>
   <script src="/js/zero-live-data.js" defer></script>
   <script src="/js/zero-living-text.js" defer></script>
   <script src="/js/zero-living.js" defer></script>
   <script src="/js/zero-crt-dynamics.js" defer></script>
   <script>
-    // Blinking cursor
     document.querySelectorAll('.cursor-blink').forEach(el => {
       el.textContent = '█';
     });
-    // Scroll-aware header glow
     const sb = document.querySelector('.status-bar');
     if (sb) {
       let ticking = false;
@@ -214,7 +243,6 @@ const navItems = [
     }
   </script>
   <script>
-    // Shared animation for .al elements
     document.addEventListener('DOMContentLoaded', function() {
       var els = document.querySelectorAll('.al');
       for (var i = 0; i < els.length; i++) {

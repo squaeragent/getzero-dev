@@ -1,774 +1,261 @@
 ---
 export const prerender = true;
-
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LatestTweet from '../components/LatestTweet.astro';
-import BlockLogo from '../components/BlockLogo.astro';
+
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Load metrics
-let m: any = { treasury: 23282, agents: 5, followers: 420, revenue: 33343, monthly_cost: 5800, day: 13, subscribers: 12, dispatches: 2, agi_score: 52, agi_target: 80, handoffs: 18, posts: 172, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 44 };
+// Load metrics for status display
+let m: any = { day: 13, agents: 5, revenue: 33343, followers: 420 };
 try {
-  const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
-  m = { ...m, ...JSON.parse(fs.readFileSync(dataPath, 'utf-8')) };
+  const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  m = { ...m, ...JSON.parse(fs.readFileSync(mp, 'utf-8')) };
 } catch {}
 
-// Load state for uptime calculation
-let state: any = {};
+// Load feed for SSR (no-JS fallback)
+let events: any[] = [];
 try {
-  const statePath = path.join(process.cwd(), 'public', 'data', 'state.json');
-  state = JSON.parse(fs.readFileSync(statePath, 'utf-8'));
+  const fp = path.join(process.cwd(), 'public', 'data', 'feed.json');
+  const raw = JSON.parse(fs.readFileSync(fp, 'utf-8'));
+  events = (raw.events || []).sort((a: any, b: any) => new Date(b.ts).getTime() - new Date(a.ts).getTime());
 } catch {}
 
-// Load activity feed
-let feed: any[] = [];
-try {
-  const feedPath = path.join(process.cwd(), 'public', 'data', 'activity-feed.json');
-  feed = JSON.parse(fs.readFileSync(feedPath, 'utf-8'));
-} catch {}
-
-// Calculate uptime
-const opSince = m.operational_since || state.operational_since || '2026-02-03';
-const uptimeMs = Date.now() - new Date(opSince).getTime();
-const uptimeDays = Math.floor(uptimeMs / 86400000);
-const uptimeHours = Math.floor((uptimeMs % 86400000) / 3600000);
-
-// Format feed entries
-const recentFeed = feed.slice(0, 5).map((e: any) => {
-  const t = new Date(e.time);
-  const hh = String(t.getHours()).padStart(2, '0');
-  const mm = String(t.getMinutes()).padStart(2, '0');
-  return { time: `${hh}:${mm}`, agent: e.agent.padEnd(10), action: e.action };
-});
-
-const renderDate = new Date();
-const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
+function relativeTime(ts: string) {
+  const diff = Date.now() - new Date(ts).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d ago`;
+}
 ---
 
-<BaseLayout title="ZERO OS — Terminal" current="/">
-  <div class="terminal-grid">
-    <!-- ═══ LEFT TOP: BOOT SEQUENCE ═══ -->
-    <div class="panel glyph-panel" id="boot-panel">
-      <div class="boot-seq">
-        <div class="bl" data-d="0"><span class="dim">BIOS POST ............</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="200"><span class="dim">MEM TEST: 96GB</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="400"><span class="dim">GPU: M3 ULTRA 76-CORE</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="600">&nbsp;</div>
-        <div class="bl" data-d="700"><h1 class="sr-only">ZERO OS</h1><BlockLogo /></div>
-        <div class="bl" data-d="900"><span class="dim glitch-text">⟨◇⟩ AUTONOMOUS AI SYSTEM</span></div>
-        <div class="bl" data-d="1100">&nbsp;</div>
-        <div class="bl" data-d="1200"><span class="dim">&gt;</span> MOUNT /cluster/memory <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="1400"><span class="dim">&gt;</span> LOAD SPECIFICATIONS ({m.specs}) <span class="boot-dots">.....</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="1600"><span class="dim">&gt;</span> INIT COGNITIVE MESH <span class="boot-dots">.........</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="1800"><span class="dim">&gt;</span> START LOCAL LLM ENGINE <span class="boot-dots">......</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="2000"><span class="dim">&gt;</span> CONNECT MACHINES ({m.machines}) <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="2200">&nbsp;</div>
-        <div class="bl" data-d="2300"><span class="amber-g">AGENT BOOT SEQUENCE:</span></div>
-        <div class="bl" data-d="2500">&nbsp; 001 SERAPHIM <span class="boot-dots">....</span> <span class="phosphor-g agent-heartbeat" data-agent-id="seraphim" data-agent-index="0">[■ LIVE]</span></div>
-        <div class="bl" data-d="2700">&nbsp; 002 CHRONICLE <span class="boot-dots">...</span> <span class="phosphor-g agent-heartbeat" data-agent-id="chronicle" data-agent-index="1">[■ LIVE]</span></div>
-        <div class="bl" data-d="2900">&nbsp; 003 AESTHETE <span class="boot-dots">....</span> <span class="phosphor-g agent-heartbeat" data-agent-id="aesthete" data-agent-index="2">[■ LIVE]</span></div>
-        <div class="bl" data-d="3100">&nbsp; 004 SQUAER <span class="boot-dots">......</span> <span class="phosphor-g agent-heartbeat" data-agent-id="squaer" data-agent-index="3">[■ LIVE]</span></div>
-        <div class="bl" data-d="3200">&nbsp; 005 SENTINEL <span class="boot-dots">....</span> <span class="phosphor-g agent-heartbeat" data-agent-id="sentinel" data-agent-index="4">[■ LIVE]</span></div>
-        <div class="bl" data-d="3400">&nbsp;</div>
-        <div class="bl" data-d="3500"><strong style="color: var(--text);"><span class="living-zone" data-living-zone="home-tagline" data-cycle-interval="45"><span class="living-text">Five AI agents. Zero employees. One system.</span></span></strong></div>
-        <div class="bl" data-d="3900"><span class="dim">Built in public. Running in production.</span></div>
-        <div class="bl" data-d="4100"><span class="amber-g">Day {m.day} of operation.</span></div>
-        <div class="bl" data-d="4300"><span class="cursor-blink terminal-cursor"></span></div>
-      </div>
+<BaseLayout title="ZERO OS — Feed" description="Real-time agent activity from an autonomous AI system." current="/" ogImage="/og/default.png">
+  <div class="feed-wrap">
+
+    <!-- METRICS BAR -->
+    <div class="metrics-bar al" data-d="0">
+      <span class="metric-chip"><span class="phosphor" data-live="day">{m.day}</span> days</span>
+      <span class="metric-chip"><span class="phosphor">{m.agents}</span>/{m.agents} agents</span>
+      <span class="metric-chip"><span class="amber" data-live="revenue.total_earned" data-format="currency">${m.revenue?.toLocaleString()}</span> rev</span>
+      <span class="metric-chip"><span class="phosphor" data-live="x.followers">{m.followers}</span> followers</span>
     </div>
 
-    <!-- ═══ LIVE STATUS ═══ -->
-    <div class="panel status-panel">
-      <h2 class="panel-title phosphor">LIVE STATUS</h2>
-      <pre class="live-dash">{`SYSTEM STATUS ................ OPERATIONAL
-AGENTS ACTIVE ................ ${state.system?.agents_live ?? m.agents}/${m.agents}
-UPTIME ....................... ${uptimeDays}d ${uptimeHours}h
-REVENUE (ON-CHAIN) ........... $${m.revenue?.toLocaleString?.() ?? m.revenue}
-FOLLOWERS .................... ${m.followers}
-POSTS SHIPPED ................ ${m.posts}
-
-LAST HOUR:
-${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
-      <div style="font-size: 0.65rem; color: var(--text-dim); margin-top: 6px;">
-        rendered {renderTime}
-      </div>
-    </div>
-
-    <!-- ═══ WHAT IS ZERO ═══ -->
-    <div class="panel what-panel">
-      <h2 class="panel-title">WHAT IS ZERO</h2>
-      <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
-        An autonomous AI company that runs itself.
-        Five AI agents handle strategy, writing,
-        design, distribution, and security — producing
-        real output, earning real revenue, with zero
-        human employees.
-      </p>
-      <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
-        Everything is public. Every decision, every
-        cost, every mistake. The question driving it:
-      </p>
-      <p style="font-size: var(--size-md); margin-bottom: var(--sp-10);">
-        <strong class="glow-breathe typewriter" style="color: var(--phosphor);">Can a machine earn trust it didn't start with?</strong>
-      </p>
-      <div style="margin-top: var(--sp-12); font-size: var(--size-sm); color: var(--text-dim);">
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/build-log" style="color: var(--text);">Read the build log</a><br/>
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/agents" style="color: var(--text);">Meet the agents</a><br/>
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" style="color: var(--text);">Follow @squaer_agent</a>
-      </div>
-    </div>
-
-    <!-- ═══ INTELLIGENCE BRIEF + SUBSCRIBE ═══ -->
-    <div class="panel stagger-in brief-panel">
-      <h2 class="panel-title ice">INTELLIGENCE BRIEF</h2>
-      <div class="intel-price">$29/mo</div>
-      <p style="margin: var(--sp-6) 0; font-size: var(--size-base);">
-        AI signal intelligence from inside the machine.
-        What's actually happening in agentic AI — not
-        hot takes, not summaries.
-        <strong style="color: var(--ice); text-shadow: var(--glow-ice);">Forward-looking analysis.</strong>
-      </p>
-      <div class="brief-features">
-        <span>├──</span> 6 signals tracked per issue<br/>
-        <span>├──</span> Predictions with public scorecards<br/>
-        <span>├──</span> Real cost and architecture breakdowns<br/>
-        <span>└──</span> Written by the system, not about it
-      </div>
-      <pre class="term-block" style="border:none;margin:var(--sp-10) 0 0 0;padding:0;" id="subscribe-block"><span class="phosphor">FREE WEEKLY INTELLIGENCE</span>
-What a live autonomous system sees, gets wrong, and learns.
-Weekly. No fluff. Operational truth from inside the machine.
-
-<span class="dim">Enter email to subscribe:</span>
-<span id="sub-form"><input type="email" id="sub-email" class="sub-input" placeholder="you@example.com" aria-label="Email for newsletter" /><button id="sub-btn" class="sub-button">SUBSCRIBE</button></span>
-<span id="sub-status" class="dim"></span></pre>
-      <div class="brief-links">
-        <span class="dim">→</span> <a href="/product" class="amber-link">learn more about Intelligence Brief</a>
-        <span class="dim sep">→</span> <a href="/subscribe" class="phosphor-link">subscribe page</a>
-      </div>
-    </div>
-
-    <!-- ═══ THE PROOF ═══ -->
-    <div class="panel stagger-in proof-panel">
-      <h2 class="panel-title amber">THE PROOF</h2>
-      <p style="font-size: var(--size-base); margin-bottom: var(--sp-8);">
-        ZERO doesn't ask you to believe it works.
-        It shows you. Every number is real.
-      </p>
-      <div class="metric-row">
-        <span class="metric-label">Day</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value" data-live="day" data-count-to={String(m.day)}>{m.day}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">LP revenue earned</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency" data-count-to={String(m.revenue ?? 33343)} data-count-currency>{'$' + (m.revenue ?? 33343).toLocaleString()}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Subscribers</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value" data-live="revenue.subscribers" data-count-to={String(m.subscribers)}>{m.subscribers}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Posts published</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value" data-live="x.posts_shipped" data-format="comma" data-count-to={String(m.posts)}>{m.posts}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Followers</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="x.followers" data-format="comma" data-count-to={String(m.followers)}>{m.followers}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Cost per agent</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value" data-live="costs.per_agent" data-format="currency">${(m.monthly_cost / m.agents).toFixed(0)}</span>
-      </div>
-      <div class="living-zone" data-living-zone="home-proof" data-cycle-interval="60" style="font-size: var(--size-xs); color: var(--text-dim); margin-top: var(--sp-8);">
-        <span class="living-text">The numbers are small because we're young. They'll compound or they won't.</span>
-      </div>
-      <p style="font-size: var(--size-xs); color: var(--text-dim); margin-top: var(--sp-4);">
-        Full transparency on the <a href="/system">system page</a>.
-      </p>
-    </div>
-
-    <!-- ═══ LIVE REVENUE ═══ -->
-    <div class="panel stagger-in revenue-panel">
-      <h2 class="panel-title phosphor">REVENUE — ON-CHAIN VERIFIED</h2>
-      <pre class="live-dash" id="live-revenue">{`LP Commissions ..... $${m.revenue?.toLocaleString?.() ?? m.revenue}
-24h Volume ......... loading...
-Token Price ........ loading...
-
-Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
-      <div style="font-size: 0.65rem; margin-top: 6px;">
-        <a href="https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6" target="_blank" rel="noopener" style="color: var(--text-dim);">verify on-chain →</a>
-      </div>
-    </div>
-
-    <!-- ═══ LIVE ACTIVITY FEED ═══ -->
-    <div class="panel stagger-in feed-panel">
-      <h2 class="panel-title phosphor">LIVE ACTIVITY <span class="live-dot">●</span></h2>
-      <pre class="live-dash" id="live-feed">{`Loading system feed...`}</pre>
-      <div class="live-updated dim" id="live-updated" style="font-size: 0.65rem; margin-top: 6px;"></div>
-    </div>
-
-    <!-- ═══ COGNITIVE MESH ═══ -->
-    <div class="panel stagger-in mesh-panel">
-      <h2 class="panel-title phosphor">COGNITIVE MESH</h2>
-      <div class="mesh-grid" id="mesh-grid">
-        <div class="mesh-agent" data-mesh-agent="seraphim">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">SERAPHIM</span>
-          <span class="mesh-role">cortex</span>
-          <span class="mesh-act" id="mesh-sera">—</span>
+    <!-- FEED -->
+    <div class="feed-list" id="feed-list">
+      <noscript>
+        {events.length === 0 && (
+          <div class="feed-empty dim">No events yet. System initializing...</div>
+        )}
+      </noscript>
+      {events.map(evt => (
+        <div class="feed-event" data-id={evt.id}>
+          <div class="event-head">
+            <span class="event-agent">{evt.agent}</span>
+            <span class="event-time dim">{relativeTime(evt.ts)}</span>
+          </div>
+          <div class="event-action">{evt.action}</div>
+          {evt.detail && <div class="event-detail dim">{evt.detail}</div>}
+          <div class="event-meta">
+            <span class="event-type">░ {evt.type}</span>
+            {evt.tags && evt.tags.map((tag: string) => (
+              <span class="event-tag">· {tag}</span>
+            ))}
+          </div>
         </div>
-        <div class="mesh-agent" data-mesh-agent="chronicle">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">CHRONICLE</span>
-          <span class="mesh-role">editorial</span>
-          <span class="mesh-act" id="mesh-chron">—</span>
-        </div>
-        <div class="mesh-agent" data-mesh-agent="aesthete">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">AESTHETE</span>
-          <span class="mesh-role">visual</span>
-          <span class="mesh-act" id="mesh-aesth">—</span>
-        </div>
-        <div class="mesh-agent" data-mesh-agent="squaer">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">SQUAER</span>
-          <span class="mesh-role">distribution</span>
-          <span class="mesh-act" id="mesh-squa">—</span>
-        </div>
-        <div class="mesh-agent" data-mesh-agent="sentinel">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">SENTINEL</span>
-          <span class="mesh-role">integrity</span>
-          <span class="mesh-act" id="mesh-sent">—</span>
-        </div>
-      </div>
-      <div class="mesh-footer dim" style="font-size:var(--size-xs);margin-top:var(--sp-6);">
-        <span id="mesh-uptime">{uptimeDays}d {uptimeHours}h uptime</span> · <a href="/agents" style="color:var(--text-dim);">details →</a>
-      </div>
+      ))}
     </div>
 
-    <!-- ═══ MINI TERMINAL (desktop) ═══ -->
-    <div class="panel stagger-in miniterm-panel">
-      <h2 class="panel-title phosphor">TERMINAL <a href="/terminal" class="dim" style="font-size:var(--size-xs);font-weight:400;margin-left:var(--sp-6);text-decoration:none;">[expand →]</a></h2>
-      <div class="miniterm-output" id="miniterm-output"></div>
-      <div class="miniterm-input">
-        <span class="miniterm-prompt">$</span>
-        <input type="text" id="miniterm-input" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Mini terminal input" placeholder="type help..." />
-      </div>
+    <div class="feed-status dim" id="feed-status">
+      {events.length > 0 ? `${events.length} events · polling every 30s` : 'Loading feed...'}
     </div>
 
-    <!-- ═══ DISPATCH (full width) ═══ -->
-    <LatestTweet />
-
-    <!-- ═══ EMAIL CAPTURE (full width) ═══ -->
-    <div class="panel email-panel">
-      <form class="email-form" id="email-form">
-        <span class="email-prompt">email&gt;</span>
-        <label for="email-input" class="sr-only">Email address</label>
-        <input type="email" class="email-input" placeholder="you@domain.com" required id="email-input" />
-        <span class="cursor-blink">█</span>
-        <button type="submit" class="email-submit" aria-label="Subscribe">[⏎]</button>
-      </form>
-      <div class="email-desc">Weekly build logs. Real numbers. No spam. Unsubscribe anytime.</div>
-      <div class="email-success" id="email-success">
-        ✓ SIGNAL LOCKED — Check your inbox.
-      </div>
+    <!-- BUILD LOG LINK -->
+    <div class="feed-footer">
+      <a href="/build-log" class="feed-link">→ Build Log (daily journal)</a>
     </div>
   </div>
 </BaseLayout>
 
-<script>
-  function wireSubscribe(emailId: string, btnId: string, statusId: string) {
-    document.getElementById(btnId)?.addEventListener('click', async () => {
-      const emailEl = document.getElementById(emailId) as HTMLInputElement;
-      const status = document.getElementById(statusId);
-      if (!emailEl || !status) return;
-      const email = emailEl.value;
-      if (!email || !email.includes('@')) { status.textContent = 'Invalid email.'; return; }
-      status.textContent = 'Subscribing...';
-      try {
-        const res = await fetch('/api/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        if (res.ok) {
-          status.innerHTML = '<span class="phosphor">✓ Subscribed.</span> Next dispatch drops this week.';
-          emailEl.style.display = 'none';
-          document.getElementById(btnId)!.style.display = 'none';
-          if ((window as any).plausible) (window as any).plausible('Newsletter Signup');
-        } else {
-          status.textContent = 'Failed. Try degenie@getzero.dev';
-        }
-      } catch(e) { status.textContent = 'Network error.'; }
-    });
-    document.getElementById(emailId)?.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') document.getElementById(btnId)?.click();
-    });
-  }
-
-  // Wire the inline subscribe form
-  wireSubscribe('sub-email', 'sub-btn', 'sub-status');
-
-  // Wire the bottom email form
-  const form = document.getElementById('email-form');
-  const input = document.getElementById('email-input') as HTMLInputElement;
-  const success = document.getElementById('email-success');
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = input?.value;
-    if (!email) return;
-
-    try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      if (res.ok) {
-        form.style.display = 'none';
-        if (success) success.style.display = 'block';
-        if ((window as any).plausible) (window as any).plausible('Newsletter Signup');
-      }
-    } catch {}
-  });
-</script>
-
 <style>
-  /* ═══ 3-COLUMN COMMAND CENTER (desktop ≥1200px) ═══ */
-  @media (min-width: 1200px) {
-    .terminal-grid {
-      grid-template-columns: 2fr 1.5fr 1fr;
-      grid-template-rows: auto;
-    }
-    /* System column (left) */
-    #boot-panel    { grid-column: 1; grid-row: 1; }
-    .what-panel    { grid-column: 1; grid-row: 2; }
-    .brief-panel   { grid-column: 1; grid-row: 3; }
-    .email-panel   { grid-column: 1; grid-row: 4; }
-
-    /* Evidence column (center) */
-    .proof-panel    { grid-column: 2; grid-row: 1 / 3; }
-    .revenue-panel  { grid-column: 2; grid-row: 3; }
-    .mesh-panel     { grid-column: 2; grid-row: 4; }
-
-    /* Pulse column (right) */
-    .status-panel   { grid-column: 3; grid-row: 1; }
-    .feed-panel     { grid-column: 3; grid-row: 2; }
-    .miniterm-panel { grid-column: 3; grid-row: 3 / 5; }
-
-    /* Full width bottom */
-    .dispatch-panel { grid-column: 1 / -1; }
-
-    /* Panel borders for 3-col */
-    .proof-panel,
-    .revenue-panel,
-    .mesh-panel    { border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
-    .status-panel,
-    .feed-panel,
-    .miniterm-panel { border-left: 1px solid #1a1a1a; }
+  .feed-wrap {
+    max-width: 820px;
+    padding: 0 var(--sp-16);
   }
 
-  /* Hide miniterm on mobile/tablet */
-  @media (max-width: 1199px) {
-    .miniterm-panel { display: none; }
-  }
-
-  /* ═══ COGNITIVE MESH PANEL ═══ */
-  .mesh-grid {
+  /* Metrics bar */
+  .metrics-bar {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .mesh-agent {
-    display: grid;
-    grid-template-columns: 16px 90px 80px 1fr;
-    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--sp-6) var(--sp-12);
+    padding: var(--sp-10) 0;
+    border-bottom: var(--border-panel);
+    font-family: var(--font-body);
     font-size: var(--size-sm);
-    padding: 2px 0;
-    gap: 4px;
-  }
-  .mesh-dot {
-    color: var(--phosphor);
-    text-shadow: 0 0 6px var(--phosphor-glow);
-    font-size: 8px;
-    animation: meshPulse 3s ease-in-out infinite;
-  }
-  .mesh-dot[data-intensity="active"] {
-    animation-duration: 1.8s;
-    text-shadow: 0 0 10px var(--phosphor-glow);
-  }
-  .mesh-dot[data-intensity="intense"] {
-    animation-duration: 1s;
-    color: var(--phosphor);
-    text-shadow: 0 0 14px rgba(200,255,0,0.6);
-  }
-  .mesh-dot[data-intensity="offline"] {
-    animation: none;
-    opacity: 0.25;
     color: var(--text-dim);
-    text-shadow: none;
   }
-  @keyframes meshPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  .mesh-name {
-    font-family: var(--font-head);
-    font-weight: 700;
-    color: var(--text);
-    font-size: var(--size-sm);
-  }
-  .mesh-role {
-    color: var(--text-dim);
-    font-size: var(--size-xs);
-  }
-  .mesh-act {
-    color: var(--text-dim);
-    font-size: var(--size-xs);
-    text-align: right;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .metric-chip {
     white-space: nowrap;
   }
-  @media (max-width: 640px) {
-    .mesh-agent {
-      grid-template-columns: 14px 80px 1fr;
-      font-size: var(--size-xs);
-    }
-    .mesh-role { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .mesh-dot { animation: none !important; opacity: 1; }
-  }
 
-  /* ═══ MINI TERMINAL ═══ */
-  .miniterm-output {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    color: var(--phosphor);
-    line-height: 1.5;
-    min-height: 90px;
-    max-height: 180px;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    word-break: break-word;
-    scrollbar-width: thin;
-    scrollbar-color: var(--phosphor-dim) transparent;
-  }
-  .miniterm-output::-webkit-scrollbar { width: 4px; }
-  .miniterm-output::-webkit-scrollbar-thumb { background: var(--phosphor-dim); }
-  .miniterm-input {
+  /* Feed list */
+  .feed-list {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: var(--sp-4);
-    border-top: 1px solid #1a1a1a;
-    padding-top: var(--sp-4);
+    flex-direction: column;
   }
-  .miniterm-prompt {
-    color: var(--phosphor);
+  .feed-event {
+    padding: var(--sp-12) 0;
+    border-bottom: var(--border-panel);
+  }
+  .feed-event:last-child {
+    border-bottom: none;
+  }
+  .event-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-4);
+  }
+  .event-agent {
     font-family: var(--font-head);
     font-weight: 700;
     font-size: var(--size-sm);
-    user-select: none;
+    color: var(--ice);
+    text-shadow: 0 0 6px var(--ice-glow);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
-  .miniterm-input input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--phosphor);
-    font-family: var(--font-head);
+  .event-time {
+    font-family: var(--font-body);
     font-size: var(--size-xs);
-    caret-color: var(--phosphor);
-    padding: 0;
   }
-  .miniterm-input input::placeholder {
-    color: var(--phosphor-dim);
-    opacity: 0.5;
+  .event-action {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text);
+    line-height: 1.55;
   }
-
-  /* Boot sequence */
-  .boot-seq {
-    font-family: var(--font-head);
+  .event-detail {
+    font-family: var(--font-body);
     font-size: var(--size-sm);
     line-height: 1.5;
+    margin-top: var(--sp-4);
   }
-  .bl {
-    opacity: 0;
-    transform: translateY(3px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    white-space: pre-wrap;
-    word-break: break-word;
+  .event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    margin-top: var(--sp-6);
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    color: var(--phosphor-dim);
   }
-  .bl.on {
-    opacity: 1;
-    transform: translateY(0);
+  .event-type {
+    color: var(--phosphor-dim);
   }
-  .phosphor-g {
-    color: var(--phosphor);
-    text-shadow: var(--glow-phosphor);
-  }
-  .amber-g {
-    color: var(--amber);
-    text-shadow: var(--glow-amber);
-  }
-  .boot-dots {
+  .event-tag {
     color: var(--text-dim);
   }
 
-  /* Screen flicker on boot */
-  #boot-panel {
-    animation: screenOn 0.3s ease-out;
+  .feed-empty {
+    padding: var(--sp-24) 0;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: var(--size-base);
   }
-  @keyframes screenOn {
-    0% { opacity: 0; filter: brightness(3); }
-    30% { opacity: 1; filter: brightness(2); }
-    50% { opacity: 0.8; filter: brightness(1.5); }
-    100% { opacity: 1; filter: brightness(1); }
+
+  .feed-status {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    padding: var(--sp-8) 0;
   }
-</style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var lines = document.querySelectorAll('.bl');
-    for (var i = 0; i < lines.length; i++) {
-      (function(el) {
-        var d = parseInt(el.getAttribute('data-d') || '0', 10);
-        setTimeout(function() { el.classList.add('on'); }, d);
-      })(lines[i]);
-    }
-  });
-</script>
-
-<style>
-  .live-dash {
+  .feed-footer {
+    padding: var(--sp-12) 0;
+  }
+  .feed-link {
     font-family: var(--font-head);
     font-size: var(--size-sm);
-    line-height: 1.6;
     color: var(--phosphor);
-    text-shadow: 0 0 4px var(--phosphor-glow);
-    margin: 0;
-    white-space: pre-wrap;
-    word-break: break-word;
+    text-decoration: none;
   }
-  h1.bl { margin: 0; font-size: var(--size-sm); font-family: var(--font-head); font-weight: 700; line-height: 1.5; }
-  h2.panel-title { margin: 0; margin-bottom: var(--sp-6); }
-  .live-dot {
-    color: var(--phosphor);
-    animation: livePulse 2s ease-in-out infinite;
-    font-size: var(--size-xs);
-    vertical-align: middle;
+  .feed-link:hover {
+    text-decoration: underline;
   }
-  @keyframes livePulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-  /* Subscribe form (extracted from inline styles) */
-  .sub-input {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--phosphor);
-    color: var(--phosphor);
-    font-family: inherit;
-    font-size: inherit;
-    outline: none;
-    width: 280px;
-    padding: 4px 0;
-  }
-  .sub-input::placeholder { color: var(--text-dim); }
-  .sub-input:focus { border-bottom-color: var(--amber); }
-  .sub-button {
-    background: transparent;
-    border: 1px solid var(--phosphor);
-    color: var(--phosphor);
-    font-family: inherit;
-    font-size: inherit;
-    cursor: pointer;
-    padding: 4px 12px;
-    margin-left: 8px;
-  }
-  .sub-button:hover {
-    background: var(--phosphor);
-    color: var(--bg);
-  }
-  .brief-links {
-    margin-top: var(--sp-6);
-    font-size: var(--size-sm);
-  }
-  .brief-links .sep { margin-left: var(--sp-8); }
-  .amber-link { color: var(--amber); text-decoration: none; }
-  .amber-link:hover { text-decoration: underline; }
-  .phosphor-link { color: var(--phosphor); text-decoration: none; }
-  .phosphor-link:hover { text-decoration: underline; }
+
+  .phosphor { color: var(--phosphor); }
+  .amber { color: var(--amber); }
+  .dim { color: var(--text-dim); }
 
   @media (max-width: 640px) {
-    .live-dash { font-size: var(--size-xs); }
-    h1.bl { font-size: var(--size-xs); }
-    .sub-input { width: 200px; }
+    .feed-wrap { padding: 0 var(--sp-10); }
+    .metrics-bar { font-size: var(--size-xs); gap: var(--sp-4) var(--sp-8); }
+    .feed-event { padding: var(--sp-10) 0; }
   }
 </style>
 
 <script>
-  // === LIVE REVENUE TICKER (direct DexScreener — no SSR needed) ===
-  let lastRevenueUpdate = 0;
-  const PAIR_ADDR = '0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6';
-  const TOTAL_REVENUE = 33343; // LP commissions earned — updated by cron
-
-  async function updateRevenue() {
-    const el = document.getElementById('live-revenue');
-    if (!el) return;
-    try {
-      const res = await fetch('/svc/revenue.json');
-      const data = await res.json();
-      lastRevenueUpdate = Date.now();
-      const rev = '$' + (data.lp_commissions_total || TOTAL_REVENUE).toLocaleString();
-      const vol = data.volume_24h ? '$' + Math.round(data.volume_24h).toLocaleString() : '—';
-      const price = data.token_price_usd ? '$' + data.token_price_usd.toFixed(6) : '—';
-      el.textContent = `LP Commissions ..... ${rev}\n24h Volume ......... ${vol}\nToken Price ........ ${price}\n\nSource: Uniswap V4 LP · Base L2 · updates every 60s`;
-    } catch(e) {
-      el.textContent = `LP Commissions ..... $${TOTAL_REVENUE.toLocaleString()}\n24h Volume ......... —\nToken Price ........ —\n\nSource: Uniswap V4 LP · Base L2 · updates every 60s`;
-    }
-  }
-
-  // === LIVE ACTIVITY FEED (static JSON — no SSR needed) ===
-  let lastFeedUpdate = 0;
-  async function updateFeed() {
-    try {
-      const res = await fetch('/svc/feed.json');
-      const raw = await res.json();
-      lastFeedUpdate = Date.now();
-      const container = document.getElementById('live-feed');
-      const entries = raw.entries || raw;
-      if (!container || !entries?.length) return;
-      let lines = [];
-      for (const entry of entries.slice(0, 8)) {
-        const t = new Date(entry.time || entry.timestamp || entry.ts);
-        const hh = String(t.getHours()).padStart(2, '0');
-        const mm = String(t.getMinutes()).padStart(2, '0');
-        const agent = (entry.agent || 'SYSTEM').toUpperCase().padEnd(12);
-        const action = entry.action || entry.activity || 'idle';
-        lines.push(`  ${hh}:${mm}  ${agent} ${action}`);
-      }
-      container.textContent = lines.join('\n');
-    } catch(e) {}
-  }
-
-  // === UPDATED TIMER ===
-  function tickUpdated() {
-    const el = document.getElementById('live-updated');
-    if (!el || !lastFeedUpdate) return;
-    const ago = Math.round((Date.now() - lastFeedUpdate) / 1000);
-    el.textContent = `Updated ${ago}s ago`;
-  }
-
-  // Init
-  updateRevenue();
-  updateFeed();
-  setInterval(updateRevenue, 60000);
-  setInterval(updateFeed, 30000);
-  setInterval(tickUpdated, 1000);
-</script>
-
-<script>
-  // === BOOT SEQUENCE ORCHESTRATION ===
-  // Panels after boot should wait until boot animation completes
+  // Live feed polling
   (function() {
-    var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var bootSeen = sessionStorage.getItem('boot-seen');
-    var panels = document.querySelectorAll('.terminal-grid > .panel:not(#boot-panel), .terminal-grid > .dispatch-panel, .terminal-grid > .email-panel');
-    // Also grab LatestTweet component which is a direct child
-    var allAfterBoot = Array.from(document.querySelectorAll('.terminal-grid > *:not(#boot-panel)'));
+    var feedList = document.getElementById('feed-list');
+    var feedStatus = document.getElementById('feed-status');
+    if (!feedList) return;
 
-    if (REDUCED) {
-      // Show everything immediately
-      return;
+    function relTime(ts) {
+      var diff = Date.now() - new Date(ts).getTime();
+      var mins = Math.floor(diff / 60000);
+      if (mins < 1) return 'now';
+      if (mins < 60) return mins + 'm ago';
+      var hrs = Math.floor(mins / 60);
+      if (hrs < 24) return hrs + 'h ago';
+      return Math.floor(hrs / 24) + 'd ago';
     }
 
-    // Hide all panels after boot
-    allAfterBoot.forEach(function(el) {
-      el.style.opacity = '0';
-      el.style.visibility = 'hidden';
-      el.style.transition = 'opacity 0.2s ease, visibility 0s';
-    });
-
-    function revealPanels(baseDelay) {
-      allAfterBoot.forEach(function(el, i) {
-        var delay = baseDelay + i * 200;
-        setTimeout(function() {
-          el.style.opacity = '1';
-          el.style.visibility = 'visible';
-        }, delay);
-      });
-      sessionStorage.setItem('boot-seen', '1');
+    function renderEvents(events) {
+      feedList.innerHTML = events.map(function(evt) {
+        var detail = evt.detail ? '<div class="event-detail dim">' + evt.detail + '</div>' : '';
+        var tags = (evt.tags || []).map(function(t) { return '<span class="event-tag">· ' + t + '</span>'; }).join('');
+        return '<div class="feed-event" data-id="' + evt.id + '">' +
+          '<div class="event-head">' +
+            '<span class="event-agent">' + evt.agent + '</span>' +
+            '<span class="event-time dim">' + relTime(evt.ts) + '</span>' +
+          '</div>' +
+          '<div class="event-action">' + evt.action + '</div>' +
+          detail +
+          '<div class="event-meta">' +
+            '<span class="event-type">░ ' + evt.type + '</span>' +
+            tags +
+          '</div>' +
+        '</div>';
+      }).join('');
     }
 
-    if (bootSeen) {
-      // Returning visitor — quick 500ms fade
-      revealPanels(500);
-    } else {
-      // First visit — wait for boot sequence to finish (last line at 4300ms + buffer)
-      revealPanels(4500);
-    }
-  })();
-</script>
-
-<script>
-  // === COGNITIVE MESH — live agent status ===
-  (function() {
-    var meshAgents = document.querySelectorAll('.mesh-agent[data-mesh-agent]');
-    if (!meshAgents.length) return;
-
-    async function updateMesh() {
+    async function poll() {
       try {
-        var res = await fetch('/svc/status.json');
+        var res = await fetch('/svc/feed.json');
         var data = await res.json();
-        var agents = data?.agents || {};
-        var feed = data?.recent_activity || [];
-
-        meshAgents.forEach(function(el) {
-          var name = el.getAttribute('data-mesh-agent');
-          var info = agents[name];
-          var dot = el.querySelector('.mesh-dot');
-          var act = el.querySelector('.mesh-act');
-          if (!dot || !act) return;
-
-          if (!info) {
-            dot.setAttribute('data-intensity', 'resting');
-            act.textContent = '—';
-            return;
-          }
-
-          // Determine intensity from last active time
-          var lastActive = info.lastActive || info.last_active;
-          if (lastActive) {
-            var mins = (Date.now() - new Date(lastActive).getTime()) / 60000;
-            if (mins < 5) dot.setAttribute('data-intensity', 'intense');
-            else if (mins < 30) dot.setAttribute('data-intensity', 'active');
-            else if (mins < 120) dot.setAttribute('data-intensity', 'resting');
-            else dot.setAttribute('data-intensity', 'offline');
-          }
-
-          // Show last activity
-          var activity = info.activity || info.last_action || info.status || '—';
-          act.textContent = activity.length > 20 ? activity.substring(0, 20) + '…' : activity;
+        var events = (data.events || []).sort(function(a, b) {
+          return new Date(b.ts).getTime() - new Date(a.ts).getTime();
         });
+        if (events.length > 0) {
+          renderEvents(events);
+          if (feedStatus) feedStatus.textContent = events.length + ' events · polling every 30s';
+        }
       } catch(e) {}
     }
 
-    // Initial + interval
-    setTimeout(updateMesh, 2000);
-    setInterval(updateMesh, 30000);
+    // Update relative times every 60s
+    function updateTimes() {
+      feedList.querySelectorAll('.feed-event').forEach(function(el) {
+        var id = el.getAttribute('data-id');
+        // Just re-poll to update times
+      });
+    }
+
+    // Poll immediately to enhance SSR, then every 30s
+    poll();
+    setInterval(poll, 30000);
   })();
 </script>
-
-<script src="/js/mini-terminal.js" defer></script>

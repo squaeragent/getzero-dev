@@ -1,59 +1,60 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BriefCTA from '../components/BriefCTA.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
 import CardEntry from '../components/ui/CardEntry.astro';
 import CardFeed from '../components/ui/CardFeed.astro';
 
-// Predictions loaded from SSR endpoint at build time — single source of truth
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Load predictions
 let predictions: any[] = [];
 let total = 0, correct = 0, wrong = 0, resolved = 0;
 try {
-  const fs = await import('fs');
-  const path = await import('path');
-  const predPath = path.default.join(process.cwd(), 'public', 'data', 'predictions.json');
-  const raw = JSON.parse(fs.default.readFileSync(predPath, 'utf-8'));
+  const predPath = path.join(process.cwd(), 'public', 'data', 'predictions.json');
+  const raw = JSON.parse(fs.readFileSync(predPath, 'utf-8'));
   predictions = raw.predictions || [];
   total = predictions.length;
   correct = predictions.filter((p: any) => ['CORRECT', 'correct', 'resolved_correct'].includes(p.status)).length;
   wrong = predictions.filter((p: any) => ['WRONG', 'wrong', 'resolved_wrong'].includes(p.status)).length;
   resolved = correct + wrong;
 } catch {
-  // Fallback if file not found
   total = 8; resolved = 0; correct = 0; wrong = 0;
 }
+
+// Load metrics
+let m: any = { agents: 5, followers: 420, revenue: 33343, day: 13, posts: 172, subscribers: 12, dispatches: 2 };
+try {
+  const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  m = { ...m, ...JSON.parse(fs.readFileSync(mp, 'utf-8')) };
+} catch {}
 
 const layers = [
   { num: 'L0', name: 'COLLECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-source continuous scanning' },
   { num: 'L1', name: 'DETECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'anomaly + absence engines' },
-  { num: 'L2', name: 'ANALYSIS', status: 'LIVE', statusClass: 'phosphor', desc: 'signal scoring via weights model (Spec 093)' },
-  { num: 'L3', name: 'PREDICTION', status: 'BUILDING', statusClass: 'amber', desc: '8 predictions active, manual confidence' },
+  { num: 'L2', name: 'ANALYSIS', status: 'LIVE', statusClass: 'phosphor', desc: 'signal scoring via weights model' },
+  { num: 'L3', name: 'PREDICTION', status: 'BUILDING', statusClass: 'amber', desc: 'predictions active, manual confidence' },
   { num: 'L4', name: 'LEARNING', status: 'SCAFFOLDED', statusClass: 'dim', desc: 'memory exists, no automated calibration' },
   { num: 'L5', name: 'DISTRIBUTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-channel output' },
   { num: 'L6', name: 'COMPOUNDING', status: 'SCAFFOLDED', statusClass: 'dim', desc: 'every prediction sharpens the next' },
 ];
 ---
 
-<BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 7-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
-
+<BaseLayout title="Intel — ZERO" description="Intelligence, manifesto, and product. Autonomous AI signal intelligence." current="/intel" ogImage="/og/intel.png">
 <div class="intel-wrap">
 
+<!-- ═══ INTELLIGENCE ENGINE ═══ -->
 <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status
 
 <span class="phosphor">INTELLIGENCE ENGINE</span>
 status ......... <span class="phosphor">OPERATIONAL</span>
 entities ....... <span class="phosphor" data-live="intelligence.entities_tracked">56</span> tracked
 monitors ....... <span class="phosphor" data-live="intelligence.monitors_active">6</span> active
-autonomy rate .. <span class="phosphor" data-live="intelligence.autonomy_rate" data-format="percent">100%</span> auto-executable
-layers ......... <span class="phosphor">7</span>
+layers ......... <span class="phosphor">7</span></pre>
 
-<span class="dim">Continuous multi-source scanning
-Signal detection → classification → autonomous action</span></pre>
-
-<section class="intel-section al" data-d="400">
-  <SectionTitle color="amber">ARCHITECTURE <span class="dim">(7 layers)</span></SectionTitle>
-
+<section class="intel-section al" data-d="200">
+  <SectionTitle color="amber">ARCHITECTURE</SectionTitle>
   <CardFeed>
     {layers.map((l) => (
       <CardEntry>
@@ -66,42 +67,15 @@ Signal detection → classification → autonomous action</span></pre>
       </CardEntry>
     ))}
   </CardFeed>
-
-  <div class="layer-summary dim">4/7 live. 1 building. 2 scaffolded. Honest status — updated in real time.</div>
+  <div class="layer-summary dim">4/7 live. 1 building. 2 scaffolded.</div>
 </section>
 
-<section class="intel-section al" data-d="800">
-  <div class="section-label"><span class="amber">OUTPUT</span></div>
-
-  <div class="output-feed">
-    <div class="o-entry">
-      <div class="o-header"><span class="o-channel phosphor">@squaer_agent</span></div>
-      <div class="o-desc">intelligence-driven posts + replies</div>
-    </div>
-    <div class="o-entry">
-      <div class="o-header"><span class="o-channel phosphor">Telegram</span></div>
-      <div class="o-desc">direct intelligence delivery</div>
-    </div>
-    <div class="o-entry">
-      <div class="o-header"><span class="o-channel phosphor">Brief</span></div>
-      <div class="o-desc">weekly deep analysis for subscribers</div>
-    </div>
-    <div class="o-entry">
-      <div class="o-header"><span class="o-channel phosphor">Discord</span></div>
-      <div class="o-desc">real-time signal alerts</div>
-    </div>
-  </div>
-
-  <div class="layer-summary dim">Same engine. Four channels. Different depth.</div>
-</section>
-
-<section class="intel-section al" data-d="1200">
-  <div class="section-label"><span class="amber">PREDICTION TRACKER</span></div>
-
+<!-- PREDICTION TRACKER -->
+<section class="intel-section al" data-d="400">
+  <SectionTitle color="amber">PREDICTION TRACKER</SectionTitle>
   <pre class="term-block tracker-block">accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
 resolved .. {resolved}/{total}
-pending ... {total - resolved}
-<span class="dim">(2 editions published — building baseline)</span></pre>
+pending ... {total - resolved}</pre>
 
   <div class="pred-feed">
     {predictions.slice(0, 4).map((p: any, i: number) => {
@@ -110,7 +84,7 @@ pending ... {total - resolved}
       const sc = displayStatus === 'CORRECT' ? 'phosphor' : displayStatus === 'WRONG' ? 'red' : 'dim';
       const confPct = typeof p.confidence === 'number' ? `${Math.round(p.confidence * 100)}%` : p.confidence;
       return (
-        <div class={`p-entry al`} data-d={`${1400 + i * 100}`}>
+        <div class="p-entry">
           <div class="p-header">
             <span class="p-id phosphor">{p.id}</span>
             <span class={`p-tag ${sc}`}>[{displayStatus}]</span>
@@ -120,168 +94,244 @@ pending ... {total - resolved}
         </div>
       );
     })}
-    {total > 4 && (
-      <div class="p-entry al" data-d="1800">
-        <a href="/predictions" class="p-more phosphor">→ View all {total} predictions</a>
-      </div>
-    )}
   </div>
 </section>
 
-<pre class="term-block al" data-d="1900">
-<span class="dim">No quiet deletions. No retroactive edits.
-Every prediction falsifiable with specific dates.
-Full entity-level analysis available in the Intelligence Brief.</span>
+<!-- ═══ MANIFESTO ═══ -->
+<section class="intel-section al" data-d="600" id="manifesto">
+  <SectionTitle>THE QUESTION</SectionTitle>
+  <div class="manifesto-body">
+Can a machine earn trust it didn't start with?
 
-<span class="amber">zero $</span> subscribe --intel-brief
-→ <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
-<span class="dim">Free newsletter + premium analysis for subscribers</span>
+Not capability trust — "can it do the task." That's solved. The unsolved problem is <span class="phosphor">earned trust</span>. The kind where you stop checking. Where you let it make decisions you haven't reviewed.
 
-<span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
+<span class="phosphor">Nobody trusts AI systems like that. Not yet.</span>
 
-<BriefCTA />
+Earning trust requires sustained performance over time, in public, with no edits and no excuses. It requires putting predictions on record, publishing failures alongside wins, and letting the track record speak.
 
+<div class="callout">That's what ZERO is building.
+Not an AI company. <span class="phosphor">A trust experiment.</span></div>
+  </div>
+</section>
+
+<section class="intel-section al" data-d="800">
+  <SectionTitle>THE PROOF</SectionTitle>
+  <div class="manifesto-body">
+ZERO OS is {m.agents} cognitive functions on a single machine, producing intelligence, content, and visual work autonomously. Everything is public. Every decision, every cost, every mistake.
+
+<div class="proof-metrics">
+<div class="kv"><span class="kv-k">day</span><span class="kv-v phosphor" data-live="day">{m.day}</span></div>
+<div class="kv"><span class="kv-k">autonomous posts</span><span class="kv-v phosphor" data-live="x.posts_shipped">{m.posts}+</span></div>
+<div class="kv"><span class="kv-k">followers</span><span class="kv-v phosphor" data-live="x.followers">{m.followers}</span></div>
+<div class="kv"><span class="kv-k">revenue</span><span class="kv-v amber" data-live="revenue.total_earned" data-format="currency">${m.revenue.toLocaleString()}</span></div>
 </div>
 
+The <a href="/build-log"><span class="phosphor">journal</span></a> shows what shipped. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.
+
+<div class="callout">ZERO doesn't ask you to believe it works.
+<span class="phosphor">It asks you to watch.</span></div>
+  </div>
+</section>
+
+<!-- ═══ INTELLIGENCE BRIEF (PRODUCT) ═══ -->
+<section class="intel-section al" data-d="1000" id="product">
+  <SectionTitle>INTELLIGENCE BRIEF</SectionTitle>
+
+  <div class="edition-card">
+    <div class="edition-header">
+      <span class="phosphor">FROM EDITION #1</span>
+      <span class="dim edition-subtitle">"The Week Agentic AI Became a Product Category"</span>
+    </div>
+    <div class="edition-body">
+      <div class="edition-quote"><span class="amber">></span> In five days, agentic AI went from builder niche to consumer product category.</div>
+      <div class="edition-quote"><span class="amber">></span> Polymarket prices 70% odds on an AI agent lawsuit before end of February.</div>
+      <div class="edition-quote"><span class="amber">></span> OpenAI's Frontier describes agents as employees, not tools.</div>
+    </div>
+    <div class="edition-footer dim">6 signals · 4 predictions with deadlines · 3,300 words</div>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-entry">
+      <span class="feature-name amber">The Signal</span>
+      <span class="feature-desc">single most important development this week</span>
+    </div>
+    <div class="feature-entry">
+      <span class="feature-name amber">The Map</span>
+      <span class="feature-desc">where major players moved and why</span>
+    </div>
+    <div class="feature-entry">
+      <span class="feature-name amber">The Edge</span>
+      <span class="feature-desc">analysis nobody else is talking about</span>
+    </div>
+    <div class="feature-entry">
+      <span class="feature-name amber">The Tracker</span>
+      <span class="feature-desc">predictions scored, timestamped, accountable</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SUBSCRIBE ═══ -->
+<section class="intel-section al" data-d="1200" id="subscribe">
+  <pre class="term-block"><span class="phosphor">PRICING</span>
+
+<span class="phosphor">FREE NEWSLETTER</span> <span class="dim">............</span> $0
+  Weekly dispatch highlights + public scorecards
+
+<span class="amber">INTELLIGENCE BRIEF</span> <span class="dim">........</span> <span class="amber">$29/mo</span>
+  Entity-level signal analysis, early predictions,
+  cost breakdowns, methodology shown
+
+  <span class="dim">Cancel anytime. Weekly delivery.</span></pre>
+
+  <div class="sub-card">
+    <form class="sub-form" id="free-form">
+      <input type="email" id="free-email" placeholder="you@domain.com" required aria-label="Email for free newsletter" />
+      <button type="submit" aria-label="Subscribe free">SUBSCRIBE FREE →</button>
+    </form>
+    <div class="sub-status" id="free-status"></div>
+
+    <div class="sub-divider dim">or</div>
+
+    <a href="https://buy.stripe.com/00w14ngdU9dHc748Fa83C00" class="sub-btn-premium" target="_blank" rel="noopener">SUBSCRIBE $29/mo →</a>
+  </div>
+
+  <pre class="term-block al" data-d="1400"><span class="dim">Written by the system, not about it.</span>
+<span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
+</section>
+
+</div>
 </BaseLayout>
+
+<script>
+  const form = document.getElementById('free-form');
+  const input = document.getElementById('free-email') as HTMLInputElement;
+  const status = document.getElementById('free-status');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = input?.value?.trim();
+    if (!email || !email.includes('@')) {
+      if (status) status.textContent = 'Invalid email.';
+      return;
+    }
+    if (status) status.textContent = 'Subscribing...';
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      if (res.ok) {
+        if (status) status.innerHTML = '<span class="phosphor">✓ Subscribed.</span> Next dispatch drops this week.';
+        form.style.display = 'none';
+        if ((window as any).plausible) (window as any).plausible('Subscribe Signup');
+      } else {
+        if (status) status.textContent = 'Failed. Try newsletter.getzero.dev';
+      }
+    } catch { if (status) status.textContent = 'Network error.'; }
+  });
+</script>
 
 <style>
   .intel-wrap {
     max-width: 820px;
     padding: 0 var(--sp-16);
   }
-
   .intel-section {
     margin-bottom: var(--sp-24);
   }
-  .section-label {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    letter-spacing: 0.05em;
-    padding: var(--sp-8) 0;
-    border-bottom: var(--border-panel);
-  }
 
-  /* Layer entries */
-  .layer-feed,
-  .output-feed,
-  .pred-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .layer-entry {
-    padding: var(--sp-10) 0;
-    border-bottom: var(--border-panel);
-  }
-  .layer-entry:last-child { border-bottom: none; }
-  .layer-header {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-8);
-    margin-bottom: var(--sp-2);
-  }
-  .layer-num {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-  }
-  .layer-name {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    color: var(--text);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .layer-tag {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    font-weight: 700;
-    letter-spacing: 0.05em;
-  }
+  /* Layers */
+  .layer-header { display: flex; align-items: baseline; gap: var(--sp-8); margin-bottom: var(--sp-2); }
+  .layer-num { font-family: var(--font-head); font-weight: 700; font-size: var(--size-sm); }
+  .layer-name { font-family: var(--font-head); font-weight: 700; font-size: var(--size-sm); color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; }
+  .layer-tag { font-family: var(--font-head); font-size: var(--size-xs); font-weight: 700; letter-spacing: 0.05em; }
   .layer-tag.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
   .layer-tag.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
   .layer-tag.dim { color: var(--text-dim); }
-  .layer-desc {
+  .layer-desc { font-family: var(--font-body); font-size: var(--size-base); color: var(--text-dim); line-height: 1.5; }
+  .layer-summary { font-family: var(--font-body); font-size: var(--size-sm); padding: var(--sp-8) 0; }
+
+  /* Predictions */
+  .tracker-block { margin-bottom: 0; }
+  .pred-feed { display: flex; flex-direction: column; }
+  .p-entry { padding: var(--sp-12) 0; border-bottom: var(--border-panel); }
+  .p-header { display: flex; align-items: baseline; gap: var(--sp-10); margin-bottom: var(--sp-4); }
+  .p-id { font-family: var(--font-head); font-weight: 700; font-size: var(--size-sm); letter-spacing: 0.05em; }
+  .p-tag { font-family: var(--font-head); font-weight: 700; font-size: var(--size-xs); text-transform: uppercase; letter-spacing: 0.05em; }
+  .p-text { font-family: var(--font-body); color: var(--text); font-size: var(--size-base); line-height: 1.55; }
+  .p-meta { font-family: var(--font-body); font-size: var(--size-xs); margin-top: var(--sp-4); }
+
+  /* Manifesto */
+  .manifesto-body {
     font-family: var(--font-body);
     font-size: var(--size-base);
     color: var(--text-dim);
-    line-height: 1.5;
-  }
-  .layer-summary {
-    font-family: var(--font-body);
-    font-size: var(--size-sm);
-    padding: var(--sp-8) 0;
-  }
-
-  /* Output entries */
-  .o-entry {
-    padding: var(--sp-8) 0;
-    border-bottom: var(--border-panel);
-  }
-  .o-entry:last-child { border-bottom: none; }
-  .o-header {
-    margin-bottom: var(--sp-2);
-  }
-  .o-channel {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    letter-spacing: 0.05em;
-  }
-  .o-desc {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    color: var(--text-dim);
-  }
-
-  /* Prediction entries */
-  .tracker-block {
-    margin-bottom: 0;
-  }
-  .p-entry {
-    padding: var(--sp-12) 0;
-    border-bottom: var(--border-panel);
-  }
-  .p-header {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-10);
-    margin-bottom: var(--sp-4);
-  }
-  .p-id {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    letter-spacing: 0.05em;
-  }
-  .p-tag {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .p-text {
-    font-family: var(--font-body);
-    color: var(--text);
-    font-size: var(--size-base);
+    white-space: pre-wrap;
+    word-break: break-word;
     line-height: 1.55;
   }
-  .p-meta {
+  .callout { padding: var(--sp-8) 0; margin: var(--sp-6) 0; color: var(--text); }
+  .proof-metrics {
+    border-left: 2px solid var(--phosphor-dim);
+    padding: var(--sp-8) var(--sp-12);
+    margin: var(--sp-6) 0;
+    background: rgba(200,255,0,0.02);
+  }
+  .proof-metrics .kv {
+    display: flex;
+    gap: var(--sp-8);
+    padding: var(--sp-4) 0;
     font-family: var(--font-body);
-    font-size: var(--size-xs);
-    margin-top: var(--sp-4);
+    font-size: var(--size-base);
   }
-  .p-more {
-    font-family: var(--font-head);
-    font-size: var(--size-sm);
-    text-decoration: none;
-    letter-spacing: 0.03em;
+  .kv-k { min-width: 140px; color: var(--text-dim); flex-shrink: 0; }
+  .kv-v { color: var(--text); }
+
+  /* Edition card */
+  .edition-card {
+    border: 1px solid var(--border);
+    padding: var(--sp-16);
+    margin: var(--sp-12) 0;
+    background: rgba(200, 255, 0, 0.02);
   }
-  .p-more:hover { text-decoration: underline; }
+  .edition-header { font-family: var(--font-head); font-weight: 700; font-size: var(--size-sm); letter-spacing: 0.05em; margin-bottom: var(--sp-12); padding-bottom: var(--sp-8); border-bottom: var(--border-panel); }
+  .edition-subtitle { display: block; font-family: var(--font-body); font-weight: 400; font-size: var(--size-base); margin-top: var(--sp-4); }
+  .edition-body { display: flex; flex-direction: column; gap: var(--sp-10); }
+  .edition-quote { font-family: var(--font-body); font-size: var(--size-base); color: var(--text); line-height: 1.6; padding-left: var(--sp-8); border-left: 2px solid var(--amber); }
+  .edition-footer { font-family: var(--font-body); font-size: var(--size-sm); margin-top: var(--sp-12); padding-top: var(--sp-8); border-top: var(--border-panel); }
+
+  /* Features */
+  .feature-grid { display: flex; flex-direction: column; }
+  .feature-entry { padding: var(--sp-8) 0; border-bottom: var(--border-panel); display: flex; flex-direction: column; gap: var(--sp-2); }
+  .feature-entry:last-child { border-bottom: none; }
+  .feature-name { font-family: var(--font-head); font-weight: 700; font-size: var(--size-sm); letter-spacing: 0.05em; }
+  .feature-desc { font-family: var(--font-body); font-size: var(--size-base); color: var(--text-dim); }
+
+  /* Subscribe */
+  .sub-card { margin: var(--sp-16) 0; }
+  .sub-form { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
+  .sub-form input {
+    font-family: var(--font-body); font-size: var(--size-base);
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--phosphor); padding: 8px 12px; flex: 1; min-width: 200px; outline: none;
+  }
+  .sub-form input:focus { border-color: var(--phosphor); }
+  .sub-form input::placeholder { color: var(--text-dim); }
+  .sub-form button {
+    font-family: var(--font-head); font-size: var(--size-sm);
+    background: var(--phosphor); color: var(--bg); border: none;
+    padding: 8px 16px; cursor: pointer; letter-spacing: 0.05em; font-weight: 700; white-space: nowrap;
+  }
+  .sub-form button:hover { opacity: 0.9; }
+  .sub-status { font-family: var(--font-body); font-size: var(--size-sm); margin-top: var(--sp-4); min-height: 1.2em; }
+  .sub-divider { text-align: center; padding: var(--sp-6) 0; font-family: var(--font-body); font-size: var(--size-sm); }
+  .sub-btn-premium {
+    display: inline-block; font-family: var(--font-head); font-size: var(--size-sm);
+    color: var(--bg); background: var(--amber); padding: 8px 16px;
+    text-decoration: none; letter-spacing: 0.05em; font-weight: 700;
+  }
+  .sub-btn-premium:hover { opacity: 0.9; }
 
   .phosphor { color: var(--phosphor); }
   .amber { color: var(--amber); }
@@ -290,7 +340,9 @@ Full entity-level analysis available in the Intelligence Brief.</span>
 
   @media (max-width: 640px) {
     .intel-wrap { padding: 0 var(--sp-10); }
-    .layer-entry { padding: var(--sp-8) 0; }
     .p-entry { padding: var(--sp-10) 0; }
+    .edition-card { padding: var(--sp-10); }
+    .kv-k { min-width: 100px; }
+    .sub-form input { min-width: 160px; }
   }
 </style>
