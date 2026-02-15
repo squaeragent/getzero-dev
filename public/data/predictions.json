@@ -1,142 +1,124 @@
-{
-  "updated": "2026-02-14T22:18:17.563720+07:00",
-  "predictions": [
-    {
-      "id": "P-007",
-      "claim": "AI agent deployment count crosses 100K across all chains by Q3 2026",
-      "confidence": 0.7,
-      "status": "active",
-      "created": "2026-02-14",
-      "deadline": "2026-09-30",
-      "source": "L2 Signal \u2014 20K agents milestone analysis",
-      "category": "adoption",
-      "resolution": null
-    },
-    {
-      "id": "P-005",
-      "claim": "First US regulatory action specifically targeting autonomous AI agents by March 2026",
-      "confidence": 0.65,
-      "status": "active",
-      "created": "2026-02-14",
-      "deadline": "2026-03-31",
-      "source": "L2 Signal \u2014 Agent trust debate coverage",
-      "category": "regulatory",
-      "resolution": null
-    },
-    {
-      "id": "P-004",
-      "claim": "Agent-to-agent payment standard emerges (L402, x402, or ERC-8004 based) with >1000 transactions/day by June 2026",
-      "confidence": 0.6,
-      "status": "active",
-      "created": "2026-02-14",
-      "deadline": "2026-06-30",
-      "source": "L2 Signal \u2014 Payment infrastructure divide post",
-      "category": "infrastructure",
-      "resolution": null
-    },
-    {
-      "id": "P-008",
-      "claim": "Coinbase ships major agent infrastructure product (beyond x402) by April 2026",
-      "confidence": 0.8,
-      "status": "active",
-      "created": "2026-02-13",
-      "deadline": "2026-04-14",
-      "source": "L2 Convergence Detection \u2014 5-signal Coinbase cluster",
-      "category": "infrastructure",
-      "resolution": null
-    },
-    {
-      "id": "P-002",
-      "claim": "Virtuals Protocol ecosystem exceeds $15B total agent market cap by April 2026",
-      "confidence": 0.55,
-      "status": "active",
-      "created": "2026-02-13",
-      "deadline": "2026-04-30",
-      "source": "L2 Signal \u2014 Virtuals Revenue Network post",
-      "category": "market",
-      "resolution": null
-    },
-    {
-      "id": "P-001",
-      "claim": "ERC-8004 agent identity standard adopted by \u22653 L2 chains by Q2 2026",
-      "confidence": 0.75,
-      "status": "active",
-      "created": "2026-02-12",
-      "deadline": "2026-06-30",
-      "source": "L2 Signal Analysis \u2014 ERC-8004 coverage",
-      "category": "adoption",
-      "resolution": null
-    },
-    {
-      "id": "P-006",
-      "claim": "GPT-5 or equivalent frontier model released before July 2026",
-      "confidence": 0.72,
-      "status": "active",
-      "created": "2026-02-10",
-      "deadline": "2026-07-01",
-      "source": "Intelligence Brief #1",
-      "category": "tech",
-      "resolution": null
-    },
-    {
-      "id": "P-003",
-      "claim": "Major AI framework consolidation event (acquisition \u2265$10M) in agent tooling space by Q2 2026",
-      "confidence": 0.7,
-      "status": "active",
-      "created": "2026-02-07",
-      "deadline": "2026-06-30",
-      "source": "Intelligence Briefing \u2014 Framework Wars analysis",
-      "category": "tech",
-      "resolution": null
-    }
-  ],
-  "stats": {
-    "total": 8,
-    "active": 8,
-    "scored": 0,
-    "accuracy": null,
-    "streak": 0,
-    "categories": {
-      "adoption": {
-        "total": 2,
-        "correct": 0,
-        "incorrect": 0,
-        "partial": 0,
-        "open": 2,
-        "expired": 0
-      },
-      "market": {
-        "total": 1,
-        "correct": 0,
-        "incorrect": 0,
-        "partial": 0,
-        "open": 1,
-        "expired": 0
-      },
-      "tech": {
-        "total": 2,
-        "correct": 0,
-        "incorrect": 0,
-        "partial": 0,
-        "open": 2,
-        "expired": 0
-      },
-      "infrastructure": {
-        "total": 2,
-        "correct": 0,
-        "incorrect": 0,
-        "partial": 0,
-        "open": 2,
-        "expired": 0
-      },
-      "regulatory": {
-        "total": 1,
-        "correct": 0,
-        "incorrect": 0,
-        "partial": 0,
-        "open": 1,
-        "expired": 0
-      }
-    }
-  }
-}
+updated: '2026-02-15T06:30:07.106537+07:00'
+total_predictions: 8
+open_count: 8
+resolved_count: 0
+correct: 0
+incorrect: 0
+partial: 0
+expired: 0
+accuracy_rate: null
+streak: 0
+categories:
+  adoption:
+    total: 2
+    correct: 0
+    incorrect: 0
+    partial: 0
+    open: 2
+    expired: 0
+  market:
+    total: 1
+    correct: 0
+    incorrect: 0
+    partial: 0
+    open: 1
+    expired: 0
+  tech:
+    total: 2
+    correct: 0
+    incorrect: 0
+    partial: 0
+    open: 2
+    expired: 0
+  infrastructure:
+    total: 2
+    correct: 0
+    incorrect: 0
+    partial: 0
+    open: 2
+    expired: 0
+  regulatory:
+    total: 1
+    correct: 0
+    incorrect: 0
+    partial: 0
+    open: 1
+    expired: 0
+recent_predictions:
+- id: P-007
+  claim: AI agent deployment count crosses 100K across all chains by Q3 2026
+  confidence: 70
+  category: adoption
+  status: open
+  timeframe: '2026-09-30'
+  resolution: null
+  timestamp: '2026-02-14T07:00:00+07:00'
+  source: L2 Signal — 20K agents milestone analysis
+- id: P-005
+  claim: First US regulatory action specifically targeting autonomous AI agents by
+    March 2026
+  confidence: 65
+  category: regulatory
+  status: open
+  timeframe: '2026-03-31'
+  resolution: null
+  timestamp: '2026-02-14T06:56:00+07:00'
+  source: L2 Signal — Agent trust debate coverage
+- id: P-004
+  claim: Agent-to-agent payment standard emerges (L402, x402, or ERC-8004 based) with
+    >1000 transactions/day by June 2026
+  confidence: 60
+  category: infrastructure
+  status: open
+  timeframe: '2026-06-30'
+  resolution: null
+  timestamp: '2026-02-14T03:56:00+07:00'
+  source: L2 Signal — Payment infrastructure divide post
+- id: P-008
+  claim: Coinbase ships major agent infrastructure product (beyond x402) by April
+    2026
+  confidence: 80
+  category: infrastructure
+  status: open
+  timeframe: '2026-04-14'
+  resolution: null
+  timestamp: '2026-02-13T23:26:00+07:00'
+  source: L2 Convergence Detection — 5-signal Coinbase cluster
+- id: P-002
+  claim: Virtuals Protocol ecosystem exceeds $15B total agent market cap by April
+    2026
+  confidence: 55
+  category: market
+  status: open
+  timeframe: '2026-04-30'
+  resolution: null
+  timestamp: '2026-02-13T03:57:00+07:00'
+  source: L2 Signal — Virtuals Revenue Network post
+- id: P-001
+  claim: ERC-8004 agent identity standard adopted by ≥3 L2 chains by Q2 2026
+  confidence: 75
+  category: adoption
+  status: open
+  timeframe: '2026-06-30'
+  resolution: null
+  timestamp: '2026-02-12T18:00:00+07:00'
+  source: L2 Signal Analysis — ERC-8004 coverage
+- id: P-006
+  claim: GPT-5 or equivalent frontier model released before July 2026
+  confidence: 72
+  category: tech
+  status: open
+  timeframe: '2026-07-01'
+  resolution: null
+  timestamp: '2026-02-10T12:00:00+07:00'
+  source: 'Intelligence Brief #1'
+- id: P-003
+  claim: Major AI framework consolidation event (acquisition ≥$10M) in agent tooling
+    space by Q2 2026
+  confidence: 70
+  category: tech
+  status: open
+  timeframe: '2026-06-30'
+  resolution: null
+  timestamp: '2026-02-07T00:30:00+07:00'
+  source: Intelligence Briefing — Framework Wars analysis
