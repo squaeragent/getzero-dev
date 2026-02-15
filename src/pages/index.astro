@@ -640,8 +640,26 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     }
   }
 
-  // === LIVE ACTIVITY FEED (static JSON — no SSR needed) ===
+  // === LIVE ACTIVITY FEED ===
   let lastFeedUpdate = 0;
+
+  // Junk filter: strip debug commands, internal noise, raw IDs
+  function isCleanEvent(entry) {
+    const action = (entry.action || entry.activity || '').toLowerCase();
+    if (action.includes('--get-tweet')) return false;
+    if (action.includes('--delete')) return false;
+    if (action.startsWith('posted:') && /^\d{10,}/.test(action.replace('posted:', '').trim())) return false;
+    if (action.includes('debug') || action.includes('test ping')) return false;
+    if (action.length < 10) return false; // too short to be meaningful
+    return true;
+  }
+
+  // Truncate action text for display
+  function cleanAction(text) {
+    if (text.length > 72) return text.slice(0, 69) + '...';
+    return text;
+  }
+
   async function updateFeed() {
     try {
       const res = await fetch('/svc/feed.json');
@@ -650,14 +668,32 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
       const container = document.getElementById('live-feed');
       const entries = raw.events || raw.entries || raw;
       if (!container || !entries?.length) return;
+
+      // Sort by timestamp descending (most recent first)
+      const sorted = [...entries].sort((a, b) => {
+        const ta = new Date(a.ts || a.time || a.timestamp || 0).getTime();
+        const tb = new Date(b.ts || b.time || b.timestamp || 0).getTime();
+        return tb - ta;
+      });
+
+      // Filter junk + take only 3 clean events
+      const clean = sorted.filter(isCleanEvent).slice(0, 3);
+      if (!clean.length) return;
+
       let lines = [];
-      for (const entry of entries.slice(0, 8)) {
-        const t = new Date(entry.time || entry.timestamp || entry.ts);
-        const hh = String(t.getHours()).padStart(2, '0');
-        const mm = String(t.getMinutes()).padStart(2, '0');
-        const agent = (entry.agent || 'SYSTEM').toUpperCase().padEnd(12);
-        const action = entry.action || entry.activity || 'idle';
-        lines.push(`  ${hh}:${mm}  ${agent} ${action}`);
+      for (const entry of clean) {
+        const t = new Date(entry.ts || entry.time || entry.timestamp);
+        const now = new Date();
+        const diffMin = Math.round((now - t) / 60000);
+        let ago;
+        if (diffMin < 1) ago = 'now';
+        else if (diffMin < 60) ago = diffMin + 'm ago';
+        else if (diffMin < 1440) ago = Math.floor(diffMin / 60) + 'h ago';
+        else ago = Math.floor(diffMin / 1440) + 'd ago';
+
+        const agent = (entry.agent || 'SYSTEM').toUpperCase();
+        const action = cleanAction(entry.action || entry.activity || '');
+        lines.push(`  ${ago.padEnd(7)} ${agent.padEnd(10)} ${action}`);
       }
       container.textContent = lines.join('\n');
     } catch(e) {}
