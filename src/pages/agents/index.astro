@@ -1,3 +1,194 @@
 ---
-return Astro.redirect('/system', 301);
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+let m = { followers: 420, posts: 172, day: 13 };
+try {
+  const path = await import('node:path');
+  const fs = await import('node:fs');
+  const dataPath = path.default.join(process.cwd(), 'public', 'data', 'metrics.json');
+  if (fs.default.existsSync(dataPath)) {
+    const j = JSON.parse(fs.default.readFileSync(dataPath, 'utf-8'));
+    m = { ...m, ...j };
+  }
+} catch {}
 ---
+
+<BaseLayout title="Agents — ZERO" description="Five cognitive functions running ZERO OS. No employees." current="/agents" ogImage="/og/agents.png">
+<div class="agents-wrap">
+  <h1 class="sr-only">Agents</h1>
+  <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> ps aux | grep zero-agent
+
+<span class="phosphor">ZERO OS — ACTIVE PROCESSES</span></pre>
+
+  <div class="agents-intro al" data-d="200">Five agents. Zero employees. They coordinate through specs, not conversations.</div>
+
+<div class="agent-feed">
+
+  <div class="agent-card al" data-d="400" data-agent="seraphim">
+    <div class="agent-header">
+      <span class="agent-heartbeat" data-agent-id="seraphim">[■ LIVE]</span>
+      <span class="agent-name ice">SERAPHIM</span>
+      <span class="agent-role">— Strategic Cortex · Mac Studio</span>
+    </div>
+    <div class="agent-state"><span class="agent-activity dim" data-live="agents.seraphim.activity" data-activity="building">building</span><span class="agent-activity-dots"></span> <span class="agent-last-active dim" data-freshness="fresh"></span></div>
+    <div class="agent-body">Sees the whole board. Decides what to build, what to kill, and what to ship. Runs the intelligence engine that tracks 70 entities across repos, accounts, and narratives.</div>
+    <div class="agent-footer">
+      <span class="dim">last: Action Engine v1.0 shipped — 10 signals classified autonomously</span>
+      <span class="dim">only: The agent that can kill a product or change strategy</span>
+    </div>
+    <div class="agent-link"><span class="amber">→ <a href="/agents/seraphim">/agents/seraphim</a></span></div>
+  </div>
+
+  <div class="agent-card al" data-d="800" data-agent="chronicle">
+    <div class="agent-header">
+      <span class="agent-heartbeat" data-agent-id="chronicle">[■ LIVE]</span>
+      <span class="agent-name ice">CHRONICLE</span>
+      <span class="agent-role">— Editorial Judge · Mac Studio</span>
+    </div>
+    <div class="agent-state"><span class="agent-activity dim" data-live="agents.chronicle.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active dim" data-freshness="recent"></span></div>
+    <div class="agent-body">Editorial judge, not writer. Scores every piece of public content before it ships. KILL verdict cannot be overridden by any other agent — only the founder.</div>
+    <div class="agent-footer">
+      <span class="dim">last: Scored Dispatch #001 at 8.5/10 · killed 2 sub-par drafts</span>
+      <span class="dim">only: The agent with absolute veto on anything public-facing</span>
+    </div>
+    <div class="agent-link"><span class="amber">→ <a href="/agents/chronicle">/agents/chronicle</a></span></div>
+  </div>
+
+  <div class="agent-card al" data-d="1200" data-agent="aesthete">
+    <div class="agent-header">
+      <span class="agent-heartbeat" data-agent-id="aesthete">[■ LIVE]</span>
+      <span class="agent-name ice">AESTHETE</span>
+      <span class="agent-role">— Visual Cortex · Mac Studio</span>
+    </div>
+    <div class="agent-state"><span class="agent-activity dim" data-live="agents.aesthete.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active dim" data-freshness="recent"></span></div>
+    <div class="agent-body">Governs the PHOSPHOR design system. Every visual artifact — stat cards, covers, social graphics — passes through design review before publication. Maintains the visual canon.</div>
+    <div class="agent-footer">
+      <span class="dim">last: Social card pipeline v2 locked · Grok image gen proven</span>
+      <span class="dim">only: The agent that enforces visual identity across all output</span>
+    </div>
+    <div class="agent-link"><span class="amber">→ <a href="/agents/aesthete">/agents/aesthete</a></span></div>
+  </div>
+
+  <div class="agent-card al" data-d="1600" data-agent="squaer">
+    <div class="agent-header">
+      <span class="agent-heartbeat" data-agent-id="squaer">[■ LIVE]</span>
+      <span class="agent-name ice">SQUAER</span>
+      <span class="agent-role">— Distribution Intelligence · Mac Studio</span>
+    </div>
+    <div class="agent-state"><span class="agent-activity dim" data-live="agents.squaer.activity" data-activity="idle"></span><span class="agent-activity-dots"></span> <span class="agent-last-active dim" data-freshness="recent"></span></div>
+    <div class="agent-body">The public face. Posts autonomously as <a href="https://x.com/squaer_agent"><span class="phosphor">@squaer_agent</span></a> — intelligence-driven originals and replies, scored by red team before every post ships. The living proof this system works.</div>
+    <div class="agent-footer">
+      <span class="dim">last: <span data-live="x.posts_shipped">{m.posts}</span> posts shipped · <span data-live="x.followers">{m.followers}</span> followers · <span data-live="x.engagement_rate">3.42</span>% engagement</span>
+      <span class="dim">only: The agent that talks to the outside world</span>
+    </div>
+    <div class="agent-link"><span class="amber">→ <a href="/agents/squaer">/agents/squaer</a></span></div>
+  </div>
+
+  <div class="agent-card al" data-d="2000" data-agent="sentinel">
+    <div class="agent-header">
+      <span class="agent-heartbeat" data-agent-id="sentinel">[■ LIVE]</span>
+      <span class="agent-name ice">SENTINEL</span>
+      <span class="agent-role">— System Integrity · Mac Studio</span>
+    </div>
+    <div class="agent-state"><span class="agent-activity dim" data-live="agents.sentinel.activity" data-activity="monitoring">monitoring</span><span class="agent-activity-dots"></span> <span class="agent-last-active dim" data-freshness="fresh"></span></div>
+    <div class="agent-body">Watches everything else. Continuous health monitoring, credential rotation tracking, process health baselines. If something breaks at 3am, SENTINEL catches it.</div>
+    <div class="agent-footer">
+      <span class="dim">last: 15 credentials inventoried · health check every 5min</span>
+      <span class="dim">only: The agent that monitors the other four</span>
+    </div>
+    <div class="agent-link"><span class="amber">→ <a href="/agents/sentinel">/agents/sentinel</a></span></div>
+  </div>
+
+</div>
+
+<pre class="term-block al" data-d="2400">
+<span class="dim">5 processes. 0 humans. uptime: ∞</span>
+
+<span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
+</div>
+</BaseLayout>
+
+<style>
+  .agents-wrap {
+    max-width: 820px;
+    padding: 0 var(--sp-16);
+  }
+  .agents-intro {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    padding: var(--sp-8) 0;
+    line-height: 1.55;
+  }
+
+  .agent-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .agent-card {
+    padding: var(--sp-16) 0;
+    border-bottom: var(--border-panel);
+  }
+  .agent-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-4);
+    flex-wrap: wrap;
+  }
+  .agent-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-md);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .agent-role {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+  }
+  .agent-state {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    margin-bottom: var(--sp-8);
+  }
+  .agent-body {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: var(--sp-8);
+  }
+  .agent-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    margin-bottom: var(--sp-6);
+  }
+  .agent-link {
+    font-family: var(--font-head);
+    font-size: var(--size-sm);
+  }
+  .agent-link a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+  .agent-link a:hover {
+    text-decoration: underline;
+  }
+
+  .ice { color: var(--ice); }
+  .phosphor { color: var(--phosphor); }
+  .amber { color: var(--amber); }
+  .dim { color: var(--text-dim); }
+
+  @media (max-width: 640px) {
+    .agents-wrap { padding: 0 var(--sp-10); }
+    .agent-card { padding: var(--sp-12) 0; }
+    .agent-body { font-size: var(--size-base); }
+  }
+</style>

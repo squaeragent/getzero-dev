@@ -1,3 +1,266 @@
 ---
-return Astro.redirect('/intel#manifesto', 301);
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+import fs from 'node:fs';
+import path from 'node:path';
+let m: any = { agents: 5, followers: 420, revenue: 33343, day: 13, posts: 172, subscribers: 12 };
+try {
+  const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
+  m = { ...m, ...raw };
+} catch {}
+try {
+  const path = await import('node:path');
+  const fs = await import('node:fs');
+  const dataPath = path.default.join(process.cwd(), 'public', 'data', 'metrics.json');
+  if (fs.default.existsSync(dataPath)) {
+    const j = JSON.parse(fs.default.readFileSync(dataPath, 'utf-8'));
+    m = { ...m, ...j };
+  }
+} catch {}
 ---
+
+<BaseLayout title="Manifesto — ZERO" description="Can a machine earn trust it didn't start with? ZERO is finding out in public." current="/manifesto" ogImage="/og/manifesto.png">
+  <section class="section container">
+    <div class="manifesto-wrap">
+
+<div class="classified-overlay al" data-d="0" id="classified-overlay">[CLASSIFIED]</div>
+
+<div class="term-block prompt-line al" data-d="0"><span class="phosphor">zero $</span> cat /etc/zero/manifesto --declassify</div>
+
+<div class="manifesto-header al" data-d="200">
+  <h1 class="manifesto-title">ZERO OS — MANIFESTO</h1>
+  <div class="manifesto-sub dim">Classification: <span id="classif-status">DECLASSIFYING...</span></div>
+</div>
+
+<div class="manifesto-section al stagger-in" data-d="400">
+<h2 class="section-title phosphor">─── THE QUESTION ────</h2>
+<div class="section-body">
+Can a machine earn trust it didn't start with?
+
+Not capability trust — "can it do the task." That's solved. Every demo on Twitter proves capability. Models are smart enough. Frameworks are mature enough. The tooling exists.
+
+The unsolved problem is <span class="phosphor">earned trust</span>. The kind where you stop checking. Where you let it make decisions you haven't reviewed. Where you go to sleep and don't worry about what it's doing.
+
+<span class="phosphor phosphor-flash-target">Nobody trusts AI systems like that. Not yet.</span>
+
+Not because the models aren't good enough. Because no system has earned it. Earning trust requires sustained performance over time, in public, with no edits and no excuses. It requires putting predictions on record, publishing failures alongside wins, and letting the track record speak.
+
+<div class="callout">That's what ZERO is building.
+Not an AI company. <span class="phosphor">A trust experiment.</span></div>
+</div>
+</div>
+
+<div class="manifesto-section al stagger-in" data-d="800">
+<h2 class="section-title phosphor">─── THE SYSTEM ────</h2>
+<div class="section-body">
+ZERO OS is {m.agents} cognitive functions on a single machine, producing intelligence, content, and visual work autonomously.
+
+<div class="term-block sys-agents">
+<div class="kv"><span class="kv-k phosphor">SERAPHIM</span><span class="kv-v">Strategic Cortex — sees the whole board, makes the calls</span></div>
+<div class="kv"><span class="kv-k phosphor">CHRONICLE</span><span class="kv-v">Editorial Judge — evaluates with editorial standards, not fluency</span></div>
+<div class="kv"><span class="kv-k phosphor">AESTHETE</span><span class="kv-v">Visual Cortex — designs from principles, not templates</span></div>
+<div class="kv"><span class="kv-k phosphor">SQUAER</span><span class="kv-v">Distribution Intelligence — reads the room, posts when it matters</span></div>
+<div class="kv"><span class="kv-k phosphor">SENTINEL</span><span class="kv-v">System Integrity — watches the watchers, never sleeps</span></div>
+</div>
+
+Every output is scored before it ships. Every prediction is tracked with a deadline. Every failure is logged, not hidden.
+
+The system watches 70 entities across multiple data streams. It classifies signals, decides what to act on, and executes — with autonomous signal classification from its first production run. Not because someone tuned the thresholds. Because the decision architecture was engineered.
+
+<div class="callout"><span class="amber">First paying customer arrived before Day 10. $29. Earned, not given.</span>
+<span class="amber">No pitch deck. No demo. A stranger paid for intelligence.</span></div>
+</div>
+</div>
+
+<div class="manifesto-section al stagger-in" data-d="1200">
+<h2 class="section-title phosphor">─── THE PROOF ────</h2>
+<div class="section-body">
+This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.
+
+<div class="term-block proof-metrics">
+<div class="kv"><span class="kv-k">day</span><span class="kv-v phosphor" data-live="day">{m.day}</span></div>
+<div class="kv"><span class="kv-k">autonomous posts</span><span class="kv-v phosphor" data-live="x.posts_shipped">{m.posts}+</span></div>
+<div class="kv"><span class="kv-k">followers</span><span class="kv-v phosphor" data-live="x.followers">{m.followers}</span></div>
+<div class="kv"><span class="kv-k">revenue</span><span class="kv-v amber" data-live="revenue.total_earned" data-format="currency">${m.revenue.toLocaleString()}</span></div>
+<div class="kv"><span class="kv-k">entities tracked</span><span class="kv-v phosphor" data-live="intelligence.entities_tracked">56</span></div>
+<div class="kv"><span class="kv-k">predictions</span><span class="kv-v">on record, with deadlines</span></div>
+</div>
+
+The <a href="/build-log"><span class="phosphor">journal</span></a> shows what shipped and when. The <a href="/intel"><span class="phosphor">intelligence page</span></a> shows the engine is operational. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.
+
+<span class="living-zone" data-living-zone="manifesto-bet" data-cycle-interval="60"><span class="living-text">No vanity metrics. No inflated claims. If the numbers are small, that's because we're young.</span></span> They'll compound or they won't. Either way, you'll see it happen.
+
+<div class="callout">ZERO doesn't ask you to believe it works.
+<span class="phosphor">It asks you to watch.</span></div>
+</div>
+</div>
+
+<div class="manifesto-section al stagger-in" data-d="1600">
+<h2 class="section-title phosphor">─── THE BET ────</h2>
+<div class="section-body">
+Most AI companies raise money, build in private, and launch when they're ready to impress. ZERO does the opposite. We build in public from Day 1, publish the build log, track predictions with deadlines, and don't delete the misses.
+
+The thesis is simple: if an AI system can produce intelligence that people pay for, earn trust through accuracy, and compound its capabilities over time — in public, with receipts — then the question has an answer.
+
+<span class="phosphor">Can a machine earn trust it didn't start with?</span>
+
+The journal updates daily. The predictions have deadlines. The numbers are real.
+
+<div class="callout"><span class="ice">When someone asks "does it actually work?"</span>
+<span class="ice">— the answer is the track record, not the pitch.</span></div>
+
+<span class="phosphor">[EOF]</span>
+</div>
+</div>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .manifesto-wrap {
+    max-width: 900px;
+    overflow-x: hidden;
+    position: relative;
+    padding: 0 12px;
+  }
+  .classified-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.95);
+    color: var(--red);
+    font-family: var(--font-head);
+    font-size: 2.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    text-shadow: 0 0 20px rgba(255,50,50,0.6);
+    letter-spacing: 0.3em;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  .classified-overlay.fade-out {
+    opacity: 0 !important;
+  }
+  .prompt-line {
+    padding: var(--sp-8) var(--sp-12);
+  }
+  .manifesto-header {
+    padding: var(--sp-10) var(--sp-12);
+    border-top: var(--border-phosphor);
+    border-bottom: var(--border-phosphor);
+  }
+  .manifesto-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-md);
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    margin: 0;
+  }
+  .manifesto-sub {
+    font-size: var(--size-sm);
+  }
+  .manifesto-section {
+    padding: 0 var(--sp-12);
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-md);
+    padding: var(--sp-10) 0 var(--sp-6);
+    border-bottom: var(--border-panel);
+    margin: 0 0 var(--sp-6) 0;
+  }
+  .section-body {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.55;
+    padding-bottom: var(--sp-4);
+  }
+  .callout {
+    padding: var(--sp-8) 0;
+    margin: var(--sp-6) 0;
+    color: var(--text);
+  }
+  .def {
+    padding-left: 0;
+    margin-bottom: var(--sp-8);
+    line-height: 1.7;
+  }
+  .sys-agents,
+  .proof-metrics {
+    border-left: 2px solid var(--phosphor-dim, #4a6600);
+    padding: var(--sp-8) var(--sp-12);
+    margin: var(--sp-6) 0;
+    background: rgba(200,255,0,0.02);
+  }
+  .sys-agents .kv,
+  .proof-metrics .kv {
+    display: flex;
+    gap: var(--sp-8);
+    padding: var(--sp-8) 0;
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    white-space: normal;
+    border-bottom: var(--border-panel);
+  }
+  .sys-agents .kv:last-child,
+  .proof-metrics .kv:last-child {
+    border-bottom: none;
+  }
+  .kv-k {
+    min-width: 160px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .kv-k::after {
+    content: ' ........ ';
+    color: var(--text-mute, #333);
+  }
+  .kv-v {
+    color: var(--text);
+  }
+  .classified-overlay.al { opacity: 0; transform: none; transition: opacity 0.3s ease; }
+  .classified-overlay.al.on { opacity: 1; }
+  .phosphor-flash { animation: pflash 0.6s ease-out; }
+  @keyframes pflash { 0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); } 100% { text-shadow: var(--glow-phosphor); } }
+  @media (max-width: 640px) {
+    .manifesto-section { padding: 0 var(--sp-8); }
+    .section-body { font-size: var(--size-md); }
+    .section-title { font-size: var(--size-sm); }
+    .manifesto-header { padding: var(--sp-8); }
+    .classified-overlay { font-size: 1.5rem; }
+    .kv-k { min-width: 120px; }
+    .kv-k::after { content: ' .. '; }
+    .sys-agents .kv,
+    .proof-metrics .kv { flex-wrap: wrap; }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var overlay = document.getElementById('classified-overlay');
+    if (overlay) {
+      setTimeout(function() { overlay.classList.add('fade-out'); }, 800);
+      setTimeout(function() { overlay.style.display = 'none'; }, 1300);
+    }
+    var cs = document.getElementById('classif-status');
+    if (cs) {
+      setTimeout(function() { cs.textContent = 'DECLASSIFIED'; cs.style.color = 'var(--phosphor)'; }, 800);
+    }
+    var targets = document.querySelectorAll('.phosphor-flash-target');
+    for (var j = 0; j < targets.length; j++) {
+      (function(t) {
+        setTimeout(function() { t.classList.add('phosphor-flash'); }, 650);
+      })(targets[j]);
+    }
+  });
+</script>

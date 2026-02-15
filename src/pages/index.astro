@@ -46,7 +46,7 @@ const renderDate = new Date();
 const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
 ---
 
-<BaseLayout title="ZERO OS — Terminal" current="home">
+<BaseLayout title="ZERO OS — Terminal" current="/">
   <div class="terminal-grid">
     <!-- ═══ LEFT TOP: BOOT SEQUENCE ═══ -->
     <div class="panel glyph-panel" id="boot-panel">
@@ -74,8 +74,7 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok'
         <div class="bl" data-d="3500"><strong style="color: var(--text);"><span class="living-zone" data-living-zone="home-tagline" data-cycle-interval="45"><span class="living-text">Five AI agents. Zero employees. One system.</span></span></strong></div>
         <div class="bl" data-d="3900"><span class="dim">Built in public. Running in production.</span></div>
         <div class="bl" data-d="4100"><span class="amber-g">Day {m.day} of operation.</span></div>
-        <div class="bl" data-d="4300"><a href="/feed" style="color: var(--phosphor); text-decoration: none; font-family: var(--font-head);">→ Enter terminal</a></div>
-        <div class="bl" data-d="4500"><span class="cursor-blink terminal-cursor"></span></div>
+        <div class="bl" data-d="4300"><span class="cursor-blink terminal-cursor"></span></div>
       </div>
     </div>
 
@@ -115,7 +114,7 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
       </p>
       <div style="margin-top: var(--sp-12); font-size: var(--size-sm); color: var(--text-dim);">
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/build-log" style="color: var(--text);">Read the build log</a><br/>
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/system" style="color: var(--text);">Meet the agents</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/agents" style="color: var(--text);">Meet the agents</a><br/>
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" style="color: var(--text);">Follow @squaer_agent</a>
       </div>
     </div>
@@ -250,7 +249,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
         </div>
       </div>
       <div class="mesh-footer dim" style="font-size:var(--size-xs);margin-top:var(--sp-6);">
-        <span id="mesh-uptime">{uptimeDays}d {uptimeHours}h uptime</span> · <a href="/system" style="color:var(--text-dim);">details →</a>
+        <span id="mesh-uptime">{uptimeDays}d {uptimeHours}h uptime</span> · <a href="/agents" style="color:var(--text-dim);">details →</a>
       </div>
     </div>
 
