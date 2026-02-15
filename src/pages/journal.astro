@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import StatusDot from '../components/ui/StatusDot.astro';
 import HazardDivider from '../components/ui/HazardDivider.astro';
+import DataPanel from '../components/ui/DataPanel.astro';
 import BriefCTA from '../components/BriefCTA.astro';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,6 +16,17 @@ try {
   const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
   days = data.days || [];
 } catch {}
+
+// Compute stats
+const totalEntries = days.reduce((sum: number, d: any) => sum + (d.entries?.length || 0), 0);
+const tagCounts: Record<string, number> = {};
+days.forEach((d: any) => (d.entries || []).forEach((e: any) => {
+  tagCounts[e.tag] = (tagCounts[e.tag] || 0) + 1;
+}));
+const shipped = tagCounts['SHIPPED'] || 0;
+const live = tagCounts['LIVE'] || 0;
+const killed = (tagCounts['KILLED'] || 0) + (tagCounts['FAILED'] || 0) + (tagCounts['PURGE'] || 0);
+const latestDay = days[0]?.day || 0;
 
 // Tag styling map
 const tagColors: Record<string, string> = {
@@ -34,8 +46,8 @@ const tagColors: Record<string, string> = {
 <BaseLayout title="Journal — ZERO" description="Real-time agent activity and curated build log. Watch four AI agents operate an autonomous company." current="/journal" ogImage="/og/build-log.png">
 
 <style>
-  /* ── LIVE SECTION ── */
-  .terminal-header {
+  /* ── TERMINAL HEADER ── */
+  .term-prompt {
     font-family: var(--font-body);
     color: var(--text-dim);
     font-size: var(--size-base);
@@ -44,13 +56,56 @@ const tagColors: Record<string, string> = {
     background: none;
     white-space: pre-wrap;
   }
-  .terminal-header .prompt { color: var(--phosphor); }
-  .terminal-header .cursor {
+  .term-prompt .prompt { color: var(--phosphor); }
+  .term-prompt .cursor {
     animation: blink 1s step-end infinite;
     color: var(--phosphor);
   }
   @keyframes blink { 50% { opacity: 0; } }
 
+  /* ── HERO STATS ROW ── */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: var(--sp-16);
+  }
+  .stat-cell {
+    background: var(--bg);
+    padding: var(--sp-8) var(--sp-10);
+    text-align: center;
+  }
+  .stat-cell__val {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xl);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-cell__val.val-phosphor {
+    color: var(--phosphor);
+    text-shadow: 0 0 12px var(--phosphor-glow);
+  }
+  .stat-cell__val.val-amber {
+    color: var(--amber);
+    text-shadow: 0 0 12px var(--amber-glow);
+  }
+  .stat-cell__val.val-red {
+    color: var(--red);
+  }
+  .stat-cell__label {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: var(--sp-4);
+  }
+
+  /* ── STATUS BAR ── */
   .status-row {
     display: flex;
     flex-wrap: wrap;
@@ -59,11 +114,11 @@ const tagColors: Record<string, string> = {
     font-size: var(--size-sm);
     color: var(--text-dim);
     padding: var(--sp-8) 0;
-    border-bottom: var(--border-panel);
-    margin-bottom: var(--sp-16);
+    margin-bottom: var(--sp-8);
     letter-spacing: 0.02em;
   }
 
+  /* ── LIVE INDICATOR ── */
   .live-indicator {
     position: fixed;
     top: 60px;
@@ -91,19 +146,21 @@ const tagColors: Record<string, string> = {
     50% { opacity: 0.3; }
   }
 
+  /* ── LIVE FEED ── */
   .scanning {
     font-family: var(--font-body);
     color: var(--text-dim);
     font-size: var(--size-sm);
-    margin-bottom: var(--sp-16);
+    padding: var(--sp-8) 0;
     animation: scanBlink 1.5s step-end infinite;
   }
   @keyframes scanBlink { 50% { opacity: 0.4; } }
 
   .live-feed { display: flex; flex-direction: column; gap: 0; }
 
+  /* Feed entries — created by JS, need :global */
   :global(.feed-entry) {
-    padding: var(--sp-12) 0;
+    padding: var(--sp-10) 0;
     border-bottom: var(--border-panel);
     animation: fadeIn 0.4s ease-out;
   }
@@ -117,8 +174,8 @@ const tagColors: Record<string, string> = {
   :global(.entry-header) {
     display: flex;
     align-items: baseline;
-    gap: var(--sp-10);
-    margin-bottom: var(--sp-4);
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-2);
     flex-wrap: wrap;
   }
   :global(.entry-ts) {
@@ -132,28 +189,27 @@ const tagColors: Record<string, string> = {
   :global(.entry-agent) {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: var(--size-sm);
+    font-size: var(--size-xs);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
   }
   :global(.entry-agent.agent-color) { color: var(--phosphor); }
   :global(.entry-agent.system-color) { color: var(--amber); }
   :global(.entry-arrow) {
     color: var(--phosphor);
-    font-size: var(--size-sm);
+    font-size: var(--size-xs);
   }
   :global(.entry-text) {
     font-family: var(--font-body);
     color: var(--text);
-    font-size: var(--size-base);
-    line-height: 1.55;
-    padding-left: 0;
+    font-size: var(--size-sm);
+    line-height: 1.5;
   }
   :global(.entry-text.system-text) { color: var(--amber); }
   :global(.entry-tags) {
     display: flex;
-    gap: var(--sp-8);
-    margin-top: var(--sp-4);
+    gap: var(--sp-6);
+    margin-top: var(--sp-2);
     flex-wrap: wrap;
   }
   :global(.entry-tag) {
@@ -161,61 +217,38 @@ const tagColors: Record<string, string> = {
     font-size: var(--size-xs);
     color: var(--text-dim);
     letter-spacing: 0.05em;
-    opacity: 0.6;
+    opacity: 0.5;
   }
 
-  .live-empty {
+  :global(.live-empty) {
     font-family: var(--font-body);
     color: var(--text-dim);
     font-size: var(--size-sm);
-    padding: var(--sp-16) 0;
+    padding: var(--sp-12) 0;
     opacity: 0.6;
   }
 
   /* ── BUILD LOG SECTION ── */
   .buildlog-section {
-    margin-top: var(--sp-8);
+    margin-top: var(--sp-4);
   }
 
-  .journal-day {
-    padding: var(--sp-24) 0;
-    border-top: var(--border-panel);
-  }
-  .journal-day.genesis {
-    border-top: 1px solid var(--ice-dim);
-  }
-  .journal-date {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-md);
-    letter-spacing: 0.05em;
-    margin-bottom: var(--sp-16);
-  }
-  .day-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .day-link:hover .phosphor,
-  .day-link:hover .ice {
-    text-decoration: underline;
-  }
-
-  .journal-entries {
+  .day-panel-body {
     display: flex;
     flex-direction: column;
     gap: 0;
   }
+
   .j-entry {
-    padding: var(--sp-12) 0;
-    border-bottom: var(--border-panel);
+    padding: var(--sp-8) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
   }
   .j-entry:last-child { border-bottom: none; }
   .j-entry-header {
     display: flex;
     align-items: baseline;
-    gap: var(--sp-10);
-    margin-bottom: var(--sp-4);
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-2);
   }
   .j-ts {
     font-family: var(--font-body);
@@ -228,9 +261,9 @@ const tagColors: Record<string, string> = {
   .j-tag {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: var(--size-sm);
+    font-size: var(--size-xs);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
   }
   .j-tag.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
   .j-tag.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
@@ -240,46 +273,94 @@ const tagColors: Record<string, string> = {
   .j-entry-text {
     font-family: var(--font-body);
     color: var(--text);
-    font-size: var(--size-base);
-    line-height: 1.55;
+    font-size: var(--size-sm);
+    line-height: 1.5;
   }
   .j-entry-text.amber { color: var(--amber); }
   .j-entry-text.ice { color: var(--ice); }
   .j-entry-text.phosphor { color: var(--phosphor); }
   .genesis-entry .j-entry-text { color: var(--ice); }
 
-  .journal-metrics {
-    margin-top: var(--sp-16);
-    padding: var(--sp-12) var(--sp-16);
-    border: var(--border-panel);
-    background: var(--surface);
+  .day-metrics {
+    padding: var(--sp-6) var(--sp-8);
+    border-top: 1px solid rgba(26, 26, 26, 0.5);
     color: var(--text-dim);
     font-family: var(--font-body);
-    font-size: var(--size-base);
+    font-size: var(--size-xs);
     letter-spacing: 0.02em;
+    margin-top: var(--sp-4);
   }
+
+  .day-link {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    letter-spacing: 0.06em;
+  }
+  .day-link a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+  .day-link a:hover { text-decoration: underline; }
 
   .blink-cursor { animation: blk 1s step-end infinite; }
   @keyframes blk { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+  /* ── TAG DISTRIBUTION ── */
+  .tag-dist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4) var(--sp-12);
+    padding: var(--sp-4) 0;
+  }
+  .tag-dist-item {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    letter-spacing: 0.06em;
+  }
+  .tag-dist-item .count {
+    font-family: var(--font-head);
+    font-weight: 700;
+    margin-left: var(--sp-4);
+  }
+
+  /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
     .live-indicator { top: 50px; right: 8px; }
     .status-row { gap: var(--sp-4) var(--sp-16); }
-    .journal-day { padding: 18px 0; }
-    .journal-date { font-size: var(--size-lg); }
-    .j-entry { padding: var(--sp-10) 0; }
-    .j-entry-text { font-size: var(--size-base); line-height: 1.6; }
-    .journal-metrics { font-size: var(--size-sm); padding: var(--sp-10) var(--sp-12); }
+    .stats-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stat-cell { padding: var(--sp-6) var(--sp-8); }
+    .stat-cell__val { font-size: var(--size-lg); }
   }
 </style>
 
-<PageWrapper>
+<PageWrapper size="wide">
   <div class="live-indicator"><div class="dot"></div> live</div>
 
-  <div class="terminal-header">
-    <span class="prompt">zero $</span> tail -f /var/log/journal/*<span class="cursor">█</span>
+  <pre class="term-prompt al" data-d="0"><span class="prompt">zero $</span> tail -f /var/log/journal/*<span class="cursor">█</span></pre>
+
+  <!-- ═══ HERO: Key Stats Grid ═══ -->
+  <div class="stats-strip">
+    <div class="stat-cell">
+      <div class="stat-cell__val val-phosphor">{latestDay}</div>
+      <div class="stat-cell__label">Day</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell__val val-phosphor">{shipped}</div>
+      <div class="stat-cell__label">Shipped</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell__val val-amber">{totalEntries}</div>
+      <div class="stat-cell__label">Events</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell__val val-red">{killed}</div>
+      <div class="stat-cell__label">Killed</div>
+    </div>
   </div>
 
+  <!-- Agent status bar -->
   <div class="status-row" id="status-bar">
     <StatusDot status="nominal" label="SERAPHIM" />
     <StatusDot status="nominal" label="CHRONICLE" pulse={false} />
@@ -298,18 +379,16 @@ const tagColors: Record<string, string> = {
   <div class="buildlog-section">
     <HazardDivider variant="section" text="BUILD LOG" color="amber" />
 
-    {days.map((day, i) => {
+    {days.map((day: any, i: number) => {
       const isGenesis = day.genesis === true;
-      const delay = 200 + i * 200;
+      const entryCount = day.entries?.length || 0;
+      const dayShipped = (day.entries || []).filter((e: any) => e.tag === 'SHIPPED').length;
+      const dayStatus = isGenesis ? `GENESIS · ${entryCount} events` : `${dayShipped} shipped · ${entryCount} events`;
+      const panelColor = isGenesis ? 'ice' as const : 'dim' as const;
 
       return (
-        <div class={`journal-day al${isGenesis ? ' genesis' : ''}`} data-d={delay}>
-          <HazardDivider variant={isGenesis ? "section" : "line"} text={`DAY ${day.day} — ${day.date}${isGenesis ? ' GENESIS' : ''}`} color={isGenesis ? "ice" : "phosphor"} />
-          <div class="journal-date">
-            <a href={`/build-log/${day.day}`} class="day-link phosphor">→ full log</a>
-          </div>
-
-          <div class="journal-entries">
+        <DataPanel title={`DAY ${String(day.day).padStart(2,'0')} — ${day.date}`} status={dayStatus} color={panelColor}>
+          <div class="day-panel-body">
             {day.entries.map((e: any) => {
               const colorClass = tagColors[e.tag] || 'dim';
               const isSystem = ['REVENUE', 'INIT', 'ONLINE', 'QUERY'].includes(e.tag);
@@ -327,20 +406,34 @@ const tagColors: Record<string, string> = {
                 </div>
               );
             })}
-          </div>
 
-          {day.metrics && (
-            <div class={`journal-metrics${isGenesis ? ' genesis-metrics' : ''}`}>
-              {isGenesis ? <span class="ice">{day.metrics}</span> : day.metrics}
-            </div>
-          )}
-        </div>
+            {day.metrics && (
+              <div class={`day-metrics${isGenesis ? ' ice' : ''}`}>
+                {day.metrics}
+              </div>
+            )}
+          </div>
+          <div class="day-link"><a href={`/build-log/${day.day}`}>→ full log</a></div>
+        </DataPanel>
+      );
+    })}
+  </div>
+
+  <!-- ═══ TAG DISTRIBUTION (compact) ═══ -->
+  <HazardDivider variant="line" color="dim" />
+  <div class="tag-dist">
+    {Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).map(([tag, count]) => {
+      const c = tagColors[tag] || 'dim';
+      return (
+        <span class="tag-dist-item">
+          <span class={c}>{tag}</span><span class={`count ${c}`}>{count}</span>
+        </span>
       );
     })}
   </div>
 
   <BriefCTA />
-  <pre class="terminal-header"><span class="prompt">zero $</span> <span class="blink-cursor">█</span></pre>
+  <pre class="term-prompt"><span class="prompt">zero $</span> <span class="blink-cursor">█</span></pre>
 </PageWrapper>
 
 <script>
@@ -428,7 +521,7 @@ const tagColors: Record<string, string> = {
   setInterval(() => fetchFeed(true), 30000);
 })();
 
-// Localize journal timestamps
+// Localize timestamps
 document.querySelectorAll('.tz').forEach(el => {
   try {
     const d = new Date(el.dataset.ts);
