@@ -64,6 +64,11 @@ a:hover { text-shadow: 0 0 8px var(--phosphor-glow); }
   z-index: 1;
 }
 
+/* Global content padding — ensures all pages have breathing room from CRT border */
+.crt-main {
+  padding: 0 clamp(16px, 4vw, 32px);
+}
+
 /* ── STATUS BAR (header) ── */
 .status-bar {
   font-family: var(--font-head);
