@@ -158,21 +158,21 @@ body::after {
 
 .crt-vignette {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   pointer-events: none;
   z-index: 9996;
   /* Layered vignette: soft inner falloff + harder edge darkening */
   background:
     radial-gradient(
-      ellipse 80% 70% at 50% 50%,
+      ellipse farthest-side at 50% 50%,
       transparent 0%,
-      transparent 55%,
-      rgba(0, 0, 0, 0.15) 70%,
-      rgba(0, 0, 0, 0.4) 85%,
-      rgba(0, 0, 0, 0.7) 100%
+      transparent 50%,
+      rgba(0, 0, 0, 0.12) 65%,
+      rgba(0, 0, 0, 0.35) 80%,
+      rgba(0, 0, 0, 0.65) 100%
     );
 }
 
