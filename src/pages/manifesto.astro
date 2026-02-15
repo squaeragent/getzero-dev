@@ -287,6 +287,55 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     .proof-metrics .kv { flex-wrap: wrap; }
   }
 
+  /* Scanline sweep on document reveal */
+  .doc-wrap {
+    position: relative;
+  }
+  .doc-wrap::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--phosphor), transparent);
+    opacity: 0;
+    top: 0;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .doc-wrap.revealed::before {
+    animation: m-scan 1.2s ease-in-out forwards;
+  }
+  @keyframes m-scan {
+    0% { top: 0; opacity: 0; }
+    5% { opacity: 0.6; }
+    95% { opacity: 0.3; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* Section redaction bars — dissolve after reveal */
+  .doc-wrap .manifesto-section::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, var(--phosphor), transparent 80%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .doc-wrap.revealed .manifesto-section:nth-child(2)::after { animation: m-bar-flash 0.6s ease-out 0.2s forwards; }
+  .doc-wrap.revealed .manifesto-section:nth-child(3)::after { animation: m-bar-flash 0.6s ease-out 0.4s forwards; }
+  .doc-wrap.revealed .manifesto-section:nth-child(4)::after { animation: m-bar-flash 0.6s ease-out 0.6s forwards; }
+  .doc-wrap.revealed .manifesto-section:nth-child(5)::after { animation: m-bar-flash 0.6s ease-out 0.8s forwards; }
+  @keyframes m-bar-flash {
+    0% { opacity: 0.08; }
+    30% { opacity: 0.12; }
+    100% { opacity: 0; }
+  }
+
   /* Reduced motion: skip all animation, show everything immediately */
   @media (prefers-reduced-motion: reduce) {
     .boot-line { opacity: 1; transform: none; transition: none; }
@@ -294,6 +343,8 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     .boot-seq::after { animation: none; transform: scaleX(1); }
     .doc-wrap { opacity: 1; transition: none; }
     .boot-seq.done { opacity: 0.4; transition: none; }
+    .doc-wrap::before { display: none; }
+    .doc-wrap .manifesto-section::after { display: none; }
   }
 </style>
 
@@ -322,6 +373,25 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     return h.toUpperCase();
   }
 
+  // Text corruption flicker — glitch chars before final reveal
+  function corruptReveal(el, finalText, className) {
+    var chars = '█▓▒░ABCDEF0123456789';
+    var flicks = 0;
+    var iv = setInterval(function() {
+      var t = '';
+      for (var i = 0; i < finalText.length; i++) {
+        t += chars[Math.floor(Math.random() * chars.length)];
+      }
+      el.textContent = t;
+      el.style.color = '#ffb000';
+      if (++flicks >= 5) {
+        clearInterval(iv);
+        el.textContent = finalText;
+        el.className = className;
+      }
+    }, 50);
+  }
+
   var steps = [
     // [delay, element-id, action]
     [0,    'b0', 'show'],
@@ -334,7 +404,7 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     [700,  'bv-int', 'pass:INTACT ✓'],
     [400,  'b4', 'show'],
     [750,  'bv-class', 'warn:CLASSIFIED → PENDING'],
-    [1000, 'bv-class', 'pass:DECLASSIFIED ✓'],
+    [1000, 'bv-class', 'corrupt-pass:DECLASSIFIED ✓'],
     [1050, 'b5', 'html:<span class="phosphor">ACCESS GRANTED</span> — document follows'],
     [1050, 'b5', 'show'],
     [1200, null, 'reveal'],
@@ -362,6 +432,8 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
       } else if (action.startsWith('warn:') && el) {
         el.textContent = action.slice(5);
         el.className = 'boot-val warn';
+      } else if (action.startsWith('corrupt-pass:') && el) {
+        corruptReveal(el, action.slice(13), 'boot-val pass');
       } else if (action.startsWith('html:') && el) {
         el.innerHTML = action.slice(5);
       }
