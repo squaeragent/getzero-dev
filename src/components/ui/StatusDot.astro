@@ -1,0 +1,74 @@
+---
+/**
+ * StatusDot — hardware-style status indicator
+ * Renders: ● NOMINAL / ◐ DEGRADED / ○ OFFLINE
+ *
+ * Props:
+ *   status — nominal | degraded | offline | building | warning
+ *   label? — text after the dot (default: status name)
+ *   pulse? — animate pulse on nominal (default true)
+ */
+interface Props {
+  status: 'nominal' | 'degraded' | 'offline' | 'building' | 'warning';
+  label?: string;
+  pulse?: boolean;
+}
+
+const { status, label, pulse = true } = Astro.props;
+
+const config: Record<string, { char: string; color: string; text: string }> = {
+  nominal:  { char: '●', color: 'phosphor', text: 'NOMINAL' },
+  degraded: { char: '◐', color: 'amber',    text: 'DEGRADED' },
+  offline:  { char: '○', color: 'dim',       text: 'OFFLINE' },
+  building: { char: '◑', color: 'ice',       text: 'BUILDING' },
+  warning:  { char: '▲', color: 'amber',     text: 'WARNING' },
+};
+
+const c = config[status] || config.nominal;
+const displayLabel = label || c.text;
+---
+
+<span class:list={['status-dot', `status-dot--${c.color}`, pulse && status === 'nominal' && 'status-dot--pulse']}>
+  <span class="status-dot__char">{c.char}</span>
+  <span class="status-dot__label">{displayLabel}</span>
+</span>
+
+<style>
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-4);
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .status-dot__char {
+    font-size: 0.7em;
+    line-height: 1;
+  }
+  .status-dot--phosphor { color: var(--phosphor); }
+  .status-dot--amber { color: var(--amber); }
+  .status-dot--ice { color: var(--ice); }
+  .status-dot--dim { color: var(--text-dim); }
+
+  .status-dot--phosphor .status-dot__char {
+    text-shadow: var(--glow-phosphor);
+  }
+  .status-dot--amber .status-dot__char {
+    text-shadow: var(--glow-amber);
+  }
+  .status-dot--ice .status-dot__char {
+    text-shadow: var(--glow-ice);
+  }
+
+  .status-dot--pulse .status-dot__char {
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+</style>

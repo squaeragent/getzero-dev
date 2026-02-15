@@ -1,0 +1,91 @@
+---
+/**
+ * HeroNumeral — oversized dominant number, Aliens-sentry-gun style
+ * The most important number on the page should DOMINATE.
+ *
+ * Props:
+ *   value    — the big number/string
+ *   label    — what it measures
+ *   sub?     — secondary line (units, context)
+ *   color?   — phosphor | amber | ice | red
+ *   suffix?  — appended to value in smaller type (e.g. "%" or "/200")
+ */
+interface Props {
+  value: string;
+  label: string;
+  sub?: string;
+  color?: 'phosphor' | 'amber' | 'ice' | 'red';
+  suffix?: string;
+}
+
+const { value, label, sub, color = 'phosphor', suffix } = Astro.props;
+---
+
+<div class="hero-num">
+  <div class="hero-num__label">{label}</div>
+  <div class={`hero-num__value hero-num--${color}`}>
+    {value}{suffix && <span class="hero-num__suffix">{suffix}</span>}
+  </div>
+  {sub && <div class="hero-num__sub">{sub}</div>}
+</div>
+
+<style>
+  .hero-num {
+    padding: var(--sp-16) 0;
+  }
+  .hero-num__label {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: var(--sp-6);
+  }
+  .hero-num__value {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-num__suffix {
+    font-size: 0.4em;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.5;
+    vertical-align: baseline;
+    margin-left: 0.1em;
+  }
+  .hero-num__sub {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+    margin-top: var(--sp-6);
+    letter-spacing: 0.03em;
+  }
+
+  /* Colors + glow */
+  .hero-num--phosphor {
+    color: var(--phosphor);
+    text-shadow: 0 0 20px var(--phosphor-glow), 0 0 60px rgba(200, 255, 0, 0.1);
+  }
+  .hero-num--amber {
+    color: var(--amber);
+    text-shadow: 0 0 20px var(--amber-glow), 0 0 60px rgba(255, 176, 0, 0.1);
+  }
+  .hero-num--ice {
+    color: var(--ice);
+    text-shadow: 0 0 20px var(--ice-glow), 0 0 60px rgba(0, 212, 255, 0.1);
+  }
+  .hero-num--red {
+    color: var(--red);
+    text-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
+  }
+
+  @media (max-width: 640px) {
+    .hero-num { padding: var(--sp-12) 0; }
+    .hero-num__value { font-size: clamp(2rem, 12vw, 3.5rem); }
+  }
+</style>

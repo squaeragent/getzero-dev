@@ -1,0 +1,92 @@
+---
+/**
+ * DataPanel — nested-border framing component (Aliens-style)
+ * Creates the CRT → section → cell depth hierarchy.
+ * Outer border is structural. Inner content sits inside.
+ *
+ * Props:
+ *   title?   — panel header text (ALL CAPS)
+ *   status?  — right-aligned status text in header
+ *   color?   — border color (phosphor | amber | ice | dim)
+ *   compact? — tighter padding for dense layouts
+ */
+interface Props {
+  title?: string;
+  status?: string;
+  color?: 'phosphor' | 'amber' | 'ice' | 'dim';
+  compact?: boolean;
+}
+
+const { title, status, color = 'dim', compact = false } = Astro.props;
+---
+
+<div class:list={['data-panel', `data-panel--${color}`, compact && 'data-panel--compact']}>
+  {(title || status) && (
+    <div class="data-panel__header">
+      {title && <span class="data-panel__title">{title}</span>}
+      {status && <span class={`data-panel__status data-panel__status--${color}`}>{status}</span>}
+    </div>
+  )}
+  <div class="data-panel__body">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .data-panel {
+    border: 1px solid var(--border);
+    margin: var(--sp-8) 0;
+  }
+  .data-panel--phosphor { border-color: var(--phosphor-dim); }
+  .data-panel--amber { border-color: var(--amber-dim); }
+  .data-panel--ice { border-color: var(--ice-dim); }
+  .data-panel--dim { border-color: var(--border); }
+
+  .data-panel__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--sp-6) var(--sp-12);
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .data-panel--phosphor .data-panel__header { border-bottom-color: var(--phosphor-dim); background: rgba(200, 255, 0, 0.02); }
+  .data-panel--amber .data-panel__header { border-bottom-color: var(--amber-dim); background: rgba(255, 176, 0, 0.02); }
+  .data-panel--ice .data-panel__header { border-bottom-color: var(--ice-dim); background: rgba(0, 212, 255, 0.02); }
+
+  .data-panel__title {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .data-panel--phosphor .data-panel__title { color: var(--phosphor); }
+  .data-panel--amber .data-panel__title { color: var(--amber); }
+  .data-panel--ice .data-panel__title { color: var(--ice); }
+
+  .data-panel__status {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .data-panel__status--phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
+  .data-panel__status--amber { color: var(--amber); text-shadow: var(--glow-amber); }
+  .data-panel__status--ice { color: var(--ice); text-shadow: var(--glow-ice); }
+  .data-panel__status--dim { color: var(--text-dim); }
+
+  .data-panel__body {
+    padding: var(--sp-12);
+  }
+  .data-panel--compact .data-panel__body {
+    padding: var(--sp-8);
+  }
+
+  @media (max-width: 640px) {
+    .data-panel__body { padding: var(--sp-8); }
+    .data-panel--compact .data-panel__body { padding: var(--sp-6); }
+    .data-panel__header { padding: var(--sp-4) var(--sp-8); }
+  }
+</style>

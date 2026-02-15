@@ -1,0 +1,101 @@
+---
+/**
+ * HazardDivider — warning-band section separator
+ * Like the yellow/black diagonal stripes on industrial equipment.
+ * Renders ASCII hazard patterns for section breaks.
+ *
+ * Props:
+ *   variant — line | warning | section | heavy
+ *   text?   — center text (e.g. "WARNING", "CLASSIFIED")
+ *   color?  — phosphor | amber | red | dim
+ */
+interface Props {
+  variant?: 'line' | 'warning' | 'section' | 'heavy';
+  text?: string;
+  color?: 'phosphor' | 'amber' | 'red' | 'dim';
+}
+
+const { variant = 'line', text, color = 'dim' } = Astro.props;
+
+// Build the pattern based on variant
+const patterns: Record<string, { left: string; right: string; char: string }> = {
+  line:    { left: '─', right: '─', char: '─' },
+  warning: { left: '/', right: '/', char: '/' },
+  section: { left: '═', right: '═', char: '═' },
+  heavy:   { left: '▓', right: '▓', char: '▓' },
+};
+
+const p = patterns[variant] || patterns.line;
+---
+
+<div class:list={['hazard', `hazard--${variant}`, `hazard--${color}`]} role="separator">
+  {text ? (
+    <span class="hazard__wing">{p.left.repeat(3)}</span>
+    <span class="hazard__text">{text}</span>
+    <span class="hazard__wing">{p.right.repeat(3)}</span>
+  ) : (
+    <span class="hazard__full">{p.char.repeat(60)}</span>
+  )}
+</div>
+
+<style>
+  .hazard {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-8);
+    padding: var(--sp-8) 0;
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    letter-spacing: 0.1em;
+    overflow: hidden;
+    user-select: none;
+  }
+  .hazard__wing {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0.5;
+  }
+  .hazard__full {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0.4;
+  }
+  .hazard__text {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    padding: 0 var(--sp-4);
+  }
+
+  /* Colors */
+  .hazard--dim { color: var(--text-dim); }
+  .hazard--phosphor { color: var(--phosphor); }
+  .hazard--phosphor .hazard__wing,
+  .hazard--phosphor .hazard__full { text-shadow: var(--glow-phosphor); opacity: 0.3; }
+  .hazard--phosphor .hazard__text { text-shadow: var(--glow-phosphor); }
+  .hazard--amber { color: var(--amber); }
+  .hazard--amber .hazard__wing,
+  .hazard--amber .hazard__full { text-shadow: var(--glow-amber); opacity: 0.3; }
+  .hazard--amber .hazard__text { text-shadow: var(--glow-amber); }
+  .hazard--red { color: var(--red); }
+  .hazard--red .hazard__wing,
+  .hazard--red .hazard__full { opacity: 0.4; }
+  .hazard--red .hazard__text { text-shadow: 0 0 8px rgba(255, 51, 51, 0.4); }
+
+  /* Warning variant gets the classic /// pattern */
+  .hazard--warning .hazard__wing { letter-spacing: 0.15em; opacity: 0.6; }
+  .hazard--warning .hazard__text { padding: 0 var(--sp-8); }
+
+  /* Heavy variant — thicker visual weight */
+  .hazard--heavy .hazard__full { opacity: 0.15; letter-spacing: -0.02em; }
+  .hazard--heavy .hazard__wing { opacity: 0.15; letter-spacing: -0.02em; }
+
+  /* Section variant — double-line elegance */
+  .hazard--section .hazard__wing { opacity: 0.3; }
+  .hazard--section .hazard__full { opacity: 0.25; }
+</style>

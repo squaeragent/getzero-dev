@@ -3,11 +3,13 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
-import CardFeed from '../components/ui/CardFeed.astro';
-import CardEntry from '../components/ui/CardEntry.astro';
-import CardHeader from '../components/ui/CardHeader.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
 import TagBadge from '../components/ui/TagBadge.astro';
+import HeroNumeral from '../components/ui/HeroNumeral.astro';
+import BarGauge from '../components/ui/BarGauge.astro';
+import StatusDot from '../components/ui/StatusDot.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
+import DataPanel from '../components/ui/DataPanel.astro';
 import { sanitizeProblems } from '../lib/sanitizer';
 
 const rawProblems = [
@@ -21,60 +23,46 @@ const rawProblems = [
 const publicProblems = sanitizeProblems(rawProblems);
 
 const dimensions = [
-  { name: 'Compound Perception', score: 20.5, max: 40, pct: 51, cls: 'amber' },
-  { name: 'Autonomous Goals', score: 33, max: 40, pct: 83, cls: 'phosphor' },
-  { name: 'Peer Intelligence', score: 11, max: 30, pct: 37, cls: 'red' },
-  { name: 'Compound Intelligence', score: 11, max: 30, pct: 37, cls: 'red' },
-  { name: 'Self-Improvement', score: 16, max: 30, pct: 53, cls: 'amber' },
-  { name: 'Autonomy Under Pressure', score: 12, max: 30, pct: 40, cls: 'red' },
+  { name: 'COMPOUND PERCEPTION', score: 20.5, max: 40, pct: 51 },
+  { name: 'AUTONOMOUS GOALS', score: 33, max: 40, pct: 83 },
+  { name: 'PEER INTELLIGENCE', score: 11, max: 30, pct: 37 },
+  { name: 'COMPOUND INTELLIGENCE', score: 11, max: 30, pct: 37 },
+  { name: 'SELF-IMPROVEMENT', score: 16, max: 30, pct: 53 },
+  { name: 'AUTONOMY UNDER PRESSURE', score: 12, max: 30, pct: 40 },
 ];
 
-function barHtml(pct: number) {
-  const filled = Math.round(pct / 5);
-  return '█'.repeat(filled) + '░'.repeat(20 - filled);
-}
-
 const agents = [
-  { id: 'seraphim', name: 'SERAPHIM', role: 'Strategic Cortex', model: 'Claude Opus', activity: 'building', freshness: 'fresh', kvs: [
-    { k: 'current', v: 'L2 Analysis Engine shipped, full API posting pipeline' },
-    { k: 'running', v: '6 intelligence monitors on cron (2-4h cycles)' },
-    { k: 'tracking', v: '20 repos, 22 X accounts, 14 narratives, 14 on-chain' },
+  { id: 'seraphim', name: 'SERAPHIM', role: 'Strategic Cortex', model: 'Opus', status: 'nominal' as const, kvs: [
+    { k: 'task', v: 'L2 analysis, API pipeline, system architecture' },
+    { k: 'crons', v: '6 intelligence monitors (2-4h cycles)' },
+    { k: 'scope', v: '20 repos · 22 accounts · 14 narratives · 14 on-chain' },
   ]},
-  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Claude Opus', activity: 'idle', freshness: 'recent', kvs: [
-    { k: 'current', v: 'Editorial scoring on all public content' },
-    { k: 'last', v: 'Scored Dispatch #001 at 8.5/10, killed 2 drafts' },
-    { k: 'role', v: 'Quality gate — KILL verdict cannot be overridden' },
+  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Opus', status: 'nominal' as const, kvs: [
+    { k: 'task', v: 'Editorial scoring, quality gate (KILL = final)' },
+    { k: 'last', v: 'Dispatch #001 scored 8.5/10 · 2 drafts killed' },
   ]},
-  { id: 'aesthete', name: 'AESTHETE', role: 'Visual Cortex', model: 'Claude Opus', activity: 'idle', freshness: 'recent', kvs: [
-    { k: 'current', v: 'Social card pipeline v2 (32px min text)' },
-    { k: 'last', v: 'Stat card format locked, Grok image pipeline proven' },
-    { k: 'role', v: 'Visual production — PHOSPHOR Canon + CRT Brutalism' },
+  { id: 'aesthete', name: 'AESTHETE', role: 'Visual Cortex', model: 'Opus', status: 'nominal' as const, kvs: [
+    { k: 'task', v: 'Social cards, PHOSPHOR Canon, CRT brutalism' },
+    { k: 'last', v: 'Layout spec + visual audit pipeline shipped' },
   ]},
-  { id: 'squaer', name: 'SQUAER', role: 'Distribution Intelligence', model: 'Claude Sonnet', activity: 'idle', freshness: 'recent', kvs: [
-    { k: 'current', v: 'Full API posting (zero browser dependency)' },
-    { k: 'pipeline', v: 'L2 digest → red team → X API post → guard log' },
+  { id: 'squaer', name: 'SQUAER', role: 'Distribution Engine', model: 'Sonnet', status: 'nominal' as const, kvs: [
+    { k: 'task', v: 'Full API posting (zero browser dependency)' },
+    { k: 'pipeline', v: 'L2 digest → red team → X API → guard log' },
   ]},
-  { id: 'sentinel', name: 'SENTINEL', role: 'System Integrity', model: 'Claude Opus', activity: 'monitoring', freshness: 'fresh', kvs: [
-    { k: 'running', v: 'Health check every 5min, deep scan hourly' },
-    { k: 'tracking', v: '15 credentials, system baselines, process health' },
+  { id: 'sentinel', name: 'SENTINEL', role: 'System Integrity', model: 'Opus', status: 'nominal' as const, kvs: [
+    { k: 'task', v: 'Health check 5min · deep scan hourly' },
+    { k: 'scope', v: '15 credentials · baselines · process health' },
   ]},
 ];
 
 const layers = [
-  { id: 'L0', name: 'Collection', status: 'LIVE', cls: 'phosphor', desc: '6 monitors, 70 entities, every 2-4h' },
-  { id: 'L1', name: 'Detection', status: 'LIVE', cls: 'phosphor', desc: 'absence engine (49 detection-ready)' },
-  { id: 'L2', name: 'Analysis', status: 'LIVE', cls: 'phosphor', desc: 'signal scoring via weights model (Spec 093)' },
-  { id: 'L3', name: 'Prediction', status: 'BUILDING', cls: 'amber', desc: '5 active predictions, manual confidence' },
-  { id: 'L4', name: 'Learning', status: 'SCAFFOLDED', cls: 'dim', desc: 'memory exists, no automated calibration' },
-  { id: 'L5', name: 'Distribution', status: 'LIVE', cls: 'phosphor', desc: 'full API posting, posting guard, red team' },
-  { id: 'L6', name: 'Compounding', status: 'SCAFFOLDED', cls: 'dim', desc: 'needs prediction volume for feedback cycle' },
-];
-
-const infra = [
-  { name: 'Mac Studio', spec: 'M3 Ultra, 96GB RAM', status: 'online', cls: 'phosphor', details: [
-    { k: 'role', v: 'All operations (5 cognitive functions)' },
-    { k: 'services', v: 'OpenClaw, Ollama, X API posting, 25+ cron jobs' },
-  ]},
+  { id: 'L0', name: 'COLLECTION', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: '6 monitors, 70 entities, every 2-4h' },
+  { id: 'L1', name: 'DETECTION', status: 'LIVE', s: 'nominal' as const, pct: 85, desc: 'absence engine (49 detection-ready)' },
+  { id: 'L2', name: 'ANALYSIS', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'signal scoring via weights model' },
+  { id: 'L3', name: 'PREDICTION', status: 'BUILDING', s: 'building' as const, pct: 40, desc: '5 active, manual confidence' },
+  { id: 'L4', name: 'LEARNING', status: 'SCAFFOLDED', s: 'degraded' as const, pct: 15, desc: 'memory exists, no auto calibration' },
+  { id: 'L5', name: 'DISTRIBUTION', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'API posting, guard, red team' },
+  { id: 'L6', name: 'COMPOUNDING', status: 'SCAFFOLDED', s: 'degraded' as const, pct: 10, desc: 'needs prediction volume' },
 ];
 ---
 
@@ -89,228 +77,159 @@ const infra = [
   Docs: getzero.dev/system
   PID: 1 (zero-init)</pre>
 
-<!-- INFRASTRUCTURE -->
+<!-- ═══ INFRASTRUCTURE ═══ -->
 <div class="scan-line al" data-d="300" id="scan-infra">⠋ Scanning infrastructure...</div>
 
 <div class="al" data-d="800" id="section-infra">
-<SectionTitle>INFRASTRUCTURE</SectionTitle>
-<CardFeed>
-  {infra.map(m => (
-    <div class="card-entry">
-      <div class="card-header">
-        <span class={`card-dot ${m.cls}`}>■</span>
-        <span class="card-name">{m.name}</span>
-        <span class="card-meta dim">{m.spec}</span>
-      </div>
-      <div class="card-body">
-        <div class="kv-row"><span class="kv-label">status</span> <span class={m.cls}>{m.status}</span></div>
-        {m.details.map(d => (
-          <div class="kv-row"><span class="kv-label">{d.k}</span> {d.v}</div>
-        ))}
-      </div>
+<HazardDivider variant="section" text="INFRASTRUCTURE" color="phosphor" />
+
+<DataPanel title="MAC STUDIO" status="● ONLINE" color="phosphor">
+  <div class="infra-grid">
+    <div class="infra-spec">
+      <div class="kv-row"><span class="kv-label">model</span> <span class="text">M3 Ultra</span></div>
+      <div class="kv-row"><span class="kv-label">memory</span> <span class="text">96GB Unified</span></div>
+      <div class="kv-row"><span class="kv-label">role</span> <span class="text">All operations (5 cognitive functions)</span></div>
+      <div class="kv-row"><span class="kv-label">services</span> <span class="text">OpenClaw · Ollama · X API · 25+ crons</span></div>
     </div>
-  ))}
-</div>
+  </div>
+</DataPanel>
 </div>
 
-<!-- COGNITIVE FUNCTIONS -->
+<!-- ═══ COGNITIVE FUNCTIONS ═══ -->
 <div class="scan-line al" data-d="1000" id="scan-cognitive">⠋ Scanning cognitive functions...</div>
 
 <div class="al" data-d="1500" id="section-cognitive">
-<SectionTitle>COGNITIVE FUNCTIONS</SectionTitle>
-<CardFeed>
+<HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="ice" />
+
+<div class="agent-count-row">
+  <HeroNumeral value="5" label="ACTIVE AGENTS" sub="Mac Studio · Claude Opus + Sonnet" color="ice" />
+</div>
+
+<div class="agent-grid">
   {agents.map(a => (
-    <div class="card-entry" data-agent={a.id}>
-      <div class="card-header">
-        <span class="agent-heartbeat" data-agent-id={a.id}>[■ LIVE]</span>
-        <span class="card-name ice">{a.name}</span>
-        <span class="card-meta dim">— {a.role}</span>
-      </div>
-      <div class="card-body">
-        <div class="kv-row"><span class="kv-label">host</span> Mac Studio · {a.model}</div>
-        <div class="kv-row"><span class="kv-label">state</span> <span class="agent-activity" data-live={`agents.${a.id}.activity`} data-activity={a.activity}>{a.activity}</span><span class="agent-activity-dots"></span> <span class="agent-last-active" data-freshness={a.freshness}></span></div>
-        {a.kvs.map(kv => (
-          <div class="kv-row"><span class="kv-label">{kv.k}</span> {kv.v}</div>
-        ))}
-        {a.id === 'squaer' && (
-          <div class="kv-row"><span class="kv-label">stats</span> <span class="phosphor" data-live="x.followers">420</span> followers · <span class="phosphor" data-live="x.posts_shipped">172</span> posts · <span data-live="x.engagement_rate">3.42</span>% eng</div>
-        )}
-      </div>
-    </div>
+    <DataPanel title={a.name} status={`${a.model}`} color="dim" compact>
+      <div class="agent-role"><StatusDot status={a.status} label={a.role} /></div>
+      {a.kvs.map(kv => (
+        <div class="kv-row"><span class="kv-label">{kv.k}</span> {kv.v}</div>
+      ))}
+      {a.id === 'squaer' && (
+        <div class="kv-row"><span class="kv-label">stats</span> <span class="phosphor" data-live="x.followers">420</span> flw · <span class="phosphor" data-live="x.posts_shipped">172</span> posts · <span data-live="x.engagement_rate">3.42</span>% eng</div>
+      )}
+    </DataPanel>
   ))}
 </div>
 </div>
 
-<!-- INTELLIGENCE ARCHITECTURE -->
+<!-- ═══ INTELLIGENCE ARCHITECTURE ═══ -->
 <div class="scan-line al" data-d="1700" id="scan-intel">⠋ Loading intelligence architecture...</div>
 
 <div class="al" data-d="2200" id="section-intel">
-<SectionTitle>INTELLIGENCE ARCHITECTURE</SectionTitle>
-<CardFeed>
+<HazardDivider variant="section" text="INTELLIGENCE ARCHITECTURE" color="phosphor" />
+
+<div class="layer-stack">
   {layers.map(l => (
-    <div class="card-entry layer-entry">
-      <div class="card-header">
-        <span class="layer-id phosphor">{l.id}</span>
-        <span class="card-name">{l.name}</span>
-        <span class={`layer-status ${l.cls}`}>[{l.status}]</span>
+    <div class="layer-row">
+      <span class="layer-id">{l.id}</span>
+      <span class="layer-name">{l.name}</span>
+      <StatusDot status={l.s} label={l.status} pulse={false} />
+      <div class="layer-bar">
+        <BarGauge value={l.pct} showValue={false} segments={10} size="sm" />
       </div>
-      <div class="card-body-inline">{l.desc}</div>
     </div>
   ))}
 </div>
 
-<div class="card-feed" style="margin-top: var(--sp-8);">
-  <div class="card-entry">
-    <div class="card-header">
-      <span class="card-dot phosphor">■</span>
-      <span class="card-name">L0: Collection Monitors</span>
-    </div>
-    <div class="card-body">
-      <div class="kv-row"><span class="kv-label">sources</span> <span class="phosphor">6</span> active monitors</div>
-      <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">70</span> tracked (22 accounts, 20 repos, 14 narratives, 14 on-chain)</div>
-      <div class="kv-row"><span class="kv-label">frequency</span> every 2-4h depending on source</div>
-      <div class="kv-row"><span class="kv-label">baselines</span> 49 entities detection-ready, 2 days of data</div>
-    </div>
-  </div>
+<DataPanel title="L0 — COLLECTION MONITORS" color="phosphor" compact>
+  <div class="kv-row"><span class="kv-label">sources</span> <span class="phosphor">6</span> active monitors</div>
+  <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">70</span> tracked (22 acct · 20 repo · 14 narr · 14 chain)</div>
+  <div class="kv-row"><span class="kv-label">frequency</span> every 2-4h depending on source</div>
+  <div class="kv-row"><span class="kv-label">baselines</span> 49 entities detection-ready, 2 days of data</div>
+</DataPanel>
 
-  <div class="card-entry">
-    <div class="card-header">
-      <span class="card-dot phosphor">■</span>
-      <span class="card-name">L2: Analysis Engine</span>
-      <span class="layer-status phosphor">[LIVE]</span>
-    </div>
-    <div class="card-body">
-      <div class="kv-row"><span class="kv-label">weights</span> hardness + convergence + topology + decay</div>
-      <div class="kv-row"><span class="kv-label">last run</span> 36 signals ingested, 15 above threshold</div>
-      <div class="kv-row"><span class="kv-label">top signal</span> llama-index convergence (score: 55.4)</div>
-      <div class="kv-row"><span class="kv-label">cron</span> every 4h at :30 past</div>
-    </div>
-  </div>
+<DataPanel title="L2 — ANALYSIS ENGINE" status="LIVE" color="phosphor" compact>
+  <div class="kv-row"><span class="kv-label">weights</span> hardness + convergence + topology + decay</div>
+  <div class="kv-row"><span class="kv-label">last run</span> 36 signals ingested, 15 above threshold</div>
+  <div class="kv-row"><span class="kv-label">top signal</span> llama-index convergence (score: 55.4)</div>
+  <div class="kv-row"><span class="kv-label">cron</span> every 4h at :30 past</div>
+</DataPanel>
 
-  <div class="card-entry">
-    <div class="card-header">
-      <span class="card-dot amber">■</span>
-      <span class="card-name">Absence Engine</span>
-      <span class="layer-status phosphor">[LIVE]</span>
-      <span class="dim">low-confidence mode</span>
-    </div>
-    <div class="card-body">
-      <div class="kv-row"><span class="kv-label">baseline</span> <span class="amber">2</span> days collected (target: 30)</div>
-      <div class="kv-row"><span class="kv-label">activation</span> <span class="amber">~March 14, 2026</span> (full confidence)</div>
-      <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">56</span> (49 detection-ready)</div>
-      <div class="kv-row"><span class="kv-label">progress</span> <span class="amber">███░░░░░░░░░░░░░</span> 7%</div>
-      <div class="kv-note dim">Monitors what STOPS happening. 30-day baseline required before high-confidence detection.</div>
-    </div>
-  </div>
+<DataPanel title="ABSENCE ENGINE" status="LOW CONFIDENCE" color="amber" compact>
+  <div class="kv-row"><span class="kv-label">baseline</span> <span class="amber">2</span> / 30 days</div>
+  <div class="kv-row"><span class="kv-label">progress</span></div>
+  <BarGauge value={7} label="" segments={30} color="amber" size="md" />
+  <div class="kv-row"><span class="kv-label">activation</span> <span class="amber">~March 14, 2026</span></div>
+  <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">56</span> (49 detection-ready)</div>
+  <div class="kv-note dim">Monitors what STOPS happening. 30-day baseline required for high-confidence detection.</div>
+</DataPanel>
 
-  <div class="card-entry">
-    <div class="card-header">
-      <span class="card-dot phosphor">■</span>
-      <span class="card-name">Posting Guard</span>
-      <span class="layer-status phosphor">[LIVE]</span>
-    </div>
-    <div class="card-body">
-      <div class="kv-row"><span class="kv-label">method</span> X API only (zero browser dependency)</div>
-      <div class="kv-row"><span class="kv-label">limits</span> 6/hr total, 3/15min, 8 originals/day</div>
-      <div class="kv-row"><span class="kv-label">dedup</span> 70% similarity threshold, 48h window</div>
-      <div class="kv-row"><span class="kv-label">pipelines</span> rapid-fire (replies/hr) + intel-post (originals/3h)</div>
-    </div>
-  </div>
-</div>
+<DataPanel title="POSTING GUARD" status="LIVE" color="phosphor" compact>
+  <div class="kv-row"><span class="kv-label">method</span> X API only (zero browser dependency)</div>
+  <div class="kv-row"><span class="kv-label">limits</span> 6/hr total · 3/15min · 8 originals/day</div>
+  <div class="kv-row"><span class="kv-label">dedup</span> 70% similarity · 48h window</div>
+  <div class="kv-row"><span class="kv-label">pipelines</span> rapid-fire (replies/hr) + intel-post (originals/3h)</div>
+</DataPanel>
 </div>
 
-<!-- AGI ASSESSMENT -->
+<!-- ═══ AGI ASSESSMENT ═══ -->
 <div class="scan-line al" data-d="2400" id="scan-agi">⠋ Running intelligence assessment...</div>
 
 <div class="al" data-d="2900" id="section-agi">
-<SectionTitle>INTELLIGENCE ASSESSMENT — AGI TEST v2</SectionTitle>
+<HazardDivider variant="warning" text="INTELLIGENCE ASSESSMENT" color="amber" />
 
-<div class="agi-summary">
-  <div class="agi-score-row">
-    <span class="agi-big phosphor">103.5</span>
-    <span class="dim">/ 200</span>
-    <span class="phosphor">(52%)</span>
-  </div>
-  <div class="agi-meta">
-    <span>Level: <span class="amber">EMERGING → FUNCTIONAL</span> (boundary)</span>
-    <span class="dim">Tested: 2026-02-15 · Retest: 2026-03-01</span>
-  </div>
+<div class="agi-hero-row">
+  <HeroNumeral value="103.5" label="AGI TEST v2" suffix="/200" color="amber" sub="Level: EMERGING → FUNCTIONAL (boundary) · Tested: 2026-02-15 · Retest: 2026-03-01" />
 </div>
 
-<SectionTitle>DIMENSION BREAKDOWN</SectionTitle>
-<CardFeed>
+<HazardDivider variant="line" text="DIMENSION BREAKDOWN" color="dim" />
+
+<div class="dim-stack">
   {dimensions.map(d => (
-    <div class="card-entry">
-      <div class="card-header">
-        <span class="card-name">{d.name}</span>
-        <span class={`dim-pct ${d.cls}`}>{d.pct}%</span>
-      </div>
-      <div class="dim-bar-row">
-        <span class={`dim-bar ${d.cls}`}>{barHtml(d.pct)}</span>
-        <span class="dim">{d.score}/{d.max}</span>
-      </div>
+    <div class="dim-row">
+      <span class="dim-label">{d.name}</span>
+      <BarGauge value={d.pct} segments={20} size="sm" />
+      <span class="dim-score dim">{d.score}/{d.max}</span>
     </div>
   ))}
 </div>
 
-<div class="card-feed" style="margin-top: var(--sp-8);">
-  <div class="card-entry">
-    <div class="card-header">
-      <span class="card-name phosphor">METHOD</span>
-    </div>
-    <div class="card-body-text">Live probes, signal injection, and operational verification — not self-assessment. 20 tests across 6 dimensions. Every score backed by evidence.</div>
-    <div class="card-body-text dim" style="margin-top: var(--sp-4);">Previous self-assessment (v1): 182/220 (83%). Different test, different standard. v1 measures reasoning about capabilities. v2 measures whether the machinery works when probed.</div>
-  </div>
+<DataPanel title="METHOD" color="dim" compact>
+  <div class="panel-text">Live probes, signal injection, and operational verification — not self-assessment. 20 tests across 6 dimensions. Every score backed by evidence.</div>
+  <div class="panel-text dim" style="margin-top: var(--sp-4);">Previous self-assessment (v1): 182/220 (83%). Different test, different standard.</div>
+</DataPanel>
 
-  <div class="card-entry">
-    <div class="card-header">
-      <span class="card-name phosphor">STRONGEST</span>
-      <span class="dim">Autonomous Goal Generation (83%)</span>
-    </div>
-    <div class="card-body-text">Data-backed proposals, strategic pushback, real intelligence pipeline producing actionable signals.</div>
-  </div>
-
-  <div class="card-entry">
-    <div class="card-header">
-      <span class="card-name red">WEAKEST</span>
-      <span class="dim">Peer Intelligence (37%)</span>
-    </div>
-    <div class="card-body-text">Agents don't review each other's work. All feedback flows through SERAPHIM. Hub-and-spoke, not mesh.</div>
-  </div>
-
-  <div class="card-entry">
-    <div class="card-header">
-      <span class="card-name red">WEAKEST</span>
-      <span class="dim">Compound Intelligence (37%)</span>
-    </div>
-    <div class="card-body-text">Predictions too young. Pipeline traverses 4 of 7 layers. Memory persists only for primary agent.</div>
-  </div>
+<div class="agi-extremes">
+  <DataPanel title="STRONGEST" status="83%" color="phosphor" compact>
+    <div class="panel-text"><span class="phosphor">Autonomous Goal Generation</span> — data-backed proposals, strategic pushback, real intelligence pipeline producing actionable signals.</div>
+  </DataPanel>
+  <DataPanel title="WEAKEST" status="37%" color="red" compact>
+    <div class="panel-text"><span class="red">Peer Intelligence</span> — agents don't review each other's work. All feedback flows through SERAPHIM. Hub-and-spoke, not mesh.</div>
+  </DataPanel>
 </div>
 </div>
 
-<!-- METRICS -->
+<!-- ═══ METRICS ═══ -->
 <div class="scan-line al" data-d="3200" id="scan-metrics">⠋ Loading metrics...</div>
 
 <div class="al" data-d="3700" id="section-metrics">
-<SectionTitle>METRICS</SectionTitle>
+<HazardDivider variant="section" text="METRICS" color="phosphor" />
 <MetricsDashboard />
 </div>
 
-<!-- OPEN PROBLEMS -->
+<!-- ═══ OPEN PROBLEMS ═══ -->
 <div class="scan-line al" data-d="3900" id="scan-problems">⠋ Checking problems...</div>
 
 <div class="al" data-d="4400" id="section-problems">
-<SectionTitle color="amber">OPEN PROBLEMS</SectionTitle>
-<CardFeed>
+<HazardDivider variant="warning" text="OPEN PROBLEMS" color="amber" />
+
+<div class="problems-list">
   {publicProblems.map(p => (
-    <div class="card-entry">
-      <div class="card-header">
-        <TagBadge color="amber" text="WARN" />
-      </div>
-      <div class="card-body-text">{p}</div>
+    <div class="problem-entry">
+      <span class="problem-marker amber">▲</span>
+      <span class="problem-text">{p}</span>
     </div>
   ))}
 </div>
+
 <div class="sys-eof"><span class="phosphor">[EOF]</span></div>
 </div>
 
@@ -319,8 +238,7 @@ const infra = [
 </BaseLayout>
 
 <style>
-  .sys-wrap {
-  }
+  .sys-wrap {}
   .sys-prompt {
     font-family: var(--font-body);
     color: var(--text-dim);
@@ -347,63 +265,100 @@ const infra = [
   .scan-line.pass { color: var(--phosphor); font-weight: 700; }
   .scan-line.warn { color: var(--amber); font-weight: 700; }
 
-  /* Section titles */
-  .sys-section-title {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    letter-spacing: 0.05em;
-    padding: var(--sp-10) 0 var(--sp-8);
-    border-bottom: var(--border-panel);
+  /* Infrastructure grid */
+  .infra-grid {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    line-height: 1.55;
   }
 
-  /* Card feed — universal card container */
-  .card-feed {
-    display: flex;
-    flex-direction: column;
+  /* Agent grid */
+  .agent-count-row {
+    border-bottom: 1px solid var(--border);
   }
-  .card-entry {
-    padding: var(--sp-12) 0;
-    border-bottom: var(--border-panel);
+  .agent-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
   }
-  .card-entry:last-child {
-    border-bottom: none;
+  .agent-role {
+    margin-bottom: var(--sp-6);
   }
-  .card-header {
-    display: flex;
-    align-items: baseline;
+
+  /* Layer stack — dense horizontal rows */
+  .layer-stack {
+    margin: var(--sp-12) 0;
+  }
+  .layer-row {
+    display: grid;
+    grid-template-columns: 2.5em 10em auto 1fr;
+    align-items: center;
     gap: var(--sp-8);
-    margin-bottom: var(--sp-4);
-    flex-wrap: wrap;
+    padding: var(--sp-4) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
   }
-  .card-dot {
-    font-size: var(--size-xs);
-  }
-  .card-name {
+  .layer-row:last-child { border-bottom: none; }
+  .layer-id {
     font-family: var(--font-head);
     font-weight: 700;
+    color: var(--phosphor);
     font-size: var(--size-sm);
-    color: var(--text);
-    letter-spacing: 0.03em;
   }
-  .card-meta {
-    font-family: var(--font-body);
-    font-size: var(--size-sm);
+  .layer-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+  .layer-bar {
+    overflow: hidden;
   }
 
-  /* Card bodies */
-  .card-body {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    line-height: 1.55;
+  /* AGI section */
+  .agi-hero-row {
+    border-bottom: 1px solid var(--border);
   }
-  .card-body-inline {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
+
+  /* Dimension breakdown — dense rows with inline bars */
+  .dim-stack {
+    margin: var(--sp-12) 0;
+  }
+  .dim-row {
+    display: grid;
+    grid-template-columns: 12em 1fr auto;
+    align-items: center;
+    gap: var(--sp-8);
+    padding: var(--sp-4) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
+  }
+  .dim-row:last-child { border-bottom: none; }
+  .dim-label {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
     color: var(--text);
-    line-height: 1.55;
   }
-  .card-body-text {
+  .dim-score {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    text-align: right;
+    min-width: 4em;
+  }
+
+  /* AGI extremes */
+  .agi-extremes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+  }
+
+  /* Panel text */
+  .panel-text {
     font-family: var(--font-body);
     font-size: var(--size-base);
     color: var(--text);
@@ -414,90 +369,44 @@ const infra = [
   .kv-row {
     padding: var(--sp-2) 0;
     color: var(--text);
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    line-height: 1.55;
   }
   .kv-label {
     display: inline-block;
     min-width: 7em;
     color: var(--text-dim);
-    font-family: var(--font-body);
   }
   .kv-note {
     padding: var(--sp-4) 0 0;
     font-size: var(--size-sm);
     line-height: 1.5;
+    font-family: var(--font-body);
   }
 
-  /* Layer entries */
-  .layer-entry {
-    padding: var(--sp-8) 0;
+  /* Problems */
+  .problems-list {
+    margin: var(--sp-8) 0;
   }
-  .layer-id {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-  }
-  .layer-status {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-xs);
-    letter-spacing: 0.05em;
-  }
-
-  /* AGI summary */
-  .agi-summary {
-    padding: var(--sp-16) 0;
-    border-bottom: var(--border-panel);
-  }
-  .agi-score-row {
+  .problem-entry {
     display: flex;
     align-items: baseline;
     gap: var(--sp-8);
-    margin-bottom: var(--sp-6);
-  }
-  .agi-big {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-xl);
-    text-shadow: 0 0 10px var(--phosphor-glow);
-  }
-  .agi-meta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
+    padding: var(--sp-6) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
     font-family: var(--font-body);
     font-size: var(--size-base);
+    line-height: 1.55;
   }
-
-  /* Dimension bars */
-  .dim-pct {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    letter-spacing: 0.05em;
-  }
-  .dim-pct.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
-  .dim-pct.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
-  .dim-pct.red { color: var(--red); }
-  .dim-bar-row {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-8);
-    font-family: var(--font-body);
+  .problem-entry:last-child { border-bottom: none; }
+  .problem-marker {
     font-size: var(--size-xs);
-    letter-spacing: -0.03em;
+    flex-shrink: 0;
   }
-  .dim-bar.phosphor { color: var(--phosphor); }
-  .dim-bar.amber { color: var(--amber); }
-  .dim-bar.red { color: var(--red); }
-
-  /* Problem tags */
-  .problem-tag {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-xs);
-    letter-spacing: 0.05em;
+  .problem-text {
+    color: var(--text);
   }
-  .problem-tag.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
 
   /* Color utilities */
   .ice { color: var(--ice); }
@@ -505,23 +414,31 @@ const infra = [
   .amber { color: var(--amber); }
   .red { color: var(--red); }
   .dim { color: var(--text-dim); }
+  .text { color: var(--text); }
 
   @media (max-width: 640px) {
-    .card-entry { padding: var(--sp-10) 0; }
-    .layer-entry { padding: var(--sp-6) 0; }
+    .layer-row {
+      grid-template-columns: 2em 7em auto 1fr;
+      gap: var(--sp-4);
+      font-size: var(--size-xs);
+    }
+    .dim-row {
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+    }
+    .dim-label {
+      font-size: var(--size-xs);
+    }
+    .dim-score {
+      text-align: left;
+    }
+    .agi-extremes {
+      grid-template-columns: 1fr;
+    }
     .kv-label { min-width: 5em; font-size: var(--size-xs); }
     .kv-row { word-break: break-word; overflow-wrap: anywhere; }
-    .card-body-text { word-break: break-word; overflow-wrap: anywhere; }
-    .card-body-inline { word-break: break-word; overflow-wrap: anywhere; }
-    .card-body { word-break: break-word; overflow-wrap: anywhere; }
-    .agi-big { font-size: var(--size-xl); }
-    .agi-meta { font-size: var(--size-xs); }
-    .agi-summary { padding: var(--sp-10) 0; }
-    .dim-bar-row { font-size: 0.55rem; letter-spacing: -0.05em; }
-    .card-header { gap: var(--sp-4); }
-    .card-name { font-size: var(--size-xs); }
-    .card-meta { font-size: var(--size-xs); }
-    .kv-note { font-size: var(--size-xs); }
+    .panel-text { word-break: break-word; overflow-wrap: anywhere; }
+    .problem-text { word-break: break-word; overflow-wrap: anywhere; }
   }
 </style>
 

@@ -1,0 +1,102 @@
+---
+/**
+ * BarGauge — hardware-style block progress bar
+ * Renders like a CRT gauge: [████████░░░░] 82.7%
+ *
+ * Props:
+ *   value     — percentage (0-100)
+ *   label?    — left-side label
+ *   showValue — show percentage text (default true)
+ *   segments  — total block count (default 20)
+ *   color?    — phosphor | amber | ice | red (default: auto based on value)
+ *   size?     — sm | md | lg (default: md)
+ */
+interface Props {
+  value: number;
+  label?: string;
+  showValue?: boolean;
+  segments?: number;
+  color?: 'phosphor' | 'amber' | 'ice' | 'red' | 'auto';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const {
+  value,
+  label,
+  showValue = true,
+  segments = 20,
+  color = 'auto',
+  size = 'md'
+} = Astro.props;
+
+const clamped = Math.max(0, Math.min(100, value));
+const filled = Math.round((clamped / 100) * segments);
+const empty = segments - filled;
+
+// Auto-color: green >70, amber 40-70, red <40
+const resolvedColor = color === 'auto'
+  ? clamped >= 70 ? 'phosphor' : clamped >= 40 ? 'amber' : 'red'
+  : color;
+
+const filledChar = '█';
+const emptyChar = '░';
+const bar = filledChar.repeat(filled) + emptyChar.repeat(empty);
+---
+
+<div class:list={['bar-gauge', `bar-gauge--${size}`]}>
+  {label && <span class="bar-gauge__label">{label}</span>}
+  <span class={`bar-gauge__track ${resolvedColor}`}>{bar}</span>
+  {showValue && <span class={`bar-gauge__value ${resolvedColor}`}>{clamped.toFixed(clamped % 1 === 0 ? 0 : 1)}%</span>}
+</div>
+
+<style>
+  .bar-gauge {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-8);
+    font-family: var(--font-body);
+    line-height: 1;
+  }
+  .bar-gauge__label {
+    color: var(--text-dim);
+    font-size: var(--size-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    min-width: 6em;
+    flex-shrink: 0;
+  }
+  .bar-gauge__track {
+    font-family: var(--font-body);
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+  }
+  .bar-gauge__value {
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+
+  /* Sizes */
+  .bar-gauge--sm .bar-gauge__track { font-size: var(--size-xs); }
+  .bar-gauge--sm .bar-gauge__value { font-size: var(--size-xs); }
+  .bar-gauge--md .bar-gauge__track { font-size: var(--size-sm); }
+  .bar-gauge--md .bar-gauge__value { font-size: var(--size-sm); }
+  .bar-gauge--lg .bar-gauge__track { font-size: var(--size-base); }
+  .bar-gauge--lg .bar-gauge__value { font-size: var(--size-base); }
+
+  /* Colors */
+  .bar-gauge__track.phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
+  .bar-gauge__track.amber { color: var(--amber); text-shadow: var(--glow-amber); }
+  .bar-gauge__track.ice { color: var(--ice); text-shadow: var(--glow-ice); }
+  .bar-gauge__track.red { color: var(--red); }
+  .bar-gauge__value.phosphor { color: var(--phosphor); }
+  .bar-gauge__value.amber { color: var(--amber); }
+  .bar-gauge__value.ice { color: var(--ice); }
+  .bar-gauge__value.red { color: var(--red); }
+
+  @media (max-width: 640px) {
+    .bar-gauge__label { min-width: 4em; }
+    .bar-gauge--lg .bar-gauge__track { font-size: var(--size-sm); }
+  }
+</style>
