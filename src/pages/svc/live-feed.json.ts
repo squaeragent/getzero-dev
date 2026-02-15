@@ -18,6 +18,14 @@ export const GET: APIRoute = async () => {
     data.server_time = new Date().toISOString();
     return new Response(JSON.stringify(data), { status: 200, headers: HEADERS });
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: 'Feed unavailable', detail: e.message }), { status: 500, headers: HEADERS });
+    // Filesystem read failed — return empty feed instead of 500
+    // Client JS will show "no recent events" gracefully
+    return new Response(
+      JSON.stringify({
+        entries: [],
+        metadata: { updated: new Date().toISOString(), count: 0 },
+      }),
+      { status: 200, headers: HEADERS }
+    );
   }
 };

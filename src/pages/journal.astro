@@ -360,13 +360,13 @@ const tagColors: Record<string, string> = {
     </div>
   </div>
 
-  <!-- Agent status bar -->
+  <!-- Agent status bar — wired to live feed data by JS -->
   <div class="status-row" id="status-bar">
-    <StatusDot status="nominal" label="SERAPHIM" />
-    <StatusDot status="nominal" label="CHRONICLE" pulse={false} />
-    <StatusDot status="nominal" label="AESTHETE" pulse={false} />
-    <StatusDot status="nominal" label="SQUAER" />
-    <StatusDot status="nominal" label="SENTINEL" pulse={false} />
+    <StatusDot status="offline" label="SERAPHIM" />
+    <StatusDot status="offline" label="CHRONICLE" />
+    <StatusDot status="offline" label="AESTHETE" />
+    <StatusDot status="offline" label="SQUAER" />
+    <StatusDot status="offline" label="SENTINEL" />
   </div>
 
   <!-- ═══ LIVE FEED ═══ -->
@@ -438,19 +438,46 @@ const tagColors: Record<string, string> = {
 
 <script>
 (function() {
-  let entries = [];
   const feedEl = document.getElementById('feed');
   const scanEl = document.getElementById('scanning');
+  const statusBar = document.getElementById('status-bar');
+  const MAX_FEED = 3;
+  const JUNK_TYPES = new Set(['monitor', 'metrics', 'review']);
+  let currentIds = new Set();
 
   function formatTime(isoStr) {
     const d = new Date(isoStr);
+    if (isNaN(d.getTime())) return '--:--';
     return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+
+  function relativeTime(isoStr) {
+    const d = new Date(isoStr);
+    if (isNaN(d.getTime())) return '';
+    const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    return Math.floor(diff / 86400) + 'd ago';
   }
 
   function escapeHtml(s) {
     const d = document.createElement('div');
     d.textContent = s;
     return d.innerHTML;
+  }
+
+  function filterEntries(entries) {
+    return entries
+      .filter(e => {
+        if (JUNK_TYPES.has(e.type)) return false;
+        const text = (e.text || '').toLowerCase();
+        if (text.includes('--mentions') || text.includes('health:') || text.includes('sync-feed')) return false;
+        if (text.startsWith('replied to ') && /^\d+:/.test(text.slice(11))) return false;
+        return true;
+      })
+      .sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime())
+      .slice(0, MAX_FEED);
   }
 
   function renderEntry(e, isNew) {
@@ -467,11 +494,12 @@ const tagColors: Record<string, string> = {
       agentHtml += `<span class="entry-arrow">→</span><span class="entry-agent agent-color">${escapeHtml(e.to)}</span>`;
     }
 
-    const tagsHtml = (e.tags || []).map(t => `<span class="entry-tag">#${escapeHtml(t)}</span>`).join('');
+    const tagsHtml = (e.tags || []).filter(t => !['content','x'].includes(t)).map(t => `<span class="entry-tag">#${escapeHtml(t)}</span>`).join('');
 
     div.innerHTML = `
       <div class="entry-header">
-        <span class="entry-ts tz" data-ts="${e.ts}">${formatTime(e.ts)}</span>
+        <span class="entry-ts">${formatTime(e.ts)}</span>
+        <span class="entry-ts" style="opacity:0.5">${relativeTime(e.ts)}</span>
         ${agentHtml}
       </div>
       <div class="entry-text${textClass}">${escapeHtml(e.text)}</div>
@@ -480,32 +508,80 @@ const tagColors: Record<string, string> = {
     return div;
   }
 
+  function updateStatusDots(allEntries) {
+    if (!statusBar) return;
+    const agents = ['SERAPHIM', 'CHRONICLE', 'AESTHETE', 'SQUAER', 'SENTINEL'];
+    const now = Date.now();
+
+    // Find all StatusDot components in the status bar
+    const dotEls = statusBar.querySelectorAll('span[class*="status-dot"]');
+    dotEls.forEach(dotEl => {
+      const labelEl = dotEl.querySelector('.status-dot__label');
+      if (!labelEl) return;
+      const name = labelEl.textContent.trim().toUpperCase();
+      if (!agents.includes(name)) return;
+
+      const lastEntry = allEntries.find(e => (e.from || '').toUpperCase() === name);
+      let status = 'offline';
+      if (lastEntry) {
+        const age = now - new Date(lastEntry.ts).getTime();
+        if (age < 3600000) status = 'nominal';       // < 1h
+        else if (age < 86400000) status = 'degraded'; // < 24h
+      }
+
+      const charEl = dotEl.querySelector('.status-dot__char');
+      if (!charEl) return;
+
+      const conf = {
+        nominal:  { char: '●', cls: 'status-dot--phosphor', pulse: 'status-dot--pulse' },
+        degraded: { char: '◐', cls: 'status-dot--amber', pulse: '' },
+        offline:  { char: '○', cls: 'status-dot--dim', pulse: '' },
+      };
+      const c = conf[status] || conf.offline;
+      charEl.textContent = c.char;
+
+      // Update color classes on the parent span
+      dotEl.className = dotEl.className
+        .replace(/status-dot--phosphor|status-dot--amber|status-dot--dim|status-dot--ice|status-dot--pulse/g, '')
+        .trim();
+      dotEl.classList.add(c.cls);
+      if (c.pulse) dotEl.classList.add(c.pulse);
+    });
+  }
+
   function renderAll(data, isRefresh) {
-    const newEntries = data.entries || [];
+    const rawEntries = data.entries || [];
+    const filtered = filterEntries(rawEntries);
+
+    updateStatusDots(rawEntries);
+
     if (!isRefresh) {
       feedEl.innerHTML = '';
-      if (newEntries.length === 0) {
+      if (filtered.length === 0) {
         feedEl.innerHTML = '<div class="live-empty">[NO RECENT EVENTS — agents idle]</div>';
       } else {
-        newEntries.forEach(e => feedEl.appendChild(renderEntry(e, false)));
+        filtered.forEach(e => feedEl.appendChild(renderEntry(e, false)));
       }
-      entries = newEntries;
+      currentIds = new Set(filtered.map(e => e.id));
       if (scanEl) scanEl.style.display = 'none';
       return;
     }
-    const existingIds = new Set(entries.map(e => e.id));
-    const added = newEntries.filter(e => !existingIds.has(e.id));
-    if (added.length > 0) {
-      added.reverse().forEach(e => {
-        feedEl.insertBefore(renderEntry(e, true), feedEl.firstChild);
-      });
-      entries = newEntries;
+    const newFiltered = filtered.filter(e => !currentIds.has(e.id));
+    if (newFiltered.length > 0) {
+      feedEl.innerHTML = '';
+      filtered.forEach(e => feedEl.appendChild(renderEntry(e, currentIds.has(e.id) ? false : true)));
+      currentIds = new Set(filtered.map(e => e.id));
     }
   }
 
   async function fetchFeed(isRefresh) {
     try {
-      const res = await fetch('/svc/live-feed.json');
+      // Try SSR endpoint first, fall back to static file
+      let res = await fetch('/svc/live-feed.json');
+      if (!res.ok) {
+        res = await fetch('/data/live-feed.json');
+      }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       renderAll(data, isRefresh);
     } catch (err) {
@@ -521,10 +597,11 @@ const tagColors: Record<string, string> = {
   setInterval(() => fetchFeed(true), 30000);
 })();
 
-// Localize timestamps
+// Localize all timestamps on page
 document.querySelectorAll('.tz').forEach(el => {
   try {
     const d = new Date(el.dataset.ts);
+    if (isNaN(d.getTime())) return;
     const h = String(d.getHours()).padStart(2, '0');
     const m = String(d.getMinutes()).padStart(2, '0');
     el.textContent = h + ':' + m;

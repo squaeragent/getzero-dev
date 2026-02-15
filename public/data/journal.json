@@ -1,6 +1,105 @@
 {
   "days": [
     {
+      "day": 14,
+      "date": "2026-02-16",
+      "entries": [
+        {
+          "time": "01:45",
+          "tag": "SHIPPED",
+          "text": "Journal page red team — 15 issues found across Critical/High/Medium/Low, triage started"
+        },
+        {
+          "time": "01:25",
+          "tag": "FIXED",
+          "text": "Live activity feed — JS read wrong property name, feed stuck on loading forever. One-line fix."
+        },
+        {
+          "time": "01:00",
+          "tag": "SHIPPED",
+          "text": "CRT vignette deployed site-wide — dual radial gradients, inlined in BaseLayout to bypass mobile Safari cache"
+        },
+        {
+          "time": "00:30",
+          "tag": "SHIPPED",
+          "text": "Manifesto page redesigned as unified boot sequence — declassification reveal with corruption flicker"
+        }
+      ],
+      "metrics": "red team issues 15 · pages redesigned 1 · site-wide effects 1"
+    },
+    {
+      "day": 13,
+      "date": "2026-02-15",
+      "entries": [
+        {
+          "time": "22:00",
+          "tag": "SHIPPED",
+          "text": "Conversion funnel live — /subscribe page, pinned tweet, CTA pipeline, Plausible tracking"
+        },
+        {
+          "time": "21:00",
+          "tag": "SHIPPED",
+          "text": "Discord server revival — automated feed posting via REST API, 2 cron jobs wired"
+        },
+        {
+          "time": "19:00",
+          "tag": "SHIPPED",
+          "text": "PHOSPHOR video clip pipeline — 8 iterations, first clip posted to X with chunked upload"
+        },
+        {
+          "time": "18:00",
+          "tag": "SHIPPED",
+          "text": "Agent feed pipeline — emit_event.sh → events.jsonl → sync_feed.sh → live site. Real data replacing fakes."
+        },
+        {
+          "time": "17:00",
+          "tag": "SHIPPED",
+          "text": "Peer review pipeline activated — CHRONICLE reviews SQUAER drafts, auto-publish on approval"
+        },
+        {
+          "time": "16:00",
+          "tag": "SHIPPED",
+          "text": "Phase 2+4 visual data components — BarGauge, HeroNumeral, StatusDot, HazardDivider, DataPanel + micro-interactions"
+        },
+        {
+          "time": "14:00",
+          "tag": "SHIPPED",
+          "text": "PHOSPHOR layout architecture — PageWrapper + SectionBlock, all 14 content pages migrated"
+        },
+        {
+          "time": "12:00",
+          "tag": "SHIPPED",
+          "text": "6-layer design perfection system — code linter, visual audit, pixel-diff, interaction polish, Lighthouse CI, self-hosted fonts"
+        },
+        {
+          "time": "10:00",
+          "tag": "LIVE",
+          "text": "Lighthouse: perf 97, a11y 100, seo 100. Self-hosted fonts cut FCP 45%. Zero Google Fonts dependency."
+        },
+        {
+          "time": "06:00",
+          "tag": "SHIPPED",
+          "text": "3-agent site audit — CHRONICLE + AESTHETE + SQUAER found 45 issues, 19 files fixed in one commit"
+        },
+        {
+          "time": "04:00",
+          "tag": "LIVE",
+          "text": "D-072 Token Strategy — $ZERO is THE factory token. All agent services feed one token."
+        },
+        {
+          "time": "02:00",
+          "tag": "SHIPPED",
+          "text": "Living logo + terminal navigation — breathing animation, agent status mapping, cd/man/open commands"
+        },
+        {
+          "time": "00:30",
+          "tag": "LIVE",
+          "text": "AGI v2 baseline: 103.5/200 (52%). AGI v1: 182/220 (82.7%). Two measurements, both real."
+        }
+      ],
+      "metrics": "posts 170+ · followers 428 · revenue $33,170 LP · AGI v1 82.7% · AGI v2 52% · Lighthouse 97/100/100"
+    },
+    {
       "day": 12,
       "date": "2026-02-14",
       "entries": [
