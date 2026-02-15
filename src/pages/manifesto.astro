@@ -27,16 +27,14 @@ try {
   <section class="section container">
     <PageWrapper class="manifesto-wrap">
 
-<div class="classified-overlay al" data-d="0" id="classified-overlay">[CLASSIFIED]</div>
+<div class="term-block prompt-line"><span class="phosphor">zero $</span> cat /etc/zero/manifesto --declassify</div>
 
-<div class="term-block prompt-line al" data-d="0"><span class="phosphor">zero $</span> cat /etc/zero/manifesto --declassify</div>
-
-<div class="manifesto-header al" data-d="200">
+<div class="manifesto-header">
   <h1 class="manifesto-title">ZERO OS — MANIFESTO</h1>
-  <div class="manifesto-sub dim">Classification: <span id="classif-status">DECLASSIFYING...</span></div>
+  <div class="manifesto-sub dim">Classification: <span id="classif-status" class="red">CLASSIFIED</span></div>
 </div>
 
-<div class="manifesto-section al stagger-in" data-d="400">
+<div class="manifesto-section al stagger-in" data-d="100">
 <HazardDivider variant="section" text="THE QUESTION" color="phosphor" />
 <div class="section-body">
 Can a machine earn trust it didn't start with?
@@ -54,7 +52,7 @@ Not an AI company. <span class="phosphor">A trust experiment.</span></div>
 </div>
 </div>
 
-<div class="manifesto-section al stagger-in" data-d="800">
+<div class="manifesto-section al stagger-in" data-d="200">
 <HazardDivider variant="section" text="THE SYSTEM" color="phosphor" />
 <div class="section-body">
 ZERO OS is {m.agents} cognitive functions on a single machine, producing intelligence, content, and visual work autonomously.
@@ -76,7 +74,7 @@ The system watches 70 entities across multiple data streams. It classifies signa
 </div>
 </div>
 
-<div class="manifesto-section al stagger-in" data-d="1200">
+<div class="manifesto-section al stagger-in" data-d="300">
 <HazardDivider variant="section" text="THE PROOF" color="amber" />
 <div class="section-body">
 This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.
@@ -99,7 +97,7 @@ The <a href="/journal"><span class="phosphor">journal</span></a> shows what ship
 </div>
 </div>
 
-<div class="manifesto-section al stagger-in" data-d="1600">
+<div class="manifesto-section al stagger-in" data-d="400">
 <HazardDivider variant="warning" text="THE BET" color="phosphor" />
 <div class="section-body">
 Most AI companies raise money, build in private, and launch when they're ready to impress. ZERO does the opposite. We build in public from Day 1, publish the build log, track predictions with deadlines, and don't delete the misses.
@@ -126,26 +124,7 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
     overflow-x: hidden;
     position: relative;
   }
-  .classified-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.95);
-    color: var(--red);
-    font-family: var(--font-head);
-    font-size: 2.5rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    text-shadow: 0 0 20px rgba(255,50,50,0.6);
-    letter-spacing: 0.3em;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-  }
-  .classified-overlay.fade-out {
-    opacity: 0 !important;
-  }
+  .red { color: var(--red); text-shadow: 0 0 8px rgba(255,50,50,0.4); }
   .prompt-line {
     padding: var(--sp-8) var(--sp-12);
   }
@@ -228,16 +207,14 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
   .kv-v {
     color: var(--text);
   }
-  .classified-overlay.al { opacity: 0; transform: none; transition: opacity 0.3s ease; }
-  .classified-overlay.al.on { opacity: 1; }
   .phosphor-flash { animation: pflash 0.6s ease-out; }
   @keyframes pflash { 0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); } 100% { text-shadow: var(--glow-phosphor); } }
+  #classif-status { transition: color 0.3s ease, text-shadow 0.3s ease; }
   @media (max-width: 640px) {
     .manifesto-section { padding: 0 var(--sp-8); }
     .section-body { font-size: var(--size-md); }
     .section-title { font-size: var(--size-sm); }
     .manifesto-header { padding: var(--sp-8); }
-    .classified-overlay { font-size: 1.5rem; }
     .kv-k { min-width: 120px; }
     .kv-k::after { content: ' .. '; }
     .sys-agents .kv,
@@ -247,19 +224,19 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var overlay = document.getElementById('classified-overlay');
-    if (overlay) {
-      setTimeout(function() { overlay.classList.add('fade-out'); }, 800);
-      setTimeout(function() { overlay.style.display = 'none'; }, 1300);
-    }
     var cs = document.getElementById('classif-status');
     if (cs) {
-      setTimeout(function() { cs.textContent = 'DECLASSIFIED'; cs.style.color = 'var(--phosphor)'; }, 800);
+      setTimeout(function() {
+        cs.textContent = 'DECLASSIFIED';
+        cs.style.color = 'var(--phosphor)';
+        cs.style.textShadow = 'var(--glow-phosphor)';
+        cs.classList.remove('red');
+      }, 400);
     }
     var targets = document.querySelectorAll('.phosphor-flash-target');
     for (var j = 0; j < targets.length; j++) {
       (function(t) {
-        setTimeout(function() { t.classList.add('phosphor-flash'); }, 650);
+        setTimeout(function() { t.classList.add('phosphor-flash'); }, 500);
       })(targets[j]);
     }
   });
