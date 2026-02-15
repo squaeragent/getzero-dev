@@ -3,6 +3,7 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import StatusDot from '../components/ui/StatusDot.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
 import BriefCTA from '../components/BriefCTA.astro';
 import fs from 'node:fs';
@@ -227,23 +228,9 @@ const tagColors: Record<string, string> = {
     opacity: 0.6;
   }
 
-  /* ── SECTION LABELS ── */
-  .section-label {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: var(--sp-12) 0 var(--sp-6);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: var(--sp-8);
-  }
-  .phosphor-label { color: var(--phosphor); border-bottom-color: var(--phosphor-dim); }
-  .amber-label { color: var(--amber); border-bottom-color: var(--amber-dim); }
-
   /* ── BUILD LOG SECTION ── */
   .buildlog-section {
-    margin-top: var(--sp-16);
+    margin-top: var(--sp-4);
   }
 
   .day-panel-body {
@@ -382,15 +369,15 @@ const tagColors: Record<string, string> = {
     <StatusDot status="nominal" label="SENTINEL" pulse={false} />
   </div>
 
-  <!-- LIVE FEED -->
-  <div class="section-label phosphor-label">LIVE FEED</div>
+  <!-- ═══ LIVE FEED ═══ -->
+  <HazardDivider variant="section" text="LIVE FEED" color="phosphor" />
 
   <div class="scanning" id="scanning">[SCANNING...]</div>
   <div class="live-feed" id="feed"></div>
 
-  <!-- BUILD LOG -->
+  <!-- ═══ BUILD LOG ═══ -->
   <div class="buildlog-section">
-    <div class="section-label amber-label">BUILD LOG</div>
+    <HazardDivider variant="section" text="BUILD LOG" color="amber" />
 
     {days.map((day: any, i: number) => {
       const isGenesis = day.genesis === true;
@@ -432,7 +419,8 @@ const tagColors: Record<string, string> = {
     })}
   </div>
 
-  <!-- TAG DISTRIBUTION -->
+  <!-- ═══ TAG DISTRIBUTION (compact) ═══ -->
+  <HazardDivider variant="line" color="dim" />
   <div class="tag-dist">
     {Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).map(([tag, count]) => {
       const c = tagColors[tag] || 'dim';
