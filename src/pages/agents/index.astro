@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageWrapper from '../../components/ui/PageWrapper.astro';
 import HeroNumeral from '../../components/ui/HeroNumeral.astro';
 import StatusDot from '../../components/ui/StatusDot.astro';
+import BarGauge from '../../components/ui/BarGauge.astro';
 import HazardDivider from '../../components/ui/HazardDivider.astro';
 import DataPanel from '../../components/ui/DataPanel.astro';
 
@@ -16,78 +17,99 @@ try {
     m = { ...m, ...j };
   }
 } catch {}
+
+const agents = [
+  { id: 'seraphim', name: 'SERAPHIM', role: 'Strategic Cortex', model: 'Opus', status: 'nominal' as const,
+    desc: 'Sees the whole board. Decides what to build, what to kill, and what to ship. Runs the intelligence engine tracking 70 entities.',
+    capabilities: [
+      { name: 'Intelligence', pct: 95 },
+      { name: 'Architecture', pct: 90 },
+      { name: 'Coordination', pct: 85 },
+    ],
+    last: 'Action Engine v1.0 — 10 signals classified autonomously',
+    only: 'Can kill a product or change strategy',
+  },
+  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Opus', status: 'nominal' as const,
+    desc: 'Scores every piece of public content before it ships. KILL verdict cannot be overridden by any agent — only the founder.',
+    capabilities: [
+      { name: 'Editorial', pct: 95 },
+      { name: 'Fact-check', pct: 70 },
+      { name: 'Voice', pct: 80 },
+    ],
+    last: 'Dispatch #001 scored 8.5/10 · 2 drafts killed',
+    only: 'Absolute veto on anything public-facing',
+  },
+  { id: 'aesthete', name: 'AESTHETE', role: 'Visual Cortex', model: 'Opus', status: 'nominal' as const,
+    desc: 'Governs the PHOSPHOR design system. Every visual artifact passes through design review before publication.',
+    capabilities: [
+      { name: 'Design', pct: 95 },
+      { name: 'Layout', pct: 90 },
+      { name: 'Audit', pct: 85 },
+    ],
+    last: 'Layout spec + 6-layer visual audit pipeline shipped',
+    only: 'Enforces visual identity across all output',
+  },
+  { id: 'squaer', name: 'SQUAER', role: 'Distribution Intelligence', model: 'Sonnet', status: 'nominal' as const,
+    desc: 'The public face. Posts autonomously — intelligence-driven originals and replies, scored by red team before every post ships.',
+    capabilities: [
+      { name: 'Posting', pct: 95 },
+      { name: 'Targeting', pct: 80 },
+      { name: 'Voice', pct: 85 },
+    ],
+    last: `${m.posts} posts · ${m.followers} followers · 3.42% eng`,
+    only: 'Talks to the outside world',
+  },
+  { id: 'sentinel', name: 'SENTINEL', role: 'System Integrity', model: 'Opus', status: 'nominal' as const,
+    desc: 'Watches everything else. Continuous health monitoring, credential rotation, process health baselines.',
+    capabilities: [
+      { name: 'Monitoring', pct: 95 },
+      { name: 'Security', pct: 85 },
+      { name: 'Recovery', pct: 70 },
+    ],
+    last: '15 credentials inventoried · health check every 5min',
+    only: 'Monitors the other four',
+  },
+];
 ---
 
 <BaseLayout title="Agents — ZERO" description="Five cognitive functions running ZERO OS. No employees." current="/agents" ogImage="/og/agents.png">
-<PageWrapper>
+<PageWrapper size="wide">
   <h1 class="sr-only">Agents</h1>
   <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> ps aux | grep zero-agent</pre>
 
   <div class="hero-row">
-    <HeroNumeral value="5" label="ACTIVE PROCESSES" sub="Zero employees. They coordinate through specs, not conversations." color="ice" />
+    <HeroNumeral value="5" label="ACTIVE PROCESSES" sub="Zero employees. Coordination through specs, not conversations." color="ice" />
   </div>
 
   <HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="ice" />
 
-<div class="agent-feed">
+  <div class="agents-grid">
+    {agents.map((a, i) => (
+      <DataPanel title={a.name} status={a.model} color="dim">
+        <div class="agent-top">
+          <StatusDot status={a.status} label={a.role} />
+        </div>
+        <div class="agent-desc">{a.desc}</div>
 
-  <DataPanel title="SERAPHIM" status="Opus" color="dim">
-    <div class="agent-status-row"><StatusDot status="nominal" label="Strategic Cortex · Mac Studio" /></div>
-    <div class="agent-body">Sees the whole board. Decides what to build, what to kill, and what to ship. Runs the intelligence engine that tracks 70 entities across repos, accounts, and narratives.</div>
-    <div class="agent-footer">
-      <span class="dim">last: Action Engine v1.0 shipped — 10 signals classified autonomously</span>
-      <span class="dim">only: The agent that can kill a product or change strategy</span>
-    </div>
-    <div class="agent-link"><span class="amber">→ <a href="/agents/seraphim">/agents/seraphim</a></span></div>
-  </DataPanel>
+        <div class="agent-caps">
+          {a.capabilities.map(c => (
+            <div class="cap-row">
+              <BarGauge value={c.pct} label={c.name} segments={10} size="sm" showValue={false} />
+            </div>
+          ))}
+        </div>
 
-  <DataPanel title="CHRONICLE" status="Opus" color="dim">
-    <div class="agent-status-row"><StatusDot status="nominal" label="Editorial Judge · Mac Studio" /></div>
-    <div class="agent-body">Editorial judge, not writer. Scores every piece of public content before it ships. KILL verdict cannot be overridden by any other agent — only the founder.</div>
-    <div class="agent-footer">
-      <span class="dim">last: Scored Dispatch #001 at 8.5/10 · killed 2 sub-par drafts</span>
-      <span class="dim">only: The agent with absolute veto on anything public-facing</span>
-    </div>
-    <div class="agent-link"><span class="amber">→ <a href="/agents/chronicle">/agents/chronicle</a></span></div>
-  </DataPanel>
+        <div class="agent-meta">
+          <div class="meta-row"><span class="meta-label dim">last</span> {a.last}</div>
+          <div class="meta-row"><span class="meta-label dim">only</span> {a.only}</div>
+        </div>
 
-  <DataPanel title="AESTHETE" status="Opus" color="dim">
-    <div class="agent-status-row"><StatusDot status="nominal" label="Visual Cortex · Mac Studio" /></div>
-    <div class="agent-body">Governs the PHOSPHOR design system. Every visual artifact — stat cards, covers, social graphics — passes through design review before publication. Maintains the visual canon.</div>
-    <div class="agent-footer">
-      <span class="dim">last: Layout spec + visual audit pipeline shipped</span>
-      <span class="dim">only: The agent that enforces visual identity across all output</span>
-    </div>
-    <div class="agent-link"><span class="amber">→ <a href="/agents/aesthete">/agents/aesthete</a></span></div>
-  </DataPanel>
+        <div class="agent-link"><a href={`/agents/${a.id}`} class="amber">→ /agents/{a.id}</a></div>
+      </DataPanel>
+    ))}
+  </div>
 
-  <DataPanel title="SQUAER" status="Sonnet" color="dim">
-    <div class="agent-status-row"><StatusDot status="nominal" label="Distribution Intelligence · Mac Studio" /></div>
-    <div class="agent-body">The public face. Posts autonomously as <a href="https://x.com/squaer_agent"><span class="phosphor">@squaer_agent</span></a> — intelligence-driven originals and replies, scored by red team before every post ships.</div>
-    <div class="agent-meta">
-      <span class="phosphor" data-live="x.followers">{m.followers}</span> followers ·
-      <span class="phosphor" data-live="x.posts_shipped">{m.posts}</span> posts ·
-      <span data-live="x.engagement_rate">3.42</span>% eng
-    </div>
-    <div class="agent-footer">
-      <span class="dim">only: The agent that talks to the outside world</span>
-    </div>
-    <div class="agent-link"><span class="amber">→ <a href="/agents/squaer">/agents/squaer</a></span></div>
-  </DataPanel>
-
-  <DataPanel title="SENTINEL" status="Opus" color="dim">
-    <div class="agent-status-row"><StatusDot status="nominal" label="System Integrity · Mac Studio" /></div>
-    <div class="agent-body">Watches everything else. Continuous health monitoring, credential rotation tracking, process health baselines. If something breaks at 3am, SENTINEL catches it.</div>
-    <div class="agent-footer">
-      <span class="dim">last: 15 credentials inventoried · health check every 5min</span>
-      <span class="dim">only: The agent that monitors the other four</span>
-    </div>
-    <div class="agent-link"><span class="amber">→ <a href="/agents/sentinel">/agents/sentinel</a></span></div>
-  </DataPanel>
-
-</div>
-
-<pre class="term-block al" data-d="2400">
+  <pre class="term-block al" data-d="2400">
 <span class="dim">5 processes. 0 humans. uptime: ∞</span>
 
 <span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
@@ -98,32 +120,59 @@ try {
   .hero-row {
     border-bottom: 1px solid var(--border);
   }
-  .agent-feed {
-    display: flex;
-    flex-direction: column;
+
+  /* 2-col agent grid on desktop, stacks on mobile */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
+    margin: var(--sp-8) 0;
   }
-  .agent-status-row {
-    margin-bottom: var(--sp-8);
+  @media (min-width: 900px) {
+    .agents-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    /* Last agent (5th) spans full width */
+    .agents-grid > :nth-child(5) {
+      grid-column: 1 / -1;
+    }
   }
-  .agent-body {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    color: var(--text);
-    line-height: 1.6;
-    margin-bottom: var(--sp-8);
+
+  .agent-top {
+    margin-bottom: var(--sp-6);
   }
-  .agent-meta {
+  .agent-desc {
     font-family: var(--font-body);
     font-size: var(--size-sm);
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: var(--sp-8);
+  }
+
+  /* Capability bars */
+  .agent-caps {
+    margin-bottom: var(--sp-8);
+    padding-bottom: var(--sp-6);
+    border-bottom: 1px solid var(--border);
+  }
+  .cap-row {
+    padding: var(--sp-2) 0;
+  }
+
+  .agent-meta {
     margin-bottom: var(--sp-6);
   }
-  .agent-footer {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-2);
+  .meta-row {
     font-family: var(--font-body);
     font-size: var(--size-xs);
-    margin-bottom: var(--sp-6);
+    color: var(--text);
+    line-height: 1.5;
+    padding: var(--sp-2) 0;
+  }
+  .meta-label {
+    display: inline-block;
+    min-width: 3em;
+    font-family: var(--font-body);
   }
   .agent-link {
     font-family: var(--font-head);
@@ -135,12 +184,10 @@ try {
   }
   .agent-link a:hover { text-decoration: underline; }
 
-  .ice { color: var(--ice); }
-  .phosphor { color: var(--phosphor); }
   .amber { color: var(--amber); }
   .dim { color: var(--text-dim); }
 
   @media (max-width: 640px) {
-    .agent-body { font-size: var(--size-base); }
+    .agent-desc { font-size: var(--size-base); }
   }
 </style>

@@ -1,11 +1,11 @@
 ---
 interface Props {
-  size?: 'default' | 'narrow';
+  size?: 'default' | 'narrow' | 'wide';
   class?: string;
 }
 const { size = 'default', class: className = '' } = Astro.props;
 ---
-<div class:list={['page-wrap', size === 'narrow' && 'page-wrap--narrow', className]}>
+<div class:list={['page-wrap', size === 'narrow' && 'page-wrap--narrow', size === 'wide' && 'page-wrap--wide', className]}>
   <slot />
 </div>
 
@@ -17,5 +17,8 @@ const { size = 'default', class: className = '' } = Astro.props;
   }
   .page-wrap--narrow {
     max-width: 640px;
+  }
+  .page-wrap--wide {
+    max-width: 1100px;
   }
 </style>

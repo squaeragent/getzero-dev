@@ -41,7 +41,7 @@ const liveLayers = layers.filter(l => l.s === 'nominal').length;
 
 <BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 7-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
 
-<PageWrapper>
+<PageWrapper size="wide">
 
 <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status</pre>
 
@@ -84,8 +84,6 @@ const liveLayers = layers.filter(l => l.s === 'nominal').length;
     <div class="o-desc">real-time signal alerts</div>
   </DataPanel>
 </div>
-
-<div class="layer-summary dim">Same engine. Four channels. Different depth.</div>
 
 <!-- ═══ PREDICTION TRACKER ═══ -->
 <HazardDivider variant="warning" text="PREDICTION TRACKER" color="amber" />
@@ -177,12 +175,17 @@ Every prediction falsifiable with specific dates.</span>
     padding: var(--sp-4) 0 var(--sp-16);
   }
 
-  /* Output grid */
+  /* Output grid — 4 across on wide, 2 on medium, 1 on mobile */
   .output-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--sp-8);
-    margin: var(--sp-8) 0;
+    margin: var(--sp-8) 0 var(--sp-16);
+  }
+  @media (min-width: 900px) {
+    .output-grid {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
   }
   .o-desc {
     font-family: var(--font-body);

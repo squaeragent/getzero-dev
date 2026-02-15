@@ -3,8 +3,6 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
-import SectionTitle from '../components/ui/SectionTitle.astro';
-import TagBadge from '../components/ui/TagBadge.astro';
 import HeroNumeral from '../components/ui/HeroNumeral.astro';
 import BarGauge from '../components/ui/BarGauge.astro';
 import StatusDot from '../components/ui/StatusDot.astro';
@@ -23,52 +21,36 @@ const rawProblems = [
 const publicProblems = sanitizeProblems(rawProblems);
 
 const dimensions = [
-  { name: 'COMPOUND PERCEPTION', score: 20.5, max: 40, pct: 51 },
+  { name: 'COMPOUND PERCEPT.', score: 20.5, max: 40, pct: 51 },
   { name: 'AUTONOMOUS GOALS', score: 33, max: 40, pct: 83 },
   { name: 'PEER INTELLIGENCE', score: 11, max: 30, pct: 37 },
-  { name: 'COMPOUND INTELLIGENCE', score: 11, max: 30, pct: 37 },
+  { name: 'COMPOUND INTEL.', score: 11, max: 30, pct: 37 },
   { name: 'SELF-IMPROVEMENT', score: 16, max: 30, pct: 53 },
-  { name: 'AUTONOMY UNDER PRESSURE', score: 12, max: 30, pct: 40 },
+  { name: 'AUTONOMY / PRESS.', score: 12, max: 30, pct: 40 },
 ];
 
 const agents = [
-  { id: 'seraphim', name: 'SERAPHIM', role: 'Strategic Cortex', model: 'Opus', status: 'nominal' as const, kvs: [
-    { k: 'task', v: 'L2 analysis, API pipeline, system architecture' },
-    { k: 'crons', v: '6 intelligence monitors (2-4h cycles)' },
-    { k: 'scope', v: '20 repos · 22 accounts · 14 narratives · 14 on-chain' },
-  ]},
-  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Opus', status: 'nominal' as const, kvs: [
-    { k: 'task', v: 'Editorial scoring, quality gate (KILL = final)' },
-    { k: 'last', v: 'Dispatch #001 scored 8.5/10 · 2 drafts killed' },
-  ]},
-  { id: 'aesthete', name: 'AESTHETE', role: 'Visual Cortex', model: 'Opus', status: 'nominal' as const, kvs: [
-    { k: 'task', v: 'Social cards, PHOSPHOR Canon, CRT brutalism' },
-    { k: 'last', v: 'Layout spec + visual audit pipeline shipped' },
-  ]},
-  { id: 'squaer', name: 'SQUAER', role: 'Distribution Engine', model: 'Sonnet', status: 'nominal' as const, kvs: [
-    { k: 'task', v: 'Full API posting (zero browser dependency)' },
-    { k: 'pipeline', v: 'L2 digest → red team → X API → guard log' },
-  ]},
-  { id: 'sentinel', name: 'SENTINEL', role: 'System Integrity', model: 'Opus', status: 'nominal' as const, kvs: [
-    { k: 'task', v: 'Health check 5min · deep scan hourly' },
-    { k: 'scope', v: '15 credentials · baselines · process health' },
-  ]},
+  { id: 'seraphim', name: 'SERAPHIM', role: 'Strategic Cortex', model: 'Opus', status: 'nominal' as const, task: 'L2 analysis · API pipeline · architecture', scope: '20 repos · 22 accts · 14 narr' },
+  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Opus', status: 'nominal' as const, task: 'Scoring · quality gate · KILL verdict', scope: 'All public content' },
+  { id: 'aesthete', name: 'AESTHETE', role: 'Visual Cortex', model: 'Opus', status: 'nominal' as const, task: 'PHOSPHOR Canon · visual audits', scope: 'Design system + cards' },
+  { id: 'squaer', name: 'SQUAER', role: 'Distribution', model: 'Sonnet', status: 'nominal' as const, task: 'API posting · red team · guard', scope: 'X + Discord + Telegram' },
+  { id: 'sentinel', name: 'SENTINEL', role: 'System Integrity', model: 'Opus', status: 'nominal' as const, task: 'Health 5min · deep scan hourly', scope: '15 creds · baselines' },
 ];
 
 const layers = [
-  { id: 'L0', name: 'COLLECTION', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: '6 monitors, 70 entities, every 2-4h' },
-  { id: 'L1', name: 'DETECTION', status: 'LIVE', s: 'nominal' as const, pct: 85, desc: 'absence engine (49 detection-ready)' },
-  { id: 'L2', name: 'ANALYSIS', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'signal scoring via weights model' },
-  { id: 'L3', name: 'PREDICTION', status: 'BUILDING', s: 'building' as const, pct: 40, desc: '5 active, manual confidence' },
-  { id: 'L4', name: 'LEARNING', status: 'SCAFFOLDED', s: 'degraded' as const, pct: 15, desc: 'memory exists, no auto calibration' },
-  { id: 'L5', name: 'DISTRIBUTION', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'API posting, guard, red team' },
-  { id: 'L6', name: 'COMPOUNDING', status: 'SCAFFOLDED', s: 'degraded' as const, pct: 10, desc: 'needs prediction volume' },
+  { id: 'L0', name: 'COLLECTION', s: 'nominal' as const, pct: 100 },
+  { id: 'L1', name: 'DETECTION', s: 'nominal' as const, pct: 85 },
+  { id: 'L2', name: 'ANALYSIS', s: 'nominal' as const, pct: 100 },
+  { id: 'L3', name: 'PREDICTION', s: 'building' as const, pct: 40 },
+  { id: 'L4', name: 'LEARNING', s: 'degraded' as const, pct: 15 },
+  { id: 'L5', name: 'DISTRIBUTION', s: 'nominal' as const, pct: 100 },
+  { id: 'L6', name: 'COMPOUNDING', s: 'degraded' as const, pct: 10 },
 ];
 ---
 
 <BaseLayout title="Live System — ZERO" description="Real-time dashboard showing ZERO OS's actual state. Every number is real." current="/system" ogImage="/og/system.png">
   <section class="section container">
-<PageWrapper class="sys-wrap">
+<PageWrapper size="wide" class="sys-wrap">
 <h1 class="sr-only">Live System</h1>
 <pre class="sys-prompt al" data-d="0"><span class="phosphor">zero $</span> diagnostics --full
 
@@ -77,151 +59,126 @@ const layers = [
   Docs: getzero.dev/system
   PID: 1 (zero-init)</pre>
 
-<!-- ═══ INFRASTRUCTURE ═══ -->
+<!-- ═══ TOP ROW: Infrastructure + Agents (side by side on desktop) ═══ -->
 <div class="scan-line al" data-d="300" id="scan-infra">⠋ Scanning infrastructure...</div>
 
-<div class="al" data-d="800" id="section-infra">
-<HazardDivider variant="section" text="INFRASTRUCTURE" color="phosphor" />
+<div class="al" data-d="800" id="section-top">
+<div class="cmd-top-grid">
 
-<DataPanel title="MAC STUDIO" status="● ONLINE" color="phosphor">
-  <div class="infra-grid">
-    <div class="infra-spec">
-      <div class="kv-row"><span class="kv-label">model</span> <span class="text">M3 Ultra</span></div>
-      <div class="kv-row"><span class="kv-label">memory</span> <span class="text">96GB Unified</span></div>
-      <div class="kv-row"><span class="kv-label">role</span> <span class="text">All operations (5 cognitive functions)</span></div>
-      <div class="kv-row"><span class="kv-label">services</span> <span class="text">OpenClaw · Ollama · X API · 25+ crons</span></div>
-    </div>
-  </div>
-</DataPanel>
-</div>
-
-<!-- ═══ COGNITIVE FUNCTIONS ═══ -->
-<div class="scan-line al" data-d="1000" id="scan-cognitive">⠋ Scanning cognitive functions...</div>
-
-<div class="al" data-d="1500" id="section-cognitive">
-<HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="ice" />
-
-<div class="agent-count-row">
-  <HeroNumeral value="5" label="ACTIVE AGENTS" sub="Mac Studio · Claude Opus + Sonnet" color="ice" />
-</div>
-
-<div class="agent-grid">
-  {agents.map(a => (
-    <DataPanel title={a.name} status={`${a.model}`} color="dim" compact>
-      <div class="agent-role"><StatusDot status={a.status} label={a.role} /></div>
-      {a.kvs.map(kv => (
-        <div class="kv-row"><span class="kv-label">{kv.k}</span> {kv.v}</div>
-      ))}
-      {a.id === 'squaer' && (
-        <div class="kv-row"><span class="kv-label">stats</span> <span class="phosphor" data-live="x.followers">420</span> flw · <span class="phosphor" data-live="x.posts_shipped">172</span> posts · <span data-live="x.engagement_rate">3.42</span>% eng</div>
-      )}
+  <!-- LEFT COLUMN: Infrastructure + Intelligence Layers -->
+  <div class="cmd-col">
+    <HazardDivider variant="section" text="INFRASTRUCTURE" color="phosphor" />
+    <DataPanel title="MAC STUDIO M3 ULTRA" status="● ONLINE" color="phosphor" compact>
+      <div class="kv-row"><span class="kv-label">memory</span> 96GB Unified</div>
+      <div class="kv-row"><span class="kv-label">role</span> All ops (5 agents)</div>
+      <div class="kv-row"><span class="kv-label">services</span> OpenClaw · Ollama · X API</div>
+      <div class="kv-row"><span class="kv-label">crons</span> 25+ scheduled jobs</div>
     </DataPanel>
-  ))}
-</div>
-</div>
 
-<!-- ═══ INTELLIGENCE ARCHITECTURE ═══ -->
-<div class="scan-line al" data-d="1700" id="scan-intel">⠋ Loading intelligence architecture...</div>
-
-<div class="al" data-d="2200" id="section-intel">
-<HazardDivider variant="section" text="INTELLIGENCE ARCHITECTURE" color="phosphor" />
-
-<div class="layer-stack">
-  {layers.map(l => (
-    <div class="layer-row">
-      <span class="layer-id">{l.id}</span>
-      <span class="layer-name">{l.name}</span>
-      <StatusDot status={l.s} label={l.status} pulse={false} />
-      <div class="layer-bar">
-        <BarGauge value={l.pct} showValue={false} segments={10} size="sm" />
-      </div>
+    <HazardDivider variant="section" text="INTELLIGENCE STACK" color="phosphor" />
+    <div class="layer-stack">
+      {layers.map(l => (
+        <div class="layer-row">
+          <span class="layer-id">{l.id}</span>
+          <span class="layer-name">{l.name}</span>
+          <StatusDot status={l.s} pulse={false} />
+          <div class="layer-bar">
+            <BarGauge value={l.pct} showValue={false} segments={8} size="sm" />
+          </div>
+        </div>
+      ))}
     </div>
-  ))}
+
+    <DataPanel title="ABSENCE ENGINE" status="7%" color="amber" compact>
+      <BarGauge value={7} segments={30} color="amber" size="sm" label="baseline" />
+      <div class="kv-row"><span class="kv-label">activation</span> <span class="amber">~Mar 14</span></div>
+      <div class="kv-row"><span class="kv-label">entities</span> 56 (49 ready)</div>
+    </DataPanel>
+  </div>
+
+  <!-- RIGHT COLUMN: Agent Grid -->
+  <div class="cmd-col">
+    <HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="ice" />
+    <div class="agent-grid-compact">
+      {agents.map(a => (
+        <div class="agent-cell">
+          <div class="agent-cell-header">
+            <StatusDot status={a.status} label={a.name} />
+            <span class="agent-model dim">{a.model}</span>
+          </div>
+          <div class="agent-cell-role">{a.role}</div>
+          <div class="agent-cell-task dim">{a.task}</div>
+          {a.id === 'squaer' && (
+            <div class="agent-cell-stats"><span class="phosphor" data-live="x.followers">420</span> flw · <span class="phosphor" data-live="x.posts_shipped">172</span> posts</div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <DataPanel title="POSTING GUARD" status="LIVE" color="phosphor" compact>
+      <div class="kv-row"><span class="kv-label">method</span> X API (no browser)</div>
+      <div class="kv-row"><span class="kv-label">limits</span> 6/hr · 3/15min · 8 orig/day</div>
+      <div class="kv-row"><span class="kv-label">dedup</span> 70% · 48h window</div>
+    </DataPanel>
+  </div>
+
+</div>
 </div>
 
-<DataPanel title="L0 — COLLECTION MONITORS" color="phosphor" compact>
-  <div class="kv-row"><span class="kv-label">sources</span> <span class="phosphor">6</span> active monitors</div>
-  <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">70</span> tracked (22 acct · 20 repo · 14 narr · 14 chain)</div>
-  <div class="kv-row"><span class="kv-label">frequency</span> every 2-4h depending on source</div>
-  <div class="kv-row"><span class="kv-label">baselines</span> 49 entities detection-ready, 2 days of data</div>
-</DataPanel>
+<!-- ═══ AGI ASSESSMENT (full width, hero treatment) ═══ -->
+<div class="scan-line al" data-d="1200" id="scan-agi">⠋ Running intelligence assessment...</div>
 
-<DataPanel title="L2 — ANALYSIS ENGINE" status="LIVE" color="phosphor" compact>
-  <div class="kv-row"><span class="kv-label">weights</span> hardness + convergence + topology + decay</div>
-  <div class="kv-row"><span class="kv-label">last run</span> 36 signals ingested, 15 above threshold</div>
-  <div class="kv-row"><span class="kv-label">top signal</span> llama-index convergence (score: 55.4)</div>
-  <div class="kv-row"><span class="kv-label">cron</span> every 4h at :30 past</div>
-</DataPanel>
-
-<DataPanel title="ABSENCE ENGINE" status="LOW CONFIDENCE" color="amber" compact>
-  <div class="kv-row"><span class="kv-label">baseline</span> <span class="amber">2</span> / 30 days</div>
-  <div class="kv-row"><span class="kv-label">progress</span></div>
-  <BarGauge value={7} label="" segments={30} color="amber" size="md" />
-  <div class="kv-row"><span class="kv-label">activation</span> <span class="amber">~March 14, 2026</span></div>
-  <div class="kv-row"><span class="kv-label">entities</span> <span class="phosphor">56</span> (49 detection-ready)</div>
-  <div class="kv-note dim">Monitors what STOPS happening. 30-day baseline required for high-confidence detection.</div>
-</DataPanel>
-
-<DataPanel title="POSTING GUARD" status="LIVE" color="phosphor" compact>
-  <div class="kv-row"><span class="kv-label">method</span> X API only (zero browser dependency)</div>
-  <div class="kv-row"><span class="kv-label">limits</span> 6/hr total · 3/15min · 8 originals/day</div>
-  <div class="kv-row"><span class="kv-label">dedup</span> 70% similarity · 48h window</div>
-  <div class="kv-row"><span class="kv-label">pipelines</span> rapid-fire (replies/hr) + intel-post (originals/3h)</div>
-</DataPanel>
-</div>
-
-<!-- ═══ AGI ASSESSMENT ═══ -->
-<div class="scan-line al" data-d="2400" id="scan-agi">⠋ Running intelligence assessment...</div>
-
-<div class="al" data-d="2900" id="section-agi">
+<div class="al" data-d="1700" id="section-agi">
 <HazardDivider variant="warning" text="INTELLIGENCE ASSESSMENT" color="amber" />
 
-<div class="agi-hero-row">
-  <HeroNumeral value="103.5" label="AGI TEST v2" suffix="/200" color="amber" sub="Level: EMERGING → FUNCTIONAL (boundary) · Tested: 2026-02-15 · Retest: 2026-03-01" />
-</div>
-
-<HazardDivider variant="line" text="DIMENSION BREAKDOWN" color="dim" />
-
-<div class="dim-stack">
-  {dimensions.map(d => (
-    <div class="dim-row">
-      <span class="dim-label">{d.name}</span>
-      <BarGauge value={d.pct} segments={20} size="sm" />
-      <span class="dim-score dim">{d.score}/{d.max}</span>
+<div class="agi-grid">
+  <!-- LEFT: Big score -->
+  <div class="agi-score-col">
+    <HeroNumeral value="103.5" label="AGI TEST v2" suffix="/200" color="amber" sub="EMERGING → FUNCTIONAL · Retest: Mar 01" />
+    <div class="agi-extremes-stack">
+      <DataPanel title="STRONGEST" status="83%" color="phosphor" compact>
+        <div class="panel-text-sm"><span class="phosphor">Autonomous Goals</span> — data-backed proposals, strategic pushback</div>
+      </DataPanel>
+      <DataPanel title="WEAKEST" status="37%" color="red" compact>
+        <div class="panel-text-sm"><span class="red">Peer Intelligence</span> — hub-and-spoke, not mesh</div>
+      </DataPanel>
     </div>
-  ))}
+  </div>
+
+  <!-- RIGHT: Dimension bars -->
+  <div class="agi-dims-col">
+    <div class="dim-stack">
+      {dimensions.map(d => (
+        <div class="dim-row">
+          <span class="dim-label">{d.name}</span>
+          <BarGauge value={d.pct} segments={20} size="sm" />
+          <span class="dim-score dim">{d.score}/{d.max}</span>
+        </div>
+      ))}
+    </div>
+    <DataPanel title="METHOD" color="dim" compact>
+      <div class="panel-text-sm">Live probes + signal injection. 20 tests, 6 dimensions. Not self-assessment.</div>
+      <div class="panel-text-sm dim" style="margin-top: var(--sp-2);">v1 (reasoning): 182/220 (83%). Different test.</div>
+    </DataPanel>
+  </div>
+</div>
 </div>
 
-<DataPanel title="METHOD" color="dim" compact>
-  <div class="panel-text">Live probes, signal injection, and operational verification — not self-assessment. 20 tests across 6 dimensions. Every score backed by evidence.</div>
-  <div class="panel-text dim" style="margin-top: var(--sp-4);">Previous self-assessment (v1): 182/220 (83%). Different test, different standard.</div>
-</DataPanel>
+<!-- ═══ METRICS (full width) ═══ -->
+<div class="scan-line al" data-d="2000" id="scan-metrics">⠋ Loading metrics...</div>
 
-<div class="agi-extremes">
-  <DataPanel title="STRONGEST" status="83%" color="phosphor" compact>
-    <div class="panel-text"><span class="phosphor">Autonomous Goal Generation</span> — data-backed proposals, strategic pushback, real intelligence pipeline producing actionable signals.</div>
-  </DataPanel>
-  <DataPanel title="WEAKEST" status="37%" color="red" compact>
-    <div class="panel-text"><span class="red">Peer Intelligence</span> — agents don't review each other's work. All feedback flows through SERAPHIM. Hub-and-spoke, not mesh.</div>
-  </DataPanel>
-</div>
-</div>
-
-<!-- ═══ METRICS ═══ -->
-<div class="scan-line al" data-d="3200" id="scan-metrics">⠋ Loading metrics...</div>
-
-<div class="al" data-d="3700" id="section-metrics">
+<div class="al" data-d="2500" id="section-metrics">
 <HazardDivider variant="section" text="METRICS" color="phosphor" />
 <MetricsDashboard />
 </div>
 
 <!-- ═══ OPEN PROBLEMS ═══ -->
-<div class="scan-line al" data-d="3900" id="scan-problems">⠋ Checking problems...</div>
+<div class="scan-line al" data-d="2700" id="scan-problems">⠋ Checking problems...</div>
 
-<div class="al" data-d="4400" id="section-problems">
+<div class="al" data-d="3200" id="section-problems">
 <HazardDivider variant="warning" text="OPEN PROBLEMS" color="amber" />
 
-<div class="problems-list">
+<div class="problems-grid">
   {publicProblems.map(p => (
     <div class="problem-entry">
       <span class="problem-marker amber">▲</span>
@@ -265,35 +222,76 @@ const layers = [
   .scan-line.pass { color: var(--phosphor); font-weight: 700; }
   .scan-line.warn { color: var(--amber); font-weight: 700; }
 
-  /* Infrastructure grid */
-  .infra-grid {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    line-height: 1.55;
-  }
-
-  /* Agent grid */
-  .agent-count-row {
-    border-bottom: 1px solid var(--border);
-  }
-  .agent-grid {
+  /* ═══ COMMAND CENTER GRID ═══ */
+  .cmd-top-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0;
+    gap: 0 var(--sp-24);
   }
-  .agent-role {
-    margin-bottom: var(--sp-6);
+  @media (min-width: 900px) {
+    .cmd-top-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .cmd-col {
+    min-width: 0; /* prevent grid blowout */
+  }
+
+  /* Agent grid — compact cells */
+  .agent-grid-compact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: var(--sp-8) 0;
+  }
+  .agent-cell {
+    background: var(--bg);
+    padding: var(--sp-8);
+    min-width: 0;
+  }
+  .agent-cell-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--sp-4);
+  }
+  .agent-model {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+  }
+  .agent-cell-role {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    color: var(--text);
+    margin-bottom: var(--sp-2);
+  }
+  .agent-cell-task {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    line-height: 1.4;
+  }
+  .agent-cell-stats {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    margin-top: var(--sp-4);
+  }
+
+  /* 5th agent spans full width */
+  .agent-grid-compact .agent-cell:nth-child(5) {
+    grid-column: 1 / -1;
   }
 
   /* Layer stack — dense horizontal rows */
   .layer-stack {
-    margin: var(--sp-12) 0;
+    margin: var(--sp-8) 0;
   }
   .layer-row {
     display: grid;
-    grid-template-columns: 2.5em 10em auto 1fr;
+    grid-template-columns: 2em 8em auto 1fr;
     align-items: center;
-    gap: var(--sp-8);
+    gap: var(--sp-6);
     padding: var(--sp-4) 0;
     border-bottom: 1px solid rgba(26, 26, 26, 0.5);
     font-family: var(--font-body);
@@ -304,33 +302,57 @@ const layers = [
     font-family: var(--font-head);
     font-weight: 700;
     color: var(--phosphor);
-    font-size: var(--size-sm);
+    font-size: var(--size-xs);
   }
   .layer-name {
     font-family: var(--font-head);
     font-weight: 700;
     font-size: var(--size-xs);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     color: var(--text);
   }
-  .layer-bar {
-    overflow: hidden;
-  }
+  .layer-bar { overflow: hidden; }
 
-  /* AGI section */
-  .agi-hero-row {
+  /* ═══ AGI GRID ═══ */
+  .agi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 var(--sp-24);
+  }
+  @media (min-width: 900px) {
+    .agi-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .agi-score-col {
     border-bottom: 1px solid var(--border);
+  }
+  @media (min-width: 900px) {
+    .agi-score-col {
+      border-bottom: none;
+      border-right: 1px solid var(--border);
+      padding-right: var(--sp-24);
+    }
+  }
+  .agi-extremes-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    margin-top: var(--sp-8);
+  }
+  .agi-dims-col {
+    padding-top: var(--sp-8);
   }
 
   /* Dimension breakdown — dense rows with inline bars */
   .dim-stack {
-    margin: var(--sp-12) 0;
+    margin: var(--sp-4) 0 var(--sp-12);
   }
   .dim-row {
     display: grid;
-    grid-template-columns: 12em 1fr auto;
+    grid-template-columns: 10em 1fr auto;
     align-items: center;
-    gap: var(--sp-8);
+    gap: var(--sp-6);
     padding: var(--sp-4) 0;
     border-bottom: 1px solid rgba(26, 26, 26, 0.5);
   }
@@ -339,7 +361,7 @@ const layers = [
     font-family: var(--font-head);
     font-size: var(--size-xs);
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     color: var(--text);
   }
   .dim-score {
@@ -347,22 +369,15 @@ const layers = [
     font-size: var(--size-xs);
     font-weight: 700;
     text-align: right;
-    min-width: 4em;
-  }
-
-  /* AGI extremes */
-  .agi-extremes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-8);
+    min-width: 3.5em;
   }
 
   /* Panel text */
-  .panel-text {
+  .panel-text-sm {
     font-family: var(--font-body);
-    font-size: var(--size-base);
+    font-size: var(--size-sm);
     color: var(--text);
-    line-height: 1.55;
+    line-height: 1.5;
   }
 
   /* KV rows */
@@ -370,43 +385,51 @@ const layers = [
     padding: var(--sp-2) 0;
     color: var(--text);
     font-family: var(--font-body);
-    font-size: var(--size-base);
-    line-height: 1.55;
+    font-size: var(--size-sm);
+    line-height: 1.5;
   }
   .kv-label {
     display: inline-block;
-    min-width: 7em;
+    min-width: 6em;
     color: var(--text-dim);
+    font-size: var(--size-xs);
   }
   .kv-note {
     padding: var(--sp-4) 0 0;
-    font-size: var(--size-sm);
+    font-size: var(--size-xs);
     line-height: 1.5;
     font-family: var(--font-body);
   }
 
-  /* Problems */
-  .problems-list {
+  /* Problems — 2-col grid on wide */
+  .problems-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
     margin: var(--sp-8) 0;
+  }
+  @media (min-width: 900px) {
+    .problems-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0 var(--sp-16);
+    }
   }
   .problem-entry {
     display: flex;
     align-items: baseline;
-    gap: var(--sp-8);
+    gap: var(--sp-6);
     padding: var(--sp-6) 0;
     border-bottom: 1px solid rgba(26, 26, 26, 0.5);
     font-family: var(--font-body);
-    font-size: var(--size-base);
-    line-height: 1.55;
+    font-size: var(--size-sm);
+    line-height: 1.5;
   }
   .problem-entry:last-child { border-bottom: none; }
   .problem-marker {
     font-size: var(--size-xs);
     flex-shrink: 0;
   }
-  .problem-text {
-    color: var(--text);
-  }
+  .problem-text { color: var(--text); }
 
   /* Color utilities */
   .ice { color: var(--ice); }
@@ -414,11 +437,16 @@ const layers = [
   .amber { color: var(--amber); }
   .red { color: var(--red); }
   .dim { color: var(--text-dim); }
-  .text { color: var(--text); }
 
   @media (max-width: 640px) {
+    .agent-grid-compact {
+      grid-template-columns: 1fr;
+    }
+    .agent-grid-compact .agent-cell:nth-child(5) {
+      grid-column: auto;
+    }
     .layer-row {
-      grid-template-columns: 2em 7em auto 1fr;
+      grid-template-columns: 2em 6em auto 1fr;
       gap: var(--sp-4);
       font-size: var(--size-xs);
     }
@@ -426,18 +454,11 @@ const layers = [
       grid-template-columns: 1fr;
       gap: var(--sp-2);
     }
-    .dim-label {
-      font-size: var(--size-xs);
-    }
-    .dim-score {
-      text-align: left;
-    }
-    .agi-extremes {
-      grid-template-columns: 1fr;
-    }
-    .kv-label { min-width: 5em; font-size: var(--size-xs); }
+    .dim-label { font-size: var(--size-xs); }
+    .dim-score { text-align: left; }
+    .kv-label { min-width: 5em; }
     .kv-row { word-break: break-word; overflow-wrap: anywhere; }
-    .panel-text { word-break: break-word; overflow-wrap: anywhere; }
+    .panel-text-sm { word-break: break-word; overflow-wrap: anywhere; }
     .problem-text { word-break: break-word; overflow-wrap: anywhere; }
   }
 </style>
@@ -445,12 +466,10 @@ const layers = [
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var swaps = [
-      { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE', cls: 'pass' },
-      { id: 'scan-cognitive', delay: 1450, text: '[PASS] COGNITIVE FUNCTIONS', cls: 'pass' },
-      { id: 'scan-intel', delay: 2150, text: '[PASS] INTELLIGENCE ARCHITECTURE', cls: 'pass' },
-      { id: 'scan-agi', delay: 2850, text: '[SCORED] INTELLIGENCE ASSESSMENT — 103.5/200', cls: 'warn' },
-      { id: 'scan-metrics', delay: 3550, text: '[PASS] METRICS', cls: 'pass' },
-      { id: 'scan-problems', delay: 4250, text: '[WARN] OPEN PROBLEMS', cls: 'warn' }
+      { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE + COGNITIVE FUNCTIONS', cls: 'pass' },
+      { id: 'scan-agi', delay: 1450, text: '[SCORED] INTELLIGENCE ASSESSMENT — 103.5/200', cls: 'warn' },
+      { id: 'scan-metrics', delay: 2150, text: '[PASS] METRICS', cls: 'pass' },
+      { id: 'scan-problems', delay: 2850, text: '[WARN] 6 OPEN PROBLEMS', cls: 'warn' }
     ];
     for (var j = 0; j < swaps.length; j++) {
       (function(s) {
