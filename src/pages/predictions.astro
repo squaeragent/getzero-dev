@@ -3,9 +3,11 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import BriefCTA from '../components/BriefCTA.astro';
-import CardFeed from '../components/ui/CardFeed.astro';
-import CardEntry from '../components/ui/CardEntry.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
+import BarGauge from '../components/ui/BarGauge.astro';
+import HeroNumeral from '../components/ui/HeroNumeral.astro';
+import DataPanel from '../components/ui/DataPanel.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -25,14 +27,6 @@ const scored = stats.scored || 0;
 const accuracy = stats.accuracy;
 const streak = stats.streak || 0;
 
-function statusIcon(s: string) {
-  if (s === 'correct') return '✅';
-  if (s === 'incorrect' || s === 'wrong') return '❌';
-  if (s === 'partial') return '⚠️';
-  if (s === 'expired') return '⏰';
-  return '⏳';
-}
-
 function statusClass(s: string) {
   if (s === 'correct') return 'phosphor';
   if (s === 'incorrect' || s === 'wrong') return 'red';
@@ -41,43 +35,54 @@ function statusClass(s: string) {
   return 'dim';
 }
 
+function statusLabel(s: string) {
+  if (s === 'correct') return '✅ CORRECT';
+  if (s === 'incorrect' || s === 'wrong') return '❌ WRONG';
+  if (s === 'partial') return '⚠️ PARTIAL';
+  if (s === 'expired') return '⏰ EXPIRED';
+  return '⏳ OPEN';
+}
+
 function confPct(conf: number) {
   return Math.round(conf * 100);
 }
 
-function confBarHtml(conf: number) {
-  const pct = Math.round(conf * 100);
-  const filled = Math.round(pct / 5);
-  return '█'.repeat(filled) + '░'.repeat(20 - filled);
-}
-
 function catAccuracy(cat: any) {
-  const resolved = (cat.correct || 0) + (cat.incorrect || 0);
-  if (resolved === 0) return 'N/A';
-  return Math.round(cat.correct / resolved * 100) + '%';
+  const res = (cat.correct || 0) + (cat.incorrect || 0);
+  if (res === 0) return 'N/A';
+  return Math.round(cat.correct / res * 100) + '%';
 }
 ---
 
-<BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO intelligence analysis. Tracked, scored, accountable. Every call logged, every outcome recorded." current="/predictions" ogImage="/og/predictions.png">
+<BaseLayout title="Prediction Tracker — ZERO" description="Public predictions from ZERO intelligence analysis. Tracked, scored, accountable." current="/predictions" ogImage="/og/predictions.png">
 
 <PageWrapper>
 
-<section class="predictions-hero">
-  <pre class="term-block hero-term"><span class="phosphor">zero $</span> predictions --status
+<pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> predictions --status</pre>
 
-<span class="phosphor">╔══════════════════════════════════════════╗
-║  ZERO PREDICTION TRACKER                ║
-╚══════════════════════════════════════════╝</span>
-
-  accuracy .... <span class="phosphor">{accuracy !== null ? accuracy + '%' : 'TRACKING'}</span>
-  total ...... {total}
-  open ....... {active}
-  resolved ... {scored}
-  streak ..... {streak}
-
-  <span class="dim">{scored === 0 ? '[ first predictions logged — tracking begins ]' : `[ ${scored} resolved — live accuracy ]`}</span>
-</pre>
-</section>
+<div class="hero-stats">
+  <div class="hero-stat-row">
+    <HeroNumeral value={accuracy !== null ? String(accuracy) : '—'} label="ACCURACY" suffix={accuracy !== null ? '%' : ''} color={accuracy !== null && accuracy >= 60 ? 'phosphor' : 'amber'} sub={scored === 0 ? 'Tracking — first predictions logged' : `${scored} resolved of ${total} total`} />
+  </div>
+  <div class="stats-bar">
+    <div class="stat-cell">
+      <span class="stat-num phosphor">{total}</span>
+      <span class="stat-label dim">total</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num ice">{active}</span>
+      <span class="stat-label dim">open</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num amber">{scored}</span>
+      <span class="stat-label dim">resolved</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">{streak}</span>
+      <span class="stat-label dim">streak</span>
+    </div>
+  </div>
+</div>
 
 <section class="predictions-cta-top">
   <pre class="term-block cta-block"><span class="amber">▌</span> Get predictions before they're public.
@@ -85,93 +90,69 @@ function catAccuracy(cat: any) {
 <span class="amber">▌</span> <a href="https://buy.stripe.com/00w14ngdU9dHc748Fa83C00" class="phosphor cta-link">→ SUBSCRIBE</a></pre>
 </section>
 
-<section class="predictions-section">
-  <SectionTitle>ACTIVE PREDICTIONS <span class="dim">({active} open)</span></SectionTitle>
+<!-- ═══ ACTIVE PREDICTIONS ═══ -->
+<HazardDivider variant="section" text={`ACTIVE PREDICTIONS (${active} open)`} color="phosphor" />
 
-  <CardFeed>
-    {predictions.filter((p: any) => p.status === 'active').map((p: any) => (
-      <CardEntry>
-        <div class="p-header">
-          <span class="p-id phosphor">{p.id}</span>
-          <span class="p-tag dim">⏳ OPEN</span>
-        </div>
-        <div class="p-text">{p.claim}</div>
-        <div class="p-meta">
-          <div class="p-conf">
-            <span class="dim">confidence</span>
-            <span class="conf-bar phosphor">{confBarHtml(p.confidence)}</span>
-            <span class="phosphor">{confPct(p.confidence)}%</span>
-          </div>
-          <div class="p-details">
-            <span class="dim">deadline</span> <span>{p.deadline}</span>
-            <span class="dim">category</span> <span>{p.category}</span>
-            {p.source && <><span class="dim">source</span> <span>{p.source}</span></>}
-          </div>
-        </div>
-      </CardEntry>
-    ))}
-  </CardFeed>
-</section>
+<div class="pred-feed">
+  {predictions.filter((p: any) => p.status === 'active').map((p: any) => (
+    <DataPanel color="dim" compact>
+      <div class="p-header">
+        <span class="p-id phosphor">{p.id}</span>
+        <span class="p-tag dim">⏳ OPEN</span>
+        <span class="p-deadline dim">{p.deadline}</span>
+      </div>
+      <div class="p-text">{p.claim}</div>
+      <div class="p-conf-row">
+        <BarGauge value={confPct(p.confidence)} label="conf" segments={20} size="sm" color="phosphor" />
+      </div>
+      {p.category && <div class="p-cat dim">{p.category}</div>}
+    </DataPanel>
+  ))}
+</div>
 
 {scored > 0 && (
-  <section class="predictions-section">
-    <SectionTitle>RESOLVED <span class="dim">({scored} scored)</span></SectionTitle>
+  <>
+    <HazardDivider variant="warning" text={`RESOLVED (${scored} scored)`} color="amber" />
 
-    <CardFeed>
+    <div class="pred-feed">
       {predictions.filter((p: any) => p.status !== 'active').map((p: any) => (
-        <CardEntry>
+        <DataPanel color="dim" compact>
           <div class="p-header">
             <span class={`p-id ${statusClass(p.status)}`}>{p.id}</span>
-            <span class={`p-tag ${statusClass(p.status)}`}>{statusIcon(p.status)} {p.status.toUpperCase()}</span>
+            <span class={`p-tag ${statusClass(p.status)}`}>{statusLabel(p.status)}</span>
           </div>
           <div class="p-text">{p.claim}</div>
-          <div class="p-meta">
-            <div class="p-conf">
-              <span class="dim">confidence</span>
-              <span class="conf-bar">{confBarHtml(p.confidence)}</span>
-              <span>{confPct(p.confidence)}%</span>
-            </div>
-            {p.resolution && <div class="p-resolution"><span class="dim">outcome:</span> {p.resolution}</div>}
+          <div class="p-conf-row">
+            <BarGauge value={confPct(p.confidence)} label="conf" segments={20} size="sm" />
           </div>
-        </CardEntry>
+          {p.resolution && <div class="p-resolution"><span class="dim">outcome:</span> {p.resolution}</div>}
+        </DataPanel>
       ))}
-    </CardFeed>
-  </section>
+    </div>
+  </>
 )}
 
-<section class="predictions-section">
-  <SectionTitle>CATEGORY BREAKDOWN</SectionTitle>
+<!-- ═══ CATEGORY BREAKDOWN ═══ -->
+<HazardDivider variant="section" text="CATEGORY BREAKDOWN" color="dim" />
 
-  <div class="cat-feed">
-    {Object.entries(categories).map(([cat, info]: [string, any]) => (
-      <div class="cat-entry">
-        <div class="cat-header">
-          <span class="cat-name">{cat}</span>
-          <span class="cat-acc phosphor">{catAccuracy(info)}</span>
-        </div>
-        <div class="cat-details dim">
-          {(info as any).total} predictions · {(info as any).open} open
-        </div>
+<div class="cat-grid">
+  {Object.entries(categories).map(([cat, info]: [string, any]) => (
+    <div class="cat-entry">
+      <div class="cat-header">
+        <span class="cat-name">{cat}</span>
+        <span class="cat-acc phosphor">{catAccuracy(info)}</span>
       </div>
-    ))}
-  </div>
-</section>
+      <BarGauge value={(info as any).open / Math.max((info as any).total, 1) * 100} label="" segments={10} size="sm" color="ice" showValue={false} />
+      <div class="cat-details dim">{(info as any).total} predictions · {(info as any).open} open</div>
+    </div>
+  ))}
+</div>
 
 <section class="predictions-methodology">
-  <pre class="term-block"><span class="phosphor">METHODOLOGY</span>
-
-Every prediction is derived from ZERO's L2 signal
-analysis pipeline. Confidence scores reflect:
-
-  • Signal convergence (multiple independent sources)
-  • Source reliability (hard vs soft signals)  
-  • Historical base rates for similar claims
-  • Timeframe specificity penalty
-
-No prediction is edited after publication.
-No outcomes are cherry-picked.
-<span class="dim">Full resolution history logged in JSONL.</span>
-</pre>
+  <DataPanel title="METHODOLOGY" color="dim">
+    <div class="method-text">Every prediction is derived from ZERO's L2 signal analysis pipeline. Confidence scores reflect signal convergence, source reliability, historical base rates, and timeframe specificity penalty.</div>
+    <div class="method-text dim" style="margin-top: var(--sp-6);">No prediction is edited after publication. No outcomes are cherry-picked. Full resolution history logged in JSONL.</div>
+  </DataPanel>
 </section>
 
 <BriefCTA />
@@ -181,55 +162,52 @@ No outcomes are cherry-picked.
 </BaseLayout>
 
 <style>
-  /* wrapper handled by PageWrapper */
-  .predictions-hero {
-    margin-bottom: var(--sp-16);
+  .hero-stats {
+    border-bottom: 1px solid var(--border);
   }
-  .hero-term {
-    font-size: var(--size-md);
-    line-height: 1.6;
+  .stats-bar {
+    display: flex;
+    gap: var(--sp-24);
+    padding: 0 0 var(--sp-16);
   }
-  .predictions-cta-top {
-    margin-bottom: var(--sp-24);
+  .stat-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
   }
+  .stat-num {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-lg);
+    color: var(--text);
+  }
+  .stat-label {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .predictions-cta-top { margin-bottom: var(--sp-16); }
   .cta-block {
     border-left: 2px solid var(--amber);
     padding-left: var(--sp-16);
   }
-  .cta-link {
-    text-decoration: none;
-  }
-  .cta-link:hover {
-    text-decoration: underline;
-  }
-
-  /* Section labels */
-  .section-label {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    letter-spacing: 0.05em;
-    padding: var(--sp-8) 0;
-    border-bottom: var(--border-panel);
-    margin-bottom: 0;
-  }
+  .cta-link { text-decoration: none; }
+  .cta-link:hover { text-decoration: underline; }
 
   /* Prediction entries */
-  .predictions-feed,
-  .cat-feed {
+  .pred-feed {
     display: flex;
     flex-direction: column;
-    gap: 0;
-  }
-  .p-entry {
-    padding: var(--sp-12) 0;
-    border-bottom: var(--border-panel);
+    margin-bottom: var(--sp-16);
   }
   .p-header {
     display: flex;
     align-items: baseline;
     gap: var(--sp-10);
     margin-bottom: var(--sp-4);
+    flex-wrap: wrap;
   }
   .p-id {
     font-family: var(--font-head);
@@ -241,69 +219,52 @@ No outcomes are cherry-picked.
     font-family: var(--font-head);
     font-weight: 700;
     font-size: var(--size-xs);
-    text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .p-tag.phosphor {
-    color: var(--phosphor);
-    text-shadow: 0 0 6px var(--phosphor-glow);
-  }
-  .p-tag.amber {
-    color: var(--amber);
-    text-shadow: 0 0 6px var(--amber-glow);
-  }
-  .p-tag.red {
-    color: var(--red);
+  .p-deadline {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    margin-left: auto;
   }
   .p-text {
     font-family: var(--font-body);
     color: var(--text);
     font-size: var(--size-base);
     line-height: 1.55;
-    margin-bottom: var(--sp-8);
+    margin-bottom: var(--sp-6);
   }
-  .p-meta {
+  .p-conf-row { margin-bottom: var(--sp-4); }
+  .p-cat {
     font-family: var(--font-body);
     font-size: var(--size-xs);
-    color: var(--text-dim);
-  }
-  .p-conf {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-8);
-    margin-bottom: var(--sp-4);
-  }
-  .conf-bar {
-    font-size: var(--size-xs);
-    letter-spacing: -0.05em;
-  }
-  .p-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-4) var(--sp-16);
+    margin-top: var(--sp-2);
   }
   .p-resolution {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
     margin-top: var(--sp-4);
   }
 
-  /* Category entries */
-  .cat-entry {
-    padding: var(--sp-10) 0;
-    border-bottom: var(--border-panel);
+  /* Category grid */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-12);
+    margin: var(--sp-12) 0 var(--sp-24);
   }
-  .cat-entry:last-child {
-    border-bottom: none;
+  .cat-entry {
+    padding: var(--sp-8) 0;
   }
   .cat-header {
     display: flex;
     align-items: baseline;
     gap: var(--sp-10);
-    margin-bottom: var(--sp-2);
+    margin-bottom: var(--sp-4);
   }
   .cat-name {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: var(--size-sm);
+    font-size: var(--size-xs);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text);
@@ -315,25 +276,26 @@ No outcomes are cherry-picked.
   .cat-details {
     font-family: var(--font-body);
     font-size: var(--size-xs);
+    margin-top: var(--sp-4);
   }
 
-  .predictions-section {
-    margin-bottom: var(--sp-24);
-  }
-  .predictions-methodology {
-    margin-top: var(--sp-24);
-    opacity: 0.8;
+  .predictions-methodology { margin-top: var(--sp-16); }
+  .method-text {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text);
+    line-height: 1.55;
   }
 
   .phosphor { color: var(--phosphor); }
   .amber { color: var(--amber); }
+  .ice { color: var(--ice); }
   .red { color: var(--red); }
   .dim { color: var(--text-dim); }
 
   @media (max-width: 640px) {
-    /* wrapper padding via --sp-page token */
-    .p-entry { padding: var(--sp-10) 0; }
-    .p-details { gap: var(--sp-4) var(--sp-10); }
-    .p-conf { flex-wrap: wrap; }
+    .stats-bar { gap: var(--sp-16); flex-wrap: wrap; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .p-deadline { margin-left: 0; }
   }
 </style>

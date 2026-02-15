@@ -4,10 +4,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import BriefCTA from '../components/BriefCTA.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
-import CardEntry from '../components/ui/CardEntry.astro';
-import CardFeed from '../components/ui/CardFeed.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
+import BarGauge from '../components/ui/BarGauge.astro';
+import StatusDot from '../components/ui/StatusDot.astro';
+import DataPanel from '../components/ui/DataPanel.astro';
+import HeroNumeral from '../components/ui/HeroNumeral.astro';
 
-// Predictions loaded from SSR endpoint at build time — single source of truth
 let predictions: any[] = [];
 let total = 0, correct = 0, wrong = 0, resolved = 0;
 try {
@@ -21,122 +23,111 @@ try {
   wrong = predictions.filter((p: any) => ['WRONG', 'wrong', 'resolved_wrong'].includes(p.status)).length;
   resolved = correct + wrong;
 } catch {
-  // Fallback if file not found
   total = 8; resolved = 0; correct = 0; wrong = 0;
 }
 
 const layers = [
-  { num: 'L0', name: 'COLLECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-source continuous scanning' },
-  { num: 'L1', name: 'DETECTION', status: 'LIVE', statusClass: 'phosphor', desc: 'anomaly + absence engines' },
-  { num: 'L2', name: 'ANALYSIS', status: 'LIVE', statusClass: 'phosphor', desc: 'signal scoring via weights model (Spec 093)' },
-  { num: 'L3', name: 'PREDICTION', status: 'BUILDING', statusClass: 'amber', desc: '8 predictions active, manual confidence' },
-  { num: 'L4', name: 'LEARNING', status: 'SCAFFOLDED', statusClass: 'dim', desc: 'memory exists, no automated calibration' },
-  { num: 'L5', name: 'DISTRIBUTION', status: 'LIVE', statusClass: 'phosphor', desc: 'multi-channel output' },
-  { num: 'L6', name: 'COMPOUNDING', status: 'SCAFFOLDED', statusClass: 'dim', desc: 'every prediction sharpens the next' },
+  { num: 'L0', name: 'COLLECTION', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'multi-source continuous scanning' },
+  { num: 'L1', name: 'DETECTION', status: 'LIVE', s: 'nominal' as const, pct: 85, desc: 'anomaly + absence engines' },
+  { num: 'L2', name: 'ANALYSIS', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'signal scoring via weights model' },
+  { num: 'L3', name: 'PREDICTION', status: 'BUILDING', s: 'building' as const, pct: 40, desc: '8 predictions active, manual confidence' },
+  { num: 'L4', name: 'LEARNING', status: 'SCAFFOLDED', s: 'degraded' as const, pct: 15, desc: 'memory exists, no automated calibration' },
+  { num: 'L5', name: 'DISTRIBUTION', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'multi-channel output' },
+  { num: 'L6', name: 'COMPOUNDING', status: 'SCAFFOLDED', s: 'degraded' as const, pct: 10, desc: 'every prediction sharpens the next' },
 ];
+
+const liveLayers = layers.filter(l => l.s === 'nominal').length;
 ---
 
 <BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 7-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
 
 <PageWrapper>
 
-<pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status
+<pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status</pre>
 
-<span class="phosphor">INTELLIGENCE ENGINE</span>
-status ......... <span class="phosphor">OPERATIONAL</span>
-entities ....... <span class="phosphor" data-live="intelligence.entities_tracked">56</span> tracked
-monitors ....... <span class="phosphor" data-live="intelligence.monitors_active">6</span> active
-autonomy rate .. <span class="phosphor" data-live="intelligence.autonomy_rate" data-format="percent">100%</span> auto-executable
-layers ......... <span class="phosphor">7</span>
+<div class="hero-row">
+  <HeroNumeral value="70" label="ENTITIES TRACKED" sub="22 accounts · 20 repos · 14 narratives · 14 on-chain" color="phosphor" />
+</div>
 
-<span class="dim">Continuous multi-source scanning
-Signal detection → classification → autonomous action</span></pre>
+<!-- ═══ ARCHITECTURE ═══ -->
+<HazardDivider variant="section" text="ARCHITECTURE" color="phosphor" />
 
-<section class="intel-section al" data-d="400">
-  <SectionTitle color="amber">ARCHITECTURE <span class="dim">(7 layers)</span></SectionTitle>
-
-  <CardFeed>
-    {layers.map((l) => (
-      <CardEntry>
-        <div class="layer-header">
-          <span class="layer-num phosphor">{l.num}</span>
-          <span class="layer-name">{l.name}</span>
-          <span class={`layer-tag ${l.statusClass}`}>[{l.status}]</span>
-        </div>
-        <div class="layer-desc">{l.desc}</div>
-      </CardEntry>
-    ))}
-  </CardFeed>
-
-  <div class="layer-summary dim">4/7 live. 1 building. 2 scaffolded. Honest status — updated in real time.</div>
-</section>
-
-<section class="intel-section al" data-d="800">
-  <div class="section-label"><span class="amber">OUTPUT</span></div>
-
-  <div class="output-feed">
-    <div class="o-entry">
-      <div class="o-header"><span class="o-channel phosphor">@squaer_agent</span></div>
-      <div class="o-desc">intelligence-driven posts + replies</div>
+<div class="layer-stack">
+  {layers.map(l => (
+    <div class="layer-row">
+      <span class="layer-id">{l.num}</span>
+      <span class="layer-name">{l.name}</span>
+      <StatusDot status={l.s} label={l.status} pulse={false} />
+      <div class="layer-bar">
+        <BarGauge value={l.pct} showValue={false} segments={10} size="sm" />
+      </div>
     </div>
-    <div class="o-entry">
-      <div class="o-header"><span class="o-channel phosphor">Telegram</span></div>
-      <div class="o-desc">direct intelligence delivery</div>
-    </div>
-    <div class="o-entry">
-      <div class="o-header"><span class="o-channel phosphor">Brief</span></div>
-      <div class="o-desc">weekly deep analysis for subscribers</div>
-    </div>
-    <div class="o-entry">
-      <div class="o-header"><span class="o-channel phosphor">Discord</span></div>
-      <div class="o-desc">real-time signal alerts</div>
-    </div>
-  </div>
+  ))}
+</div>
 
-  <div class="layer-summary dim">Same engine. Four channels. Different depth.</div>
-</section>
+<div class="layer-summary dim">{liveLayers}/7 live. Honest status — updated in real time.</div>
 
-<section class="intel-section al" data-d="1200">
-  <div class="section-label"><span class="amber">PREDICTION TRACKER</span></div>
+<!-- ═══ OUTPUT ═══ -->
+<HazardDivider variant="section" text="OUTPUT CHANNELS" color="amber" />
 
-  <pre class="term-block tracker-block">accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'N/A'}</span>
+<div class="output-grid">
+  <DataPanel title="@SQUAER_AGENT" status="X" color="phosphor" compact>
+    <div class="o-desc">intelligence-driven posts + replies</div>
+  </DataPanel>
+  <DataPanel title="TELEGRAM" status="DM" color="phosphor" compact>
+    <div class="o-desc">direct intelligence delivery</div>
+  </DataPanel>
+  <DataPanel title="INTELLIGENCE BRIEF" status="$29/MO" color="amber" compact>
+    <div class="o-desc">weekly deep analysis for subscribers</div>
+  </DataPanel>
+  <DataPanel title="DISCORD" status="LIVE" color="phosphor" compact>
+    <div class="o-desc">real-time signal alerts</div>
+  </DataPanel>
+</div>
+
+<div class="layer-summary dim">Same engine. Four channels. Different depth.</div>
+
+<!-- ═══ PREDICTION TRACKER ═══ -->
+<HazardDivider variant="warning" text="PREDICTION TRACKER" color="amber" />
+
+<pre class="term-block tracker-block">accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'TRACKING'}</span>
 resolved .. {resolved}/{total}
 pending ... {total - resolved}
-<span class="dim">(2 editions published — building baseline)</span></pre>
+<span class="dim">(building baseline — no retroactive edits)</span></pre>
 
-  <div class="pred-feed">
-    {predictions.slice(0, 4).map((p: any, i: number) => {
-      const status = (p.status || 'active').toUpperCase();
-      const displayStatus = status === 'ACTIVE' ? 'OPEN' : status;
-      const sc = displayStatus === 'CORRECT' ? 'phosphor' : displayStatus === 'WRONG' ? 'red' : 'dim';
-      const confPct = typeof p.confidence === 'number' ? `${Math.round(p.confidence * 100)}%` : p.confidence;
-      return (
-        <div class={`p-entry al`} data-d={`${1400 + i * 100}`}>
-          <div class="p-header">
-            <span class="p-id phosphor">{p.id}</span>
-            <span class={`p-tag ${sc}`}>[{displayStatus}]</span>
-          </div>
-          <div class="p-text">{p.claim || p.title || p.prediction}</div>
-          <div class="p-meta dim">deadline {p.deadline} · confidence {confPct}</div>
+<div class="pred-feed">
+  {predictions.slice(0, 4).map((p: any, i: number) => {
+    const status = (p.status || 'active').toUpperCase();
+    const displayStatus = status === 'ACTIVE' ? 'OPEN' : status;
+    const sc = displayStatus === 'CORRECT' ? 'phosphor' : displayStatus === 'WRONG' ? 'red' : 'dim';
+    const confVal = typeof p.confidence === 'number' ? Math.round(p.confidence * 100) : 0;
+    return (
+      <div class="p-entry">
+        <div class="p-header">
+          <span class="p-id phosphor">{p.id}</span>
+          <span class={`p-tag ${sc}`}>[{displayStatus}]</span>
         </div>
-      );
-    })}
-    {total > 4 && (
-      <div class="p-entry al" data-d="1800">
-        <a href="/predictions" class="p-more phosphor">→ View all {total} predictions</a>
+        <div class="p-text">{p.claim || p.title || p.prediction}</div>
+        <div class="p-conf-row">
+          <BarGauge value={confVal} label="conf" segments={15} size="sm" color="phosphor" />
+        </div>
+        <div class="p-meta dim">deadline {p.deadline}</div>
       </div>
-    )}
-  </div>
-</section>
+    );
+  })}
+  {total > 4 && (
+    <div class="p-entry">
+      <a href="/predictions" class="p-more phosphor">→ View all {total} predictions</a>
+    </div>
+  )}
+</div>
 
 <pre class="term-block al" data-d="1900">
 <span class="dim">No quiet deletions. No retroactive edits.
-Every prediction falsifiable with specific dates.
-Full entity-level analysis available in the Intelligence Brief.</span>
+Every prediction falsifiable with specific dates.</span>
 
 <span class="amber">zero $</span> subscribe --intel-brief
 → <a href="https://newsletter.getzero.dev/upgrade"><span class="amber">newsletter.getzero.dev/upgrade</span></a>
-<span class="dim">Free newsletter + premium analysis for subscribers</span>
 
 <span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
 
@@ -147,102 +138,69 @@ Full entity-level analysis available in the Intelligence Brief.</span>
 </BaseLayout>
 
 <style>
-  /* wrapper handled by PageWrapper */
-
-  .intel-section {
-    margin-bottom: var(--sp-24);
-  }
-  .section-label {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    letter-spacing: 0.05em;
-    padding: var(--sp-8) 0;
-    border-bottom: var(--border-panel);
+  .hero-row {
+    border-bottom: 1px solid var(--border);
   }
 
-  /* Layer entries */
-  .layer-feed,
-  .output-feed,
-  .pred-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+  /* Layer stack — dense horizontal rows */
+  .layer-stack {
+    margin: var(--sp-12) 0;
   }
-  .layer-entry {
-    padding: var(--sp-10) 0;
-    border-bottom: var(--border-panel);
-  }
-  .layer-entry:last-child { border-bottom: none; }
-  .layer-header {
-    display: flex;
-    align-items: baseline;
+  .layer-row {
+    display: grid;
+    grid-template-columns: 2.5em 10em auto 1fr;
+    align-items: center;
     gap: var(--sp-8);
-    margin-bottom: var(--sp-2);
+    padding: var(--sp-4) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
   }
-  .layer-num {
+  .layer-row:last-child { border-bottom: none; }
+  .layer-id {
     font-family: var(--font-head);
     font-weight: 700;
+    color: var(--phosphor);
     font-size: var(--size-sm);
   }
   .layer-name {
     font-family: var(--font-head);
     font-weight: 700;
-    font-size: var(--size-sm);
-    color: var(--text);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .layer-tag {
-    font-family: var(--font-head);
     font-size: var(--size-xs);
-    font-weight: 700;
     letter-spacing: 0.05em;
+    color: var(--text);
   }
-  .layer-tag.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
-  .layer-tag.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
-  .layer-tag.dim { color: var(--text-dim); }
-  .layer-desc {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
+  .layer-bar { overflow: hidden; }
   .layer-summary {
     font-family: var(--font-body);
     font-size: var(--size-sm);
-    padding: var(--sp-8) 0;
+    padding: var(--sp-4) 0 var(--sp-16);
   }
 
-  /* Output entries */
-  .o-entry {
-    padding: var(--sp-8) 0;
-    border-bottom: var(--border-panel);
-  }
-  .o-entry:last-child { border-bottom: none; }
-  .o-header {
-    margin-bottom: var(--sp-2);
-  }
-  .o-channel {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    letter-spacing: 0.05em;
+  /* Output grid */
+  .output-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+    margin: var(--sp-8) 0;
   }
   .o-desc {
     font-family: var(--font-body);
-    font-size: var(--size-base);
+    font-size: var(--size-sm);
     color: var(--text-dim);
   }
 
   /* Prediction entries */
-  .tracker-block {
-    margin-bottom: 0;
+  .tracker-block { margin-bottom: var(--sp-8); }
+  .pred-feed {
+    display: flex;
+    flex-direction: column;
   }
   .p-entry {
     padding: var(--sp-12) 0;
-    border-bottom: var(--border-panel);
+    border-bottom: 1px solid var(--border);
   }
+  .p-entry:last-child { border-bottom: none; }
   .p-header {
     display: flex;
     align-items: baseline;
@@ -259,7 +217,6 @@ Full entity-level analysis available in the Intelligence Brief.</span>
     font-family: var(--font-head);
     font-weight: 700;
     font-size: var(--size-xs);
-    text-transform: uppercase;
     letter-spacing: 0.05em;
   }
   .p-text {
@@ -267,17 +224,19 @@ Full entity-level analysis available in the Intelligence Brief.</span>
     color: var(--text);
     font-size: var(--size-base);
     line-height: 1.55;
+    margin-bottom: var(--sp-6);
+  }
+  .p-conf-row {
+    margin-bottom: var(--sp-4);
   }
   .p-meta {
     font-family: var(--font-body);
     font-size: var(--size-xs);
-    margin-top: var(--sp-4);
   }
   .p-more {
     font-family: var(--font-head);
     font-size: var(--size-sm);
     text-decoration: none;
-    letter-spacing: 0.03em;
   }
   .p-more:hover { text-decoration: underline; }
 
@@ -287,8 +246,14 @@ Full entity-level analysis available in the Intelligence Brief.</span>
   .dim { color: var(--text-dim); }
 
   @media (max-width: 640px) {
-    /* wrapper padding via --sp-page token */
-    .layer-entry { padding: var(--sp-8) 0; }
+    .layer-row {
+      grid-template-columns: 2em 7em auto 1fr;
+      gap: var(--sp-4);
+      font-size: var(--size-xs);
+    }
+    .output-grid {
+      grid-template-columns: 1fr;
+    }
     .p-entry { padding: var(--sp-10) 0; }
   }
 </style>
