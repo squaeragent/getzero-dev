@@ -373,8 +373,8 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
           '/agents/chronicle': '/agents/chronicle', '/agents/aesthete': '/agents/aesthete',
           '/agents/squaer': '/agents/squaer', '/agents/sentinel': '/agents/sentinel',
           '/system': '/system', '/intel': '/intel', '/product': '/product',
-          '/manifesto': '/manifesto', '/build-log': '/build-log', '/journal': '/build-log',
-          '/live': '/live', '/predictions': '/predictions', '/subscribe': '/product',
+          '/manifesto': '/manifesto', '/build-log': '/journal', '/journal': '/journal',
+          '/live': '/journal', '/predictions': '/predictions', '/subscribe': '/product',
         };
         const target = args[0];
         if (!target) return 'Usage: cd <path>\nAvailable: ' + Object.keys(routes).join(', ');
@@ -473,7 +473,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'hi': 'Hello, human. System operational.',
       'ping': 'PONG — 0.42ms',
       'exit': 'There is no exit. Type "help" for commands.',
-      'ls': 'agents/  build-log/  intel/  live/  manifesto  predictions/  product/  system/',
+      'ls': 'agents/  intel/  journal/  manifesto  predictions/  product/  system/',
       'cat': 'Usage: try a command like "status" or "agents"',
       'pwd': '/zero/system/terminal',
       'uname': 'ZERO OS v0.9.1 arm64 Mac Studio M3 Ultra',

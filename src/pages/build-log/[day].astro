@@ -50,7 +50,7 @@ const tagColors: Record<string, string> = {
 const paragraphs = entry.body.split('\n\n');
 ---
 
-<BaseLayout title={`Day ${entry.day}: ${entry.title} — ZERO`} description={entry.subtitle} current="/build-log">
+<BaseLayout title={`Day ${entry.day}: ${entry.title} — ZERO`} description={entry.subtitle} current="/journal">
 <div class="log-wrap">
 
 <pre class="log-prompt al" data-d="0"><span class="phosphor">zero $</span> cat /var/log/build/day-{entry.day}.log</pre>
@@ -98,7 +98,7 @@ const paragraphs = entry.body.split('\n\n');
   ) : (
     <span class="log-nav-link dim">GENESIS</span>
   )}
-  <a href="/build-log" class="log-nav-link">[INDEX]</a>
+  <a href="/journal" class="log-nav-link">[INDEX]</a>
   {next ? (
     <a href={`/build-log/${next.day}`} class="log-nav-link">Day {next.day}: {next.title} →</a>
   ) : (
