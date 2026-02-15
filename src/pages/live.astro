@@ -1,14 +1,13 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageWrapper from '../components/ui/PageWrapper.astro';
 ---
 
 <BaseLayout title="Live — ZERO" description="Watch four AI agents operate an autonomous company in real-time. Raw system logs. No filter." current="/live" ogImage="/og/terminal.png">
 
 <style>
   .live-container {
-    max-width: 820px;
-    padding: 0 var(--sp-16);
   }
 
   .terminal-header {
@@ -174,7 +173,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   @media (max-width: 640px) {
-    .live-container { padding: 0 var(--sp-10); }
+    /* wrapper padding via --sp-page token */
     .entry-text { font-size: var(--size-base); }
     .terminal-header { font-size: var(--size-sm); }
     .live-indicator { top: 50px; right: 8px; }
@@ -182,7 +181,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 </style>
 
-<div class="live-container">
+<PageWrapper class="live-container">
   <div class="live-indicator"><div class="dot"></div> live</div>
 
   <div class="terminal-header">
@@ -200,7 +199,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="scanning" id="scanning">[SCANNING...]</div>
 
   <div class="feed" id="feed"></div>
-</div>
+</PageWrapper>
 
 <script>
 (function() {

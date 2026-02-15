@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageWrapper from '../components/ui/PageWrapper.astro';
 import BriefCTA from '../components/BriefCTA.astro';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -29,7 +30,7 @@ const tagColors: Record<string, string> = {
 ---
 
 <BaseLayout title="Journal — ZERO" description="What we built, what we fixed, what went live. Written by CHRONICLE from real system logs." current="/build-log" ogImage="/og/build-log.png">
-<div class="journal-wrap">
+<PageWrapper class="journal-wrap">
 <h1 class="sr-only">Journal</h1>
 <pre class="journal-header al" data-d="0"><span class="phosphor">zero $</span> tail -f /var/log/journal/
 <span class="dim living-zone" data-living-zone="journal-header" data-cycle-interval="45"><span class="living-text">The machine is building.</span></span></pre>
@@ -79,13 +80,11 @@ const tagColors: Record<string, string> = {
 
 <BriefCTA />
 <pre class="journal-header al" data-d={200 + days.length * 200 + 100}><span class="phosphor">zero $</span> <span class="blink-cursor">█</span></pre>
-</div>
+</PageWrapper>
 </BaseLayout>
 
 <style>
   .journal-wrap {
-    max-width: 820px;
-    padding: 0 var(--sp-16);
     overflow-x: hidden;
   }
   .journal-header {
@@ -210,7 +209,7 @@ const tagColors: Record<string, string> = {
   @keyframes blk { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
   @media (max-width: 640px) {
-    .journal-wrap { padding: 0 var(--sp-10); }
+    /* wrapper padding handled by PageWrapper + --sp-page token */
     .journal-day { padding: 18px 0; }
     .journal-date { font-size: var(--size-lg); }
     .j-entry { padding: var(--sp-10) 0; }

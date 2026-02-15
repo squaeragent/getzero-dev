@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageWrapper from '../components/ui/PageWrapper.astro';
 import MetricsDashboard from '../components/MetricsDashboard.astro';
 import CardFeed from '../components/ui/CardFeed.astro';
 import CardEntry from '../components/ui/CardEntry.astro';
@@ -79,7 +80,7 @@ const infra = [
 
 <BaseLayout title="Live System — ZERO" description="Real-time dashboard showing ZERO OS's actual state. Every number is real." current="/system" ogImage="/og/system.png">
   <section class="section container">
-<div class="page-content sys-wrap">
+<PageWrapper class="sys-wrap">
 <h1 class="sr-only">Live System</h1>
 <pre class="sys-prompt al" data-d="0"><span class="phosphor">zero $</span> diagnostics --full
 
@@ -313,14 +314,12 @@ const infra = [
 <div class="sys-eof"><span class="phosphor">[EOF]</span></div>
 </div>
 
-</div>
+</PageWrapper>
   </section>
 </BaseLayout>
 
 <style>
   .sys-wrap {
-    max-width: 820px;
-    padding: 0 12px;
   }
   .sys-prompt {
     font-family: var(--font-body);

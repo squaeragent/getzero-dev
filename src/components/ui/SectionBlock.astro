@@ -1,0 +1,26 @@
+---
+interface Props {
+  border?: boolean;
+  class?: string;
+}
+const { border = true, class: className = '' } = Astro.props;
+---
+<section class:list={['section-block', !border && 'section-block--no-border', className]}>
+  <slot />
+</section>
+
+<style>
+  .section-block {
+    padding: var(--sp-section, 24px) 0;
+    border-bottom: 1px solid var(--border, #1a1a1a);
+  }
+  .section-block:last-child,
+  .section-block--no-border {
+    border-bottom: none;
+  }
+  @media (max-width: 640px) {
+    .section-block {
+      padding: var(--sp-16) 0;
+    }
+  }
+</style>

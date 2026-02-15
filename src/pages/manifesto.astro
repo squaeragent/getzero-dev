@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageWrapper from '../components/ui/PageWrapper.astro';
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -23,7 +24,7 @@ try {
 
 <BaseLayout title="Manifesto — ZERO" description="Can a machine earn trust it didn't start with? ZERO is finding out in public." current="/manifesto" ogImage="/og/manifesto.png">
   <section class="section container">
-    <div class="manifesto-wrap">
+    <PageWrapper class="manifesto-wrap">
 
 <div class="classified-overlay al" data-d="0" id="classified-overlay">[CLASSIFIED]</div>
 
@@ -115,16 +116,14 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
 </div>
 </div>
 
-    </div>
+    </PageWrapper>
   </section>
 </BaseLayout>
 
 <style>
   .manifesto-wrap {
-    max-width: 900px;
     overflow-x: hidden;
     position: relative;
-    padding: 0 12px;
   }
   .classified-overlay {
     position: fixed;

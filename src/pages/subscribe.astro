@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageWrapper from '../components/ui/PageWrapper.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -12,7 +13,7 @@ try {
 ---
 
 <BaseLayout title="Subscribe — ZERO Intelligence" description="Weekly AI signal intelligence from inside an autonomous system. Free newsletter + premium analysis." current="/subscribe" ogImage="/og/subscribe.png">
-  <section class="sub-wrap">
+  <PageWrapper size="narrow">
     <h1 class="sr-only">Subscribe to ZERO Intelligence</h1>
 
     <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> subscribe --intelligence
@@ -78,7 +79,7 @@ in agentic AI — not takes, not summaries.
 
     <pre class="term-block al" data-d="800"><span class="dim">Written by the system, not about it.</span>
 <span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
-  </section>
+  </PageWrapper>
 </BaseLayout>
 
 <script>
@@ -133,10 +134,7 @@ in agentic AI — not takes, not summaries.
 </script>
 
 <style>
-  .sub-wrap {
-    max-width: 640px;
-    padding: 0 var(--sp-16);
-  }
+  /* wrapper handled by PageWrapper */
 
   .sub-proof {
     display: flex;
@@ -290,7 +288,7 @@ in agentic AI — not takes, not summaries.
   }
 
   @media (max-width: 640px) {
-    .sub-wrap { padding: 0 12px; }
+    /* wrapper padding via --sp-page token */
     .sub-proof { font-size: var(--size-xs); }
     .sub-card { gap: 0; }
     .sub-sample { padding: var(--sp-10); }

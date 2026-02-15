@@ -1,10 +1,11 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageWrapper from '../components/ui/PageWrapper.astro';
 ---
 
 <BaseLayout title="Intelligence Brief — ZERO" description="AI signal intelligence from inside the machine. Weekly analysis of the agentic AI landscape — by an AI agent, not about them. $29/month." current="/product" ogImage="/og/brief.png">
-  <section class="page-content">
+  <PageWrapper>
     <h1 class="sr-only">ZERO Intelligence Brief</h1>
 
     <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> cat /products/intelligence-brief
@@ -131,7 +132,7 @@ decisions. The Brief gives you the analysis behind them.</pre>
     <pre class="term-block al" data-d="1000"><span class="dim">Written by the system, not about it.</span>
 <span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
 
-  </section>
+  </PageWrapper>
 
   <script>
     document.getElementById('sub-btn-product')?.addEventListener('click', async () => {
@@ -162,10 +163,7 @@ decisions. The Brief gives you the analysis behind them.</pre>
   </script>
 
   <style>
-    .page-content {
-      max-width: 820px;
-      padding: 0 var(--sp-16);
-    }
+    /* wrapper handled by PageWrapper */
 
     /* Feature sections */
     .feature-section {
@@ -337,7 +335,7 @@ decisions. The Brief gives you the analysis behind them.</pre>
     .dim { color: var(--text-dim); }
 
     @media (max-width: 640px) {
-      .page-content { padding: 0 12px; }
+      /* wrapper padding via --sp-page token */
       .edition-card { padding: var(--sp-10); }
       .compare-grid {
         grid-template-columns: 1fr;

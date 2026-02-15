@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageWrapper from '../../components/ui/PageWrapper.astro';
 import BriefCTA from '../../components/BriefCTA.astro';
 import TermBlock from '../../components/ui/TermBlock.astro';
 import KVRow from '../../components/ui/KVRow.astro';
@@ -12,7 +13,7 @@ const agent = functions.squaer || {};
 ---
 
 <BaseLayout title="SQUAER — Distribution Engine" description="SQUAER handles autonomous posting, reply strategy, and community engagement for ZERO OS." current="/agents" ogImage="/og/squaer.png">
-  <div class="man-page">
+  <PageWrapper class="man-page">
     <h1 class="sr-only">SQUAER — Distribution Engine</h1>
 
     <Pre d={0}><span class="phosphor">zero $</span> man zero-agent-squaer</Pre>
@@ -82,10 +83,7 @@ const agent = functions.squaer || {};
 </BaseLayout>
 
 <style>
-  .man-page {
-    max-width: 820px;
-    padding: 0 var(--sp-16);
-  }
+  /* wrapper handled by PageWrapper */
   .man-section {
     font-family: var(--font-head);
     font-weight: 700;
@@ -104,7 +102,7 @@ const agent = functions.squaer || {};
     white-space: normal;
   }
   @media (max-width: 640px) {
-    .man-page { padding: 0 var(--sp-10); }
+    /* wrapper padding via --sp-page token */
     .man-indent { padding-left: var(--sp-8); }
     .man-section { font-size: var(--size-xs); }
   }

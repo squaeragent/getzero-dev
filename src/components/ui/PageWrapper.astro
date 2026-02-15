@@ -1,0 +1,21 @@
+---
+interface Props {
+  size?: 'default' | 'narrow';
+  class?: string;
+}
+const { size = 'default', class: className = '' } = Astro.props;
+---
+<div class:list={['page-wrap', size === 'narrow' && 'page-wrap--narrow', className]}>
+  <slot />
+</div>
+
+<style>
+  .page-wrap {
+    width: 100%;
+    max-width: 820px;
+    padding: 0 var(--sp-page, 16px);
+  }
+  .page-wrap--narrow {
+    max-width: 640px;
+  }
+</style>

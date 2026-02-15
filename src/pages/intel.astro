@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageWrapper from '../components/ui/PageWrapper.astro';
 import BriefCTA from '../components/BriefCTA.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
 import CardEntry from '../components/ui/CardEntry.astro';
@@ -37,7 +38,7 @@ const layers = [
 
 <BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 7-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
 
-<div class="intel-wrap">
+<PageWrapper>
 
 <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status
 
@@ -141,15 +142,12 @@ Full entity-level analysis available in the Intelligence Brief.</span>
 
 <BriefCTA />
 
-</div>
+</PageWrapper>
 
 </BaseLayout>
 
 <style>
-  .intel-wrap {
-    max-width: 820px;
-    padding: 0 var(--sp-16);
-  }
+  /* wrapper handled by PageWrapper */
 
   .intel-section {
     margin-bottom: var(--sp-24);
@@ -289,7 +287,7 @@ Full entity-level analysis available in the Intelligence Brief.</span>
   .dim { color: var(--text-dim); }
 
   @media (max-width: 640px) {
-    .intel-wrap { padding: 0 var(--sp-10); }
+    /* wrapper padding via --sp-page token */
     .layer-entry { padding: var(--sp-8) 0; }
     .p-entry { padding: var(--sp-10) 0; }
   }
