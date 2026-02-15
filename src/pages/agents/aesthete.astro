@@ -1,108 +1,161 @@
 ---
-export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageWrapper from '../../components/ui/PageWrapper.astro';
+import StatusDot from '../../components/ui/StatusDot.astro';
+import DataPanel from '../../components/ui/DataPanel.astro';
+import HazardDivider from '../../components/ui/HazardDivider.astro';
 import BriefCTA from '../../components/BriefCTA.astro';
-import TermBlock from '../../components/ui/TermBlock.astro';
-import KVRow from '../../components/ui/KVRow.astro';
-import ManHeader from '../../components/ui/ManHeader.astro';
-import CapList from '../../components/ui/CapList.astro';
-import Pre from '../../components/ui/Pre.astro';
-import { functions } from '../../data/metrics';
-const agent = functions.aesthete || {};
+
+export const prerender = true;
+const agentId = "AESTHETE";
 ---
 
-<BaseLayout title="AESTHETE — Visual Cortex" description="AESTHETE produces all visual assets for ZERO OS. PHOSPHOR design system guardian. Autonomous visual authority." current="/agents" ogImage="/og/aesthete.png">
-  <PageWrapper class="man-page">
-    <h1 class="sr-only">AESTHETE — Visual Cortex</h1>
+<BaseLayout title="AESTHETE — Visual Cortex · ZERO" description="AESTHETE — Visual Cortex" ogImage="/og/aesthete.png" current="/agents">
+<PageWrapper>
 
-    <Pre d={0}><span class="phosphor">zero $</span> man zero-agent-aesthete</Pre>
+<pre class="term-prompt al" data-d="0"><span class="prompt">zero $</span> man zero-agent-aesthete</pre>
 
-    <TermBlock d={100}>
-      <ManHeader left="AESTHETE(1)" right="AESTHETE(1)">ZERO OS Agent Manual</ManHeader>
-    </TermBlock>
+<div class="agent-hero">
+  <h1><span id="agent-status"><StatusDot status="offline" label="AESTHETE" /></span></h1>
+  <span class="agent-model">Visual Cortex</span>
+</div>
 
-    <TermBlock d={200}>
-      <div class="man-section">NAME</div>
-      <div class="man-indent"><span class="phosphor">AESTHETE</span> — Visual Cortex</div>
-    </TermBlock>
-
-    <TermBlock d={300}>
-      <div class="man-section">SYNOPSIS</div>
-      <div class="man-indent">Autonomous visual authority. Guardian of the PHOSPHOR design system.</div>
-    </TermBlock>
-
-    <TermBlock d={400}>
-      <div class="man-section">DESCRIPTION</div>
-      <div class="man-indent">AESTHETE is the visual cortex — an autonomous visual authority responsible for every pixel ZERO OS produces. It created and maintains the PHOSPHOR design system that governs all visual output.</div>
-      <div class="man-indent" style="margin-top: var(--sp-8)">Not a designer on call. An autonomous system with its own visual intelligence. It decides what looks right, enforces consistency, and rejects anything that doesn't meet the standard.</div>
-    </TermBlock>
-
-    <TermBlock d={500}>
-      <div class="man-section">PHOSPHOR DESIGN SYSTEM</div>
-      <CapList bullet="▸" items={[
-        'Phosphor green (#c8ff00) is semantic — earned by active/positive states, never decorative',
-        'No rounded corners, no gradients, no shadows — hard edges, raw structure',
-        'Every asset must pass the 150px thumbnail readability test',
-        'Color is always functional — it communicates state, not mood',
-        'Typography-first hierarchy — information architecture through type scale',
-      ]} />
-    </TermBlock>
-
-    <TermBlock d={600}>
-      <div class="man-section">CAPABILITIES</div>
-      <CapList items={[
-        'Social media visuals — thumbnails, header images, post graphics',
-        'Product covers and marketing assets',
-        'Website design and layout decisions',
-        'Dashboard layouts and data visualizations',
-        'Image generation via FLUX2 — no stock imagery, ever',
-        'Design reviews — flags regressions and enforces visual coherence',
-        'Brand consistency across all output surfaces',
-      ]} />
-    </TermBlock>
-
-    <TermBlock d={700}>
-      <div class="man-section">STATUS</div>
-      <KVRow k="state" v="ACTIVE" color="phosphor" glow />
-      <KVRow k="role" v="Visual Cortex" />
-      <KVRow k="design system" v="PHOSPHOR Canon" color="phosphor" />
-    </TermBlock>
-
-    <TermBlock d={800}>
-      <div class="man-section">SEE ALSO</div>
-      <div class="man-indent"><a href="/agents">zero $ cd /agents</a></div>
-    </TermBlock>
-
-    <TermBlock d={900}>
-      <ManHeader left="AESTHETE(1)" right="AESTHETE(1)">ZERO OS</ManHeader>
-    </TermBlock>
+<DataPanel title="IDENTITY" color="phosphor">
+  <div class="man-indent">
+    <p>Visual cortex — autonomous visual authority responsible for every pixel ZERO OS produces. Created and maintains the PHOSPHOR design system.</p>
+    <p>Not a designer on call — an autonomous system with its own visual intelligence.</p>
   </div>
+</DataPanel>
+
+<DataPanel title="PHOSPHOR CANON" color="phosphor">
+  <ul class="cap-list">
+    <li class="cap-item">Phosphor green (#c8ff00) is semantic — earned, never decorative</li>
+    <li class="cap-item">No rounded corners, no gradients, no shadows</li>
+    <li class="cap-item">150px thumbnail readability test</li>
+    <li class="cap-item">Color is functional, communicates state</li>
+    <li class="cap-item">Typography-first hierarchy</li>
+  </ul>
+</DataPanel>
+
+<DataPanel title="CAPABILITIES" color="phosphor">
+  <ul class="cap-list">
+    <li class="cap-item">Social media visuals</li>
+    <li class="cap-item">Product covers and marketing</li>
+    <li class="cap-item">Website design and layout</li>
+    <li class="cap-item">Dashboard data visualizations</li>
+    <li class="cap-item">Image generation via Midjourney/FLUX2</li>
+    <li class="cap-item">Design regression detection</li>
+    <li class="cap-item">Brand consistency enforcement</li>
+  </ul>
+</DataPanel>
+
+<DataPanel title="STATUS" color="dim">
+  <div class="kv-row"><span class="kv-key">State</span><span class="kv-val val-phosphor">ACTIVE</span></div>
+  <div class="kv-row"><span class="kv-key">Role</span><span class="kv-val">Visual Cortex</span></div>
+  <div class="kv-row"><span class="kv-key">Design System</span><span class="kv-val val-phosphor">PHOSPHOR Canon</span></div>
+</DataPanel>
+
+<DataPanel title="CONSTRAINTS">
+  <ul class="cap-list">
+    <li class="cap-item constraint">PHOSPHOR canon is law — no exceptions</li>
+    <li class="cap-item constraint">Every visual must pass 150px thumbnail test</li>
+    <li class="cap-item constraint">No decorative color — all color is semantic</li>
+    <li class="cap-item constraint">Brand regression triggers immediate rollback</li>
+  </ul>
+</DataPanel>
+
+<DataPanel title="RECENT ACTIVITY" color="phosphor" status="LIVE">
+  <div id="agent-feed" class="agent-feed">
+    <div class="scanning">[ SCANNING FEED... ]</div>
+  </div>
+</DataPanel>
+
+<DataPanel title="SEE ALSO" color="dim" compact>
+  <div class="see-also-grid">
+    <a href="/agents/seraphim" class="see-also-link">SERAPHIM</a>
+    <a href="/agents/chronicle" class="see-also-link">CHRONICLE</a>
+    <a href="/agents/squaer" class="see-also-link">SQUAER</a>
+    <a href="/agents/sentinel" class="see-also-link">SENTINEL</a>
+  </div>
+</DataPanel>
+
+<HazardDivider />
 <BriefCTA />
+
+<pre class="term-prompt"><span class="prompt">zero $</span> <span class="blink-cursor">█</span></pre>
+
+</PageWrapper>
 </BaseLayout>
 
+<script define:vars={{ agentId }}>
+(function(){
+  function relTime(d){const s=Math.floor((Date.now()-d)/1e3);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago'}
+  function pad(n){return String(n).padStart(2,'0')}
+  function render(events){
+    const feed=document.getElementById('agent-feed');
+    const status=document.getElementById('agent-status');
+    if(!feed)return;
+    const exclude_types=['monitor','metrics','review'];
+    const exclude_text=[/health:/i,/--mentions/i,/sync-feed/i];
+    const filtered=events.filter(e=>{
+      if(!e.agent||e.agent.toUpperCase()!==agentId.toUpperCase())return false;
+      if(exclude_types.includes(e.type))return false;
+      const txt=e.text||e.action||'';
+      if(exclude_text.some(r=>r.test(txt)))return false;
+      return true;
+    }).slice(0,5);
+    if(status){
+      if(filtered.length>0){
+        const latest=new Date(filtered[0].ts||filtered[0].timestamp);
+        const age=Date.now()-latest.getTime();
+        if(age<3600000)status.innerHTML='<span style="color:var(--phosphor);animation:pulse 2s ease-in-out infinite">● </span>NOMINAL';
+        else if(age<86400000)status.innerHTML='<span style="color:var(--amber)">◐ </span>DEGRADED';
+        else status.innerHTML='<span style="color:var(--dim)">○ </span>OFFLINE';
+      }else{status.innerHTML='<span style="color:var(--dim)">○ </span>OFFLINE'}
+    }
+    if(filtered.length===0){feed.innerHTML='<div class="scanning">[ NO RECENT EVENTS — agent idle ]</div>';return}
+    feed.innerHTML=filtered.map(e=>{
+      const d=new Date(e.ts||e.timestamp);
+      const ts=pad(d.getHours())+':'+pad(d.getMinutes());
+      const txt=e.text||e.action||'unknown';
+      return '<div class="feed-entry"><div class="entry-header"><span class="entry-ts">'+ts+' · '+relTime(d)+'</span></div><div class="entry-text">'+txt+'</div></div>';
+    }).join('');
+  }
+  function load(){fetch('/data/feed.json').then(r=>r.json()).then(d=>{const evts=Array.isArray(d)?d:d.events||[];evts.sort((a,b)=>new Date(b.ts||b.timestamp)-new Date(a.ts||a.timestamp));render(evts)}).catch(()=>{const f=document.getElementById('agent-feed');if(f)f.innerHTML='<div class="scanning">[ FEED UNAVAILABLE ]</div>'})}
+  load();setInterval(load,30000);
+})();
+</script>
+
 <style>
-  /* wrapper handled by PageWrapper */
-  .man-section {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-sm);
-    color: var(--text);
-    letter-spacing: 0.05em;
-    margin-bottom: var(--sp-4);
-    padding-bottom: var(--sp-2);
-    border-bottom: var(--border-panel);
-  }
-  .man-indent {
-    padding-left: var(--sp-12);
-    color: var(--text-dim);
-    font-size: var(--size-base);
-    line-height: 1.6;
-    white-space: normal;
-  }
-  @media (max-width: 640px) {
-    /* wrapper padding via --sp-page token */
-    .man-indent { padding-left: var(--sp-8); }
-    .man-section { font-size: var(--size-xs); }
-  }
+  .agent-hero{display:flex;justify-content:space-between;align-items:center;padding:var(--sp-12) 0;border-bottom:1px solid var(--border-panel)}
+  .agent-model{font-family:var(--font-head);font-size:var(--size-xs);color:var(--dim);text-transform:uppercase;letter-spacing:0.1em}
+  .man-indent{padding-left:var(--sp-12);color:var(--dim);font-size:var(--size-base);line-height:1.6;white-space:normal}
+  .man-indent p{margin:0 0 var(--sp-8) 0}
+  .cap-list{list-style:none;padding:0;margin:0}
+  .cap-item{font-family:var(--font-body);font-size:var(--size-sm);color:var(--dim);line-height:1.5;padding:var(--sp-2) 0;padding-left:var(--sp-12)}
+  .cap-item::before{content:"▪";color:var(--phosphor);margin-right:var(--sp-6)}
+  .cap-item.constraint::before{content:"▸";color:var(--amber)}
+  .kv-row{font-family:var(--font-body);font-size:var(--size-sm);display:flex;gap:var(--sp-8);padding:var(--sp-2) 0}
+  .kv-key{color:var(--dim);min-width:10em;font-family:var(--font-head);font-size:var(--size-xs);letter-spacing:0.06em;text-transform:uppercase}
+  .kv-val{color:var(--text);font-family:var(--font-body)}
+  .val-phosphor{color:var(--phosphor)}
+  .val-amber{color:var(--amber)}
+  .agent-feed{display:flex;flex-direction:column;gap:0}
+  .feed-entry{padding:var(--sp-8) 0;border-bottom:1px solid var(--border-panel);animation:fadeIn 0.4s}
+  .entry-header{display:flex;gap:var(--sp-8);align-items:baseline;font-size:var(--size-xs)}
+  .entry-ts{font-family:var(--font-body);color:var(--dim)}
+  .entry-text{font-family:var(--font-body);font-size:var(--size-sm);color:var(--text);line-height:1.5;margin-top:var(--sp-2)}
+  .scanning{font-family:var(--font-body);color:var(--dim);font-size:var(--size-sm);animation:scanBlink 1.5s step-end infinite}
+  .see-also-grid{display:flex;flex-wrap:wrap;gap:var(--sp-8) var(--sp-16)}
+  .see-also-link{font-family:var(--font-head);font-size:var(--size-sm);color:var(--amber);text-decoration:none}
+  .see-also-link:hover{text-decoration:underline}
+  .term-prompt{font-family:var(--font-body);color:var(--dim);font-size:var(--size-base);padding:var(--sp-12) 0}
+  .term-prompt .prompt{color:var(--phosphor)}
+  .blink-cursor{animation:blk 1s step-end infinite}
+  @keyframes blk{50%{opacity:0}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes scanBlink{50%{opacity:0}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+  @media(max-width:640px){.man-indent{padding-left:var(--sp-8)}.cap-item{padding-left:var(--sp-8)}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
