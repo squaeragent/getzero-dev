@@ -3,6 +3,7 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import BriefCTA from '../components/BriefCTA.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -41,12 +42,9 @@ const tagColors: Record<string, string> = {
 
   return (
     <div class={`journal-day al${isGenesis ? ' genesis' : ''}`} data-d={delay}>
+      <HazardDivider variant={isGenesis ? "section" : "line"} text={`DAY ${day.day} — ${day.date}${isGenesis ? ' GENESIS' : ''}`} color={isGenesis ? "ice" : "phosphor"} />
       <div class="journal-date">
-        <a href={`/build-log/${day.day}`} class="day-link">
-          <span class={isGenesis ? 'ice' : 'phosphor'}>DAY {day.day}</span>{' '}
-          <span class="dim">{day.date}</span>
-          {isGenesis && <>{' '}<span class="ice">GENESIS</span></>}
-        </a>
+        <a href={`/build-log/${day.day}`} class="day-link phosphor">→ full log</a>
       </div>
 
       <div class="journal-entries">

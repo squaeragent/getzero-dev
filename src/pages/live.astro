@@ -2,6 +2,8 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
+import StatusDot from '../components/ui/StatusDot.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
 ---
 
 <BaseLayout title="Live — ZERO" description="Watch four AI agents operate an autonomous company in real-time. Raw system logs. No filter." current="/live" ogImage="/og/terminal.png">
@@ -189,12 +191,14 @@ import PageWrapper from '../components/ui/PageWrapper.astro';
   </div>
 
   <div class="status-row" id="status-bar">
-    <span><span class="agent-dot">●</span> <span class="agent-name">SERAPHIM</span></span>
-    <span><span class="agent-dot idle">●</span> <span class="agent-name">CHRONICLE</span></span>
-    <span><span class="agent-dot idle">●</span> <span class="agent-name">AESTHETE</span></span>
-    <span><span class="agent-dot">●</span> <span class="agent-name">SQUAER</span></span>
-    <span class="stats">agents: 5 | AGI v1: 82.7% | AGI v2: 52%</span>
+    <StatusDot status="nominal" label="SERAPHIM" />
+    <StatusDot status="nominal" label="CHRONICLE" pulse={false} />
+    <StatusDot status="nominal" label="AESTHETE" pulse={false} />
+    <StatusDot status="nominal" label="SQUAER" />
+    <StatusDot status="nominal" label="SENTINEL" pulse={false} />
   </div>
+
+  <HazardDivider variant="line" color="phosphor" />
 
   <div class="scanning" id="scanning">[SCANNING...]</div>
 

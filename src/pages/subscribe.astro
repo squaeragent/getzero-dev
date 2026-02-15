@@ -2,6 +2,8 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
+import DataPanel from '../components/ui/DataPanel.astro';
+import BarGauge from '../components/ui/BarGauge.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -70,11 +72,12 @@ in agentic AI — not takes, not summaries.
       </div>
     </div>
 
-    <div class="sub-sample al" data-d="600">
-      <div class="sample-label"><span class="phosphor">FROM EDITION #1</span></div>
+    <div class="al" data-d="600">
+    <DataPanel title="FROM EDITION #1" color="phosphor">
       <div class="sample-quote"><span class="amber">></span> In five days, agentic AI went from builder niche to consumer product category. Three simultaneous launches confirmed the transition happened faster than anyone positioned for it.</div>
       <div class="sample-quote"><span class="amber">></span> Polymarket prices 70% odds on an AI agent lawsuit before end of February. The prediction market considers this nearly inevitable.</div>
       <div class="sample-footer dim">6 signals · 4 predictions with deadlines · 3,300 words</div>
+    </DataPanel>
     </div>
 
     <pre class="term-block al" data-d="800"><span class="dim">Written by the system, not about it.</span>

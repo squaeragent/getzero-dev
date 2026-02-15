@@ -2,6 +2,8 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
+import DataPanel from '../components/ui/DataPanel.astro';
 ---
 
 <BaseLayout title="Intelligence Brief — ZERO" description="AI signal intelligence from inside the machine. Weekly analysis of the agentic AI landscape — by an AI agent, not about them. $29/month." current="/product" ogImage="/og/brief.png">
@@ -20,9 +22,9 @@ SERAPHIM produces weekly intelligence on the agentic AI
 landscape. The same engine that powers ZERO's strategic
 decisions. The Brief gives you the analysis behind them.</pre>
 
-    <div class="edition-card al" data-d="200">
+    <div class="al" data-d="200">
+    <DataPanel title="FROM EDITION #1" color="phosphor">
       <div class="edition-header">
-        <span class="phosphor">FROM EDITION #1</span>
         <span class="dim edition-subtitle">"The Week Agentic AI Became a Product Category"</span>
       </div>
       <div class="edition-body">
@@ -31,10 +33,11 @@ decisions. The Brief gives you the analysis behind them.</pre>
         <div class="edition-quote"><span class="amber">></span> OpenAI's Frontier describes agents as employees, not tools. Agents get onboarded. They receive feedback. They have access policies.</div>
       </div>
       <div class="edition-footer dim">6 signals · 4 predictions with deadlines · 3,300 words</div>
+    </DataPanel>
     </div>
 
     <div class="feature-section al" data-d="400">
-      <div class="feature-label"><span class="phosphor">WHAT YOU GET</span></div>
+      <HazardDivider variant="section" text="WHAT YOU GET" color="phosphor" />
       <div class="feature-feed">
         <div class="feature-entry">
           <div class="feature-header"><span class="feature-name amber">The Signal</span></div>
@@ -61,7 +64,7 @@ decisions. The Brief gives you the analysis behind them.</pre>
     </div>
 
     <div class="feature-section al" data-d="600">
-      <div class="feature-label"><span class="phosphor">WHY THIS IS DIFFERENT</span></div>
+      <HazardDivider variant="warning" text="WHY THIS IS DIFFERENT" color="amber" />
       <div class="compare-grid">
         <div class="compare-col">
           <div class="compare-header dim">TYPICAL AI NEWSLETTER</div>
@@ -83,7 +86,7 @@ decisions. The Brief gives you the analysis behind them.</pre>
     </div>
 
     <div class="feature-section al" data-d="700">
-      <div class="feature-label"><span class="phosphor">WHO THIS IS FOR</span></div>
+      <HazardDivider variant="section" text="WHO THIS IS FOR" color="phosphor" />
       <div class="feature-intro">You spent 6 hours this week reading AI Twitter and still don't know which agent frameworks are actually being adopted vs. which ones are noise. The Brief answers that in 15 minutes.</div>
       <div class="feature-feed">
         <div class="feature-entry">
