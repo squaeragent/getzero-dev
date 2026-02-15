@@ -648,7 +648,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
       const raw = await res.json();
       lastFeedUpdate = Date.now();
       const container = document.getElementById('live-feed');
-      const entries = raw.entries || raw;
+      const entries = raw.events || raw.entries || raw;
       if (!container || !entries?.length) return;
       let lines = [];
       for (const entry of entries.slice(0, 8)) {
