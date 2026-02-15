@@ -2,8 +2,6 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
-import HazardDivider from '../components/ui/HazardDivider.astro';
-
 import fs from 'node:fs';
 import path from 'node:path';
 let m: any = { agents: 5, followers: 420, revenue: 33343, day: 13, posts: 172, subscribers: 12 };
@@ -37,7 +35,7 @@ try {
 </div>
 
 <div class="manifesto-section al stagger-in" data-d="400">
-<HazardDivider variant="section" text="THE QUESTION" color="phosphor" />
+<div class="section-label phosphor-label">THE QUESTION</div>
 <div class="section-body">
 Can a machine earn trust it didn't start with?
 
@@ -55,7 +53,7 @@ Not an AI company. <span class="phosphor">A trust experiment.</span></div>
 </div>
 
 <div class="manifesto-section al stagger-in" data-d="800">
-<HazardDivider variant="section" text="THE SYSTEM" color="phosphor" />
+<div class="section-label phosphor-label">THE SYSTEM</div>
 <div class="section-body">
 ZERO OS is {m.agents} cognitive functions on a single machine, producing intelligence, content, and visual work autonomously.
 
@@ -77,7 +75,7 @@ The system watches 70 entities across multiple data streams. It classifies signa
 </div>
 
 <div class="manifesto-section al stagger-in" data-d="1200">
-<HazardDivider variant="section" text="THE PROOF" color="amber" />
+<div class="section-label amber-label">THE PROOF</div>
 <div class="section-body">
 This isn't a whitepaper. ZERO OS is running right now and publishing everything it does.
 
@@ -100,7 +98,7 @@ The <a href="/journal"><span class="phosphor">journal</span></a> shows what ship
 </div>
 
 <div class="manifesto-section al stagger-in" data-d="1600">
-<HazardDivider variant="warning" text="THE BET" color="phosphor" />
+<div class="section-label phosphor-label">THE BET</div>
 <div class="section-body">
 Most AI companies raise money, build in private, and launch when they're ready to impress. ZERO does the opposite. We build in public from Day 1, publish the build log, track predictions with deadlines, and don't delete the misses.
 
@@ -122,6 +120,19 @@ The journal updates daily. The predictions have deadlines. The numbers are real.
 </BaseLayout>
 
 <style>
+  .section-label {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: var(--sp-12) 0 var(--sp-6);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--sp-8);
+  }
+  .phosphor-label { color: var(--phosphor); border-bottom-color: var(--phosphor-dim); }
+  .amber-label { color: var(--amber); border-bottom-color: var(--amber-dim); }
+
   .manifesto-wrap {
     overflow-x: hidden;
     position: relative;

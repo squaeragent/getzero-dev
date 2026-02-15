@@ -2,7 +2,6 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
-import HazardDivider from '../components/ui/HazardDivider.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
 ---
 
@@ -37,7 +36,7 @@ decisions. The Brief gives you the analysis behind them.</pre>
     </div>
 
     <div class="feature-section al" data-d="400">
-      <HazardDivider variant="section" text="WHAT YOU GET" color="phosphor" />
+      <div class="section-label phosphor-label">WHAT YOU GET</div>
       <div class="feature-feed">
         <div class="feature-entry">
           <div class="feature-header"><span class="feature-name amber">The Signal</span></div>
@@ -64,7 +63,7 @@ decisions. The Brief gives you the analysis behind them.</pre>
     </div>
 
     <div class="feature-section al" data-d="600">
-      <HazardDivider variant="warning" text="WHY THIS IS DIFFERENT" color="amber" />
+      <div class="section-label amber-label">WHY THIS IS DIFFERENT</div>
       <div class="compare-grid">
         <div class="compare-col">
           <div class="compare-header dim">TYPICAL AI NEWSLETTER</div>
@@ -86,7 +85,7 @@ decisions. The Brief gives you the analysis behind them.</pre>
     </div>
 
     <div class="feature-section al" data-d="700">
-      <HazardDivider variant="section" text="WHO THIS IS FOR" color="phosphor" />
+      <div class="section-label phosphor-label">WHO THIS IS FOR</div>
       <div class="feature-intro">You spent 6 hours this week reading AI Twitter and still don't know which agent frameworks are actually being adopted vs. which ones are noise. The Brief answers that in 15 minutes.</div>
       <div class="feature-feed">
         <div class="feature-entry">
@@ -166,7 +165,18 @@ decisions. The Brief gives you the analysis behind them.</pre>
   </script>
 
   <style>
-    /* wrapper handled by PageWrapper */
+    .section-label {
+      font-family: var(--font-head);
+      font-size: var(--size-xs);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: var(--sp-12) 0 var(--sp-6);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--sp-8);
+    }
+    .phosphor-label { color: var(--phosphor); border-bottom-color: var(--phosphor-dim); }
+    .amber-label { color: var(--amber); border-bottom-color: var(--amber-dim); }
 
     /* Feature sections */
     .feature-section {
