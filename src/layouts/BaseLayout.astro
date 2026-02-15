@@ -70,6 +70,28 @@ const navItems = [
     @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-var.woff2') format('woff2')}
   </style>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>" type="image/svg+xml" />
+  <style is:inline>
+    /* CRT vignette — inlined to avoid cache issues.
+       Same sizing technique as crt-noise (proven on mobile Safari). */
+    .crt-vignette {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      pointer-events: none;
+      z-index: 9996;
+      background: radial-gradient(
+        25% 25% at 50% 50%,
+        transparent 0%,
+        transparent 65%,
+        rgba(0, 0, 0, 0.15) 76%,
+        rgba(0, 0, 0, 0.4) 86%,
+        rgba(0, 0, 0, 0.65) 95%,
+        rgba(0, 0, 0, 0.8) 100%
+      );
+    }
+  </style>
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Organization",

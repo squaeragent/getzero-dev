@@ -156,29 +156,7 @@ body::after {
    Add <div class="crt-vignette"></div> to body.
    ============================================ */
 
-/*
- * CRT vignette — oversized fixed div with viewport-unit gradient.
- * Extends 200px past every edge to cover mobile Safari URL bar resize.
- * Gradient sized in vw/vh so it always maps to the visible screen.
- */
-.crt-vignette {
-  position: fixed;
-  top: -200px;
-  left: -200px;
-  right: -200px;
-  bottom: -200px;
-  pointer-events: none;
-  z-index: 9996;
-  background: radial-gradient(
-    55vw 55vh at 50% 50%,
-    transparent 0%,
-    transparent 55%,
-    rgba(0, 0, 0, 0.12) 68%,
-    rgba(0, 0, 0, 0.35) 80%,
-    rgba(0, 0, 0, 0.6) 92%,
-    rgba(0, 0, 0, 0.75) 100%
-  );
-}
+/* Vignette + curvature styles moved inline to BaseLayout (cache-proof) */
 
 /* Screen curvature on the viewport frame */
 .crt-viewport {
