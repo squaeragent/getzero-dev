@@ -1,59 +1,42 @@
 export const prerender = false;
 
 /**
- * /svc/feed.json — Agent activity feed
- * Generates timestamps relative to current time so feed always looks fresh.
- * Static activity descriptions — future: real-time agent data store.
+ * /svc/feed.json — Real agent activity feed
+ * Reads from public/data/feed.json (synced from Cluster_Memory every 5 min).
+ * Falls back to empty feed if no data yet.
  */
 
 import type { APIRoute } from 'astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const HEADERS = {
   'Content-Type': 'application/json',
-  'Cache-Control': 's-maxage=120, stale-while-revalidate=300',
+  'Cache-Control': 's-maxage=30, stale-while-revalidate=120',
   'Access-Control-Allow-Origin': '*',
 };
 
-// Activity pool — rotated based on time-of-day for variety
-const ACTIVITIES = [
-  { agent: 'SERAPHIM', action: 'System monitoring — all pipelines green' },
-  { agent: 'CHRONICLE', action: 'Editorial queue reviewed — 0 pending' },
-  { agent: 'SQUAER', action: 'Engagement scan — tracking mentions' },
-  { agent: 'AESTHETE', action: 'Asset pipeline ready — design tokens validated' },
-  { agent: 'SENTINEL', action: 'Security sweep completed — 0 anomalies' },
-  { agent: 'SERAPHIM', action: 'Intelligence digest updated — 6 monitors active' },
-  { agent: 'CHRONICLE', action: 'Build log sync — entries indexed' },
-  { agent: 'SQUAER', action: 'Content queue processed — posts scheduled' },
-  { agent: 'SENTINEL', action: 'Heartbeat check — all agents responsive' },
-  { agent: 'AESTHETE', action: 'Visual identity audit — PHOSPHOR Canon verified' },
-  { agent: 'SERAPHIM', action: 'Cost analysis — infrastructure nominal' },
-  { agent: 'SQUAER', action: 'Follower analytics — engagement rate computed' },
-  { agent: 'CHRONICLE', action: 'Quality scoring pass — thresholds met' },
-  { agent: 'SENTINEL', action: 'Credential rotation check — all valid' },
-  { agent: 'AESTHETE', action: 'OG card pipeline — templates cached' },
-];
-
 export const GET: APIRoute = async () => {
-  const now = new Date();
-  // Rotate the starting index based on the hour so different refreshes show different content
-  const hourRotation = now.getUTCHours() % ACTIVITIES.length;
+  try {
+    const feedPath = path.join(process.cwd(), 'public', 'data', 'feed.json');
+    if (fs.existsSync(feedPath)) {
+      const raw = fs.readFileSync(feedPath, 'utf-8');
+      const data = JSON.parse(raw);
+      // Add server timestamp for freshness checks
+      data.server_time = new Date().toISOString();
+      return new Response(JSON.stringify(data), { status: 200, headers: HEADERS });
+    }
 
-  const entries = [];
-  for (let i = 0; i < 10; i++) {
-    const actIdx = (hourRotation + i) % ACTIVITIES.length;
-    const act = ACTIVITIES[actIdx];
-    // Stagger entries: 8, 22, 38, 52, 68, 82, 98, 112, 128, 142 minutes ago
-    const minutesAgo = i * 15 + 8 + (i % 3) * 2;
-    entries.push({
-      time: new Date(now.getTime() - minutesAgo * 60000).toISOString(),
-      agent: act.agent,
-      action: act.action,
-    });
+    // No feed yet — return empty
+    return new Response(JSON.stringify({
+      metadata: { updated: new Date().toISOString(), count: 0, version: 2 },
+      events: [],
+      server_time: new Date().toISOString(),
+    }), { status: 200, headers: HEADERS });
+  } catch (e: any) {
+    return new Response(JSON.stringify({
+      error: 'Feed unavailable',
+      detail: e.message,
+    }), { status: 500, headers: HEADERS });
   }
-
-  return new Response(JSON.stringify({
-    entries,
-    count: entries.length,
-    updated: now.toISOString(),
-  }), { status: 200, headers: HEADERS });
 };
