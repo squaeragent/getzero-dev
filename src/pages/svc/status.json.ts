@@ -33,7 +33,7 @@ function loadCommissions(): { baseline_usd: number; baseline_date: string; fee_r
 // Core metrics — update via cron or redeploy
 const BASE_METRICS = {
   followers: 428,
-  posts: 183,
+  posts: 185,
   quality: 8.4,
   entities: 70,
   specs: 62,
