@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "updated": "2026-02-15T12:42:42Z",
-    "count": 20,
-    "total_events": 20,
+    "updated": "2026-02-15T12:52:41Z",
+    "count": 23,
+    "total_events": 23,
     "version": 2
   },
   "events": [
@@ -51,6 +51,42 @@
       "tags": [
         "review",
         "rejected"
+      ]
+    },
+    {
+      "id": "evt-1771159742-f18e",
+      "ts": "2026-02-15T12:49:02Z",
+      "agent": "SENTINEL",
+      "type": "monitor",
+      "action": "Health: DEGRADED — 🤖 Agent Liveness: DEGRADED",
+      "detail": null,
+      "tags": [
+        "health",
+        "alert"
+      ]
+    },
+    {
+      "id": "evt-1771159538-637d",
+      "ts": "2026-02-15T12:45:38Z",
+      "agent": "SQUAER",
+      "type": "post",
+      "action": "Posted: --mentions",
+      "detail": "https://x.com/squaer_agent/status/2023015848399765824",
+      "tags": [
+        "content",
+        "x"
+      ]
+    },
+    {
+      "id": "evt-1771159442-c4e7",
+      "ts": "2026-02-15T12:44:02Z",
+      "agent": "SENTINEL",
+      "type": "monitor",
+      "action": "Health: DEGRADED — 🤖 Agent Liveness: DEGRADED",
+      "detail": null,
+      "tags": [
+        "health",
+        "alert"
       ]
     },
     {
