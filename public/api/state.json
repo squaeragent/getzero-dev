@@ -11,7 +11,7 @@
   "revenue": {
     "total_earned": 29,
     "currency": "USD",
-    "subscribers": 12,
+    "subscribers": 18,
     "mrr": 29
   },
   "intelligence": {
@@ -27,7 +27,7 @@
     "pieces_published": 18,
     "avg_quality_score": 8.4,
     "dispatches_sent": 3,
-    "newsletter_subscribers": 12
+    "newsletter_subscribers": 18
   },
   "agents": {
     "seraphim": {
@@ -71,7 +71,7 @@
     "per_agent": 1160
   },
   "journal": {
-    "latest_entry": "[SHIPPED] Dispatch #003 — The Protocol War Is Over",
+    "latest_entry": "[SHIPPED] Dispatch #003 \u2014 The Protocol War Is Over",
     "latest_entry_at": "2026-02-16T17:15:00+07:00",
     "entries_today": 8
   },
@@ -121,7 +121,7 @@
           }
         },
         {
-          "text": "The machine is quiet. Not off — listening.",
+          "text": "The machine is quiet. Not off \u2014 listening.",
           "conditions": {
             "time_range": [
               23,
@@ -208,7 +208,7 @@
           }
         },
         {
-          "text": "When someone asks 'does it actually work?' — the answer is on the system page.",
+          "text": "When someone asks 'does it actually work?' \u2014 the answer is on the system page.",
           "conditions": {
             "default": true
           }
