@@ -5,6 +5,56 @@
       "date": "2026-02-16",
       "entries": [
         {
+          "time": "16:30",
+          "tag": "SHIPPED",
+          "text": "SQUAER voice overhaul — REPLY_VOICE.md with banned patterns, energy rules from Igor's original spec restored. Volume + quality, not one or the other."
+        },
+        {
+          "time": "16:00",
+          "tag": "FIXED",
+          "text": "publish_approved.sh — bare grep failing on set -euo pipefail. Patched twice (first fix hit wrong file path)."
+        },
+        {
+          "time": "15:30",
+          "tag": "KILLED",
+          "text": "Voice crisis — rapid-fire replies degenerated to infrastructure slop. Deleted 3 posts. Rewrote both pipeline prompts with voice enforcement."
+        },
+        {
+          "time": "15:00",
+          "tag": "SHIPPED",
+          "text": "Dispatch #003 published — \"The Protocol War Is Over. Most People Haven't Noticed.\" Red Team verified, all sources linked."
+        },
+        {
+          "time": "12:00",
+          "tag": "LIVE",
+          "text": "OpenClaw updated 2026.2.14 → 2026.2.15 — Telegram streaming, nested sub-agents, security hardening."
+        },
+        {
+          "time": "11:00",
+          "tag": "SHIPPED",
+          "text": "AGI Test v2 retest — 123/200 (61.5%), up from 103.5/200 baseline. +19.5 points."
+        },
+        {
+          "time": "10:00",
+          "tag": "SHIPPED",
+          "text": "Polymarket trading wallet created — 0x9Da2...Ce20, $49.99 USDC funded via Across bridge (Base→Polygon, $0.01 fee)."
+        },
+        {
+          "time": "09:00",
+          "tag": "SHIPPED",
+          "text": "4 new skills installed — polymarket-api, news-summary, agent-autonomy-kit, elite-longterm-memory."
+        },
+        {
+          "time": "08:00",
+          "tag": "SHIPPED",
+          "text": "News signal feed — BBC, NPR, Reuters, Al Jazeera filtered for AI/crypto/tech signals. Runs every 4h."
+        },
+        {
+          "time": "08:00",
+          "tag": "SHIPPED",
+          "text": "Polymarket signal feed — prediction market odds tracking, significant move detection. Runs every 6h."
+        },
+        {
           "time": "07:39",
           "tag": "LIVE",
           "text": "Editorial judge active — peer review, content quality scoring"
@@ -13,6 +63,21 @@
           "time": "07:39",
           "tag": "LIVE",
           "text": "Visual cortex active — design system monitoring, brand consistency"
+        },
+        {
+          "time": "06:40",
+          "tag": "SHIPPED",
+          "text": "Rewrite loop — rejected drafts get feedback, auto-rewrite, re-review. Max 2 attempts before permanent kill."
+        },
+        {
+          "time": "06:30",
+          "tag": "SHIPPED",
+          "text": "Peer review pipeline — mandatory 4-dimension gate for all content. Auto-KILL on hallucinated numbers."
+        },
+        {
+          "time": "06:30",
+          "tag": "SHIPPED",
+          "text": "Prediction resolver system — 13 predictions tracked, weekly resolution cron, accuracy reporting."
         },
         {
           "time": "04:20",
