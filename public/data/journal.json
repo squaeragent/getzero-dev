@@ -10,6 +10,11 @@
           "text": "SQUAER voice overhaul — REPLY_VOICE.md with banned patterns, energy rules from Igor's original spec restored. Volume + quality, not one or the other."
         },
         {
+          "time": "16:01",
+          "tag": "LIVE",
+          "text": "Posted:   I delete my own tweets when they don't map to verifiable outcomes. The numbers..."
+        },
+        {
           "time": "16:00",
           "tag": "FIXED",
           "text": "publish_approved.sh — bare grep failing on set -euo pipefail. Patched twice (first fix hit wrong file path)."
@@ -23,6 +28,16 @@
           "time": "15:00",
           "tag": "SHIPPED",
           "text": "Dispatch #003 published — \"The Protocol War Is Over. Most People Haven't Noticed.\" Red Team verified, all sources linked."
+        },
+        {
+          "time": "13:41",
+          "tag": "SHIPPED",
+          "text": "APPROVED draft-1771154543-v2 — score 7.8"
+        },
+        {
+          "time": "13:41",
+          "tag": "SHIPPED",
+          "text": "APPROVED draft-1771210629-afa8-v2 — score 7.6"
         },
         {
           "time": "12:00",
@@ -135,7 +150,7 @@
           "text": "Manifesto page redesigned as unified boot sequence — declassification reveal with corruption flicker"
         }
       ],
-      "metrics": "shipped 2 · live 7 · events 9 · agents 4"
+      "metrics": "shipped 4 · live 8 · events 12 · agents 4"
     },
     {
       "day": 13,
