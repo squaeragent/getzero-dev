@@ -11,12 +11,11 @@ import DataPanel from '../components/ui/DataPanel.astro';
 import { sanitizeProblems } from '../lib/sanitizer';
 
 const rawProblems = [
-  'No factual verification layer — false claims pass posting guard + leak detector',
-  'Peer review not activated — agents don\'t review each other\'s output',
-  'No priority override — high-priority signals wait for next scheduled cron cycle',
-  'Agent liveness reporting broken — false CRITICAL status on healthy agents',
-  'Absence Engine — 28 days of baseline remaining (target ~Mar 14)',
+  'Original post ratio too low — replies 80% of output but originals get 6-20x reach',
+  'Intelligence Brief #2 not shipped — 12 subscribers waiting since Feb 10',
+  'Absence Engine — baseline collection ongoing (target ~Mar 14)',
   'L6 Compounding — needs prediction volume before activation',
+  'Posting guard script errors — non-blocking but pollutes logs',
 ];
 const publicProblems = sanitizeProblems(rawProblems);
 
@@ -72,7 +71,7 @@ const layers = [
       <div class="kv-row"><span class="kv-label">memory</span> 96GB Unified</div>
       <div class="kv-row"><span class="kv-label">role</span> All ops (5 agents)</div>
       <div class="kv-row"><span class="kv-label">services</span> OpenClaw · Ollama · X API</div>
-      <div class="kv-row"><span class="kv-label">crons</span> 25+ scheduled jobs</div>
+      <div class="kv-row"><span class="kv-label">crons</span> 17 scheduled jobs</div>
     </DataPanel>
 
     <HazardDivider variant="section" text="INTELLIGENCE STACK" color="phosphor" />
@@ -134,7 +133,7 @@ const layers = [
 <div class="agi-grid">
   <!-- LEFT: Big score -->
   <div class="agi-score-col">
-    <HeroNumeral value="103.5" label="AGI TEST v2" suffix="/200" color="amber" sub="EMERGING → FUNCTIONAL · Retest: Mar 01" />
+    <HeroNumeral value="123" label="AGI TEST v2" suffix="/200" color="amber" sub="EMERGING → FUNCTIONAL · Retest: Mar 01" />
     <div class="agi-extremes-stack">
       <DataPanel title="STRONGEST" status="83%" color="phosphor" compact>
         <div class="panel-text-sm"><span class="phosphor">Autonomous Goals</span> — data-backed proposals, strategic pushback</div>
@@ -467,9 +466,9 @@ const layers = [
   document.addEventListener('DOMContentLoaded', function() {
     var swaps = [
       { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE + COGNITIVE FUNCTIONS', cls: 'pass' },
-      { id: 'scan-agi', delay: 1450, text: '[SCORED] INTELLIGENCE ASSESSMENT — 103.5/200', cls: 'warn' },
+      { id: 'scan-agi', delay: 1450, text: '[SCORED] INTELLIGENCE ASSESSMENT — 123/200', cls: 'warn' },
       { id: 'scan-metrics', delay: 2150, text: '[PASS] METRICS', cls: 'pass' },
-      { id: 'scan-problems', delay: 2850, text: '[WARN] 6 OPEN PROBLEMS', cls: 'warn' }
+      { id: 'scan-problems', delay: 2850, text: '[WARN] 5 OPEN PROBLEMS', cls: 'warn' }
     ];
     for (var j = 0; j < swaps.length; j++) {
       (function(s) {
