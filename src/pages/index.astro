@@ -43,7 +43,7 @@ const recentFeed = feed.slice(0, 5).map((e: any) => {
 });
 
 const renderDate = new Date();
-const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
+const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
 ---
 
 <BaseLayout title="ZERO OS — Terminal" current="/">

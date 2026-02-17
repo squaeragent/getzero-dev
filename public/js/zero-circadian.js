@@ -1,15 +1,15 @@
 /*
  * ZERO OS — Circadian Display
- * Modulates all ambient effects based on Bangkok time (UTC+7).
+ * Modulates all ambient effects based on HQ time (UTC+7).
  * The page has a daily rhythm. Five phases, nine parameters.
  * One clock controls everything. Every other module listens.
  */
 (function() {
   'use strict';
 
-  var BKK_OFFSET_HOURS = 7;
+  var HQ_OFFSET_HOURS = 7;
 
-  // Phase definitions (BKK hours)
+  // Phase definitions (HQ hours)
   // nightwatch wraps midnight: 23→3
   var PARAMS = {
     active: {
@@ -105,14 +105,14 @@
     deep_night: 3
   };
 
-  function getBKKTime() {
+  function getHQTime() {
     var now = new Date();
     var utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    var bkk = new Date(utc + BKK_OFFSET_HOURS * 3600000);
+    var hq = new Date(utc + HQ_OFFSET_HOURS * 3600000);
     return {
-      hours: bkk.getHours(),
-      minutes: bkk.getMinutes(),
-      decimal: bkk.getHours() + bkk.getMinutes() / 60
+      hours: hq.getHours(),
+      minutes: hq.getMinutes(),
+      decimal: hq.getHours() + hq.getMinutes() / 60
     };
   }
 
@@ -261,20 +261,20 @@
     ].join('\n');
   }
 
-  // BKK clock
+  // HQ clock
   function updateClock() {
     var el = document.querySelector('[data-bkk-clock]');
     if (!el) return;
-    var bkk = getBKKTime();
-    var h = String(bkk.hours).padStart(2, '0');
-    var m = String(bkk.minutes).padStart(2, '0');
-    el.textContent = h + ':' + m + ' BKK';
+    var hq = getHQTime();
+    var h = String(hq.hours).padStart(2, '0');
+    var m = String(hq.minutes).padStart(2, '0');
+    el.textContent = h + ':' + m + ' HQ';
   }
 
   // Main update
   function update() {
-    var bkk = getBKKTime();
-    var params = getBlendedParams(bkk.decimal);
+    var hq = getHQTime();
+    var params = getBlendedParams(hq.decimal);
     applyParams(params);
     updateGlowAnimation(params);
     updateClock();

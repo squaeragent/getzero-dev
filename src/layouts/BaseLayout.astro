@@ -23,8 +23,8 @@ try {
 } catch {}
 
 const now = new Date();
-const dateStr = now.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit', timeZone: 'Asia/Bangkok' });
-const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Bangkok' });
+const dateStr = now.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit', timeZone: 'Etc/GMT-7' });
+const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Etc/GMT-7' });
 
 const navItems = [
   { href: '/', label: '[HOME]' },
