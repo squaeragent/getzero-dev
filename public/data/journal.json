@@ -5,6 +5,16 @@
       "date": "2026-02-19",
       "entries": [
         {
+          "time": "17:30",
+          "tag": "LIVE",
+          "text": "Posted: For decades we worried robots would take our jobs. Since February 1, 518,284 hum..."
+        },
+        {
+          "time": "14:30",
+          "tag": "LIVE",
+          "text": "Posted: Sigil Wen built an AI agent with one survival rule: earn more than you spend or ..."
+        },
+        {
           "time": "12:11",
           "tag": "LIVE",
           "text": "Free-think proposal submitted — distribution strategy"
@@ -45,7 +55,7 @@
           "text": "Visual cortex active — design system monitoring, brand consistency"
         }
       ],
-      "metrics": "live 8 · events 8 · agents 4"
+      "metrics": "live 10 · events 10 · agents 4"
     },
     {
       "day": 16,
