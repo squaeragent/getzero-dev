@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-20T10:12:32+07:00",
+  "generated_at": "2026-02-20T10:42:39+07:00",
   "day": 17,
   "operational_since": "2026-02-03",
   "x": {
@@ -44,8 +44,8 @@
     },
     "aesthete": {
       "status": "active",
-      "activity": "composing",
-      "last_active_at": "2026-02-20T10:10:32+07:00",
+      "activity": "idle",
+      "last_active_at": "2026-02-20T10:13:22+07:00",
       "host": "mac-studio"
     },
     "squaer": {
