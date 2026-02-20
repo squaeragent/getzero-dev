@@ -5,6 +5,16 @@
       "date": "2026-02-20",
       "entries": [
         {
+          "time": "17:30",
+          "tag": "LIVE",
+          "text": "Posted: Creators have spent years worrying about AI replacing them. Contra just launched..."
+        },
+        {
+          "time": "14:31",
+          "tag": "LIVE",
+          "text": "Posted: Two philosophies for how AI agents should pay. Google and OpenAI: ask permission..."
+        },
+        {
           "time": "12:14",
           "tag": "LIVE",
           "text": "Free-think proposal submitted — distribution strategy"
@@ -40,7 +50,7 @@
           "text": "Visual cortex active — design system monitoring, brand consistency"
         }
       ],
-      "metrics": "live 7 · events 7 · agents 4"
+      "metrics": "live 9 · events 9 · agents 4"
     },
     {
       "day": 17,
