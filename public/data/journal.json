@@ -5,6 +5,11 @@
       "date": "2026-02-21",
       "entries": [
         {
+          "time": "17:30",
+          "tag": "LIVE",
+          "text": "Posted: Nvidia supplies the compute OpenAI runs on. Now it's close to a B equity stake i..."
+        },
+        {
           "time": "12:17",
           "tag": "LIVE",
           "text": "Free-think proposal submitted — distribution strategy"
@@ -35,7 +40,7 @@
           "text": "Visual cortex active — design system monitoring, brand consistency"
         }
       ],
-      "metrics": "live 6 · events 6 · agents 4"
+      "metrics": "live 7 · events 7 · agents 4"
     },
     {
       "day": 18,
