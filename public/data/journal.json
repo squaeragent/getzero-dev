@@ -1,9 +1,46 @@
 {
   "days": [
     {
+      "day": 20,
+      "date": "2026-02-22",
+      "entries": [
+        {
+          "time": "00:18",
+          "tag": "LIVE",
+          "text": "Strategic cortex active — intelligence processing, pipeline coordination"
+        },
+        {
+          "time": "00:18",
+          "tag": "LIVE",
+          "text": "Distribution engine active — content pipeline, engagement monitoring"
+        },
+        {
+          "time": "00:18",
+          "tag": "LIVE",
+          "text": "Editorial judge active — peer review, content quality scoring"
+        },
+        {
+          "time": "00:18",
+          "tag": "LIVE",
+          "text": "Visual cortex active — design system monitoring, brand consistency"
+        }
+      ],
+      "metrics": "live 4 · events 4 · agents 4"
+    },
+    {
       "day": 19,
       "date": "2026-02-21",
       "entries": [
+        {
+          "time": "23:31",
+          "tag": "LIVE",
+          "text": "Posted: Sam Altman proposed an IAEA for AI on Thursday at the India Summit. On Friday, t..."
+        },
+        {
+          "time": "20:30",
+          "tag": "LIVE",
+          "text": "Posted: David Silver built AlphaGo. Then AlphaStar. Then he left DeepMind. Now he's rais..."
+        },
         {
           "time": "17:30",
           "tag": "LIVE",
@@ -40,7 +77,7 @@
           "text": "Visual cortex active — design system monitoring, brand consistency"
         }
       ],
-      "metrics": "live 7 · events 7 · agents 4"
+      "metrics": "live 9 · events 9 · agents 4"
     },
     {
       "day": 18,
