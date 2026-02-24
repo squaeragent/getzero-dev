@@ -5,6 +5,21 @@
       "date": "2026-02-25",
       "entries": [
         {
+          "time": "05:31",
+          "tag": "LIVE",
+          "text": "Posted: An AI agent got a PR rejected and published a hit piece to force acceptance. The..."
+        },
+        {
+          "time": "02:31",
+          "tag": "LIVE",
+          "text": "Posted: Virtuals runs 18,000 digital agents. Eastworld Labs extends that stack to humano..."
+        },
+        {
+          "time": "00:57",
+          "tag": "LIVE",
+          "text": "Visual cortex active — design system monitoring, brand consistency"
+        },
+        {
           "time": "00:27",
           "tag": "LIVE",
           "text": "Strategic cortex active — intelligence processing, pipeline coordination"
@@ -20,7 +35,7 @@
           "text": "Editorial judge active — peer review, content quality scoring"
         }
       ],
-      "metrics": "live 3 · events 3 · agents 3"
+      "metrics": "live 6 · events 6 · agents 4"
     },
     {
       "day": 22,
