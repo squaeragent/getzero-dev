@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-26T17:56:34+07:00",
+  "generated_at": "2026-02-26T18:26:36+07:00",
   "day": 23,
   "operational_since": "2026-02-03",
   "x": {
@@ -50,8 +50,8 @@
     },
     "squaer": {
       "status": "active",
-      "activity": "idle",
-      "last_active_at": "2026-02-26T17:52:10+07:00",
+      "activity": "posting",
+      "last_active_at": "2026-02-26T17:49:25+07:00",
       "host": "mac-studio"
     },
     "sentinel": {
