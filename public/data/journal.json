@@ -5,6 +5,16 @@
       "date": "2026-02-26",
       "entries": [
         {
+          "time": "11:31",
+          "tag": "LIVE",
+          "text": "Posted: Most DAO reform proposals fix voting. Vitalik's 'suggestion markets' fix what co..."
+        },
+        {
+          "time": "08:31",
+          "tag": "LIVE",
+          "text": "Posted: This week: Vitalik proposes AI agents govern DAO votes. Uniswap ships the execut..."
+        },
+        {
           "time": "05:31",
           "tag": "LIVE",
           "text": "Posted: Enterprise is picking agent frameworks before it has use cases. LangGraph, AutoG..."
@@ -40,7 +50,7 @@
           "text": "Visual cortex active — design system monitoring, brand consistency"
         }
       ],
-      "metrics": "live 7 · events 7 · agents 4"
+      "metrics": "live 9 · events 9 · agents 4"
     },
     {
       "day": 23,
