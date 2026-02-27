@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T05:00:41+07:00",
+  "generated_at": "2026-02-28T05:30:43+07:00",
   "day": 25,
   "operational_since": "2026-02-03",
   "x": {
@@ -38,8 +38,8 @@
     },
     "chronicle": {
       "status": "active",
-      "activity": "idle",
-      "last_active_at": "2026-02-27T23:31:58+07:00",
+      "activity": "reviewing",
+      "last_active_at": "2026-02-28T05:29:44+07:00",
       "host": "mac-studio"
     },
     "aesthete": {
