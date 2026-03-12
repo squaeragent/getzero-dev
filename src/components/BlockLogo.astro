@@ -1,6 +1,9 @@
 ---
 /**
- * SQUAER logo — oh-my-logo ASCII art, font-size fitted by JS clone measurement
+ * SQUAER logo — oh-my-logo ASCII art, pure CSS clamp sizing
+ * Formula: font-size = (100vw - ~30px margins) / (54 chars × 0.607 ratio)
+ *   = (100vw - 30px) / 32.8 ≈ (100vw - 30px) / 34 (with safety buffer)
+ * Desktop cap: 28px
  */
 ---
 
@@ -20,25 +23,30 @@
   .block-logo-wrap {
     width: 100%;
     overflow: hidden;
-    /* height set by JS after font measurement */
   }
 
   .block-logo {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    /* CRT animation only — NO transform here (set by JS on wrap instead) */
   }
 
   .logo-art {
     font-family: var(--font-head, 'JetBrains Mono', monospace);
-    font-size: 16px; /* JS will override */
+    /*
+      Pure CSS fit formula — no JS, no measurement.
+      Longest line: 54 chars. JetBrains Mono char ratio: ~0.607.
+      Container = viewport - 30px (margins + border + padding).
+      font-size = (vw - 30px) / (54 × 0.607) = (vw - 30) / 32.8
+      Use 34 as divisor (safety buffer ~3%).
+      clamp(8px floor, calculated, 28px desktop cap)
+    */
+    font-size: clamp(8px, calc((100vw - 30px) / 34), 28px);
     line-height: 1.2;
     color: var(--phosphor, #c8ff00);
     text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.2);
     white-space: pre;
     display: block;
-    /* No overflow:hidden here — JS needs scrollWidth to return actual text width */
     overflow: visible;
     margin: 0;
     padding: 0;
@@ -53,7 +61,6 @@
     100% { opacity: 1; filter: brightness(1); }
   }
 
-  /* CRT boot on the inner div (separate from any JS transforms on wrap) */
   .crt-boot {
     animation: crtExpand 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
   }
@@ -102,48 +109,9 @@
 <script>
   (function () {
     const logo = document.querySelector('.block-logo') as HTMLElement;
-    const pre  = document.querySelector('.logo-art')  as HTMLElement;
-    const wrap = document.querySelector('.block-logo-wrap') as HTMLElement;
-    if (!logo || !pre || !wrap) return;
-
+    if (!logo) return;
     const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!REDUCED) setTimeout(() => logo.classList.add('breathing'), 1800);
     logo.addEventListener('click', () => { window.location.href = '/token'; });
-
-    // ── Font-size fitting via off-DOM clone ──
-    // Clone with max-content width + overflow:visible so scrollWidth = true text width
-    async function fitFontSize() {
-      await (document as any).fonts.ready;
-
-      // Measure at 100px using off-screen clone with NO overflow/width constraints
-      const clone = pre.cloneNode(true) as HTMLElement;
-      clone.style.cssText = [
-        'position:fixed',
-        'top:-99999px',
-        'left:-99999px',
-        'visibility:hidden',
-        'pointer-events:none',
-        'font-size:100px',
-        'white-space:pre',
-        'width:max-content',   // shrink-wrap to text width, NOT viewport
-        'max-width:none',
-        'overflow:visible',    // return full text width in scrollWidth
-        'display:block',
-      ].join(';');
-
-      document.body.appendChild(clone);
-      const textWidth100 = clone.scrollWidth;
-      document.body.removeChild(clone);
-
-      if (!textWidth100 || !wrap.clientWidth) return;
-
-      // font-size = 100px * (available / measuredWidth), capped at 28px desktop
-      const available = wrap.clientWidth;
-      const optimal = Math.min(100 * (available / textWidth100), 28);
-      pre.style.fontSize = Math.max(optimal, 5) + 'px';
-    }
-
-    fitFontSize();
-    window.addEventListener('resize', fitFontSize);
   })();
 </script>
