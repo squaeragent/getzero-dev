@@ -125,14 +125,11 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
     background: transparent;
   }
 
-  /* ── CHUNKY TILE STYLE — Claude Code inspired ── */
+  /* ── CHUNKY TILE STYLE — Press Start 2P / Claude Code flat inner border ── */
   .block-cell.on {
     background: var(--phosphor);
-    /* 3D bevel: lighter top-left, darker bottom-right, outer grout line */
-    box-shadow:
-      inset 4px 4px 0 rgba(255,255,255,0.18),
-      inset -4px -4px 0 rgba(0,0,0,0.45),
-      0 0 0 1px rgba(0,0,0,0.5);
+    /* flat inner stroke — the CC look */
+    box-shadow: inset 0 0 0 3px rgba(0,0,0,0.55);
     animation: blockMaterialize 0.35s ease-out both;
     animation-delay: calc(0.55s + var(--row-delay, 0ms));
   }
@@ -160,10 +157,7 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
     }
     100% {
       background: var(--phosphor);
-      box-shadow:
-        inset 4px 4px 0 rgba(255,255,255,0.18),
-        inset -4px -4px 0 rgba(0,0,0,0.45),
-        0 0 0 1px rgba(0,0,0,0.5);
+      box-shadow: inset 0 0 0 3px rgba(0,0,0,0.55);
       transform: scale(1);
       opacity: 1;
     }
@@ -246,12 +240,7 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
       --block-size: 9px;
       --block-gap: 1.5px;
     }
-    .block-cell.on {
-      box-shadow:
-        inset 1px 1px 0 rgba(255,255,255,0.2),
-        inset -1px -1px 0 rgba(0,0,0,0.5),
-        0 0 0 1px rgba(0,0,0,0.5);
-    }
+    .block-cell.on { box-shadow: inset 0 0 0 1.5px rgba(0,0,0,0.55); }
   }
 
   /* Tablets 640-900px: medium blocks, 2px bevel
@@ -262,12 +251,7 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
       --block-size: 14px;
       --block-gap: 2px;
     }
-    .block-cell.on {
-      box-shadow:
-        inset 2px 2px 0 rgba(255,255,255,0.18),
-        inset -2px -2px 0 rgba(0,0,0,0.45),
-        0 0 0 1px rgba(0,0,0,0.5);
-    }
+    .block-cell.on { box-shadow: inset 0 0 0 2px rgba(0,0,0,0.55); }
   }
 
   @media (prefers-reduced-motion: reduce) {
