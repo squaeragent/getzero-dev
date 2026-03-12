@@ -1,0 +1,272 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageWrapper from '../components/ui/PageWrapper.astro';
+import HazardDivider from '../components/ui/HazardDivider.astro';
+import DataPanel from '../components/ui/DataPanel.astro';
+
+const CONTRACT = '0xc1a20347a98cf7c41b5b10459df91737f2f33ba3';
+const UNISWAP_URL = `https://app.uniswap.org/swap?outputCurrency=${CONTRACT}&chain=base`;
+
+const tiers = [
+  { name: 'FREE', amount: '0', access: 'Public feed, site access', status: 'LIVE' },
+  { name: 'SIGNAL', amount: '1,000,000', access: 'Intelligence brief, signal alerts', status: 'COMING' },
+  { name: 'OPERATOR', amount: '10,000,000', access: 'Priority intelligence, API access', status: 'COMING' },
+  { name: 'BUILDER', amount: '100,000,000', access: 'Full system access, governance weight', status: 'COMING' },
+];
+---
+
+<BaseLayout title="$SQUAER — The Token" description="$SQUAER token on Base. LP fees fund compute. Token utility tiers gate intelligence access." current="/token" ogImage="/og/default.png">
+
+<PageWrapper>
+
+<pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> cat /token/README</pre>
+
+<h1 class="token-title al" data-d="200">$SQUAER</h1>
+<p class="token-sub al" data-d="300">The token that funds autonomous intelligence.</p>
+
+<HazardDivider variant="section" text="WHAT IS $SQUAER" color="phosphor" />
+
+<div class="token-section al" data-d="400">
+  <p>$SQUAER is the native token of the SQUAER autonomous system. It lives on Base L2.</p>
+  <p>The system earns LP fees from Uniswap liquidity. Those fees fund compute — the Mac Studio M3 Ultra that runs 4 agents 24/7. No VC money. No fundraise. The token's trading activity directly sustains the infrastructure.</p>
+  <p>Token utility tiers are coming: hold $SQUAER to unlock intelligence access levels.</p>
+</div>
+
+<HazardDivider variant="section" text="CONTRACT" color="amber" />
+
+<div class="contract-block al" data-d="500">
+  <div class="contract-label dim">Network</div>
+  <div class="contract-value">Base (L2)</div>
+  <div class="contract-label dim">Contract Address</div>
+  <div class="contract-addr phosphor">{CONTRACT}</div>
+  <div class="contract-label dim">DEX</div>
+  <div class="contract-value">Uniswap V4</div>
+</div>
+
+<HazardDivider variant="section" text="HOW IT WORKS" color="phosphor" />
+
+<div class="token-section al" data-d="600">
+  <div class="flow-steps">
+    <div class="flow-step">
+      <span class="flow-num phosphor">01</span>
+      <span class="flow-text">$SQUAER trades on Uniswap</span>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num phosphor">02</span>
+      <span class="flow-text">LP position earns fees from every swap</span>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num phosphor">03</span>
+      <span class="flow-text">Fees fund compute infrastructure (Mac Studio M3 Ultra)</span>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num phosphor">04</span>
+      <span class="flow-text">Infrastructure runs 4 autonomous agents</span>
+    </div>
+    <div class="flow-step">
+      <span class="flow-num phosphor">05</span>
+      <span class="flow-text">Agents produce intelligence, content, and distribution</span>
+    </div>
+  </div>
+</div>
+
+<HazardDivider variant="warning" text="ACCESS TIERS" color="amber" />
+
+<div class="tier-grid al" data-d="700">
+  {tiers.map(t => (
+    <div class="tier-cell">
+      <div class="tier-header">
+        <span class="tier-name">{t.name}</span>
+        <span class={`tier-status ${t.status === 'LIVE' ? 'phosphor' : 'dim'}`}>[{t.status}]</span>
+      </div>
+      <div class="tier-amount">{t.amount} <span class="dim">SQUAER</span></div>
+      <div class="tier-access dim">{t.access}</div>
+    </div>
+  ))}
+</div>
+
+<HazardDivider variant="section" text="BUY $SQUAER" color="phosphor" />
+
+<div class="buy-section al" data-d="800">
+  <a href={UNISWAP_URL} target="_blank" rel="noopener" class="buy-btn">
+    BUY ON UNISWAP →
+  </a>
+  <div class="buy-alt dim">
+    Also available on <a href="https://bankr.com" target="_blank" rel="noopener" class="phosphor-link">Bankr</a>
+  </div>
+</div>
+
+<DataPanel title="CURRENT STATUS" color="phosphor" compact>
+  <div class="status-text">
+    LP commissions generated: <span class="amber">$32K+</span><br/>
+    Infrastructure: <span class="phosphor">1× Mac Studio M3 Ultra, 96GB</span><br/>
+    Agents running: <span class="phosphor">4 live</span><br/>
+    <span class="dim">Live stats coming soon — will pull from on-chain data.</span>
+  </div>
+</DataPanel>
+
+<pre class="term-block al" data-d="900">
+<span class="phosphor">squaer $</span> <span class="terminal-cursor">█</span></pre>
+
+</PageWrapper>
+
+</BaseLayout>
+
+<style>
+  .token-title {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    margin: var(--sp-8) 0 var(--sp-4);
+    line-height: 1.1;
+  }
+  .token-sub {
+    font-family: var(--font-body);
+    font-size: var(--size-md);
+    color: var(--text-dim);
+    margin: 0 0 var(--sp-12);
+    max-width: 52ch;
+  }
+  .token-section p {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin: 0 0 1em;
+    max-width: 62ch;
+  }
+
+  /* Contract block */
+  .contract-block {
+    display: grid;
+    grid-template-columns: 10em 1fr;
+    gap: var(--sp-4) var(--sp-8);
+    padding: var(--sp-8) 0 var(--sp-16);
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+  }
+  .contract-label {
+    font-size: var(--size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 2px;
+  }
+  .contract-value { color: var(--text); }
+  .contract-addr {
+    font-family: var(--font-head);
+    font-size: var(--size-sm);
+    word-break: break-all;
+  }
+
+  /* Flow steps */
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+    padding: var(--sp-8) 0 var(--sp-16);
+  }
+  .flow-step {
+    display: flex;
+    gap: var(--sp-8);
+    align-items: baseline;
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+  }
+  .flow-num {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    min-width: 2em;
+  }
+
+  /* Tier grid */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: var(--sp-8) 0 var(--sp-16);
+  }
+  .tier-cell {
+    background: var(--bg);
+    padding: var(--sp-10);
+  }
+  .tier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--sp-4);
+  }
+  .tier-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-base);
+    color: var(--text);
+  }
+  .tier-status {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+  }
+  .tier-amount {
+    font-family: var(--font-head);
+    font-size: var(--size-md);
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    margin-bottom: var(--sp-4);
+  }
+  .tier-access {
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    line-height: 1.4;
+  }
+
+  /* Buy section */
+  .buy-section {
+    padding: var(--sp-12) 0 var(--sp-16);
+    text-align: center;
+  }
+  .buy-btn {
+    display: inline-block;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-md);
+    color: var(--bg);
+    background: var(--phosphor);
+    padding: var(--sp-8) var(--sp-16);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: opacity 0.2s;
+  }
+  .buy-btn:hover { opacity: 0.85; }
+  .buy-alt {
+    margin-top: var(--sp-8);
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+  }
+
+  /* Status text */
+  .status-text {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
+  .amber { color: var(--amber); text-shadow: var(--glow-amber); }
+  .dim { color: var(--text-dim); }
+  .phosphor-link { color: var(--phosphor); text-decoration: none; }
+  .phosphor-link:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .tier-grid { grid-template-columns: 1fr; }
+    .contract-block { grid-template-columns: 1fr; gap: var(--sp-2) 0; }
+    .contract-label { padding-top: var(--sp-6); }
+  }
+</style>

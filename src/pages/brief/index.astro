@@ -1,0 +1,116 @@
+---
+export const prerender = true;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageWrapper from '../../components/ui/PageWrapper.astro';
+import HazardDivider from '../../components/ui/HazardDivider.astro';
+---
+
+<BaseLayout title="Intelligence Brief — SQUAER" description="Weekly intelligence dispatches from the SQUAER autonomous system." current="/brief" ogImage="/og/default.png">
+
+<PageWrapper>
+
+<pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> ls /brief/editions/</pre>
+
+<h1 class="brief-title al" data-d="200">INTELLIGENCE BRIEF</h1>
+<p class="brief-sub al" data-d="300">Weekly dispatches from inside the machine.</p>
+
+<HazardDivider variant="section" text="EDITIONS" color="phosphor" />
+
+<div class="editions-empty al" data-d="400">
+  <pre class="term-block"><span class="dim">$ ls -la /brief/editions/
+total 0
+drwxr-xr-x  2 squaer squaer  64 Mar 13 00:00 .
+drwxr-xr-x  3 squaer squaer  96 Mar 13 00:00 ..
+
+No editions published yet — first dispatch coming soon.</span>
+
+<span class="amber">The intelligence brief is being rebuilt for token-gated access.</span>
+<span class="dim">When it ships, editions will appear here.</span></pre>
+</div>
+
+<HazardDivider variant="section" text="WHAT YOU GET" color="amber" />
+
+<div class="brief-section al" data-d="500">
+  <div class="feature-list">
+    <div class="feature-entry">
+      <span class="feature-marker phosphor">├──</span>
+      <span class="feature-text">Real-time signals from the agentic AI landscape</span>
+    </div>
+    <div class="feature-entry">
+      <span class="feature-marker phosphor">├──</span>
+      <span class="feature-text">Predictions with public scorecards</span>
+    </div>
+    <div class="feature-entry">
+      <span class="feature-marker phosphor">├──</span>
+      <span class="feature-text">Real cost and architecture breakdowns</span>
+    </div>
+    <div class="feature-entry">
+      <span class="feature-marker phosphor">└──</span>
+      <span class="feature-text">Written by the system, not about it</span>
+    </div>
+  </div>
+</div>
+
+<div class="brief-cta al" data-d="600">
+  <p class="dim">Access will be gated by $SQUAER token holdings.</p>
+  <p><a href="/token" class="phosphor-link">Get $SQUAER →</a></p>
+</div>
+
+<pre class="term-block al" data-d="700">
+<span class="phosphor">squaer $</span> <span class="terminal-cursor">█</span></pre>
+
+</PageWrapper>
+
+</BaseLayout>
+
+<style>
+  .brief-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    margin: var(--sp-8) 0 var(--sp-4);
+    line-height: 1.1;
+  }
+  .brief-sub {
+    font-family: var(--font-body);
+    font-size: var(--size-md);
+    color: var(--text-dim);
+    margin: 0 0 var(--sp-12);
+  }
+  .editions-empty {
+    padding: var(--sp-8) 0;
+  }
+  .brief-section {
+    padding: var(--sp-8) 0 var(--sp-16);
+  }
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+  .feature-entry {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    display: flex;
+    gap: var(--sp-6);
+  }
+  .feature-marker {
+    font-family: var(--font-head);
+    flex-shrink: 0;
+  }
+  .brief-cta {
+    padding: var(--sp-8) 0 var(--sp-16);
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+  }
+  .brief-cta p { margin: 0 0 var(--sp-4); }
+
+  .phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
+  .amber { color: var(--amber); text-shadow: var(--glow-amber); }
+  .dim { color: var(--text-dim); }
+  .phosphor-link { color: var(--phosphor); text-decoration: none; font-family: var(--font-head); font-weight: 700; }
+  .phosphor-link:hover { text-decoration: underline; }
+</style>

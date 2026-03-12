@@ -1,6 +1,9 @@
 {
   "redirects": [
     { "source": "/build-log", "destination": "/journal", "permanent": true },
-    { "source": "/live", "destination": "/journal", "permanent": true }
+    { "source": "/live", "destination": "/journal", "permanent": true },
+    { "source": "/product", "destination": "/token", "permanent": true },
+    { "source": "/predictions", "destination": "/token", "permanent": true },
+    { "source": "/subscribe", "destination": "/", "permanent": false }
   ]
 }

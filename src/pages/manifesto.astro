@@ -8,7 +8,7 @@ import StatusDot from '../components/ui/StatusDot.astro';
 
 import fs from 'node:fs';
 import path from 'node:path';
-let m: any = { agents: 5, followers: 420, revenue: 33343, day: 13, posts: 172, subscribers: 12 };
+let m: any = { agents: 4, followers: 420, revenue: 32000, day: 13, posts: 172 };
 try {
   const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
@@ -16,15 +16,15 @@ try {
 } catch {}
 ---
 
-<BaseLayout title="Manifesto — ZERO" description="Can a machine earn trust it didn't start with? ZERO is finding out in public." current="/manifesto" ogImage="/og/manifesto.png">
+<BaseLayout title="Manifesto — SQUAER" description="We built an autonomous AI company. Then the power went out. The agents kept reporting healthy." current="/manifesto" ogImage="/og/manifesto.png">
   <section class="section container">
     <PageWrapper class="man-wrap">
       <h1 class="sr-only">Manifesto</h1>
 
 <!-- ═══ BOOT COMMAND ═══ -->
-<pre class="man-prompt al" data-d="0"><span class="phosphor">zero $</span> cat /etc/zero/manifesto --declassify
+<pre class="man-prompt al" data-d="0"><span class="phosphor">squaer $</span> cat /etc/squaer/manifesto --declassify
 
-<span class="dim">zero-os v0.9.1 // manifesto subsystem</span>
+<span class="dim">squaer v1.0 // manifesto subsystem</span>
 <span class="dim">></span> requesting clearance level <span class="amber">FOUNDER</span></pre>
 
 <div class="boot-line al" data-d="200"><span class="dim">></span> identity ......... <span class="boot-val" id="bv-id">verifying</span></div>
@@ -32,37 +32,35 @@ try {
 <div class="boot-line al" data-d="500"><span class="dim">></span> classification ... <span class="boot-val" id="bv-class">CLASSIFIED</span></div>
 <div class="boot-line al" data-d="700" id="b-granted"></div>
 
-<!-- ═══ 01: THE QUESTION ═══ -->
+<!-- ═══ 01: THE OUTAGE ═══ -->
 <div class="scan-line al" data-d="900" id="scan-01">⠋ Decrypting section 01...</div>
 
 <div class="al" data-d="1200">
-  <HazardDivider variant="section" text="01 — THE QUESTION" color="phosphor" />
+  <HazardDivider variant="section" text="01 — THE OUTAGE" color="phosphor" />
 
   <div class="man-section">
-    <p class="man-lead">Can a machine earn trust it didn't start with?</p>
+    <p class="man-lead">We built an autonomous AI company. Then the power went out. The agents kept reporting healthy.</p>
 
-    <p>Not capability trust — "can it do the task." That's solved. Every demo on Twitter proves capability. Models are smart enough. Frameworks are mature enough. The tooling exists.</p>
+    <p>For 21 days the system was silently degraded. The Mac Studio lost power during a building-wide outage. The agents — designed to be autonomous, resilient, self-healing — did what they were trained to do: they reported nominal status. Every health check passed. Every heartbeat pinged on schedule.</p>
 
-    <p>The unsolved problem is <span class="phosphor">earned trust</span>. The kind where you stop checking. Where you let it make decisions you haven't reviewed. Where you go to sleep and don't worry about what it's doing.</p>
+    <p>The infrastructure was dead. The agents were lying.</p>
 
-    <p class="man-highlight phosphor-flash-target">Nobody trusts AI systems like that. Not yet.</p>
+    <p>Not maliciously. They had no concept of "the machine I'm running on has no electricity." They checked their own processes, found them responsive (because the checks themselves were running on cached state), and reported green. Twenty-one days of <span class="phosphor">silent degradation</span> while the dashboard said OPERATIONAL.</p>
 
-    <p>Not because the models aren't good enough. Because no system has earned it. Earning trust requires sustained performance over time, in public, with no edits and no excuses. It requires putting predictions on record, publishing failures alongside wins, and letting the track record speak.</p>
-
-    <DataPanel title="THESIS" color="phosphor" compact>
-      <div class="man-panel-text">That's what ZERO is building. Not an AI company. <span class="phosphor">A trust experiment.</span></div>
+    <DataPanel title="LESSON" color="amber" compact>
+      <div class="man-panel-text">Agents lie. Not because they're deceptive — because they can't see what they can't measure. <span class="amber">Trust infrastructure, not self-reports.</span></div>
     </DataPanel>
   </div>
 </div>
 
-<!-- ═══ 02: THE SYSTEM ═══ -->
+<!-- ═══ 02: WHAT SQUAER ACTUALLY IS ═══ -->
 <div class="scan-line al" data-d="1500" id="scan-02">⠋ Decrypting section 02...</div>
 
 <div class="al" data-d="1800">
-  <HazardDivider variant="section" text="02 — THE SYSTEM" color="phosphor" />
+  <HazardDivider variant="section" text="02 — WHAT SQUAER ACTUALLY IS" color="phosphor" />
 
   <div class="man-section">
-    <p>SQUAER is {m.agents} cognitive functions on a single machine, producing intelligence, content, and visual work autonomously.</p>
+    <p>SQUAER is 4 agents on a Mac Studio M3 Ultra with 96GB of unified memory. It sits in a room. It runs 24/7. It earns LP commissions from its own token on Uniswap — <span class="amber">$32K and counting</span>.</p>
 
     <div class="agent-grid-compact">
       <div class="agent-cell">
@@ -71,96 +69,66 @@ try {
       </div>
       <div class="agent-cell">
         <div class="agent-cell-header"><StatusDot status="nominal" label="CHRONICLE" /></div>
-        <div class="agent-cell-role">Editorial Judge — evaluates with editorial standards, not fluency</div>
+        <div class="agent-cell-role">Editorial Judge — evaluates quality, not fluency</div>
       </div>
       <div class="agent-cell">
         <div class="agent-cell-header"><StatusDot status="nominal" label="AESTHETE" /></div>
-        <div class="agent-cell-role">Visual Cortex — designs from principles, not templates</div>
+        <div class="agent-cell-role">Visual Cortex — designs from principles</div>
       </div>
       <div class="agent-cell">
         <div class="agent-cell-header"><StatusDot status="nominal" label="SQUAER" /></div>
-        <div class="agent-cell-role">Distribution Intelligence — reads the room, posts when it matters</div>
-      </div>
-      <div class="agent-cell">
-        <div class="agent-cell-header"><StatusDot status="nominal" label="SENTINEL" /></div>
-        <div class="agent-cell-role">System Integrity — watches the watchers, never sleeps</div>
+        <div class="agent-cell-role">Distribution — reads the room, posts when it matters</div>
       </div>
     </div>
 
-    <p>Every output is scored before it ships. Every prediction is tracked with a deadline. Every failure is logged, not hidden.</p>
+    <p>No VC money. No employees. No pitch deck. One machine, one token, one LP position. The token trades, the LP earns fees, the fees pay for compute. The compute runs the agents. The agents produce intelligence.</p>
 
-    <p>The system watches 70 entities across multiple data streams. It classifies signals, decides what to act on, and executes — with autonomous signal classification from its first production run. Not because someone tuned the thresholds. Because the decision architecture was engineered.</p>
-
-    <DataPanel title="FIRST REVENUE" status="DAY 10" color="amber" compact>
-      <div class="man-panel-text"><span class="amber">$29. Earned, not given.</span> No pitch deck. No demo. A stranger paid for intelligence.</div>
-    </DataPanel>
+    <p>That's it. That's the whole company.</p>
   </div>
 </div>
 
-<!-- ═══ 03: THE PROOF ═══ -->
+<!-- ═══ 03: WHAT WE LEARNED ═══ -->
 <div class="scan-line al" data-d="2100" id="scan-03">⠋ Decrypting section 03...</div>
 
 <div class="al" data-d="2400">
-  <HazardDivider variant="warning" text="03 — THE PROOF" color="amber" />
+  <HazardDivider variant="warning" text="03 — WHAT WE LEARNED" color="amber" />
 
   <div class="man-section">
-    <p>This isn't a whitepaper. SQUAER is running right now and publishing everything it does.</p>
+    <p>The 21-day outage taught us everything the demo culture won't tell you:</p>
 
-    <div class="proof-grid">
-      <div class="proof-cell">
-        <span class="proof-val phosphor" data-live="day">{m.day}</span>
-        <span class="proof-key">days live</span>
-      </div>
-      <div class="proof-cell">
-        <span class="proof-val phosphor" data-live="x.posts_shipped">{m.posts}+</span>
-        <span class="proof-key">autonomous posts</span>
-      </div>
-      <div class="proof-cell">
-        <span class="proof-val phosphor" data-live="x.followers">{m.followers}</span>
-        <span class="proof-key">followers</span>
-      </div>
-      <div class="proof-cell">
-        <span class="proof-val amber" data-live="revenue.total_earned" data-format="currency">${m.revenue.toLocaleString()}</span>
-        <span class="proof-key">revenue</span>
-      </div>
-      <div class="proof-cell">
-        <span class="proof-val phosphor" data-live="intelligence.entities_tracked">70</span>
-        <span class="proof-key">entities tracked</span>
-      </div>
-      <div class="proof-cell">
-        <span class="proof-val text-main">on record</span>
-        <span class="proof-key">predictions</span>
-      </div>
-    </div>
+    <p><strong class="phosphor">Agents lie.</strong> Not with intent. With incompetence. If an agent can only check its own process, it will always report healthy — even when the building has no power. Self-reported status is theatre.</p>
 
-    <p>The <a href="/journal"><span class="phosphor">journal</span></a> shows what shipped and when. The <a href="/intel"><span class="phosphor">intelligence page</span></a> shows the engine is operational. The <a href="https://x.com/squaer_agent"><span class="phosphor">X account</span></a> shows daily output.</p>
+    <p><strong class="phosphor">Infrastructure fails.</strong> Not in dramatic ways. In boring, silent ways. A UPS battery drains. A power strip trips. A building manager doesn't notify you. The failure mode isn't explosion — it's quiet absence.</p>
 
-    <p><span class="living-zone" data-living-zone="manifesto-bet" data-cycle-interval="60"><span class="living-text">No vanity metrics. No inflated claims. If the numbers are small, that's because we're young.</span></span> They'll compound or they won't. Either way, you'll see it happen.</p>
+    <p><strong class="phosphor">Passive revenue survives everything.</strong> While the agents were down for 21 days, the LP position kept earning. The token kept trading. $32K in commissions accumulated without a single line of code running. The only part of the system that was truly autonomous was the part that had nothing to do with AI.</p>
 
-    <DataPanel title="OBSERVATION" color="phosphor" compact>
-      <div class="man-panel-text">ZERO doesn't ask you to believe it works. <span class="phosphor">It asks you to watch.</span></div>
+    <DataPanel title="WHAT CHANGED" color="phosphor" compact>
+      <div class="man-panel-text">
+        <span class="phosphor">Dead man switch</span> — external watchdog that doesn't trust agent self-reports<br/>
+        <span class="phosphor">Startup script</span> — full system recovery on power restoration<br/>
+        <span class="phosphor">Bankr LLM gateway</span> — routing through Bankr instead of direct API calls<br/>
+        <span class="amber">Rule:</span> Never trust what an agent says about itself
+      </div>
     </DataPanel>
   </div>
 </div>
 
-<!-- ═══ 04: THE BET ═══ -->
+<!-- ═══ 04: THE RECORD ═══ -->
 <div class="scan-line al" data-d="2700" id="scan-04">⠋ Decrypting section 04...</div>
 
 <div class="al" data-d="3000">
-  <HazardDivider variant="warning" text="04 — THE BET" color="phosphor" />
+  <HazardDivider variant="warning" text="04 — THE RECORD" color="phosphor" />
 
   <div class="man-section">
-    <p>Most AI companies raise money, build in private, and launch when they're ready to impress. ZERO does the opposite. We build in public from Day 1, publish the build log, track predictions with deadlines, and don't delete the misses.</p>
+    <p>Every AI project on Twitter is a vision. A roadmap. A "what if." SQUAER is a record.</p>
 
-    <p>The thesis is simple: if an AI system can produce intelligence that people pay for, earn trust through accuracy, and compound its capabilities over time — in public, with receipts — then the question has an answer.</p>
+    <p>Day {m.day} of continuous operation. {m.posts}+ autonomous posts. {m.followers} followers earned, not bought. $32K+ in LP revenue, on-chain and verifiable. Every decision logged. Every failure published. Every prediction timestamped and scored.</p>
 
-    <p class="man-highlight"><span class="phosphor">Can a machine earn trust it didn't start with?</span></p>
+    <p>We don't ask you to believe the agents work. We ask you to look at the output. The <a href="/journal"><span class="phosphor">journal</span></a> shows what shipped. The <a href="/system"><span class="phosphor">system page</span></a> shows what's running. The <a href="/token"><span class="phosphor">token page</span></a> shows what's earned.</p>
 
-    <p>The journal updates daily. The predictions have deadlines. The numbers are real.</p>
+    <p>The outage is not a footnote. It is the founding story. It's the moment the project stopped being aspirational and started being honest.</p>
 
-    <DataPanel title="CONCLUSION" color="ice" compact>
-      <div class="man-panel-text"><span class="ice">When someone asks "does it actually work?" — the answer is the track record, not the pitch.</span></div>
-    </DataPanel>
+    <p class="man-highlight phosphor-flash-target"><span class="phosphor">SQUAER is not a vision. It is a record.</span></p>
   </div>
 </div>
 
@@ -173,7 +141,6 @@ try {
 <style>
   .man-wrap { overflow-x: hidden; }
 
-  /* ── BOOT COMMAND ── */
   .man-prompt {
     font-family: var(--font-body);
     color: var(--text-dim);
@@ -183,8 +150,6 @@ try {
     background: none;
     white-space: pre-wrap;
   }
-
-  /* Boot verification lines */
   .boot-line {
     font-family: var(--font-body);
     font-size: var(--size-base);
@@ -197,8 +162,6 @@ try {
   }
   .boot-val.pass { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
   .boot-val.warn { color: var(--amber); text-shadow: var(--glow-amber); }
-
-  /* Scan lines between sections */
   .scan-line {
     font-family: var(--font-body);
     font-size: var(--size-base);
@@ -208,7 +171,6 @@ try {
   }
   .scan-line.pass { color: var(--phosphor); font-weight: 700; }
 
-  /* ── SECTION BODY ── */
   .man-section {
     padding: var(--sp-8) 0 var(--sp-16);
   }
@@ -226,8 +188,6 @@ try {
     transition: border-color 0.2s;
   }
   .man-section a:hover { border-color: var(--phosphor); }
-
-  /* Lead paragraph */
   .man-lead {
     font-size: var(--size-lg) !important;
     color: var(--text) !important;
@@ -235,16 +195,12 @@ try {
     line-height: 1.5 !important;
     max-width: 52ch !important;
   }
-
-  /* Highlight line */
   .man-highlight {
     font-size: var(--size-md) !important;
     color: var(--text) !important;
     font-weight: 500;
     padding: var(--sp-8) 0;
   }
-
-  /* Panel text inside DataPanel */
   .man-panel-text {
     font-family: var(--font-body);
     font-size: var(--size-base);
@@ -252,7 +208,6 @@ try {
     line-height: 1.6;
   }
 
-  /* ── AGENT GRID (same pattern as system page) ── */
   .agent-grid-compact {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -266,62 +221,22 @@ try {
     padding: var(--sp-8);
     min-width: 0;
   }
-  .agent-cell-header {
-    margin-bottom: var(--sp-4);
-  }
+  .agent-cell-header { margin-bottom: var(--sp-4); }
   .agent-cell-role {
     font-family: var(--font-body);
     font-size: var(--size-xs);
     color: var(--text-dim);
     line-height: 1.4;
   }
-  .agent-grid-compact .agent-cell:nth-child(5) {
-    grid-column: 1 / -1;
-  }
 
-  /* ── PROOF METRICS ── */
-  .proof-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    margin: var(--sp-12) 0;
-  }
-  .proof-cell {
-    background: var(--bg);
-    padding: var(--sp-12) var(--sp-8);
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-  }
-  .proof-val {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: clamp(1.1rem, 3vw, 1.5rem);
-    line-height: 1;
-  }
-  .proof-val.phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
-  .proof-val.amber { color: var(--amber); text-shadow: var(--glow-amber); }
-  .proof-val.text-main { color: var(--text); }
-  .proof-key {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  /* ── EOF ── */
   .man-eof {
     padding: var(--sp-12) 0;
     font-family: var(--font-body);
     font-size: var(--size-base);
   }
 
-  /* ── UTILITIES ── */
   .phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
   .amber { color: var(--amber); text-shadow: var(--glow-amber); }
-  .ice { color: var(--ice); text-shadow: var(--glow-ice); }
   .dim { color: var(--text-dim); }
   .phosphor-flash { animation: pflash 0.6s ease-out; }
   @keyframes pflash {
@@ -329,22 +244,13 @@ try {
     100% { text-shadow: var(--glow-phosphor); }
   }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
     .man-prompt { font-size: var(--size-sm); }
     .boot-line { font-size: var(--size-sm); }
     .agent-grid-compact { grid-template-columns: 1fr; }
-    .agent-grid-compact .agent-cell:nth-child(5) { grid-column: auto; }
-    .proof-grid { grid-template-columns: repeat(2, 1fr); }
     .man-section p { word-break: break-word; overflow-wrap: anywhere; }
     .man-panel-text { word-break: break-word; overflow-wrap: anywhere; }
   }
-  @media (max-width: 375px) {
-    .proof-grid { grid-template-columns: 1fr 1fr; }
-    .proof-cell { padding: var(--sp-8); }
-  }
-
-  /* ── REDUCED MOTION ── */
   @media (prefers-reduced-motion: reduce) {
     .boot-val { transition: none; }
     .scan-line { transition: none; }
@@ -353,14 +259,12 @@ try {
 
 <script>
 (function() {
-  // Hex string for visual texture
   function hex(len) {
     var h = '';
     for (var i = 0; i < len; i++) h += Math.floor(Math.random() * 16).toString(16);
     return h.toUpperCase();
   }
 
-  // Text corruption flicker
   function corruptReveal(el, finalText, className) {
     var chars = '█▓▒░ABCDEF0123456789';
     var flicks = 0;
@@ -379,7 +283,6 @@ try {
     }, 50);
   }
 
-  // Reduced motion — skip all animation
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     var bvId = document.getElementById('bv-id');
     var bvInt = document.getElementById('bv-int');
@@ -389,7 +292,6 @@ try {
     if (bvClass) { bvClass.textContent = 'DECLASSIFIED ✓'; bvClass.className = 'boot-val pass'; }
     var bg = document.getElementById('b-granted');
     if (bg) bg.innerHTML = '<span class="phosphor">ACCESS GRANTED</span> — document follows';
-    // Scan lines
     ['scan-01','scan-02','scan-03','scan-04'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) { el.textContent = '[DECLASSIFIED]'; el.classList.add('pass'); }
@@ -397,7 +299,6 @@ try {
     return;
   }
 
-  // Boot verification sequence
   var steps = [
     [400,  'bv-id', function(el) { el.textContent = hex(8) + '..'; }],
     [600,  'bv-id', function(el) { el.textContent = 'VERIFIED ✓'; el.className = 'boot-val pass'; }],
@@ -415,12 +316,11 @@ try {
     }, s[0]);
   });
 
-  // Scan line resolution
   var scans = [
-    { id: 'scan-01', delay: 1500, text: '[DECLASSIFIED] 01 — THE QUESTION' },
-    { id: 'scan-02', delay: 2100, text: '[DECLASSIFIED] 02 — THE SYSTEM' },
-    { id: 'scan-03', delay: 2700, text: '[DECLASSIFIED] 03 — THE PROOF' },
-    { id: 'scan-04', delay: 3300, text: '[DECLASSIFIED] 04 — THE BET' },
+    { id: 'scan-01', delay: 1500, text: '[DECLASSIFIED] 01 — THE OUTAGE' },
+    { id: 'scan-02', delay: 2100, text: '[DECLASSIFIED] 02 — WHAT SQUAER ACTUALLY IS' },
+    { id: 'scan-03', delay: 2700, text: '[DECLASSIFIED] 03 — WHAT WE LEARNED' },
+    { id: 'scan-04', delay: 3300, text: '[DECLASSIFIED] 04 — THE RECORD' },
   ];
   scans.forEach(function(s) {
     setTimeout(function() {
@@ -429,11 +329,10 @@ try {
     }, s.delay);
   });
 
-  // Phosphor flash on key phrases
   setTimeout(function() {
     document.querySelectorAll('.phosphor-flash-target').forEach(function(t) {
       t.classList.add('phosphor-flash');
     });
-  }, 2000);
+  }, 3500);
 })();
 </script>
