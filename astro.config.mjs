@@ -7,7 +7,4 @@ export default defineConfig({
   output: 'server',
   adapter: vercel(),
   integrations: [sitemap()],
-  redirects: {
-    '/': { status: 301, destination: 'https://squaer.co' },
-  },
 });
