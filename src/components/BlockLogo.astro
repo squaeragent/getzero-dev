@@ -25,14 +25,19 @@
 
   .block-logo {
     position: relative;
-    display: inline-block;
-    transform-origin: left top;
+    display: block;
     cursor: pointer;
   }
 
   .logo-art {
     font-family: var(--font-head, 'JetBrains Mono', monospace);
-    font-size: 16px;
+    /*
+      SQUAER longest line ≈ 54 chars. JetBrains Mono aspect ≈ 0.56.
+      Total natural width = 54 × 0.56 × font-size ≈ 30 × font-size.
+      To fill screen: font-size = 100vw / 30.2
+      clamp: min 9px (tiny phones), scale from 3.3vw, cap 28px (large desktop)
+    */
+    font-size: clamp(9px, 3.3vw, 28px);
     line-height: 1.2;
     color: var(--phosphor, #c8ff00);
     text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.2);
@@ -104,36 +109,10 @@
 
 <script>
   (function () {
-    const wrap = document.querySelector('.block-logo-wrap') as HTMLElement;
     const logo = document.querySelector('.block-logo') as HTMLElement;
-    const art  = document.querySelector('.logo-art') as HTMLElement;
-    if (!wrap || !logo || !art) return;
-
-    function scaleToFit() {
-      // Reset scale to measure natural width
-      logo.style.transform = '';
-      const natural = art.scrollWidth;
-      const available = wrap.offsetWidth;
-      if (natural > 0 && available > 0 && natural > available) {
-        const scale = available / natural;
-        logo.style.transform = `scale(${scale})`;
-        // Collapse the extra height created by transform
-        wrap.style.height = (logo.offsetHeight * scale) + 'px';
-      } else {
-        wrap.style.height = '';
-      }
-    }
-
-    // Run after fonts load + on resize
-    scaleToFit();
-    document.fonts.ready.then(scaleToFit);
-    window.addEventListener('resize', scaleToFit);
-
-    // Boot breathing
+    if (!logo) return;
     const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!REDUCED) setTimeout(() => logo.classList.add('breathing'), 1800);
-
-    // Click → token page
     logo.addEventListener('click', () => { window.location.href = '/token'; });
   })();
 </script>
