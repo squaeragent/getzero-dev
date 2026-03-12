@@ -105,7 +105,9 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
     align-items: center;
     padding: 4px 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible; /* let blocks breathe */
+    max-width: 100%;
+    flex-wrap: nowrap;
   }
 
   .block-letter {
@@ -231,18 +233,41 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
     .block-logo:hover .block-cell.on { transition: transform 0.25s ease-out; }
   }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 400px) {
-    .block-logo { --letter-gap: 4px; --block-size: 11px; --block-gap: 2px; }
-    .block-cell.on { box-shadow: inset 2px 2px 0 rgba(255,255,255,0.18), inset -2px -2px 0 rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.5); }
+  /* ── RESPONSIVE ──
+     Formula: total = 6*(5*bs + 4*bg) + 5*lg
+     Mobile phones ~390px need total ≤ 360px (accounting for page padding)
+     bs=9 bg=1.5 lg=3 → 6*(45+6)+5*3 = 306+15 = 321px ✓
+  */
+
+  /* All phones < 640px: small blocks, 1px bevel */
+  @media (max-width: 639px) {
+    .block-logo {
+      --letter-gap: 3px;
+      --block-size: 9px;
+      --block-gap: 1.5px;
+    }
+    .block-cell.on {
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,0.2),
+        inset -1px -1px 0 rgba(0,0,0,0.5),
+        0 0 0 1px rgba(0,0,0,0.5);
+    }
   }
-  @media (min-width: 401px) and (max-width: 640px) {
-    .block-logo { --letter-gap: 5px; --block-size: 14px; --block-gap: 2px; }
-    .block-cell.on { box-shadow: inset 2px 2px 0 rgba(255,255,255,0.18), inset -2px -2px 0 rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.5); }
-  }
-  @media (min-width: 641px) and (max-width: 900px) {
-    .block-logo { --letter-gap: 6px; --block-size: 20px; --block-gap: 3px; }
-    .block-cell.on { box-shadow: inset 3px 3px 0 rgba(255,255,255,0.18), inset -3px -3px 0 rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.5); }
+
+  /* Tablets 640-900px: medium blocks, 2px bevel
+     6*(5*14 + 4*2) + 5*5 = 6*78+25 = 493px fits 640px+ ✓ */
+  @media (min-width: 640px) and (max-width: 900px) {
+    .block-logo {
+      --letter-gap: 5px;
+      --block-size: 14px;
+      --block-gap: 2px;
+    }
+    .block-cell.on {
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,0.18),
+        inset -2px -2px 0 rgba(0,0,0,0.45),
+        0 0 0 1px rgba(0,0,0,0.5);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
