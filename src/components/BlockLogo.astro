@@ -33,15 +33,21 @@
     font-family: var(--font-head, 'JetBrains Mono', monospace);
     /*
       SQUAER longest line ≈ 54 chars. JetBrains Mono aspect ≈ 0.56.
-      Total natural width = 54 × 0.56 × font-size ≈ 30 × font-size.
-      To fill screen: font-size = 100vw / 30.2
-      clamp: min 9px (tiny phones), scale from 3.3vw, cap 28px (large desktop)
+      Natural width ≈ 30 × font-size.
+      Container = viewport - margins(8px) - border(2px) - padding(24px) ≈ viewport - 34px.
+      Safe font-size: (vw - 34) / 30 ≈ vw/32 - 1px.
+      Use 2.6vw (conservative) so it fits with breathing room.
     */
-    font-size: clamp(9px, 3.3vw, 28px);
+    font-size: clamp(7px, 2.6vw, 28px);
     line-height: 1.2;
     color: var(--phosphor, #c8ff00);
     text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.2);
     white-space: pre;
+    /* Critical: prevent the pre from pushing the layout wider than viewport */
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow: hidden;
     margin: 0;
     padding: 0;
     background: transparent;
