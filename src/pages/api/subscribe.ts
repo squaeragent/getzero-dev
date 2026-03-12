@@ -17,7 +17,7 @@ export async function POST({ request }: { request: Request }) {
         email,
         reactivate_existing: true,
         send_welcome_email: true,
-        utm_source: 'getzero.dev',
+        utm_source: "squaer.co"',
         utm_medium: 'website'
       })
     });

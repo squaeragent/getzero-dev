@@ -48,7 +48,7 @@
     if (btn) btn.textContent = '...';
     try {
       const r = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
-      if (st) { st.className = ''; st.textContent = r.ok ? '✓ subscribed. next dispatch drops this week.' : 'error — try newsletter.getzero.dev/upgrade'; }
+      if (st) { st.className = ''; st.textContent = r.ok ? '✓ subscribed. next dispatch drops this week.' : 'error — try squaer.co/subscribe'; }
     } catch { if (st) { st.className = 'cta-err'; st.textContent = 'network error'; } }
     if (btn) btn.textContent = '→';
   }

@@ -46,7 +46,7 @@ const renderDate = new Date();
 const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
 ---
 
-<BaseLayout title="ZERO OS — Terminal" current="/">
+<BaseLayout title="SQUAER" current="/">
   <div class="terminal-grid">
     <!-- ═══ LEFT TOP: BOOT SEQUENCE ═══ -->
     <div class="panel glyph-panel" id="boot-panel">
@@ -55,7 +55,7 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', m
         <div class="bl" data-d="200"><span class="dim">MEM TEST: 96GB</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="400"><span class="dim">GPU: M3 ULTRA 76-CORE</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="600">&nbsp;</div>
-        <div class="bl" data-d="700"><h1 class="sr-only">ZERO OS</h1><BlockLogo /></div>
+        <div class="bl" data-d="700"><h1 class="sr-only">SQUAER</h1><BlockLogo /></div>
         <div class="bl" data-d="900"><span class="dim glitch-text">⟨◇⟩ AUTONOMOUS AI SYSTEM</span></div>
         <div class="bl" data-d="1100">&nbsp;</div>
         <div class="bl" data-d="1200"><span class="dim">&gt;</span> MOUNT /cluster/memory <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
@@ -296,7 +296,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
           document.getElementById(btnId)!.style.display = 'none';
           if ((window as any).plausible) (window as any).plausible('Newsletter Signup');
         } else {
-          status.textContent = 'Failed. Try degenie@getzero.dev';
+          status.textContent = 'Failed. Try degenie@squaer.co';
         }
       } catch(e) { status.textContent = 'Network error.'; }
     });

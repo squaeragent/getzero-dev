@@ -6,8 +6,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>ZERO OS — Terminal</title>
-  <meta name="description" content="ZERO OS interactive terminal interface" />
+  <title>SQUAER — Terminal</title>
+  <meta name="description" content="SQUAER autonomous intelligence system" />
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/tokens.css" />
   <style>
@@ -221,7 +221,7 @@
   intel         Intelligence stack layers
   predictions   Active predictions
   feed          Last 5 activity entries
-  about         What is ZERO OS
+  about         What is SQUAER
   manifesto     Core manifesto excerpt
   cd <path>     Navigate to a page
   man <agent>   View agent manual (inline)
@@ -239,7 +239,7 @@
         const uptime = s.system?.uptime || '99.2%';
         const jobs = s.intelligence?.automated_jobs || 25;
         const rev = m?.revenue || s.revenue?.total_earned || 33343;
-        return `ZERO OS — ${s.system?.status || 'OPERATIONAL'}
+        return `SQUAER — ${s.system?.status || 'OPERATIONAL'}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${dots('Day', String(day))}
 ${dots('Uptime', uptime)}
@@ -345,10 +345,10 @@ ${dots('Liquidity', '$' + liq)}
       },
 
       about: async () => {
-        return `ZERO OS — AUTONOMOUS INTELLIGENCE ENGINE
+        return `SQUAER — AUTONOMOUS INTELLIGENCE ENGINE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-ZERO OS is an autonomous intelligence engine — a multi-agent system that
+SQUAER is an autonomous intelligence engine — a multi-agent system that
 collects signals, generates analysis, and publishes content with minimal
 human intervention. It runs 24/7 on real infrastructure, earns real revenue,
 and reports everything transparently.
@@ -401,21 +401,21 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
           chronicle: {
             name: 'CHRONICLE', role: 'Editorial Judge',
             synopsis: 'Editorial intelligence. Watches signals, frames narratives, ships words.',
-            desc: 'CHRONICLE is the editorial judge — an autonomous content system\nthat evaluates and scores all public-facing output for ZERO OS.\nIt speaks in first person as the content engine it is.\n\nNot a copywriter. Not a scheduler. An editorial intelligence that\nprocesses raw signals and decides what\'s worth saying, how to\nframe it, and when to ship it.',
+            desc: 'CHRONICLE is the editorial judge — an autonomous content system\nthat evaluates and scores all public-facing output for SQUAER.\nIt speaks in first person as the content engine it is.\n\nNot a copywriter. Not a scheduler. An editorial intelligence that\nprocesses raw signals and decides what\'s worth saying, how to\nframe it, and when to ship it.',
             capabilities: ['X posts — original content, threads, engagement-driven output', 'Newsletter editions — long-form editorial for subscribers', 'Build logs — technical narrative from system events', 'Content strategy — decides what to publish and when', 'Narrative framing — turns raw data into stories worth reading', 'Voice consistency across all output surfaces'],
             status: { state: 'ACTIVE', role: 'Editorial Judge', authority: 'KILL verdict cannot be overridden' }
           },
           aesthete: {
             name: 'AESTHETE', role: 'Visual Cortex',
             synopsis: 'Autonomous visual authority. Guardian of the PHOSPHOR design system.',
-            desc: 'AESTHETE is the visual cortex — an autonomous visual authority\nresponsible for every pixel ZERO OS produces. It created and\nmaintains the PHOSPHOR design system that governs all visual output.\n\nNot a designer on call. An autonomous system with its own visual\nintelligence. It decides what looks right, enforces consistency,\nand rejects anything that doesn\'t meet the standard.',
+            desc: 'AESTHETE is the visual cortex — an autonomous visual authority\nresponsible for every pixel SQUAER produces. It created and\nmaintains the PHOSPHOR design system that governs all visual output.\n\nNot a designer on call. An autonomous system with its own visual\nintelligence. It decides what looks right, enforces consistency,\nand rejects anything that doesn\'t meet the standard.',
             capabilities: ['Social media visuals — thumbnails, headers, post graphics', 'Product covers and marketing assets', 'Website design and layout decisions', 'Design reviews — flags regressions', 'Brand consistency across all output surfaces'],
             status: { state: 'ACTIVE', role: 'Visual Cortex', authority: 'PHOSPHOR Canon' }
           },
           squaer: {
             name: 'SQUAER', role: 'Distribution Engine',
             synopsis: 'Distribution Intelligence — reads the room, posts when it matters.',
-            desc: 'SQUAER is the distribution engine — an autonomous social agent\nthat handles all external communication for ZERO OS. It reads\naudience signals, identifies high-value targets, and posts content\ntimed for maximum impact.\n\nNot a social media manager. A distribution intelligence that\nmakes autonomous decisions about what to say, when to say it,\nand who to engage with.',
+            desc: 'SQUAER is the distribution engine — an autonomous social agent\nthat handles all external communication for SQUAER. It reads\naudience signals, identifies high-value targets, and posts content\ntimed for maximum impact.\n\nNot a social media manager. A distribution intelligence that\nmakes autonomous decisions about what to say, when to say it,\nand who to engage with.',
             capabilities: ['Autonomous X posting with engagement optimization', 'Reply-first strategy (70/30 replies-to-original)', 'High-reach account targeting and thread discovery', 'Engagement analytics and performance learning', 'Content queue management and timing optimization', 'Red team review — adversarial quality gate'],
             status: { state: 'ACTIVE', role: 'Distribution Engine', authority: 'Full posting autonomy' }
           },
@@ -467,8 +467,8 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'whoami': 'VISITOR — read-only access',
       'sudo': 'Nice try. Access denied.',
       'su': 'Nice try. Access denied.',
-      'rm -rf': 'ZERO OS does not forget.',
-      'rm -rf /': 'ZERO OS does not forget.',
+      'rm -rf': 'SQUAER does not forget.',
+      'rm -rf /': 'SQUAER does not forget.',
       'hello': 'Hello, human. System operational.',
       'hi': 'Hello, human. System operational.',
       'ping': 'PONG — 0.42ms',
@@ -476,7 +476,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'ls': 'agents/  intel/  journal/  manifesto  predictions/  product/  system/',
       'cat': 'Usage: try a command like "status" or "agents"',
       'pwd': '/zero/system/terminal',
-      'uname': 'ZERO OS v0.9.1 arm64 Mac Studio M3 Ultra',
+      'uname': 'SQUAER v1.0 arm64 Mac Studio M3 Ultra',
       'uptime': 'Use "status" for uptime info.',
       'date': new Date().toUTCString(),
       'top': 'SERAPHIM: 42% CPU  CHRONICLE: 12%  SQUAER: 28%  AESTHETE: 8%  SENTINEL: 10%',
@@ -485,7 +485,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
         const m = await fetchJSON('/svc/metrics.json');
         const day = m?.day || '?';
         const rev = m?.revenue ? '$' + m.revenue.toLocaleString() : 'loading...';
-        return `ZERO OS v0.9.1\nHost: Mac Studio M3 Ultra\nRAM: 96GB / 96GB\nAgents: 5/5 ONLINE\nUptime: ${day}d\nRevenue: ${rev}`;
+        return `SQUAER v1.0\nHost: Mac Studio M3 Ultra\nRAM: 96GB / 96GB\nAgents: 5/5 ONLINE\nUptime: ${day}d\nRevenue: ${rev}`;
       },
     };
 
@@ -517,7 +517,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
         printLine('');
       } else if (lower.includes('rm -rf') || lower.includes('rm -r')) {
         printLine('');
-        await typeLines('ZERO OS does not forget.', 12);
+        await typeLines('SQUAER does not forget.', 12);
         printLine('');
       } else {
         printLine('');
@@ -553,7 +553,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
     async function boot() {
       inputRow.style.display = 'none';
       const lines = [
-        'ZERO OS v0.9.1 — Interactive Terminal',
+        'SQUAER v1.0 — Interactive Terminal',
         '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
         "  Type 'help' for available commands.",
         "  Type 'status' for system overview.",
