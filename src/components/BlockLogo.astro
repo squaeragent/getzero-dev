@@ -7,17 +7,53 @@
  */
 
 const letters: Record<string, number[][]> = {
-  Z: [
+  S: [
+    [0,1,1,1,1,1,1,0],
     [1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,0,0],
+    [1,1,0,0,0,0,0,0],
+    [1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1],
     [0,0,0,0,0,0,1,1],
-    [0,0,0,0,0,1,1,0],
-    [0,0,0,0,1,1,0,0],
-    [0,0,0,1,1,0,0,0],
-    [0,0,1,1,0,0,0,0],
-    [0,1,1,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1],
+    [1,1,1,1,1,1,1,1],
+    [0,1,1,1,1,1,1,0],
+  ],
+  Q: [
+    [0,1,1,1,1,1,1,0],
+    [1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,1,1,1,1],
+    [1,1,0,0,0,1,1,1],
+    [1,1,1,1,1,1,1,1],
+    [0,1,1,1,1,1,0,1],
+  ],
+  U: [
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,1,1,1,1,1,1],
+    [0,1,1,1,1,1,1,0],
+  ],
+  A: [
+    [0,0,1,1,1,1,0,0],
+    [0,1,1,1,1,1,1,0],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
     [1,1,1,1,1,1,1,1],
     [1,1,1,1,1,1,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
+    [1,1,0,0,0,0,1,1],
   ],
   E: [
     [1,1,1,1,1,1,1,1],
@@ -43,21 +79,9 @@ const letters: Record<string, number[][]> = {
     [1,1,0,0,0,0,1,1],
     [1,1,0,0,0,0,1,1],
   ],
-  O: [
-    [0,1,1,1,1,1,1,0],
-    [1,1,1,1,1,1,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,1,1,1,1,1,1],
-    [0,1,1,1,1,1,1,0],
-  ],
 };
 
-const word = "ZERO";
+const word = "SQUAER";
 const COLS = 8;
 const ROWS = 10;
 
@@ -76,11 +100,11 @@ for (const ch of word) {
   letterCells.push(cells);
 }
 
-// Agent mapping: Z=SERAPHIM, E=CHRONICLE+AESTHETE, R=SQUAER, O=SENTINEL
-const letterAgents = ['seraphim', 'chronicle,aesthete', 'squaer', 'sentinel'];
+// Agent mapping: S=SERAPHIM, Q=SQUAER, U=SENTINEL, A=AESTHETE, E=CHRONICLE, R=system
+const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle', 'system'];
 ---
 
-<div class="block-logo crt-boot" role="img" aria-label="ZERO">
+<div class="block-logo crt-boot" role="img" aria-label="SQUAER">
   {letterCells.map((cells, li) => (
     <div class="block-letter" data-letter-index={li} data-agents={letterAgents[li]}>
       {cells.map((cell) => (
@@ -265,17 +289,26 @@ const letterAgents = ['seraphim', 'chronicle,aesthete', 'squaer', 'sentinel'];
     opacity: 0.6;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 400px) {
     .block-logo {
-      gap: 4px;
-      --block-size: 7px;
+      gap: 3px;
+      --block-size: 5px;
+      --block-gap: 1px;
+    }
+  }
+
+  @media (min-width: 401px) and (max-width: 640px) {
+    .block-logo {
+      gap: 3px;
+      --block-size: 6px;
       --block-gap: 1px;
     }
   }
 
   @media (min-width: 641px) and (max-width: 900px) {
     .block-logo {
-      --block-size: 8px;
+      gap: 4px;
+      --block-size: 7px;
       --block-gap: 1px;
     }
   }
@@ -385,10 +418,12 @@ const letterAgents = ['seraphim', 'chronicle,aesthete', 'squaer', 'sentinel'];
 
     // ── 1d. Click to navigate ──
     const letterRoutes: Record<string, string> = {
-      '0': '/agents/seraphim',
-      '1': '/agents/chronicle',
-      '2': '/agents/squaer',
-      '3': '/agents/sentinel',
+      '0': '/agents',
+      '1': '/agents',
+      '2': '/agents',
+      '3': '/agents',
+      '4': '/agents',
+      '5': '/agents',
     };
     document.querySelectorAll('.block-letter[data-letter-index]').forEach(el => {
       const idx = el.getAttribute('data-letter-index') || '';
