@@ -5,8 +5,9 @@ import PageWrapper from '../components/ui/PageWrapper.astro';
 import HazardDivider from '../components/ui/HazardDivider.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
 
-const CONTRACT = '0xc1a20347a98cf7c41b5b10459df91737f2f33ba3';
+const CONTRACT = '0x2A767b649A4c469f2c4F88f85D4eFb6be7abFB07';
 const UNISWAP_URL = `https://app.uniswap.org/swap?outputCurrency=${CONTRACT}&chain=base`;
+const DEXSCREENER_URL = `https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6`;
 
 const tiers = [
   { name: 'FREE', amount: '0', access: 'Public feed, site access', status: 'LIVE' },
@@ -41,7 +42,9 @@ const tiers = [
   <div class="contract-label dim">Contract Address</div>
   <div class="contract-addr phosphor">{CONTRACT}</div>
   <div class="contract-label dim">DEX</div>
-  <div class="contract-value">Uniswap V4</div>
+  <div class="contract-value">Uniswap v3 / Base</div>
+  <div class="contract-label dim">Creator</div>
+  <div class="contract-value">Clanker</div>
 </div>
 
 <HazardDivider variant="section" text="HOW IT WORKS" color="phosphor" />
@@ -93,7 +96,9 @@ const tiers = [
     BUY ON UNISWAP →
   </a>
   <div class="buy-alt dim">
-    Also available on <a href="https://bankr.com" target="_blank" rel="noopener" class="phosphor-link">Bankr</a>
+    Chart: <a href={DEXSCREENER_URL} target="_blank" rel="noopener" class="phosphor-link">DexScreener</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.clanker.world/clanker/0x2A767b649A4c469f2c4F88f85D4eFb6be7abFB07" target="_blank" rel="noopener" class="phosphor-link">Clanker</a>
   </div>
 </div>
 
