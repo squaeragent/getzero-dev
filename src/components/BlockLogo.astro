@@ -1,7 +1,6 @@
 ---
 /**
- * SQUAER logo — oh-my-logo ASCII art, single line, scale-to-fit
- * Generated: npx oh-my-logo "SQUAER" --filled
+ * SQUAER logo — oh-my-logo ASCII art, font-size fitted by JS clone measurement
  */
 ---
 
@@ -21,24 +20,26 @@
   .block-logo-wrap {
     width: 100%;
     overflow: hidden;
+    /* height set by JS after font measurement */
   }
 
   .block-logo {
     position: relative;
-    display: block;
+    display: inline-block;
     cursor: pointer;
+    /* CRT animation only — NO transform here (set by JS on wrap instead) */
   }
 
   .logo-art {
     font-family: var(--font-head, 'JetBrains Mono', monospace);
-    /* JS will override this after measuring actual pixel width */
-    font-size: 16px;
+    font-size: 16px; /* JS will override */
     line-height: 1.2;
     color: var(--phosphor, #c8ff00);
     text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.2);
     white-space: pre;
     display: block;
-    overflow: hidden;
+    /* No overflow:hidden here — JS needs scrollWidth to return actual text width */
+    overflow: visible;
     margin: 0;
     padding: 0;
     background: transparent;
@@ -52,7 +53,7 @@
     100% { opacity: 1; filter: brightness(1); }
   }
 
-  /* ── CRT POWER-ON ── */
+  /* CRT boot on the inner div (separate from any JS transforms on wrap) */
   .crt-boot {
     animation: crtExpand 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
   }
@@ -64,16 +65,11 @@
     100% { transform: scaleY(1);   filter: brightness(1); }
   }
 
-  /* Scanline */
   .crt-scanline {
     position: absolute;
-    inset: 0;
-    height: 3px;
-    width: 100%;
+    inset: 0; height: 3px; width: 100%;
     background: linear-gradient(180deg, transparent, rgba(200,255,0,0.6), transparent);
-    top: 50%;
-    opacity: 0;
-    pointer-events: none;
+    top: 50%; opacity: 0; pointer-events: none;
     animation: scanSweep 0.45s ease-out 0.25s both;
   }
   @keyframes scanSweep {
@@ -82,7 +78,6 @@
     100% { top: -5%; opacity: 0; }
   }
 
-  /* ── BREATHING ── */
   @keyframes logoBreath {
     0%, 100% { text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.2); }
     50%       { text-shadow: 0 0 14px rgba(200,255,0,0.35), 0 0 35px rgba(200,255,0,0.1); }
@@ -115,36 +110,40 @@
     if (!REDUCED) setTimeout(() => logo.classList.add('breathing'), 1800);
     logo.addEventListener('click', () => { window.location.href = '/token'; });
 
-    // ── Fit font-size to container width ──
-    // Measure at 100px using a hidden off-DOM clone (avoids overflow:hidden constraints)
-    async function fitFont() {
+    // ── Font-size fitting via off-DOM clone ──
+    // Clone with max-content width + overflow:visible so scrollWidth = true text width
+    async function fitFontSize() {
       await (document as any).fonts.ready;
 
+      // Measure at 100px using off-screen clone with NO overflow/width constraints
       const clone = pre.cloneNode(true) as HTMLElement;
-      Object.assign(clone.style, {
-        position: 'fixed',
-        top: '-9999px',
-        left: '-9999px',
-        visibility: 'hidden',
-        pointerEvents: 'none',
-        fontSize: '100px',
-        whiteSpace: 'pre',
-        width: 'auto',
-        maxWidth: 'none',
-      });
-      document.body.appendChild(clone);
+      clone.style.cssText = [
+        'position:fixed',
+        'top:-99999px',
+        'left:-99999px',
+        'visibility:hidden',
+        'pointer-events:none',
+        'font-size:100px',
+        'white-space:pre',
+        'width:max-content',   // shrink-wrap to text width, NOT viewport
+        'max-width:none',
+        'overflow:visible',    // return full text width in scrollWidth
+        'display:block',
+      ].join(';');
 
-      const naturalWidth = clone.scrollWidth;
+      document.body.appendChild(clone);
+      const textWidth100 = clone.scrollWidth;
       document.body.removeChild(clone);
 
-      if (!naturalWidth) return;
+      if (!textWidth100 || !wrap.clientWidth) return;
 
+      // font-size = 100px * (available / measuredWidth), capped at 28px desktop
       const available = wrap.clientWidth;
-      const optimal = Math.min(100 * (available / naturalWidth), 28); // cap desktop at 28px
-      pre.style.fontSize = Math.max(optimal, 6) + 'px'; // floor at 6px
+      const optimal = Math.min(100 * (available / textWidth100), 28);
+      pre.style.fontSize = Math.max(optimal, 5) + 'px';
     }
 
-    fitFont();
-    window.addEventListener('resize', fitFont);
+    fitFontSize();
+    window.addEventListener('resize', fitFontSize);
   })();
 </script>
