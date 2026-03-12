@@ -1,103 +1,98 @@
 ---
 /**
- * SQUAER logo — generated via oh-my-logo (CC/Gemini CLI style filled ASCII art)
- * https://github.com/shinshin86/oh-my-logo
- * Command: npx oh-my-logo "SQU\nAER" --filled
+ * SQUAER logo — oh-my-logo ASCII art, single line, scale-to-fit
+ * Generated: npx oh-my-logo "SQUAER" --filled
  */
 ---
 
-<div class="block-logo crt-boot" role="img" aria-label="SQUAER">
-<pre class="logo-art">███████╗  ██████╗  ██╗   ██╗
-██╔════╝ ██╔═══██╗ ██║   ██║
-███████╗ ██║   ██║ ██║   ██║
-╚════██║ ██║▄▄ ██║ ██║   ██║
-███████║ ╚██████╔╝ ╚██████╔╝
-╚══════╝  ╚══▀▀═╝   ╚═════╝
-
- █████╗  ███████╗ ██████╗
-██╔══██╗ ██╔════╝ ██╔══██╗
-███████║ █████╗   ██████╔╝
-██╔══██║ ██╔══╝   ██╔══██╗
-██║  ██║ ███████╗ ██║  ██║
-╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝</pre>
-  <div class="crt-scanline"></div>
+<div class="block-logo-wrap">
+  <div class="block-logo crt-boot" role="img" aria-label="SQUAER">
+<pre class="logo-art">███████╗  ██████╗  ██╗   ██╗  █████╗  ███████╗ ██████╗
+██╔════╝ ██╔═══██╗ ██║   ██║ ██╔══██╗ ██╔════╝ ██╔══██╗
+███████╗ ██║   ██║ ██║   ██║ ███████║ █████╗   ██████╔╝
+╚════██║ ██║▄▄ ██║ ██║   ██║ ██╔══██║ ██╔══╝   ██╔══██╗
+███████║ ╚██████╔╝ ╚██████╔╝ ██║  ██║ ███████╗ ██║  ██║
+╚══════╝  ╚══▀▀═╝   ╚═════╝  ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝</pre>
+    <div class="crt-scanline"></div>
+  </div>
 </div>
 
 <style>
+  .block-logo-wrap {
+    width: 100%;
+    overflow: hidden;
+  }
+
   .block-logo {
     position: relative;
     display: inline-block;
-    overflow: hidden;
+    transform-origin: left top;
     cursor: pointer;
   }
 
   .logo-art {
     font-family: var(--font-head, 'JetBrains Mono', monospace);
-    color: var(--phosphor, #c8ff00);
-    text-shadow: 0 0 8px rgba(200, 255, 0, 0.6), 0 0 20px rgba(200, 255, 0, 0.25);
-    font-size: clamp(9px, 2.4vw, 20px);
+    font-size: 16px;
     line-height: 1.2;
+    color: var(--phosphor, #c8ff00);
+    text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.2);
     white-space: pre;
     margin: 0;
     padding: 0;
     background: transparent;
     border: none;
-    animation: blockMaterialize 0.6s ease-out 0.6s both;
+    animation: logoFadeIn 0.5s ease-out 0.65s both;
   }
 
-  @keyframes blockMaterialize {
+  @keyframes logoFadeIn {
     0%   { opacity: 0; filter: brightness(4) blur(2px); }
-    40%  { opacity: 0.6; filter: brightness(2) blur(0.5px); }
-    100% { opacity: 1; filter: brightness(1) blur(0); }
+    50%  { opacity: 0.7; filter: brightness(1.8) blur(0.5px); }
+    100% { opacity: 1; filter: brightness(1); }
   }
 
   /* ── CRT POWER-ON ── */
   .crt-boot {
-    animation: crtExpand 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+    animation: crtExpand 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
   }
-
   @keyframes crtExpand {
     0%   { transform: scaleY(0.04); filter: brightness(5) blur(4px); }
     25%  { transform: scaleY(0.04); }
-    55%  { transform: scaleY(1.03); filter: brightness(1.4); }
+    60%  { transform: scaleY(1.04); filter: brightness(1.4); }
     80%  { transform: scaleY(0.98); }
     100% { transform: scaleY(1);   filter: brightness(1); }
   }
 
-  /* Scanline sweep */
+  /* Scanline */
   .crt-scanline {
     position: absolute;
     inset: 0;
-    height: 4px;
+    height: 3px;
     width: 100%;
-    background: linear-gradient(180deg, transparent, rgba(200,255,0,0.55), transparent);
+    background: linear-gradient(180deg, transparent, rgba(200,255,0,0.6), transparent);
     top: 50%;
     opacity: 0;
     pointer-events: none;
-    animation: scanSweep 0.5s ease-out 0.3s both;
+    animation: scanSweep 0.45s ease-out 0.25s both;
   }
-
   @keyframes scanSweep {
-    0%   { top: 50%; opacity: 0.85; }
+    0%   { top: 50%; opacity: 0.9; }
     60%  { top: 5%;  opacity: 0.4; }
     100% { top: -5%; opacity: 0; }
   }
 
   /* ── BREATHING ── */
   @keyframes logoBreath {
-    0%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.25); }
-    50%       { opacity: 0.82; text-shadow: 0 0 12px rgba(200,255,0,0.4), 0 0 30px rgba(200,255,0,0.15); }
+    0%, 100% { text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.2); }
+    50%       { text-shadow: 0 0 14px rgba(200,255,0,0.35), 0 0 35px rgba(200,255,0,0.1); }
   }
-
   .block-logo.breathing .logo-art {
     animation: logoBreath 4s ease-in-out infinite;
   }
 
-  /* Hover glow */
   @media (hover: hover) {
     .block-logo:hover .logo-art {
-      text-shadow: 0 0 12px rgba(200,255,0,0.9), 0 0 30px rgba(200,255,0,0.5);
-      transition: text-shadow 0.3s ease;
+      text-shadow: 0 0 12px rgba(200,255,0,0.9), 0 0 32px rgba(200,255,0,0.5);
+      transition: text-shadow 0.25s ease;
     }
   }
 
@@ -108,15 +103,37 @@
 </style>
 
 <script>
-  (function() {
-    const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const logo = document.querySelector('.block-logo');
-    if (!logo) return;
+  (function () {
+    const wrap = document.querySelector('.block-logo-wrap') as HTMLElement;
+    const logo = document.querySelector('.block-logo') as HTMLElement;
+    const art  = document.querySelector('.logo-art') as HTMLElement;
+    if (!wrap || !logo || !art) return;
 
-    if (!REDUCED) {
-      setTimeout(() => logo.classList.add('breathing'), 1800);
+    function scaleToFit() {
+      // Reset scale to measure natural width
+      logo.style.transform = '';
+      const natural = art.scrollWidth;
+      const available = wrap.offsetWidth;
+      if (natural > 0 && available > 0 && natural > available) {
+        const scale = available / natural;
+        logo.style.transform = `scale(${scale})`;
+        // Collapse the extra height created by transform
+        wrap.style.height = (logo.offsetHeight * scale) + 'px';
+      } else {
+        wrap.style.height = '';
+      }
     }
 
+    // Run after fonts load + on resize
+    scaleToFit();
+    document.fonts.ready.then(scaleToFit);
+    window.addEventListener('resize', scaleToFit);
+
+    // Boot breathing
+    const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!REDUCED) setTimeout(() => logo.classList.add('breathing'), 1800);
+
+    // Click → token page
     logo.addEventListener('click', () => { window.location.href = '/token'; });
   })();
 </script>
