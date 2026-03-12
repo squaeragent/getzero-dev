@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-REPO_DIR="/tmp/getzero-dev"
+REPO_DIR="/Users/forge/getzero-dev"
 cd "$REPO_DIR"
 
 # Source credentials
