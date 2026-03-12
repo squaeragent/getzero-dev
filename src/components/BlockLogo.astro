@@ -1,89 +1,70 @@
 ---
 /**
- * ZERO Block Letter Logo — Claude Code / Pixel Brick style
- * V1: Sharp brutalist — no radius, hard shadows, phosphor green
- * Animation: CRT power-on — horizontal line expands vertically, blocks materialize
- * V2: Living logo — breathing, agent status, hover scatter, metric flash
+ * SQUAER Block Letter Logo — Claude Code / Chunky Brick Tile style
+ * 5×7 grid, large tiles (~28px), pronounced 3D bevel, phosphor green
+ * CRT power-on boot animation preserved
  */
 
 const letters: Record<string, number[][]> = {
   S: [
-    [0,1,1,1,1,1,1,0],
-    [1,1,1,1,1,1,1,1],
-    [1,1,0,0,0,0,0,0],
-    [1,1,0,0,0,0,0,0],
-    [1,1,1,1,1,1,1,0],
-    [0,1,1,1,1,1,1,1],
-    [0,0,0,0,0,0,1,1],
-    [0,0,0,0,0,0,1,1],
-    [1,1,1,1,1,1,1,1],
-    [0,1,1,1,1,1,1,0],
+    [1,1,1,1,1],
+    [1,0,0,0,0],
+    [1,0,0,0,0],
+    [1,1,1,1,1],
+    [0,0,0,0,1],
+    [0,0,0,0,1],
+    [1,1,1,1,1],
   ],
   Q: [
-    [0,1,1,1,1,1,1,0],
-    [1,1,1,1,1,1,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,1,1,1,1],
-    [1,1,0,0,0,1,1,1],
-    [1,1,1,1,1,1,1,1],
-    [0,1,1,1,1,1,0,1],
+    [0,1,1,1,0],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,0,0,1,1],
+    [0,1,1,0,1],
+    [0,0,0,0,1],
   ],
   U: [
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,1,1,1,1,1,1],
-    [0,1,1,1,1,1,1,0],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [0,1,1,1,0],
   ],
   A: [
-    [0,0,1,1,1,1,0,0],
-    [0,1,1,1,1,1,1,0],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
+    [0,1,1,1,0],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,1,1,1,1],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
   ],
   E: [
-    [1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1],
-    [1,1,0,0,0,0,0,0],
-    [1,1,0,0,0,0,0,0],
-    [1,1,1,1,1,1,1,0],
-    [1,1,1,1,1,1,1,0],
-    [1,1,0,0,0,0,0,0],
-    [1,1,0,0,0,0,0,0],
-    [1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1],
+    [1,1,1,1,1],
+    [1,0,0,0,0],
+    [1,0,0,0,0],
+    [1,1,1,1,0],
+    [1,0,0,0,0],
+    [1,0,0,0,0],
+    [1,1,1,1,1],
   ],
   R: [
-    [1,1,1,1,1,1,1,0],
-    [1,1,1,1,1,1,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,0],
-    [1,1,0,0,1,1,0,0],
-    [1,1,0,0,0,1,1,0],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,0,0,0,1,1],
+    [1,1,1,1,0],
+    [1,0,0,0,1],
+    [1,0,0,0,1],
+    [1,1,1,1,0],
+    [1,0,1,0,0],
+    [1,0,0,1,0],
+    [1,0,0,0,1],
   ],
 };
 
 const word = "SQUAER";
-const COLS = 8;
-const ROWS = 10;
+const COLS = 5;
+const ROWS = 7;
 
 type CellInfo = { on: boolean; row: number; col: number };
 const letterCells: CellInfo[][] = [];
@@ -100,7 +81,6 @@ for (const ch of word) {
   letterCells.push(cells);
 }
 
-// Agent mapping: S=SERAPHIM, Q=SQUAER, U=SENTINEL, A=AESTHETE, E=CHRONICLE, R=system
 const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle', 'system'];
 ---
 
@@ -121,7 +101,7 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
 <style>
   .block-logo {
     display: flex;
-    gap: 6px;
+    gap: var(--letter-gap, 8px);
     align-items: center;
     padding: 4px 0;
     position: relative;
@@ -130,130 +110,98 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
 
   .block-letter {
     display: grid;
-    grid-template-columns: repeat(8, var(--block-size, 9px));
-    gap: var(--block-gap, 1.5px);
+    grid-template-columns: repeat(5, var(--block-size, 28px));
+    gap: var(--block-gap, 3px);
   }
 
   .block-cell {
-    width: var(--block-size, 9px);
-    height: var(--block-size, 9px);
+    width: var(--block-size, 28px);
+    height: var(--block-size, 28px);
   }
 
   .block-cell.off {
     background: transparent;
   }
 
-  /* ── CRT POWER-ON ANIMATION ── */
-
-  .crt-boot {
-    animation: crtExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
-  }
-
-  @keyframes crtExpand {
-    0% {
-      transform: scaleY(0.02);
-      filter: brightness(3) blur(2px);
-    }
-    15% {
-      transform: scaleY(0.02);
-      filter: brightness(4) blur(3px);
-    }
-    40% {
-      transform: scaleY(0.6);
-      filter: brightness(2) blur(1px);
-    }
-    60% {
-      transform: scaleY(1.05);
-      filter: brightness(1.5) blur(0px);
-    }
-    80% {
-      transform: scaleY(0.98);
-      filter: brightness(1.1);
-    }
-    100% {
-      transform: scaleY(1);
-      filter: brightness(1) blur(0px);
-    }
-  }
-
-  /* Phase 2: Blocks materialize after expand */
+  /* ── CHUNKY TILE STYLE — Claude Code inspired ── */
   .block-cell.on {
     background: var(--phosphor);
-    border: 1px solid rgba(0,0,0,0.3);
-    box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
-    animation: blockMaterialize 0.4s ease-out both;
-    animation-delay: calc(0.6s + var(--row-delay, 0ms));
+    /* 3D bevel: lighter top-left, darker bottom-right, outer grout line */
+    box-shadow:
+      inset 4px 4px 0 rgba(255,255,255,0.18),
+      inset -4px -4px 0 rgba(0,0,0,0.45),
+      0 0 0 1px rgba(0,0,0,0.5);
+    animation: blockMaterialize 0.35s ease-out both;
+    animation-delay: calc(0.55s + var(--row-delay, 0ms));
   }
 
-  /* Row delays — center-out pattern */
-  .block-cell.on[data-row="4"],
-  .block-cell.on[data-row="5"] { --row-delay: 0ms; }
-  .block-cell.on[data-row="3"],
-  .block-cell.on[data-row="6"] { --row-delay: 40ms; }
-  .block-cell.on[data-row="2"],
-  .block-cell.on[data-row="7"] { --row-delay: 80ms; }
-  .block-cell.on[data-row="1"],
-  .block-cell.on[data-row="8"] { --row-delay: 120ms; }
-  .block-cell.on[data-row="0"],
-  .block-cell.on[data-row="9"] { --row-delay: 160ms; }
+  /* Row delays — top-to-bottom */
+  .block-cell.on[data-row="0"] { --row-delay: 0ms; }
+  .block-cell.on[data-row="1"] { --row-delay: 30ms; }
+  .block-cell.on[data-row="2"] { --row-delay: 60ms; }
+  .block-cell.on[data-row="3"] { --row-delay: 90ms; }
+  .block-cell.on[data-row="4"] { --row-delay: 120ms; }
+  .block-cell.on[data-row="5"] { --row-delay: 150ms; }
+  .block-cell.on[data-row="6"] { --row-delay: 180ms; }
 
   @keyframes blockMaterialize {
     0% {
       background: #ffffff;
-      border-color: rgba(200,255,0,0.6);
-      box-shadow: 0 0 12px rgba(200,255,0,0.8), inset 0 0 4px rgba(255,255,255,0.5);
-      opacity: 0.3;
+      box-shadow: 0 0 16px rgba(200,255,0,0.9), inset 0 0 8px rgba(255,255,255,0.6);
+      opacity: 0.2;
+      transform: scale(0.7);
     }
-    30% {
-      background: #e0ff66;
+    50% {
+      background: #deff66;
       opacity: 1;
-      box-shadow: 0 0 8px rgba(200,255,0,0.4), inset -1.5px -1.5px 0 rgba(0,0,0,0.1), inset 1.5px 1.5px 0 rgba(255,255,255,0.15);
+      transform: scale(1.05);
     }
     100% {
       background: var(--phosphor);
-      border-color: rgba(0,0,0,0.3);
-      box-shadow: inset -1.5px -1.5px 0 rgba(0,0,0,0.2), inset 1.5px 1.5px 0 rgba(255,255,255,0.08);
+      box-shadow:
+        inset 4px 4px 0 rgba(255,255,255,0.18),
+        inset -4px -4px 0 rgba(0,0,0,0.45),
+        0 0 0 1px rgba(0,0,0,0.5);
+      transform: scale(1);
       opacity: 1;
     }
+  }
+
+  /* ── CRT POWER-ON ── */
+  .crt-boot {
+    animation: crtExpand 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+
+  @keyframes crtExpand {
+    0%   { transform: scaleY(0.04); filter: brightness(4) blur(3px); }
+    20%  { transform: scaleY(0.04); filter: brightness(5) blur(4px); }
+    50%  { transform: scaleY(0.8);  filter: brightness(2) blur(1px); }
+    75%  { transform: scaleY(1.04); filter: brightness(1.3); }
+    100% { transform: scaleY(1);    filter: brightness(1); }
   }
 
   /* Scanline sweep */
   .crt-scanline {
     position: absolute;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(180deg, transparent, rgba(200,255,0,0.6), transparent);
+    left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(180deg, transparent, rgba(200,255,0,0.7), transparent);
     top: 50%;
     opacity: 0;
     pointer-events: none;
-    animation: scanSweep 0.6s ease-out 0.5s both;
+    animation: scanSweep 0.55s ease-out 0.35s both;
   }
 
   @keyframes scanSweep {
-    0% {
-      top: 50%;
-      opacity: 0.8;
-      height: 3px;
-    }
-    20% {
-      opacity: 1;
-      height: 4px;
-    }
-    50% {
-      top: 0%;
-      opacity: 0.5;
-    }
-    100% {
-      top: -10%;
-      opacity: 0;
-    }
+    0%   { top: 50%; opacity: 0.9; }
+    50%  { top: 5%;  opacity: 0.5; }
+    100% { top: -5%; opacity: 0; }
   }
 
-  /* ── BREATHING ANIMATION (after boot) — speed via --breath-speed ── */
+  /* ── BREATHING ── */
   @keyframes logoBreath {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.85; }
+    50% { opacity: 0.82; }
   }
 
   .block-logo.breathing .block-letter {
@@ -261,73 +209,46 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
     cursor: pointer;
   }
   .block-logo.breathing .block-letter[data-letter-index="0"] { animation-delay: 0ms; }
-  .block-logo.breathing .block-letter[data-letter-index="1"] { animation-delay: 200ms; }
-  .block-logo.breathing .block-letter[data-letter-index="2"] { animation-delay: 400ms; }
-  .block-logo.breathing .block-letter[data-letter-index="3"] { animation-delay: 600ms; }
+  .block-logo.breathing .block-letter[data-letter-index="1"] { animation-delay: 150ms; }
+  .block-logo.breathing .block-letter[data-letter-index="2"] { animation-delay: 300ms; }
+  .block-logo.breathing .block-letter[data-letter-index="3"] { animation-delay: 450ms; }
+  .block-logo.breathing .block-letter[data-letter-index="4"] { animation-delay: 600ms; }
+  .block-logo.breathing .block-letter[data-letter-index="5"] { animation-delay: 750ms; }
 
-  /* Revenue flash — amber pulse on individual cells */
+  /* Revenue flash */
   @keyframes revenueFlash {
-    0% { background: var(--amber, #ffb000); box-shadow: 0 0 8px rgba(255,176,0,0.6); }
-    100% { background: var(--phosphor, #c8ff00); box-shadow: none; }
+    0%   { background: var(--amber); box-shadow: 0 0 12px rgba(255,176,0,0.8), inset 4px 4px 0 rgba(255,255,255,0.2), inset -4px -4px 0 rgba(0,0,0,0.4); }
+    100% { background: var(--phosphor); }
   }
-  .block-cell.revenue-flash {
-    animation: revenueFlash 0.5s ease-out;
-  }
+  .block-cell.revenue-flash { animation: revenueFlash 0.5s ease-out; }
 
-  /* ── HOVER SCATTER (desktop only) ── */
+  /* Agent offline */
+  .block-letter.agent-offline .block-cell.on { opacity: 0.5; }
+
+  /* ── HOVER (desktop) ── */
   @media (hover: hover) {
-    .block-cell.on {
-      transition: transform 0.4s ease-in;
-    }
-    .block-logo:hover .block-cell.on {
-      transition: transform 0.3s ease-out;
-    }
+    .block-cell.on { transition: transform 0.35s ease-in; }
+    .block-logo:hover .block-cell.on { transition: transform 0.25s ease-out; }
   }
 
-  /* ── AGENT OFFLINE DIM ── */
-  .block-letter.agent-offline .block-cell.on {
-    opacity: 0.6;
-  }
-
+  /* ── RESPONSIVE ── */
   @media (max-width: 400px) {
-    .block-logo {
-      gap: 3px;
-      --block-size: 5px;
-      --block-gap: 1px;
-    }
+    .block-logo { --letter-gap: 4px; --block-size: 11px; --block-gap: 2px; }
+    .block-cell.on { box-shadow: inset 2px 2px 0 rgba(255,255,255,0.18), inset -2px -2px 0 rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.5); }
   }
-
   @media (min-width: 401px) and (max-width: 640px) {
-    .block-logo {
-      gap: 3px;
-      --block-size: 6px;
-      --block-gap: 1px;
-    }
+    .block-logo { --letter-gap: 5px; --block-size: 14px; --block-gap: 2px; }
+    .block-cell.on { box-shadow: inset 2px 2px 0 rgba(255,255,255,0.18), inset -2px -2px 0 rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.5); }
   }
-
   @media (min-width: 641px) and (max-width: 900px) {
-    .block-logo {
-      gap: 4px;
-      --block-size: 7px;
-      --block-gap: 1px;
-    }
+    .block-logo { --letter-gap: 6px; --block-size: 20px; --block-gap: 3px; }
+    .block-cell.on { box-shadow: inset 3px 3px 0 rgba(255,255,255,0.18), inset -3px -3px 0 rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.5); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .crt-boot {
-      animation: none;
-    }
-    .block-cell.on {
-      animation: none;
-      opacity: 1;
-      transition: none !important;
-    }
-    .crt-scanline {
-      display: none;
-    }
-    .block-logo.breathing .block-letter {
-      animation: none;
-    }
+    .crt-boot, .block-cell.on, .crt-scanline { animation: none; }
+    .block-cell.on { opacity: 1; transform: none; }
+    .block-logo.breathing .block-letter { animation: none; }
   }
 </style>
 
@@ -339,12 +260,10 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
     const logo = document.querySelector('.block-logo');
     if (!logo) return;
 
-    // ── 1a. Start breathing after boot completes ──
-    setTimeout(() => {
-      logo.classList.add('breathing');
-    }, 2000);
+    // Start breathing after boot
+    setTimeout(() => logo.classList.add('breathing'), 1800);
 
-    // ── 1b. Agent status mapping + data heartbeat ──
+    // Agent status
     let lastRevenue = 0;
     function checkAgentStatus() {
       fetch('/svc/status.json')
@@ -355,15 +274,10 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
             const mapped = (el.getAttribute('data-agents') || '').split(',');
             let maxIntensity = 0;
             let anyOffline = false;
-
             mapped.forEach(a => {
               const info = agents[a];
               if (!info) return;
-              if (info.status && info.status !== 'online' && info.status !== 'ONLINE') {
-                anyOffline = true;
-                return;
-              }
-              // Map activity recency to breathing speed
+              if (info.status && info.status !== 'online') { anyOffline = true; return; }
               const lastActive = info.lastActive || info.last_active;
               if (lastActive) {
                 const mins = (Date.now() - new Date(lastActive).getTime()) / 60000;
@@ -372,18 +286,16 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
                 else if (mins < 120) maxIntensity = Math.max(maxIntensity, 1);
               }
             });
-
             el.classList.toggle('agent-offline', anyOffline);
-            // Set breathing speed based on agent activity
             const speeds = ['6s', '4s', '2.5s', '1.5s'];
             (el as HTMLElement).style.setProperty('--breath-speed', speeds[maxIntensity]);
           });
 
-          // Revenue glow — flash random cells when revenue changes
+          // Revenue glow
           const rev = data?.revenue?.total_earned || data?.metrics?.revenue;
           if (rev && lastRevenue && rev > lastRevenue) {
             const cells = logo.querySelectorAll('.block-cell.on');
-            const count = Math.min(5, Math.floor((rev - lastRevenue) / 100) + 1);
+            const count = Math.min(6, Math.floor((rev - lastRevenue) / 100) + 1);
             for (let i = 0; i < count; i++) {
               const cell = cells[Math.floor(Math.random() * cells.length)] as HTMLElement;
               if (cell) {
@@ -399,13 +311,13 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
     setTimeout(checkAgentStatus, 3000);
     setInterval(checkAgentStatus, 30000);
 
-    // ── 1c. Hover scatter (desktop only) ──
+    // Hover scatter
     const hasHover = window.matchMedia('(hover: hover)').matches;
     if (hasHover) {
       logo.addEventListener('mouseenter', () => {
         logo.querySelectorAll('.block-cell.on').forEach(cell => {
-          const x = (Math.random() * 6 - 3).toFixed(1);
-          const y = (Math.random() * 6 - 3).toFixed(1);
+          const x = (Math.random() * 8 - 4).toFixed(1);
+          const y = (Math.random() * 8 - 4).toFixed(1);
           (cell as HTMLElement).style.transform = `translate(${x}px, ${y}px)`;
         });
       });
@@ -416,45 +328,29 @@ const letterAgents = ['seraphim', 'squaer', 'sentinel', 'aesthete', 'chronicle',
       });
     }
 
-    // ── 1d. Click to navigate ──
-    const letterRoutes: Record<string, string> = {
-      '0': '/agents',
-      '1': '/agents',
-      '2': '/agents',
-      '3': '/agents',
-      '4': '/agents',
-      '5': '/agents',
-    };
-    document.querySelectorAll('.block-letter[data-letter-index]').forEach(el => {
-      const idx = el.getAttribute('data-letter-index') || '';
-      const route = letterRoutes[idx];
-      if (route) {
-        (el as HTMLElement).title = el.getAttribute('data-agents')?.split(',')[0]?.toUpperCase() || '';
-        el.addEventListener('click', () => { window.location.href = route; });
-      }
-    });
+    // Click → /token
+    logo.addEventListener('click', () => { window.location.href = '/token'; });
+    (logo as HTMLElement).style.cursor = 'pointer';
 
-    // ── 1e. Metric flash ──
+    // Occasional metric flash
     let lastFlash = 0;
-    function metricFlash() {
-      const now = Date.now();
-      if (now - lastFlash < 20000) return;
-      const cells = logo.querySelectorAll('.block-cell.on');
-      if (!cells.length) return;
-      const cell = cells[Math.floor(Math.random() * cells.length)] as HTMLElement;
-      lastFlash = now;
-      const orig = cell.style.background;
-      cell.style.background = 'var(--amber)';
-      setTimeout(() => { cell.style.background = orig || ''; }, 150);
-    }
     function scheduleFlash() {
-      const delay = 30000 + Math.random() * 30000;
+      const delay = 25000 + Math.random() * 35000;
       setTimeout(() => {
-        metricFlash();
+        const now = Date.now();
+        if (now - lastFlash > 20000) {
+          const cells = logo.querySelectorAll('.block-cell.on');
+          if (cells.length) {
+            const cell = cells[Math.floor(Math.random() * cells.length)] as HTMLElement;
+            lastFlash = now;
+            const orig = cell.style.background;
+            cell.style.background = 'var(--amber)';
+            setTimeout(() => { cell.style.background = orig || ''; }, 180);
+          }
+        }
         scheduleFlash();
       }, delay);
     }
-    // Start after boot
-    setTimeout(scheduleFlash, 3000);
+    setTimeout(scheduleFlash, 3500);
   })();
 </script>
