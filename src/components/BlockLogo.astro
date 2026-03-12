@@ -31,22 +31,13 @@
 
   .logo-art {
     font-family: var(--font-head, 'JetBrains Mono', monospace);
-    /*
-      SQUAER longest line ≈ 54 chars. JetBrains Mono aspect ≈ 0.56.
-      Natural width ≈ 30 × font-size.
-      Container = viewport - margins(8px) - border(2px) - padding(24px) ≈ viewport - 34px.
-      Safe font-size: (vw - 34) / 30 ≈ vw/32 - 1px.
-      Use 2.6vw (conservative) so it fits with breathing room.
-    */
-    font-size: clamp(7px, 2.6vw, 28px);
+    /* JS will override this after measuring actual pixel width */
+    font-size: 16px;
     line-height: 1.2;
     color: var(--phosphor, #c8ff00);
     text-shadow: 0 0 8px rgba(200,255,0,0.6), 0 0 20px rgba(200,255,0,0.2);
     white-space: pre;
-    /* Critical: prevent the pre from pushing the layout wider than viewport */
     display: block;
-    width: max-content;
-    max-width: 100%;
     overflow: hidden;
     margin: 0;
     padding: 0;
@@ -116,9 +107,44 @@
 <script>
   (function () {
     const logo = document.querySelector('.block-logo') as HTMLElement;
-    if (!logo) return;
+    const pre  = document.querySelector('.logo-art')  as HTMLElement;
+    const wrap = document.querySelector('.block-logo-wrap') as HTMLElement;
+    if (!logo || !pre || !wrap) return;
+
     const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!REDUCED) setTimeout(() => logo.classList.add('breathing'), 1800);
     logo.addEventListener('click', () => { window.location.href = '/token'; });
+
+    // ── Fit font-size to container width ──
+    // Measure at 100px using a hidden off-DOM clone (avoids overflow:hidden constraints)
+    async function fitFont() {
+      await (document as any).fonts.ready;
+
+      const clone = pre.cloneNode(true) as HTMLElement;
+      Object.assign(clone.style, {
+        position: 'fixed',
+        top: '-9999px',
+        left: '-9999px',
+        visibility: 'hidden',
+        pointerEvents: 'none',
+        fontSize: '100px',
+        whiteSpace: 'pre',
+        width: 'auto',
+        maxWidth: 'none',
+      });
+      document.body.appendChild(clone);
+
+      const naturalWidth = clone.scrollWidth;
+      document.body.removeChild(clone);
+
+      if (!naturalWidth) return;
+
+      const available = wrap.clientWidth;
+      const optimal = Math.min(100 * (available / naturalWidth), 28); // cap desktop at 28px
+      pre.style.fontSize = Math.max(optimal, 6) + 'px'; // floor at 6px
+    }
+
+    fitFont();
+    window.addEventListener('resize', fitFont);
   })();
 </script>
