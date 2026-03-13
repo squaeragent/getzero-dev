@@ -90,7 +90,7 @@ try {
 }
 ---
 
-<BaseLayout title={`${title} — SQUAER Brief`} description={`Intelligence Brief: ${title}`} current="/brief" ogImage="/og/default.png">
+<BaseLayout title={`${title} — SQUAER Brief`} description={id === '2026-E007' ? 'We ran 5 AI agents for 39 days. They reported healthy the entire time. They were generating fake metrics with Math.random().' : `Intelligence Brief: ${title}`} current="/brief" ogImage={`/og/${id}.png`}>
 
 <PageWrapper>
 
