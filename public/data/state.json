@@ -9,10 +9,7 @@
     "avg_quality_score": 8.4,
     "pieces": 20
   },
-  "revenue": {
-    "total_earned": 33343,
-    "treasury_value": 19765
-  },
+  "revenue": 32340,
   "costs": {
     "per_agent": 1160,
     "monthly": 5800
