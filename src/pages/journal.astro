@@ -16,6 +16,14 @@ try {
   days = data.days || [];
 } catch {}
 
+// Load build-log to know which days have detailed entries
+let buildLogDays = new Set<number>();
+try {
+  const blPath = path.join(process.cwd(), 'public', 'data', 'build-log.json');
+  const blData = JSON.parse(fs.readFileSync(blPath, 'utf-8'));
+  (blData.entries || []).forEach((e: any) => buildLogDays.add(e.day));
+} catch {}
+
 // Compute stats
 const totalEntries = days.reduce((sum: number, d: any) => sum + (d.entries?.length || 0), 0);
 const tagCounts: Record<string, number> = {};
@@ -422,7 +430,9 @@ const tagColors: Record<string, string> = {
               </div>
             )}
           </div>
-          <div class="day-link"><a href={`/build-log/${day.day}`}>→ full log</a></div>
+          {buildLogDays.has(day.day) && (
+            <div class="day-link"><a href={`/build-log/${day.day}`}>→ full log</a></div>
+          )}
         </DataPanel>
       );
     })}
@@ -449,8 +459,8 @@ const tagColors: Record<string, string> = {
   const feedEl = document.getElementById('feed');
   const scanEl = document.getElementById('scanning');
   const statusBar = document.getElementById('status-bar');
-  const MAX_FEED = 15;
-  const JUNK_TYPES = new Set(['monitor', 'metrics', 'review', 'system', 'health', 'cron']);
+  const MAX_FEED = 25;
+  const JUNK_TYPES = new Set(['monitor', 'health', 'cron']);
   let currentIds = new Set();
 
   function formatTime(isoStr) {
@@ -480,14 +490,13 @@ const tagColors: Record<string, string> = {
       .filter(e => {
         if (JUNK_TYPES.has(e.type)) return false;
         const text = (e.text || '').toLowerCase();
-        // Filter internal plumbing — keep only meaningful output
-        if (text.includes('--mentions') || text.includes('health:') || text.includes('sync-feed')) return false;
-        if (text.includes('heartbeat') || text.includes('feed sync') || text.includes('cron ')) return false;
-        if (text.includes('l2 analysis sweep') || text.includes('l0 sentinel')) return false;
-        if (text.includes('pipeline checkpoint') || text.includes('deadman') || text.includes('dead man')) return false;
-        if (text.includes('git push') || text.includes('git pull') || text.includes('git commit')) return false;
+        // Filter only true noise — keep anything with substance
+        if (text.includes('--mentions') || text.includes('sync-feed')) return false;
+        if (text.includes('heartbeat ok') || text.includes('heartbeat_ok')) return false;
+        if (text.includes('feed sync complete')) return false;
+        if (text.includes('deadman switch') || text.includes('dead man switch')) return false;
         if (text.startsWith('replied to ') && /^\d+:/.test(text.slice(11))) return false;
-        if (text.length < 15) return false; // too short to be meaningful
+        if (text.length < 10) return false;
         return true;
       })
       .sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime())
