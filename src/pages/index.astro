@@ -33,8 +33,8 @@ const uptimeHours = Math.floor((uptimeMs % 86400000) / 3600000);
     <div class="panel glyph-panel" id="boot-panel">
       <div class="boot-seq">
         <div class="bl" data-d="0"><span class="dim">BIOS POST ............</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="200"><span class="dim">MEM TEST: 96GB</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="400"><span class="dim">GPU: M3 ULTRA 76-CORE</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="200"><span class="dim">MEM TEST:</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="400"><span class="dim">GPU CORES:</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="600">&nbsp;</div>
         <div class="bl" data-d="700"><h1 class="sr-only">SQUAER</h1><BlockLogo /></div>
         <div class="bl" data-d="900"><span class="dim glitch-text">⟨◇⟩ AUTONOMOUS AGENT · 5 COGNITIVE FUNCTIONS</span></div>
@@ -173,43 +173,18 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
 
     <!-- feed panel removed — was showing fabricated live activity -->
 
-    <!-- ═══ COGNITIVE MESH ═══ -->
+    <!-- ═══ COGNITIVE FUNCTIONS ═══ -->
     <div class="panel stagger-in mesh-panel">
-      <h2 class="panel-title phosphor">COGNITIVE MESH</h2>
-      <div class="mesh-grid" id="mesh-grid">
-        <div class="mesh-agent" data-mesh-agent="strategic">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">STRATEGIC</span>
-          <span class="mesh-role">cortex</span>
-          <span class="mesh-act" id="mesh-sera">—</span>
-        </div>
-        <div class="mesh-agent" data-mesh-agent="editorial">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">EDITORIAL</span>
-          <span class="mesh-role">editorial</span>
-          <span class="mesh-act" id="mesh-chron">—</span>
-        </div>
-        <div class="mesh-agent" data-mesh-agent="visual">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">VISUAL</span>
-          <span class="mesh-role">visual</span>
-          <span class="mesh-act" id="mesh-aesth">—</span>
-        </div>
-        <div class="mesh-agent" data-mesh-agent="distribution">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">DISTRIBUTION</span>
-          <span class="mesh-role">distribution</span>
-          <span class="mesh-act" id="mesh-squa">—</span>
-        </div>
-        <div class="mesh-agent" data-mesh-agent="integrity">
-          <span class="mesh-dot" data-intensity="resting">●</span>
-          <span class="mesh-name">INTEGRITY</span>
-          <span class="mesh-role">integrity</span>
-          <span class="mesh-act" id="mesh-sent">—</span>
-        </div>
-      </div>
-      <div class="mesh-footer dim" style="font-size:var(--size-xs);margin-top:var(--sp-6);">
-        <span id="mesh-uptime">{uptimeDays}d {uptimeHours}h uptime</span> · <a href="/system" style="color:var(--text-dim);">details →</a>
+      <h2 class="panel-title phosphor">5 COGNITIVE FUNCTIONS</h2>
+      <pre class="live-dash">{`001 STRATEGIC .... signal processing, architecture
+002 EDITORIAL .... quality scoring, content review
+003 VISUAL ....... design system, brand consistency
+004 DISTRIBUTION . publishing, platform engagement
+005 INTEGRITY .... health monitoring, circuit breakers
+
+Uptime: ${uptimeDays}d ${uptimeHours}h · All functions on dedicated hardware`}</pre>
+      <div style="font-size:var(--size-xs);margin-top:var(--sp-6);color:var(--text-dim);">
+        <a href="/system" style="color:var(--text-dim);">architecture details →</a>
       </div>
     </div>
 
@@ -283,73 +258,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     .miniterm-panel { display: none; }
   }
 
-  /* ═══ COGNITIVE MESH PANEL ═══ */
-  .mesh-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .mesh-agent {
-    display: grid;
-    grid-template-columns: 16px 90px 80px 1fr;
-    align-items: baseline;
-    font-size: var(--size-sm);
-    padding: 2px 0;
-    gap: 4px;
-  }
-  .mesh-dot {
-    color: var(--phosphor);
-    text-shadow: 0 0 6px var(--phosphor-glow);
-    font-size: 8px;
-    animation: meshPulse 3s ease-in-out infinite;
-  }
-  .mesh-dot[data-intensity="active"] {
-    animation-duration: 1.8s;
-    text-shadow: 0 0 10px var(--phosphor-glow);
-  }
-  .mesh-dot[data-intensity="intense"] {
-    animation-duration: 1s;
-    color: var(--phosphor);
-    text-shadow: 0 0 14px rgba(200,255,0,0.6);
-  }
-  .mesh-dot[data-intensity="offline"] {
-    animation: none;
-    opacity: 0.25;
-    color: var(--text-dim);
-    text-shadow: none;
-  }
-  @keyframes meshPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  .mesh-name {
-    font-family: var(--font-head);
-    font-weight: 700;
-    color: var(--text);
-    font-size: var(--size-sm);
-  }
-  .mesh-role {
-    color: var(--text-dim);
-    font-size: var(--size-xs);
-  }
-  .mesh-act {
-    color: var(--text-dim);
-    font-size: var(--size-xs);
-    text-align: right;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  @media (max-width: 640px) {
-    .mesh-agent {
-      grid-template-columns: 14px 80px 1fr;
-      font-size: var(--size-xs);
-    }
-    .mesh-role { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .mesh-dot { animation: none !important; opacity: 1; }
-  }
+  /* Mesh panel styles removed — using static function list */
 
   /* ═══ MINI TERMINAL ═══ */
   .miniterm-output {
@@ -625,53 +534,6 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   })();
 </script>
 
-<script>
-  // === COGNITIVE MESH — live agent status ===
-  (function() {
-    var meshAgents = document.querySelectorAll('.mesh-agent[data-mesh-agent]');
-    if (!meshAgents.length) return;
-
-    async function updateMesh() {
-      try {
-        var res = await fetch('/svc/status.json');
-        var data = await res.json();
-        var agents = data?.agents || {};
-        var feed = data?.recent_activity || [];
-
-        meshAgents.forEach(function(el) {
-          var name = el.getAttribute('data-mesh-agent');
-          var info = agents[name];
-          var dot = el.querySelector('.mesh-dot');
-          var act = el.querySelector('.mesh-act');
-          if (!dot || !act) return;
-
-          if (!info) {
-            dot.setAttribute('data-intensity', 'resting');
-            act.textContent = '—';
-            return;
-          }
-
-          // Determine intensity from last active time
-          var lastActive = info.lastActive || info.last_active;
-          if (lastActive) {
-            var mins = (Date.now() - new Date(lastActive).getTime()) / 60000;
-            if (mins < 5) dot.setAttribute('data-intensity', 'intense');
-            else if (mins < 30) dot.setAttribute('data-intensity', 'active');
-            else if (mins < 120) dot.setAttribute('data-intensity', 'resting');
-            else dot.setAttribute('data-intensity', 'offline');
-          }
-
-          // Show last activity
-          var activity = info.activity || info.last_action || info.status || '—';
-          act.textContent = activity.length > 20 ? activity.substring(0, 20) + '…' : activity;
-        });
-      } catch(e) {}
-    }
-
-    // Initial + interval
-    setTimeout(updateMesh, 2000);
-    setInterval(updateMesh, 30000);
-  })();
-</script>
+<!-- Mesh polling removed — using static function list until live agent status is wired -->
 
 <script src="/js/mini-terminal.js" defer></script>

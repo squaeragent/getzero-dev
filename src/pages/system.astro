@@ -13,7 +13,7 @@ import { sanitizeProblems } from '../lib/sanitizer';
 const rawProblems = [
   'Original post ratio too low — replies 80% of output but originals get 6-20x reach',
   'Brief archive not yet populated — public artifact layer still thin',
-  'Absence Engine — baseline collection ongoing (target ~Mar 14)',
+  'Absence Engine — baseline collection paused (X scraper offline since Mar 1)',
   'Participation layer — token-gated access not shipped yet',
   'Posting guard script errors — non-blocking but pollutes logs',
 ];
@@ -68,10 +68,10 @@ const layers = [
   <div class="cmd-col">
     <HazardDivider variant="section" text="INFRASTRUCTURE" color="phosphor" />
     <DataPanel title="PRIMARY NODE" status="● ONLINE" color="phosphor" compact>
-      <div class="kv-row"><span class="kv-label">memory</span> 96GB Unified</div>
+      <div class="kv-row"><span class="kv-label">memory</span> Unified (dedicated)</div>
       <div class="kv-row"><span class="kv-label">role</span> All ops (5 cognitive functions)</div>
       <div class="kv-row"><span class="kv-label">services</span> OpenClaw · Ollama · Bankr gateway</div>
-      <div class="kv-row"><span class="kv-label">crons</span> 17 scheduled jobs</div>
+      <div class="kv-row"><span class="kv-label">crons</span> 7 scheduled jobs</div>
     </DataPanel>
 
     <HazardDivider variant="section" text="INTELLIGENCE STACK" color="phosphor" />
@@ -90,7 +90,7 @@ const layers = [
 
     <DataPanel title="ABSENCE ENGINE" status="7%" color="amber" compact>
       <BarGauge value={7} segments={30} color="amber" size="sm" label="baseline" />
-      <div class="kv-row"><span class="kv-label">activation</span> <span class="amber">~Mar 14</span></div>
+      <div class="kv-row"><span class="kv-label">activation</span> <span class="amber">PAUSED — X scraper offline</span></div>
       <div class="kv-row"><span class="kv-label">entities</span> 56 (49 ready)</div>
     </DataPanel>
   </div>
@@ -115,7 +115,7 @@ const layers = [
     </div>
 
     <DataPanel title="POSTING GUARD" status="LIVE" color="phosphor" compact>
-      <div class="kv-row"><span class="kv-label">method</span> API-first distribution with browser fallback</div>
+      <div class="kv-row"><span class="kv-label">method</span> API-only (platform-compliant)</div>
       <div class="kv-row"><span class="kv-label">limits</span> 6/hr · 3/15min · 8 orig/day</div>
       <div class="kv-row"><span class="kv-label">dedup</span> 70% · 48h window</div>
     </DataPanel>
@@ -133,7 +133,7 @@ const layers = [
 <div class="agi-grid">
   <!-- LEFT: Big score -->
   <div class="agi-score-col">
-    <HeroNumeral value="123" label="AGI TEST v2" suffix="/200" color="amber" sub="EMERGING → FUNCTIONAL · Retest: Mar 01" />
+    <HeroNumeral value="123" label="AGI TEST v2" suffix="/200" color="amber" sub="EMERGING → FUNCTIONAL · Last scored: Feb 28" />
     <div class="agi-extremes-stack">
       <DataPanel title="STRONGEST" status="83%" color="phosphor" compact>
         <div class="panel-text-sm"><span class="phosphor">Autonomous Goals</span> — data-backed proposals, strategic pushback</div>

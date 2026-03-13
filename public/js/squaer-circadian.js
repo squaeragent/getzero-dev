@@ -116,29 +116,29 @@
     };
   }
 
-  function getCurrentPhase(bkkHour) {
-    if (bkkHour >= 3 && bkkHour < 6) return 'deep_night';
-    if (bkkHour >= 6 && bkkHour < 9) return 'dawn';
-    if (bkkHour >= 9 && bkkHour < 18) return 'active';
-    if (bkkHour >= 18 && bkkHour < 23) return 'evening';
+  function getCurrentPhase(hqHour) {
+    if (hqHour >= 3 && bkkHour < 6) return 'deep_night';
+    if (hqHour >= 6 && bkkHour < 9) return 'dawn';
+    if (hqHour >= 9 && bkkHour < 18) return 'active';
+    if (hqHour >= 18 && bkkHour < 23) return 'evening';
     return 'nightwatch'; // 23-3
   }
 
   // Smooth interpolation between phases during 30-min transition zones
-  function getBlendedParams(bkkDecimal) {
-    var phase = getCurrentPhase(Math.floor(bkkDecimal));
+  function getBlendedParams(hqDecimal) {
+    var phase = getCurrentPhase(Math.floor(hqDecimal));
     var params = PARAMS[phase];
     var nextPhase = NEXT_PHASE[phase];
     var boundary = PHASE_BOUNDARIES[nextPhase];
 
     // Distance to next phase boundary
     var distToBoundary;
-    if (phase === 'nightwatch' && bkkDecimal >= 23) {
-      distToBoundary = (24 - bkkDecimal) + PHASE_BOUNDARIES.deep_night;
-    } else if (phase === 'nightwatch' && bkkDecimal < 3) {
-      distToBoundary = PHASE_BOUNDARIES.deep_night - bkkDecimal;
+    if (phase === 'nightwatch' && hqDecimal >= 23) {
+      distToBoundary = (24 - hqDecimal) + PHASE_BOUNDARIES.deep_night;
+    } else if (phase === 'nightwatch' && hqDecimal < 3) {
+      distToBoundary = PHASE_BOUNDARIES.deep_night - hqDecimal;
     } else {
-      distToBoundary = boundary - bkkDecimal;
+      distToBoundary = boundary - hqDecimal;
     }
 
     // If within 0.5 hours (30 min) of next phase, blend
@@ -263,7 +263,7 @@
 
   // HQ clock
   function updateClock() {
-    var el = document.querySelector('[data-bkk-clock]');
+    var el = document.querySelector('[data-hq-clock]');
     if (!el) return;
     var hq = getHQTime();
     var h = String(hq.hours).padStart(2, '0');
