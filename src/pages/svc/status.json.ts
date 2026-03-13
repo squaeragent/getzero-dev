@@ -76,9 +76,8 @@ export const GET: APIRoute = async () => {
       const pair = data?.pairs?.[0];
       if (pair) {
         const volume24h = pair.volume?.h24 ?? 0;
-        // Extrapolate fees: baseline + (daily volume × fee rate × LP share × days since calibration)
-        const estimatedNewFees = Math.round(volume24h * commissions.fee_rate * commissions.lp_share * daysSinceBaseline);
-        lpTotal = commissions.baseline_usd + estimatedNewFees;
+        // Extrapolation disabled — was producing fictional numbers ($40K+ vs real $32,340)
+        lpTotal = commissions.baseline_usd;
 
         live = {
           token_price_usd: parseFloat(pair.priceUsd),

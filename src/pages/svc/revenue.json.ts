@@ -56,8 +56,11 @@ export const GET: APIRoute = async () => {
     const pair = data?.pairs?.[0];
 
     const volume24h = pair?.volume?.h24 ?? 0;
-    const estimatedNewFees = extrapolateFees(volume24h, fee_rate, lp_share, daysSinceBaseline);
-    const totalEstimated = baseline_usd + estimatedNewFees;
+    // NOTE: Extrapolation disabled — was producing wildly inaccurate numbers
+    // ($40K+ when real on-chain is $32,340). Show real baseline only.
+    // Re-enable when we have actual on-chain fee collection data.
+    const estimatedNewFees = 0;
+    const totalEstimated = baseline_usd;
 
     return new Response(JSON.stringify({
       lp_commissions_total: totalEstimated,
