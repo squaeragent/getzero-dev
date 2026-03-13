@@ -48,11 +48,11 @@ const BASE_METRICS = {
 
 // Agent roster with default activities
 const AGENTS: Record<string, { status: string; activity: string }> = {
-  seraphim: { status: 'active', activity: 'building' },
-  chronicle: { status: 'active', activity: 'scoring' },
-  aesthete:  { status: 'active', activity: 'idle' },
+  strategic: { status: 'active', activity: 'building' },
+  editorial: { status: 'active', activity: 'scoring' },
+  visual:  { status: 'active', activity: 'idle' },
   squaer:    { status: 'active', activity: 'posting' },
-  sentinel:  { status: 'active', activity: 'monitoring' },
+  integrity:  { status: 'active', activity: 'monitoring' },
 };
 
 export const GET: APIRoute = async () => {

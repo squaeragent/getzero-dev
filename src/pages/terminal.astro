@@ -319,18 +319,7 @@ ${dots('Liquidity', '$' + liq)}
         return out.trimEnd();
       },
 
-      predictions: async () => {
-        const p = await fetchJSON('/svc/predictions.json');
-        if (!p) return 'ERROR: Could not fetch predictions.';
-        let out = `PREDICTIONS (${p.stats.active} active, ${p.stats.scored} scored)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-        for (const pr of p.predictions) {
-          const conf = (pr.confidence * 100).toFixed(0) + '%';
-          const icon = pr.status === 'active' ? '◉' : '○';
-          out += `  ${icon} [${pr.id}] ${pr.claim}\n    Confidence: ${conf} | Status: ${pr.status.toUpperCase()} | Since: ${pr.created}\n\n`;
-        }
-        return out.trimEnd();
-      },
-
+      
       feed: async () => {
         const raw = await fetchJSON('/svc/feed.json');
         const f = raw?.entries || raw;
@@ -369,9 +358,9 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       cd: async (args) => {
         const routes = {
           '/': '/', '/home': '/',
-          '/agents': '/agents', '/agents/seraphim': '/agents/seraphim',
-          '/agents/chronicle': '/agents/chronicle', '/agents/aesthete': '/agents/aesthete',
-          '/agents/squaer': '/agents/squaer', '/agents/sentinel': '/agents/sentinel',
+          '/agents': '/agents', 
+           
+           
           '/system': '/system', '/intel': '/intel', '/product': '/product',
           '/manifesto': '/manifesto', '/build-log': '/journal', '/journal': '/journal',
           '/live': '/journal', '/brief': '/brief', '/access': '/access', '/token': '/token',
@@ -480,7 +469,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'uptime': 'Use "status" for uptime info.',
       'date': new Date().toUTCString(),
       'top': 'STRATEGIC: 42%  EDITORIAL: 12%  DISTRIBUTION: 28%  VISUAL: 8%  INTEGRITY: 10%',
-      'ps': 'PID  NAME        STATUS\n001  seraphim    running\n002  chronicle   running\n003  aesthete    running\n004  squaer      running\n005  sentinel    running',
+      'ps': 'PID  FUNCTION     STATUS\n001  strategic    running\n002  editorial    running\n003  visual       running\n004  distribution running\n005  integrity    running',
       'neofetch': async () => {
         const m = await fetchJSON('/svc/metrics.json');
         const day = m?.day || '?';

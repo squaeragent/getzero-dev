@@ -470,8 +470,8 @@
      
      Markup expected:
      <div data-agent-boot>
-       <div class="agent-boot-line" data-delay="0">001 SERAPHIM .... [■ LIVE]</div>
-       <div class="agent-boot-line" data-delay="150">002 CHRONICLE ... [■ LIVE]</div>
+       <div class="agent-boot-line" data-delay="0">001 STRATEGIC .... [■ LIVE]</div>
+       <div class="agent-boot-line" data-delay="150">002 EDITORIAL ... [■ LIVE]</div>
        ...
      </div>
      

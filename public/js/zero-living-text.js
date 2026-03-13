@@ -2,7 +2,7 @@
  * ZERO OS — Living Text Engine
  * Pre-authored text that rewrites itself based on system state.
  * Character-level phosphor dissolve + typewriter retype.
- * CHRONICLE authors all variants. No runtime LLM calls.
+ * EDITORIAL authors all variants. No runtime LLM calls.
  */
 (function() {
   'use strict';

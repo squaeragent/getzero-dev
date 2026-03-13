@@ -70,11 +70,11 @@
 
     agents: function() {
       var a = [
-        ['SERAPHIM',  'cortex'],
-        ['CHRONICLE', 'editorial'],
-        ['AESTHETE',  'visual'],
+        ['STRATEGIC',  'cortex'],
+        ['EDITORIAL', 'editorial'],
+        ['VISUAL',  'visual'],
         ['SQUAER',    'distribution'],
-        ['SENTINEL',  'integrity'],
+        ['INTEGRITY',  'integrity'],
       ];
       var out = 'COGNITIVE MESH\n';
       for (var i = 0; i < a.length; i++) {

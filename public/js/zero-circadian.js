@@ -252,7 +252,7 @@
       '  }',
       '}',
       '',
-      '/* SENTINEL nightwatch dominance */',
+      '/* INTEGRITY nightwatch dominance */',
       '.circadian-nightwatch .agent-heartbeat[data-agent-index="4"],',
       '.circadian-deep-night .agent-heartbeat[data-agent-index="4"] {',
       '  animation-duration: 2.5s !important;',

@@ -104,11 +104,11 @@
 
   // Per-agent activity → pulse speed lookup (from spec Section 3)
   var PULSE_SPEEDS = {
-    seraphim:  { idle: 3.0, sweep: 1.0, classify: 1.4, review: 1.8, coordinate: 1.6, export: 2.2, building: 1.0, processing: 1.0, analyzing: 1.0 },
-    chronicle: { idle: 3.0, drafting: 1.2, scoring: 1.6, editing: 1.4, publishing: 1.0 },
-    aesthete:  { idle: 3.0, designing: 1.2, reviewing: 1.6, rendering: 1.0, scoring: 1.8 },
+    strategic:  { idle: 3.0, sweep: 1.0, classify: 1.4, review: 1.8, coordinate: 1.6, export: 2.2, building: 1.0, processing: 1.0, analyzing: 1.0 },
+    editorial: { idle: 3.0, drafting: 1.2, scoring: 1.6, editing: 1.4, publishing: 1.0 },
+    visual:  { idle: 3.0, designing: 1.2, reviewing: 1.6, rendering: 1.0, scoring: 1.8 },
     squaer:    { idle: 3.0, posting: 0.8, engaging: 1.2, scraping: 1.4, queuing: 2.0 },
-    sentinel:  { monitoring: 2.0, scanning: 1.2, alert: 0.6, resolving: 1.0, idle: 3.0 }
+    integrity:  { monitoring: 2.0, scanning: 1.2, alert: 0.6, resolving: 1.0, idle: 3.0 }
   };
 
   // Speed → intensity level mapping

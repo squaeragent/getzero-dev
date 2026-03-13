@@ -847,7 +847,7 @@ pre, code {
   --pulse-glow: rgba(200, 255, 0, 0.5);
   --pulse-glow-peak: rgba(200, 255, 0, 0.8);
 }
-/* Intensity: alarm (SENTINEL anomaly / agent error) */
+/* Intensity: alarm (INTEGRITY anomaly / agent error) */
 .agent-heartbeat[data-intensity="alarm"] {
   --pulse-glow: rgba(255, 176, 0, 0.5);
   --pulse-glow-peak: rgba(255, 176, 0, 0.9);
@@ -930,11 +930,8 @@ pre, code {
   }
 
   /* Email form at bottom */
-  .email-form {
-    flex-wrap: wrap;
-  }
-
-  .email-input {
+  /* email-form removed */
+  .email-input-legacy {
     flex: 1 1 100%;
     min-width: 0;
     font-size: 14px !important; /* prevents iOS zoom */
