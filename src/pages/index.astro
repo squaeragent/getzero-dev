@@ -145,7 +145,7 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
       <div class="metric-row">
         <span class="metric-label">LP revenue earned</span>
         <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency" data-count-to={String(m.revenue ?? 33343)} data-count-currency>{'$' + (m.revenue ?? 33343).toLocaleString()}</span>
+        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency" data-count-to={String(m.revenue ?? 32340)} data-count-currency>{'$' + (m.revenue ?? 32340).toLocaleString()}</span>
       </div>
       <div class="metric-row">
         <span class="metric-label">Posts published</span>
@@ -543,7 +543,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   // === LIVE REVENUE TICKER (direct DexScreener — no SSR needed) ===
   let lastRevenueUpdate = 0;
   const PAIR_ADDR = '0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6';
-  const TOTAL_REVENUE = 33343; // LP commissions earned — updated by cron
+  const TOTAL_REVENUE = 32340; // LP commissions earned — updated by cron
 
   async function updateRevenue() {
     const el = document.getElementById('live-revenue');

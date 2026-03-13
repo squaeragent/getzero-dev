@@ -225,7 +225,8 @@
     items.push('■ Day ' + state.day);
     items.push(Object.keys(state.agents || {}).length + ' agents live');
     if (state.revenue) {
-      items.push('$' + (state.revenue.total_earned || 0).toLocaleString() + ' revenue');
+      var rev = typeof state.revenue === 'number' ? state.revenue : (state.revenue.total_earned || 0);
+      items.push('$' + rev.toLocaleString() + ' revenue');
     }
     if (state.intelligence) {
       items.push(state.intelligence.entities_tracked + ' entities tracked');

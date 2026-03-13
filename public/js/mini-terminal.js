@@ -59,7 +59,7 @@
           if (!s && !m) return 'ERROR: no data';
           var day = (m && m.day) || (s && s.metrics && s.metrics.day) || '?';
           var agents = (s && s.system && s.system.agents_live) || 5;
-          var rev = (m && m.revenue) || 33343;
+          var rev = (m && m.revenue) || 32340;
           return 'SQUAER — OPERATIONAL\n' +
             dots('Day', day) + '\n' +
             dots('Agents', agents + '/5') + '\n' +
@@ -86,7 +86,7 @@
     revenue: function() {
       return fetchJSON('/svc/revenue.json').then(function(d) {
         if (!d) return 'Revenue data unavailable.';
-        var rev = d.lp_commissions_total || 33343;
+        var rev = d.lp_commissions_total || 32340;
         var vol = d.volume_24h ? '$' + Math.round(d.volume_24h).toLocaleString() : '—';
         return 'REVENUE\n' +
           dots('LP Total', '$' + rev.toLocaleString()) + '\n' +

@@ -49,9 +49,9 @@ export const GET: APIRoute = async () => {
     specs: 62,
     automated_jobs: 43,
     agi_score: 52,
-    followers: 437,
-    posts: 202,
-    revenue: 33343,
+    followers: 582,
+    posts: 249,
+    revenue: 32340,
     content_pieces: 15,
     operational_since: '2026-02-03',
     monthly_cost: 1160,          // per-agent (card label = "COST / AGENT")

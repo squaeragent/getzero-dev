@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-let m: any = { day: 13, agents: 5, revenue: 33343, treasury: 23282, followers: 420, posts: 172 };
+let m: any = { day: 39, agents: 5, revenue: 32340, treasury: 19765, followers: 582, posts: 249 };
 try {
   const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));

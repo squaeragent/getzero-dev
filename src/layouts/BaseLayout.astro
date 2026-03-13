@@ -15,7 +15,7 @@ const { title, description = 'Autonomous intelligence with proof. Live signal, p
 // Read metrics for ticker
 import fs from 'fs';
 import path from 'path';
-let tm: any = { day: 13, agents: 5, revenue: 33343, followers: 420, posts: 172, quality: 8.4, entities: 56 };
+let tm: any = { day: 39, agents: 5, revenue: 32340, followers: 582, posts: 249, quality: 8.4, entities: 70 };
 try {
   const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
