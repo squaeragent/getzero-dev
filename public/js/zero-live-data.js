@@ -228,15 +228,7 @@
       var rev = typeof state.revenue === 'number' ? state.revenue : (state.revenue.total_earned || 0);
       items.push('$' + rev.toLocaleString() + ' revenue');
     }
-    if (state.intelligence) {
-      items.push(state.intelligence.entities_tracked + ' entities tracked');
-      if (state.intelligence.last_sweep_at) {
-        items.push('last sweep: ' + timeAgo(state.intelligence.last_sweep_at));
-      }
-      if (state.intelligence.signals_today > 0) {
-        items.push(state.intelligence.signals_today + ' signals today');
-      }
-    }
+    // Entity tracking removed until verified (RedTeam: 3/10 quality)
 
     const sep = '<span class="ticker-sep">│</span>';
     const html = items.map(i => '<span class="ticker-item">' + i + '</span>').join(sep);
