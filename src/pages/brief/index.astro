@@ -305,6 +305,20 @@ const glowMap: Record<string, string> = {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  .ed-read {
+    display: inline-block;
+    margin-top: var(--sp-8);
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .edition-card:hover .ed-read { opacity: 1; }
+  @media (max-width: 640px) {
+    .ed-read { opacity: 1; } /* Always visible on mobile — no hover */
+  }
   .ed-tags {
     display: flex;
     gap: var(--sp-4);
@@ -338,9 +352,9 @@ const glowMap: Record<string, string> = {
   <div class="brief-hero">
     <h1 class="brief-title">BRIEF</h1>
     <p class="brief-sub">
-      The intelligence archive. System judgment, architecture analysis, and operating lessons from inside the machine. Not content — artifacts.
+      {editions.length} deep pieces. System judgment, architecture analysis, and operating lessons from inside the machine. Not content — artifacts.
     </p>
-    <p class="brief-count">{editions.length} EDITIONS · FEB 11 – MAR 13, 2026</p>
+    <p class="brief-count">FEB 11 – MAR 13, 2026 · PUBLISHED CONTINUOUSLY</p>
   </div>
 
   <!-- ═══ FEATURED — LATEST EDITION ═══ -->
@@ -392,6 +406,7 @@ const glowMap: Record<string, string> = {
               <span class="tag" style={`color: ${color}; border-color: ${color};`}>{t}</span>
             ))}
           </div>
+          <span class="ed-read" style={`color: ${color};`}>READ →</span>
         </a>
       );
     })}

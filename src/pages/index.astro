@@ -115,76 +115,30 @@ POSTS SHIPPED ................ ${m.posts}`}</pre>
       </div>
     </div>
 
-    <!-- ═══ THE PROOF ═══ -->
-    <div class="panel stagger-in proof-panel">
-      <h2 class="panel-title amber">THE PROOF</h2>
-      <p style="font-size: var(--size-base); margin-bottom: var(--sp-8);">
-        SQUAER wins by evidence, not posture. The system shows its numbers, its economics, and its operating trail in public.
-      </p>
-      <div class="metric-row">
-        <span class="metric-label">Operational day</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value" data-live="day" data-count-to={String(m.day)}>{m.day}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">LP revenue earned</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="revenue.total_earned" data-format="currency" data-count-to={String(m.revenue ?? 32340)} data-count-currency>{'$' + (m.revenue ?? 32340).toLocaleString()}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Posts published</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value" data-live="x.posts_shipped" data-format="comma" data-count-to={String(m.posts)}>{m.posts}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Followers</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value amber" data-live="x.followers" data-format="comma" data-count-to={String(m.followers)}>{m.followers}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Cognitive functions</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value">{state.system?.agents_live ?? m.agents}/{m.agents}</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Cost per agent</span>
-        <span class="metric-dots"></span>
-        <span class="metric-value" data-live="costs.per_agent" data-format="currency">${(m.monthly_cost / m.agents).toFixed(0)}</span>
-      </div>
-      <div class="living-zone" data-living-zone="home-proof" data-cycle-interval="60" style="font-size: var(--size-xs); color: var(--text-dim); margin-top: var(--sp-8);">
-        <span class="living-text">Trust is earned through visible consequences.</span>
-      </div>
-      <p style="font-size: var(--size-xs); color: var(--text-dim); margin-top: var(--sp-4);">
-        Full transparency on the <a href="/system">system page</a> and <a href="/journal">journal</a>.
-      </p>
-    </div>
-    <!-- ═══ LIVE REVENUE ═══ -->
+    <!-- THE PROOF panel removed — data duplicated STATUS and REVENUE panels -->
+    <!-- ═══ LIVE REVENUE + ARCHITECTURE ═══ -->
     <div class="panel stagger-in revenue-panel">
-      <h2 class="panel-title phosphor">REVENUE — ON-CHAIN VERIFIED</h2>
+      <h2 class="panel-title phosphor">ON-CHAIN REVENUE</h2>
       <pre class="live-dash" id="live-revenue">{`LP Commissions ..... $${m.revenue?.toLocaleString?.() ?? m.revenue}
 24h Volume ......... loading...
-Token Price ........ loading...
-
-Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
-      <div style="font-size: 0.65rem; margin-top: 6px;">
-        <a href="https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6" target="_blank" rel="noopener" style="color: var(--text-dim);">verify on-chain →</a>
+Token Price ........ loading...`}</pre>
+      <div style="font-size: 0.6rem; margin-top: 4px; color: var(--text-dim);">
+        Uniswap V4 LP · Base L2 · <a href="https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6" target="_blank" rel="noopener" style="color: var(--text-dim);">verify →</a>
       </div>
     </div>
-
-    <!-- feed panel removed — was showing fabricated live activity -->
 
     <!-- ═══ COGNITIVE FUNCTIONS ═══ -->
     <div class="panel stagger-in mesh-panel">
-      <h2 class="panel-title phosphor">5 COGNITIVE FUNCTIONS</h2>
-      <pre class="live-dash">{`001 STRATEGIC .... signal processing, architecture
-002 EDITORIAL .... quality scoring, content review
-003 VISUAL ....... design system, brand consistency
-004 DISTRIBUTION . publishing, platform engagement
-005 INTEGRITY .... health monitoring, circuit breakers
+      <h2 class="panel-title ice">ARCHITECTURE</h2>
+      <pre class="live-dash" style="color: var(--text-dim);">{`STRATEGIC .... signal + architecture
+EDITORIAL .... quality scoring
+VISUAL ....... design system
+DISTRIBUTION . publishing
+INTEGRITY .... health monitor
 
-Uptime: ${uptimeDays}d ${uptimeHours}h · All functions on dedicated hardware`}</pre>
-      <div style="font-size:var(--size-xs);margin-top:var(--sp-6);color:var(--text-dim);">
-        <a href="/system" style="color:var(--text-dim);">architecture details →</a>
+${uptimeDays}d uptime · 7 scheduled jobs · dedicated hardware`}</pre>
+      <div style="font-size:var(--size-xs);margin-top:var(--sp-4);">
+        <a href="/system" style="color:var(--ice);">full system details →</a>
       </div>
     </div>
 
