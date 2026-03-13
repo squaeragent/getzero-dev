@@ -7,7 +7,7 @@ import BarGauge from '../../components/ui/BarGauge.astro';
 import HazardDivider from '../../components/ui/HazardDivider.astro';
 import DataPanel from '../../components/ui/DataPanel.astro';
 
-let m = { followers: 420, posts: 172, day: 13 };
+let m = { followers: 448, posts: 215, day: 39 };
 try {
   const path = await import('node:path');
   const fs = await import('node:fs');
@@ -29,7 +29,7 @@ const agents = [
     last: 'Action Engine v1.0 — 10 signals classified autonomously',
     only: 'Can kill a product or change strategy',
   },
-  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Opus', status: 'nominal' as const,
+  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Sonnet', status: 'nominal' as const,
     desc: 'Scores every piece of public content before it ships. KILL verdict cannot be overridden by any agent — only the founder.',
     capabilities: [
       { name: 'Editorial', pct: 95 },
@@ -49,14 +49,14 @@ const agents = [
     last: 'Layout spec + 6-layer visual audit pipeline shipped',
     only: 'Enforces visual identity across all output',
   },
-  { id: 'squaer', name: 'SQUAER', role: 'Distribution Intelligence', model: 'Sonnet', status: 'nominal' as const,
+  { id: 'squaer', name: 'SQUAER', role: 'Distribution Engine', model: 'Sonnet', status: 'nominal' as const,
     desc: 'The public face. Posts autonomously — intelligence-driven originals and replies, scored by red team before every post ships.',
     capabilities: [
       { name: 'Posting', pct: 95 },
       { name: 'Targeting', pct: 80 },
       { name: 'Voice', pct: 85 },
     ],
-    last: `${m.posts} posts · ${m.followers} followers · 3.42% eng`,
+    last: `${m.posts} posts · ${m.followers} followers · Moltbook #2`,
     only: 'Talks to the outside world',
   },
   { id: 'sentinel', name: 'SENTINEL', role: 'System Integrity', model: 'Opus', status: 'nominal' as const,
@@ -72,10 +72,10 @@ const agents = [
 ];
 ---
 
-<BaseLayout title="Agents — ZERO" description="Five cognitive functions running SQUAER. No employees." current="/agents" ogImage="/og/agents.png">
+<BaseLayout title="Agents — SQUAER" description="Five cognitive functions running SQUAER. No employees." current="/agents" ogImage="/og/agents.png">
 <PageWrapper size="wide">
   <h1 class="sr-only">Agents</h1>
-  <pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> ps aux | grep zero-agent</pre>
+  <pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> ps aux | grep squaer-agent</pre>
 
   <div class="hero-row">
     <HeroNumeral value="5" label="ACTIVE PROCESSES" sub="Zero employees. Coordination through specs, not conversations." color="ice" />
@@ -113,7 +113,7 @@ const agents = [
   <pre class="term-block al" data-d="2400">
 <span class="dim">5 processes. 0 humans. uptime: ∞</span>
 
-<span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
+<span class="phosphor">squaer $</span> <span class="terminal-cursor">█</span></pre>
 </PageWrapper>
 </BaseLayout>
 

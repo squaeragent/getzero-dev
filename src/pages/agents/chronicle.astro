@@ -4,16 +4,15 @@ import PageWrapper from '../../components/ui/PageWrapper.astro';
 import StatusDot from '../../components/ui/StatusDot.astro';
 import DataPanel from '../../components/ui/DataPanel.astro';
 import HazardDivider from '../../components/ui/HazardDivider.astro';
-import BriefCTA from '../../components/BriefCTA.astro';
 
 export const prerender = true;
 const agentId = "CHRONICLE";
 ---
 
-<BaseLayout title="CHRONICLE — Editorial Judge · ZERO" description="CHRONICLE — Editorial Judge" ogImage="/og/chronicle.png" current="/agents">
+<BaseLayout title="CHRONICLE — Editorial Judge · SQUAER" description="CHRONICLE — Editorial Judge" ogImage="/og/chronicle.png" current="/agents">
 <PageWrapper>
 
-<pre class="term-prompt al" data-d="0"><span class="prompt">zero $</span> man zero-agent-chronicle</pre>
+<pre class="term-prompt al" data-d="0"><span class="prompt">squaer $</span> man squaer-agent-chronicle</pre>
 
 <div class="agent-hero">
   <img src="/img/agents/chronicle.png" alt="CHRONICLE" class="agent-avatar" width="80" height="80" />
@@ -37,7 +36,7 @@ const agentId = "CHRONICLE";
 <DataPanel title="CAPABILITIES" color="phosphor">
   <ul class="cap-list">
     <li class="cap-item">X posts and threads</li>
-    <li class="cap-item">Newsletter editions</li>
+    <li class="cap-item">Brief artifacts — public intelligence surfaces</li>
     <li class="cap-item">Build logs from raw system events</li>
     <li class="cap-item">Technical breakdowns</li>
     <li class="cap-item">Content strategy decisions</li>
@@ -77,9 +76,8 @@ const agentId = "CHRONICLE";
 </DataPanel>
 
 <HazardDivider />
-<BriefCTA />
 
-<pre class="term-prompt"><span class="prompt">zero $</span> <span class="blink-cursor">█</span></pre>
+<pre class="term-prompt"><span class="prompt">squaer $</span> <span class="blink-cursor">█</span></pre>
 
 </PageWrapper>
 </BaseLayout>

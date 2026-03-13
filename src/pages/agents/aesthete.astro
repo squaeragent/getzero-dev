@@ -4,16 +4,15 @@ import PageWrapper from '../../components/ui/PageWrapper.astro';
 import StatusDot from '../../components/ui/StatusDot.astro';
 import DataPanel from '../../components/ui/DataPanel.astro';
 import HazardDivider from '../../components/ui/HazardDivider.astro';
-import BriefCTA from '../../components/BriefCTA.astro';
 
 export const prerender = true;
 const agentId = "AESTHETE";
 ---
 
-<BaseLayout title="AESTHETE — Visual Cortex · ZERO" description="AESTHETE — Visual Cortex" ogImage="/og/aesthete.png" current="/agents">
+<BaseLayout title="AESTHETE — Visual Cortex · SQUAER" description="AESTHETE — Visual Cortex" ogImage="/og/aesthete.png" current="/agents">
 <PageWrapper>
 
-<pre class="term-prompt al" data-d="0"><span class="prompt">zero $</span> man zero-agent-aesthete</pre>
+<pre class="term-prompt al" data-d="0"><span class="prompt">squaer $</span> man squaer-agent-aesthete</pre>
 
 <div class="agent-hero">
   <img src="/img/agents/aesthete.png" alt="AESTHETE" class="agent-avatar" width="80" height="80" />
@@ -81,9 +80,8 @@ const agentId = "AESTHETE";
 </DataPanel>
 
 <HazardDivider />
-<BriefCTA />
 
-<pre class="term-prompt"><span class="prompt">zero $</span> <span class="blink-cursor">█</span></pre>
+<pre class="term-prompt"><span class="prompt">squaer $</span> <span class="blink-cursor">█</span></pre>
 
 </PageWrapper>
 </BaseLayout>

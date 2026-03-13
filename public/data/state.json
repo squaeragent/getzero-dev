@@ -1,16 +1,16 @@
 {
-  "day": 16,
+  "day": 39,
   "operational_since": "2026-02-03",
   "x": {
-    "posts_shipped": 210,
+    "posts_shipped": 215,
     "followers": 448
   },
   "content": {
     "avg_quality_score": 8.4,
-    "pieces": 18
+    "pieces": 20
   },
   "revenue": {
-    "total_earned": 32340,
+    "total_earned": 33343,
     "treasury_value": 19765
   },
   "costs": {
@@ -19,7 +19,7 @@
   },
   "intelligence": {
     "entities_tracked": 70,
-    "automated_jobs": 17,
+    "automated_jobs": 25,
     "signals_today": 19,
     "monitors_active": 6
   },
@@ -64,5 +64,5 @@
     "quality_avg": 8.4,
     "entities_tracked": 70
   },
-  "generated_at": "2026-02-18T00:45:32+07:00"
+  "generated_at": "2026-03-13T09:15:00+07:00"
 }

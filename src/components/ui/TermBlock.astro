@@ -6,7 +6,7 @@
  *
  * Props:
  *   title?    — optional header text (renders as PHOSPHOR span)
- *   prompt?   — renders a `zero $ command` header line
+ *   prompt?   — renders a `squaer $ command` header line
  *   class?    — additional CSS classes
  *   d?        — stagger animation delay (ms)
  */
@@ -25,7 +25,7 @@ const hasAnim = d !== undefined;
 <div class:list={['tb', hasAnim && 'al', className]} {...animAttrs}>
   {prompt && (
     <div class="tb-prompt">
-      <span class="phosphor">zero $</span> {prompt}
+      <span class="phosphor">squaer $</span> {prompt}
     </div>
   )}
   {title && (

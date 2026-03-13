@@ -50,10 +50,10 @@ const tagColors: Record<string, string> = {
 const paragraphs = entry.body.split('\n\n');
 ---
 
-<BaseLayout title={`Day ${entry.day}: ${entry.title} — ZERO`} description={entry.subtitle} current="/journal">
+<BaseLayout title={`Day ${entry.day}: ${entry.title} — SQUAER`} description={entry.subtitle} current="/journal">
 <div class="log-wrap">
 
-<pre class="log-prompt al" data-d="0"><span class="phosphor">zero $</span> cat /var/log/build/day-{entry.day}.log</pre>
+<pre class="log-prompt al" data-d="0"><span class="phosphor">squaer $</span> cat /var/log/build/day-{entry.day}.log</pre>
 
 <div class="log-header al" data-d="100">
   <div class="log-day-num"><span class="phosphor">DAY {String(entry.day).padStart(2, '0')}</span></div>

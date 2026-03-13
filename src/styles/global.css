@@ -918,26 +918,7 @@ pre, code {
   margin: 8px 0;
 }
 
-/* ============================================
-   MOBILE RESPONSIVE — Homepage subscribe/forms
-   ============================================ */
 @media (max-width: 768px) {
-  /* Subscribe form — inline in intelligence brief */
-  #subscribe-block input[type="email"],
-  #sub-email {
-    width: 100% !important;
-    max-width: 280px;
-    font-size: 14px !important;
-    padding: 8px 0 !important;
-  }
-
-  #subscribe-block button,
-  #sub-btn {
-    margin-left: 0 !important;
-    margin-top: 8px;
-    display: block;
-    padding: 4px 12px;
-  }
 
   /* Live revenue and feed sections */
   #live-revenue, #live-feed {
@@ -1075,14 +1056,6 @@ pre, code {
     font-size: 0.65rem;
   }
 
-  #subscribe-block input[type="email"],
-  #sub-email {
-    max-width: 220px;
-  }
-
-  .email-prompt {
-    font-size: 0.7rem;
-  }
 
   .metric-row {
     font-size: 0.75rem;

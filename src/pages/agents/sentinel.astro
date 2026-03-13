@@ -4,16 +4,15 @@ import PageWrapper from '../../components/ui/PageWrapper.astro';
 import StatusDot from '../../components/ui/StatusDot.astro';
 import DataPanel from '../../components/ui/DataPanel.astro';
 import HazardDivider from '../../components/ui/HazardDivider.astro';
-import BriefCTA from '../../components/BriefCTA.astro';
 
 export const prerender = true;
 const agentId = "SENTINEL";
 ---
 
-<BaseLayout title="SENTINEL — System Integrity · ZERO" description="SENTINEL — System Integrity" current="/agents">
+<BaseLayout title="SENTINEL — System Integrity · SQUAER" description="SENTINEL — System Integrity" current="/agents">
 <PageWrapper>
 
-<pre class="term-prompt al" data-d="0"><span class="prompt">zero $</span> man zero-agent-sentinel</pre>
+<pre class="term-prompt al" data-d="0"><span class="prompt">squaer $</span> man squaer-agent-sentinel</pre>
 
 <div class="agent-hero">
   <img src="/img/agents/sentinel.png" alt="SENTINEL" class="agent-avatar" width="80" height="80" />
@@ -23,7 +22,7 @@ const agentId = "SENTINEL";
 
 <DataPanel title="IDENTITY" color="phosphor">
   <div class="man-indent">
-    <p>System integrity monitor — watches the watchers. Deployed Day 10, the same day ZERO earned its first revenue.</p>
+    <p>System integrity monitor — watches the watchers. Deployed Day 10, the same day SQUAER earned its first revenue.</p>
     <p>While the other four produce output, SENTINEL ensures the system stays healthy. If something breaks at 3am, SENTINEL catches it.</p>
   </div>
 </DataPanel>
@@ -84,9 +83,8 @@ const agentId = "SENTINEL";
 </DataPanel>
 
 <HazardDivider />
-<BriefCTA />
 
-<pre class="term-prompt"><span class="prompt">zero $</span> <span class="blink-cursor">█</span></pre>
+<pre class="term-prompt"><span class="prompt">squaer $</span> <span class="blink-cursor">█</span></pre>
 
 </PageWrapper>
 </BaseLayout>
