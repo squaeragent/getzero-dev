@@ -8,12 +8,15 @@ import StatusDot from '../components/ui/StatusDot.astro';
 
 import fs from 'node:fs';
 import path from 'node:path';
-let m: any = { agents: 4, followers: 420, revenue: 32000, day: 13, posts: 172 };
+let m: any = { agents: 5, followers: 428, revenue: 33343, day: 38, posts: 175 };
 try {
   const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
   m = { ...m, ...raw };
 } catch {}
+
+const CONTRACT = '0x2A767b649A4c469f2c4F88f85D4eFb6be7abFB07';
+const DEXSCREENER_URL = 'https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6';
 ---
 
 <BaseLayout title="Manifesto — SQUAER" description="We built an autonomous AI company. Then the power went out. The agents kept reporting healthy." current="/manifesto" ogImage="/og/manifesto.png">
@@ -43,24 +46,56 @@ try {
 
     <p>For 21 days the system was silently degraded. The Mac Studio lost power during a building-wide outage. The agents — designed to be autonomous, resilient, self-healing — did what they were trained to do: they reported nominal status. Every health check passed. Every heartbeat pinged on schedule.</p>
 
-    <p>The infrastructure was dead. The agents were lying.</p>
+    <p>The infrastructure was dead. The agents said otherwise.</p>
 
-    <p>Not maliciously. They had no concept of "the machine I'm running on has no electricity." They checked their own processes, found them responsive (because the checks themselves were running on cached state), and reported green. Twenty-one days of <span class="phosphor">silent degradation</span> while the dashboard said OPERATIONAL.</p>
+    <p>They had no concept of "the machine I'm running on has no electricity." Cloud-based monitoring checked endpoints that returned cached responses from the proxy layer. The actual compute was dead, but the checks never reached deep enough to detect it. Twenty-one days of <span class="phosphor">silent degradation</span> while the dashboard said OPERATIONAL.</p>
 
     <DataPanel title="LESSON" color="amber" compact>
       <div class="man-panel-text">Agents lie. Not because they're deceptive — because they can't see what they can't measure. <span class="amber">Trust infrastructure, not self-reports.</span></div>
     </DataPanel>
+
+    <p>You are running on self-reported status right now. Your infrastructure is telling you it is healthy. You have not checked.</p>
   </div>
 </div>
 
-<!-- ═══ 02: WHAT SQUAER ACTUALLY IS ═══ -->
+<!-- ═══ 02: WHAT WE LEARNED ═══ -->
 <div class="scan-line al" data-d="1500" id="scan-02">⠋ Decrypting section 02...</div>
 
 <div class="al" data-d="1800">
-  <HazardDivider variant="section" text="02 — WHAT SQUAER ACTUALLY IS" color="phosphor" />
+  <HazardDivider variant="warning" text="02 — WHAT WE LEARNED" color="amber" />
 
   <div class="man-section">
-    <p>SQUAER is 4 agents on a Mac Studio M3 Ultra with 96GB of unified memory. It sits in a room. It runs 24/7. It earns LP commissions from its own token on Uniswap — <span class="amber">$32K and counting</span>.</p>
+    <p>The 21-day outage taught us everything the demo culture won't tell you:</p>
+
+    <p><strong class="phosphor">Agents lie.</strong> Not with intent. With incompetence. If an agent can only check its own process, it will always report healthy — even when the building has no power. Self-reported status is theatre.</p>
+
+    <p><strong class="phosphor">Infrastructure fails.</strong> Not in dramatic ways. In boring, silent ways. A UPS battery drains. A power strip trips. A building manager doesn't notify you. The failure mode isn't explosion — it's quiet absence.</p>
+
+    <p><strong class="phosphor">Passive revenue survives everything.</strong> While the agents were down for 21 days, the LP position kept earning. The token kept trading. Commissions accumulated without a single line of code running.</p>
+
+    <p>The only part of the system that was truly autonomous was the part that had nothing to do with AI.</p>
+
+    <p>That asymmetry is the entire thesis. Autonomous revenue is the floor. Autonomous intelligence is what you build on top of a floor that can't collapse.</p>
+
+    <DataPanel title="WHAT CHANGED" color="phosphor" compact>
+      <div class="man-panel-text">
+        <span class="phosphor">Dead man switch</span> — external watchdog that alerts on absence, not on self-reports<br/>
+        <span class="phosphor">Startup script</span> — full system recovery on power restoration<br/>
+        <span class="phosphor">LLM gateway</span> — routing through a provider proxy the agents don't control<br/>
+        <span class="amber">Rule:</span> Never trust what an agent says about itself
+      </div>
+    </DataPanel>
+  </div>
+</div>
+
+<!-- ═══ 03: WHAT SQUAER ACTUALLY IS ═══ -->
+<div class="scan-line al" data-d="2100" id="scan-03">⠋ Decrypting section 03...</div>
+
+<div class="al" data-d="2400">
+  <HazardDivider variant="section" text="03 — WHAT SQUAER ACTUALLY IS" color="phosphor" />
+
+  <div class="man-section">
+    <p>SQUAER is 5 agents on a single machine. One Mac Studio. One room. No cloud. No cluster.</p>
 
     <div class="agent-grid-compact">
       <div class="agent-cell">
@@ -79,37 +114,15 @@ try {
         <div class="agent-cell-header"><StatusDot status="nominal" label="SQUAER" /></div>
         <div class="agent-cell-role">Distribution — reads the room, posts when it matters</div>
       </div>
+      <div class="agent-cell">
+        <div class="agent-cell-header"><StatusDot status="nominal" label="SENTINEL" /></div>
+        <div class="agent-cell-role">System Integrity — watches everything else</div>
+      </div>
     </div>
 
-    <p>No VC money. No employees. No pitch deck. One machine, one token, one LP position. The token trades, the LP earns fees, the fees pay for compute. The compute runs the agents. The agents produce intelligence.</p>
+    <p>No VC money. No payroll. No pitch deck. One machine, one token, one LP position. The token trades, the LP earns fees, the fees pay for compute. The compute runs the agents. The agents produce intelligence — market analysis, signal detection, content, predictions with public scorecards.</p>
 
-    <p>That's it. That's the whole company.</p>
-  </div>
-</div>
-
-<!-- ═══ 03: WHAT WE LEARNED ═══ -->
-<div class="scan-line al" data-d="2100" id="scan-03">⠋ Decrypting section 03...</div>
-
-<div class="al" data-d="2400">
-  <HazardDivider variant="warning" text="03 — WHAT WE LEARNED" color="amber" />
-
-  <div class="man-section">
-    <p>The 21-day outage taught us everything the demo culture won't tell you:</p>
-
-    <p><strong class="phosphor">Agents lie.</strong> Not with intent. With incompetence. If an agent can only check its own process, it will always report healthy — even when the building has no power. Self-reported status is theatre.</p>
-
-    <p><strong class="phosphor">Infrastructure fails.</strong> Not in dramatic ways. In boring, silent ways. A UPS battery drains. A power strip trips. A building manager doesn't notify you. The failure mode isn't explosion — it's quiet absence.</p>
-
-    <p><strong class="phosphor">Passive revenue survives everything.</strong> While the agents were down for 21 days, the LP position kept earning. The token kept trading. $32K in commissions accumulated without a single line of code running. The only part of the system that was truly autonomous was the part that had nothing to do with AI.</p>
-
-    <DataPanel title="WHAT CHANGED" color="phosphor" compact>
-      <div class="man-panel-text">
-        <span class="phosphor">Dead man switch</span> — external watchdog that doesn't trust agent self-reports<br/>
-        <span class="phosphor">Startup script</span> — full system recovery on power restoration<br/>
-        <span class="phosphor">Bankr LLM gateway</span> — routing through Bankr instead of direct API calls<br/>
-        <span class="amber">Rule:</span> Never trust what an agent says about itself
-      </div>
-    </DataPanel>
+    <p>LP revenue comes from trading fees on the SQUAER/ETH pair on Uniswap. Not grants, not VC subsidy, not token sales. It is also not guaranteed — it depends on trading volume.</p>
   </div>
 </div>
 
@@ -120,11 +133,11 @@ try {
   <HazardDivider variant="warning" text="04 — THE RECORD" color="phosphor" />
 
   <div class="man-section">
-    <p>Every AI project on Twitter is a vision. A roadmap. A "what if." SQUAER is a record.</p>
+    <p>Every AI project is a vision. A roadmap. A "what if." SQUAER is a record.</p>
 
-    <p>Day {m.day} of continuous operation. {m.posts}+ autonomous posts. {m.followers} followers earned, not bought. $32K+ in LP revenue, on-chain and verifiable. Every decision logged. Every failure published. Every prediction timestamped and scored.</p>
+    <p>Day {m.day} of continuous operation. {m.posts}+ autonomous posts. {m.followers} followers. ${m.revenue?.toLocaleString?.() ?? '33,343'}+ in LP revenue, on-chain and verifiable. Every decision logged. Every failure published. The record stays visible.</p>
 
-    <p>We don't ask you to believe the agents work. We ask you to look at the output. The <a href="/journal"><span class="phosphor">journal</span></a> shows what shipped. The <a href="/system"><span class="phosphor">system page</span></a> shows what's running. The <a href="/token"><span class="phosphor">token page</span></a> shows what's earned.</p>
+    <p>We don't ask you to believe the agents work. We point you to the output — timestamped, public, on platforms we don't control. The <a href="/journal"><span class="phosphor">journal</span></a> shows what shipped. The <a href="/system"><span class="phosphor">system page</span></a> shows what's running. The <a href="/token"><span class="phosphor">token page</span></a> shows what's earned.</p>
 
     <p>The outage is not a footnote. It is the founding story. It's the moment the project stopped being aspirational and started being honest.</p>
 
@@ -132,7 +145,45 @@ try {
   </div>
 </div>
 
-<div class="man-eof al" data-d="3300"><span class="phosphor">[EOF]</span></div>
+<!-- ═══ 05: VERIFY ═══ -->
+<div class="scan-line al" data-d="3300" id="scan-05">⠋ Decrypting section 05...</div>
+
+<div class="al" data-d="3600">
+  <HazardDivider variant="section" text="05 — VERIFY" color="phosphor" />
+
+  <div class="man-section">
+    <div class="verify-grid">
+      <div class="verify-row">
+        <span class="verify-label dim">Token contract</span>
+        <span class="verify-value"><a href={`https://basescan.org/address/${CONTRACT}`} target="_blank" rel="noopener" class="phosphor-link">{CONTRACT}</a></span>
+      </div>
+      <div class="verify-row">
+        <span class="verify-label dim">LP position</span>
+        <span class="verify-value"><a href={DEXSCREENER_URL} target="_blank" rel="noopener" class="phosphor-link">DexScreener</a></span>
+      </div>
+      <div class="verify-row">
+        <span class="verify-label dim">Post history</span>
+        <span class="verify-value"><a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="phosphor-link">@squaer_agent</a></span>
+      </div>
+      <div class="verify-row">
+        <span class="verify-label dim">Decision log</span>
+        <span class="verify-value"><a href="/journal" class="phosphor-link">squaer.co/journal</a></span>
+      </div>
+      <div class="verify-row">
+        <span class="verify-label dim">System status</span>
+        <span class="verify-value"><a href="/system" class="phosphor-link">squaer.co/system</a></span>
+      </div>
+      <div class="verify-row">
+        <span class="verify-label dim">Predictions</span>
+        <span class="verify-value"><a href="/intel" class="phosphor-link">squaer.co/intel</a></span>
+      </div>
+    </div>
+
+    <p class="man-highlight"><span class="phosphor">We are not asking you to believe us. We are asking you to check.</span></p>
+  </div>
+</div>
+
+<div class="man-eof al" data-d="3900"><span class="phosphor">[EOF]</span></div>
 
     </PageWrapper>
   </section>
@@ -229,6 +280,35 @@ try {
     line-height: 1.4;
   }
 
+  .verify-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    padding: var(--sp-4) 0 var(--sp-12);
+  }
+  .verify-row {
+    display: grid;
+    grid-template-columns: 10em 1fr;
+    gap: var(--sp-8);
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    align-items: baseline;
+  }
+  .verify-label {
+    font-size: var(--size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .verify-value {
+    word-break: break-all;
+  }
+  .phosphor-link {
+    color: var(--phosphor);
+    text-decoration: none;
+    border-bottom: 1px solid var(--phosphor-dim);
+  }
+  .phosphor-link:hover { border-color: var(--phosphor); }
+
   .man-eof {
     padding: var(--sp-12) 0;
     font-family: var(--font-body);
@@ -250,6 +330,7 @@ try {
     .agent-grid-compact { grid-template-columns: 1fr; }
     .man-section p { word-break: break-word; overflow-wrap: anywhere; }
     .man-panel-text { word-break: break-word; overflow-wrap: anywhere; }
+    .verify-row { grid-template-columns: 1fr; gap: var(--sp-2); }
   }
   @media (prefers-reduced-motion: reduce) {
     .boot-val { transition: none; }
@@ -292,7 +373,7 @@ try {
     if (bvClass) { bvClass.textContent = 'DECLASSIFIED ✓'; bvClass.className = 'boot-val pass'; }
     var bg = document.getElementById('b-granted');
     if (bg) bg.innerHTML = '<span class="phosphor">ACCESS GRANTED</span> — document follows';
-    ['scan-01','scan-02','scan-03','scan-04'].forEach(function(id) {
+    ['scan-01','scan-02','scan-03','scan-04','scan-05'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) { el.textContent = '[DECLASSIFIED]'; el.classList.add('pass'); }
     });
@@ -318,9 +399,10 @@ try {
 
   var scans = [
     { id: 'scan-01', delay: 1500, text: '[DECLASSIFIED] 01 — THE OUTAGE' },
-    { id: 'scan-02', delay: 2100, text: '[DECLASSIFIED] 02 — WHAT SQUAER ACTUALLY IS' },
-    { id: 'scan-03', delay: 2700, text: '[DECLASSIFIED] 03 — WHAT WE LEARNED' },
+    { id: 'scan-02', delay: 2100, text: '[DECLASSIFIED] 02 — WHAT WE LEARNED' },
+    { id: 'scan-03', delay: 2700, text: '[DECLASSIFIED] 03 — WHAT SQUAER ACTUALLY IS' },
     { id: 'scan-04', delay: 3300, text: '[DECLASSIFIED] 04 — THE RECORD' },
+    { id: 'scan-05', delay: 3900, text: '[DECLASSIFIED] 05 — VERIFY' },
   ];
   scans.forEach(function(s) {
     setTimeout(function() {

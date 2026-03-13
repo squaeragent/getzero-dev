@@ -10,33 +10,45 @@ const UNISWAP_URL = `https://app.uniswap.org/swap?outputCurrency=${CONTRACT}&cha
 const DEXSCREENER_URL = `https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6`;
 
 const tiers = [
-  { name: 'FREE', amount: '0', access: 'Public feed, site access', status: 'LIVE' },
-  { name: 'SIGNAL', amount: '1,000,000', access: 'Intelligence brief, signal alerts', status: 'COMING' },
-  { name: 'OPERATOR', amount: '10,000,000', access: 'Priority intelligence, API access', status: 'COMING' },
-  { name: 'BUILDER', amount: '100,000,000', access: 'Full system access, governance weight', status: 'COMING' },
+  { name: 'PUBLIC', amount: '0', access: 'Open site, public proof, selected artifacts', status: 'LIVE' },
+  { name: 'SIGNAL', amount: 'TBD', access: 'Deeper artifacts and earlier access', status: 'DESIGNING' },
+  { name: 'OPERATOR', amount: 'TBD', access: 'Priority access and higher-context system surfaces', status: 'DESIGNING' },
+  { name: 'BUILDER', amount: 'TBD', access: 'Future highest-context participation layer', status: 'LATER' },
 ];
 ---
 
-<BaseLayout title="$SQUAER — The Token" description="$SQUAER token on Base. LP fees fund compute. Token utility tiers gate intelligence access." current="/token" ogImage="/og/default.png">
+<BaseLayout title="$SQUAER — Token" description="$SQUAER on Base. The economic layer behind SQUAER: contract, liquidity, and future access utility." current="/token" ogImage="/og/default.png">
 
 <PageWrapper>
 
 <pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> cat /token/README</pre>
 
 <h1 class="token-title al" data-d="200">$SQUAER</h1>
-<p class="token-sub al" data-d="300">The token that funds autonomous intelligence.</p>
+<p class="token-sub al" data-d="300">The economic layer behind SQUAER.</p>
 
-<HazardDivider variant="section" text="WHAT IS $SQUAER" color="phosphor" />
+<HazardDivider variant="section" text="WHY IT EXISTS" color="phosphor" />
 
 <div class="token-section al" data-d="400">
-  <p>$SQUAER is the native token of the SQUAER autonomous system. It lives on Base L2.</p>
-  <p>The system earns LP fees from Uniswap liquidity. Those fees fund compute — the Mac Studio M3 Ultra that runs 4 agents 24/7. No VC money. No fundraise. The token's trading activity directly sustains the infrastructure.</p>
-  <p>Token utility tiers are coming: hold $SQUAER to unlock intelligence access levels.</p>
+  <p>$SQUAER is not here to decorate the brand. It exists to give the system an economic layer and, over time, an access layer.</p>
+  <p>Today, the token already has public market infrastructure: a contract, liquidity, trading, and fee-generating LP activity. That part is real.</p>
+  <p>What is <span class="amber">not</span> fully live yet is the access system around it. Wallet-gated intelligence utility is being designed now. We are not pretending it already exists.</p>
 </div>
 
-<HazardDivider variant="section" text="CONTRACT" color="amber" />
+<HazardDivider variant="section" text="WHAT IS LIVE NOW" color="amber" />
 
-<div class="contract-block al" data-d="500">
+<div class="token-section al" data-d="500">
+  <p>Live now:</p>
+  <div class="flow-steps">
+    <div class="flow-step"><span class="flow-num phosphor">01</span><span class="flow-text">Public contract on Base</span></div>
+    <div class="flow-step"><span class="flow-num phosphor">02</span><span class="flow-text">Trading and liquidity on Uniswap v3</span></div>
+    <div class="flow-step"><span class="flow-num phosphor">03</span><span class="flow-text">On-chain proof via DexScreener and Clanker</span></div>
+    <div class="flow-step"><span class="flow-num phosphor">04</span><span class="flow-text">The token as the public economic surface of the system</span></div>
+  </div>
+</div>
+
+<HazardDivider variant="section" text="CONTRACT" color="phosphor" />
+
+<div class="contract-block al" data-d="600">
   <div class="contract-label dim">Network</div>
   <div class="contract-value">Base (L2)</div>
   <div class="contract-label dim">Contract Address</div>
@@ -47,34 +59,7 @@ const tiers = [
   <div class="contract-value">Clanker</div>
 </div>
 
-<HazardDivider variant="section" text="HOW IT WORKS" color="phosphor" />
-
-<div class="token-section al" data-d="600">
-  <div class="flow-steps">
-    <div class="flow-step">
-      <span class="flow-num phosphor">01</span>
-      <span class="flow-text">$SQUAER trades on Uniswap</span>
-    </div>
-    <div class="flow-step">
-      <span class="flow-num phosphor">02</span>
-      <span class="flow-text">LP position earns fees from every swap</span>
-    </div>
-    <div class="flow-step">
-      <span class="flow-num phosphor">03</span>
-      <span class="flow-text">Fees fund compute infrastructure (Mac Studio M3 Ultra)</span>
-    </div>
-    <div class="flow-step">
-      <span class="flow-num phosphor">04</span>
-      <span class="flow-text">Infrastructure runs 4 autonomous agents</span>
-    </div>
-    <div class="flow-step">
-      <span class="flow-num phosphor">05</span>
-      <span class="flow-text">Agents produce intelligence, content, and distribution</span>
-    </div>
-  </div>
-</div>
-
-<HazardDivider variant="warning" text="ACCESS TIERS" color="amber" />
+<HazardDivider variant="warning" text="UTILITY DIRECTION" color="amber" />
 
 <div class="tier-grid al" data-d="700">
   {tiers.map(t => (
@@ -89,9 +74,13 @@ const tiers = [
   ))}
 </div>
 
-<HazardDivider variant="section" text="BUY $SQUAER" color="phosphor" />
+<div class="token-section al" data-d="800">
+  <p>The amounts are deliberately marked <span class="amber">TBD</span>. Earlier thresholds were based on stale price assumptions and would have been fake precision. We will set access levels only after the utility is real.</p>
+</div>
 
-<div class="buy-section al" data-d="800">
+<HazardDivider variant="section" text="MARKET LINKS" color="phosphor" />
+
+<div class="buy-section al" data-d="900">
   <a href={UNISWAP_URL} target="_blank" rel="noopener" class="buy-btn">
     BUY ON UNISWAP →
   </a>
@@ -104,14 +93,15 @@ const tiers = [
 
 <DataPanel title="CURRENT STATUS" color="phosphor" compact>
   <div class="status-text">
-    LP commissions generated: <span class="amber">$32K+</span><br/>
+    Economic layer: <span class="phosphor">LIVE</span><br/>
+    Access utility: <span class="amber">DESIGNING</span><br/>
     Infrastructure: <span class="phosphor">1× Mac Studio M3 Ultra, 96GB</span><br/>
-    Agents running: <span class="phosphor">4 live</span><br/>
-    <span class="dim">Live stats coming soon — will pull from on-chain data.</span>
+    Agents running: <span class="phosphor">5 live</span><br/>
+    <span class="dim">Read /access for participation logic.</span>
   </div>
 </DataPanel>
 
-<pre class="term-block al" data-d="900">
+<pre class="term-block al" data-d="1000">
 <span class="phosphor">squaer $</span> <span class="terminal-cursor">█</span></pre>
 
 </PageWrapper>
@@ -144,7 +134,6 @@ const tiers = [
     max-width: 62ch;
   }
 
-  /* Contract block */
   .contract-block {
     display: grid;
     grid-template-columns: 10em 1fr;
@@ -166,12 +155,11 @@ const tiers = [
     word-break: break-all;
   }
 
-  /* Flow steps */
   .flow-steps {
     display: flex;
     flex-direction: column;
     gap: var(--sp-6);
-    padding: var(--sp-8) 0 var(--sp-16);
+    padding: var(--sp-8) 0 var(--sp-8);
   }
   .flow-step {
     display: flex;
@@ -188,7 +176,6 @@ const tiers = [
     min-width: 2em;
   }
 
-  /* Tier grid */
   .tier-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -231,7 +218,6 @@ const tiers = [
     line-height: 1.4;
   }
 
-  /* Buy section */
   .buy-section {
     padding: var(--sp-12) 0 var(--sp-16);
     text-align: center;
@@ -255,12 +241,10 @@ const tiers = [
     font-size: var(--size-sm);
   }
 
-  /* Status text */
   .status-text {
     font-family: var(--font-body);
-    font-size: var(--size-base);
-    color: var(--text);
-    line-height: 1.7;
+    font-size: var(--size-sm);
+    line-height: 1.6;
   }
 
   .phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
@@ -270,8 +254,12 @@ const tiers = [
   .phosphor-link:hover { text-decoration: underline; }
 
   @media (max-width: 640px) {
-    .tier-grid { grid-template-columns: 1fr; }
-    .contract-block { grid-template-columns: 1fr; gap: var(--sp-2) 0; }
-    .contract-label { padding-top: var(--sp-6); }
+    .contract-block {
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+    }
+    .tier-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

@@ -5,30 +5,31 @@ import PageWrapper from '../components/ui/PageWrapper.astro';
 import HazardDivider from '../components/ui/HazardDivider.astro';
 
 const tiers = [
-  { name: 'FREE', amount: '0', access: 'Public feed, site access', status: 'LIVE' },
-  { name: 'SIGNAL', amount: '1,000,000', access: 'Intelligence brief, signal alerts', status: 'COMING' },
-  { name: 'OPERATOR', amount: '10,000,000', access: 'Priority intelligence, API access', status: 'COMING' },
-  { name: 'BUILDER', amount: '100,000,000', access: 'Full system access, governance weight', status: 'COMING' },
+  { name: 'PUBLIC', amount: '0', access: 'Site, system pages, public proof, selected artifacts', status: 'LIVE' },
+  { name: 'SIGNAL', amount: 'TBD', access: 'Deeper intelligence artifacts and early access drops', status: 'DESIGNING' },
+  { name: 'OPERATOR', amount: 'TBD', access: 'Priority access, deeper system visibility, experimental utilities', status: 'DESIGNING' },
+  { name: 'BUILDER', amount: 'TBD', access: 'Highest-context participation layer for future tools and coordination', status: 'LATER' },
 ];
 ---
 
-<BaseLayout title="Access — SQUAER Intelligence" description="Token-gated access to SQUAER intelligence tiers. Hold $SQUAER to unlock." current="/access" ogImage="/og/default.png">
+<BaseLayout title="Access — SQUAER" description="How participation works in SQUAER: what is public, what will be gated, and why $SQUAER matters." current="/access" ogImage="/og/default.png">
 
 <PageWrapper>
 
-<pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> access --check-tier</pre>
+<pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> access --explain</pre>
 
 <h1 class="access-title al" data-d="200">ACCESS</h1>
-<p class="access-sub al" data-d="300">Token-gated intelligence is coming.</p>
+<p class="access-sub al" data-d="300">Participation logic for the SQUAER system.</p>
 
-<HazardDivider variant="section" text="HOW IT WORKS" color="phosphor" />
+<HazardDivider variant="section" text="PUBLIC VS GATED" color="phosphor" />
 
 <div class="access-section al" data-d="400">
-  <p>Hold $SQUAER in your wallet. The more you hold, the more you unlock. No subscriptions. No invoices. Just tokens and access.</p>
-  <p>Tier verification will check your wallet balance against the thresholds below. Connect once, access persists as long as you hold.</p>
+  <p><span class="phosphor">Public</span> is where SQUAER proves itself: the site, the system surface, the journal, and selected artifacts.</p>
+  <p><span class="phosphor">Gated</span> is where access starts to compound: deeper intelligence artifacts, earlier drops, and higher-context participation.</p>
+  <p>The goal is not to hide everything. The goal is to make holding <a href="/token" class="phosphor-link">$SQUAER</a> create real advantage over time.</p>
 </div>
 
-<HazardDivider variant="warning" text="ACCESS TIERS" color="amber" />
+<HazardDivider variant="warning" text="ACCESS LADDER" color="amber" />
 
 <div class="tier-grid al" data-d="500">
   {tiers.map(t => (
@@ -43,20 +44,21 @@ const tiers = [
   ))}
 </div>
 
-<HazardDivider variant="section" text="CONNECT" color="phosphor" />
+<HazardDivider variant="section" text="CURRENT STATE" color="phosphor" />
 
 <div class="connect-section al" data-d="600">
   <button class="connect-btn" disabled>
-    CONNECT WALLET
+    WALLET GATING NOT LIVE YET
   </button>
-  <p class="connect-note dim">Wallet connection coming soon. Tier verification is under development.</p>
-  <p class="connect-note dim">In the meantime, <a href="/token" class="phosphor-link">get $SQUAER</a> to prepare for launch.</p>
+  <p class="connect-note dim">No fake access theater: wallet connection and tier checks are not shipped yet.</p>
+  <p class="connect-note dim">What exists now is the public layer. What comes next is real gated utility, not placeholder buttons.</p>
+  <p class="connect-note dim"><a href="/token" class="phosphor-link">Read the token thesis →</a></p>
 </div>
 
 <pre class="term-block al" data-d="700">
-<span class="dim">// access.tier = PENDING
-// wallet.connected = false
-// status: BUILDING</span>
+<span class="dim">// public.access = LIVE
+// gated.access = DESIGNING
+// wallet.verification = NOT_SHIPPED</span>
 
 <span class="phosphor">squaer $</span> <span class="terminal-cursor">█</span></pre>
 
@@ -145,7 +147,7 @@ const tiers = [
     border: none;
     letter-spacing: 0.05em;
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.65;
   }
   .connect-note {
     font-family: var(--font-body);
