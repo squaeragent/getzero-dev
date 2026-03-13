@@ -93,7 +93,7 @@
     const line = document.createElement('div');
     line.style.cssText =
       'position:absolute;left:0;right:0;height:1px;' +
-      'background:linear-gradient(90deg,transparent,var(--phosphor,#c8ff00),transparent);' +
+      'background:linear-gradient(90deg,transparent,var(--phosphor,#33ff66),transparent);' +
       'opacity:0.4;top:0;pointer-events:none;z-index:10;' +
       'transition:top 0.6s cubic-bezier(0.25,0.46,0.45,0.94),opacity 0.3s ease;';
 

@@ -5,23 +5,25 @@
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── PALETTE ── */
-  --phosphor:       #c8ff00;
-  --phosphor-dim:   #7a9900;
-  --phosphor-glow:  #c8ff0066;
-  --amber:          #ffb000;
-  --amber-dim:      #8a5f00;
-  --amber-glow:     #ffb00044;
-  --ice:            #00d4ff;
-  --ice-dim:        #006b80;
-  --ice-glow:       #00d4ff44;
-  --red:            #ff3333;
-  --text:           #e8e4df;
-  --text-dim:       #a09a94;
-  --surface:        #0a0a0a;
-  --bg:             #050505;
+  /* ── PALETTE ── 
+     Matched to @squaer_agent X profile identity:
+     CRT phosphor green + blood red + dark teal + bone white */
+  --phosphor:       #33ff66;
+  --phosphor-dim:   #1a8033;
+  --phosphor-glow:  #33ff6655;
+  --amber:          #ff6633;
+  --amber-dim:      #8a3a1a;
+  --amber-glow:     #ff663344;
+  --ice:            #88ccaa;
+  --ice-dim:        #44665a;
+  --ice-glow:       #88ccaa44;
+  --red:            #cc2222;
+  --text:           #d4c8b8;
+  --text-dim:       #8a8278;
+  --surface:        #0a0f0d;
+  --bg:             #050807;
   --void:           #000000;
-  --border:         #1a1a1a;
+  --border:         #1a2420;
 
   /* ── TYPOGRAPHY ── */
   --font-head:  'JetBrains Mono', monospace;

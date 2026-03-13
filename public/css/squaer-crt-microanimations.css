@@ -12,11 +12,11 @@
    ============================================ */
 
 :root {
-  --z-green: #c8ff00;
+  --z-green: #33ff66;
   --z-green-dim: rgba(200, 255, 0, 0.3);
   --z-green-glow: rgba(200, 255, 0, 0.5);
   --z-green-ghost: rgba(200, 255, 0, 0.03);
-  --z-amber: #ffb000;
+  --z-amber: #ff6633;
   --z-black: #000000;
   --z-cursor-rate: 1.06s;
   --z-sweep-speed: 8s;

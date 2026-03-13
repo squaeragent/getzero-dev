@@ -6,7 +6,7 @@
 
 /* ── 1. FOCUS-VISIBLE — Keyboard navigation gets phosphor outline ── */
 :focus-visible {
-  outline: 2px solid var(--phosphor, #c8ff00);
+  outline: 2px solid var(--phosphor, #33ff66);
   outline-offset: 2px;
   border-radius: 0; /* No rounded corners — PHOSPHOR canon */
 }
@@ -19,17 +19,17 @@
 /* Nav tabs — phosphor border instead of outline */
 .nav-tab:focus-visible {
   outline: none;
-  border-color: var(--phosphor, #c8ff00);
+  border-color: var(--phosphor, #33ff66);
   text-shadow: 0 0 8px rgba(200, 255, 0, 0.4);
-  color: var(--phosphor, #c8ff00);
+  color: var(--phosphor, #33ff66);
 }
 
 /* Subscribe buttons — invert on focus */
 button:focus-visible,
 .email-submit:focus-visible {
-  outline: 2px solid var(--phosphor, #c8ff00);
+  outline: 2px solid var(--phosphor, #33ff66);
   outline-offset: 2px;
-  background: var(--phosphor, #c8ff00);
+  background: var(--phosphor, #33ff66);
   color: var(--void, #000);
   text-shadow: none;
 }
@@ -37,13 +37,13 @@ button:focus-visible,
 /* Input fields — phosphor underline glow */
 input:focus-visible {
   outline: none;
-  border-bottom-color: var(--phosphor, #c8ff00) !important;
+  border-bottom-color: var(--phosphor, #33ff66) !important;
   box-shadow: 0 2px 8px rgba(200, 255, 0, 0.2);
 }
 
 /* Links — subtle glow ring */
 a:focus-visible {
-  outline: 1px solid var(--phosphor, #c8ff00);
+  outline: 1px solid var(--phosphor, #33ff66);
   outline-offset: 3px;
   text-shadow: 0 0 8px rgba(200, 255, 0, 0.4);
 }
@@ -61,7 +61,7 @@ a:focus-visible {
   left: 0;
   width: 0;
   height: 1px;
-  background: var(--phosphor, #c8ff00);
+  background: var(--phosphor, #33ff66);
   transition: width 0.3s ease;
 }
 
