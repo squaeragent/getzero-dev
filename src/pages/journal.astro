@@ -449,8 +449,8 @@ const tagColors: Record<string, string> = {
   const feedEl = document.getElementById('feed');
   const scanEl = document.getElementById('scanning');
   const statusBar = document.getElementById('status-bar');
-  const MAX_FEED = 3;
-  const JUNK_TYPES = new Set(['monitor', 'metrics', 'review']);
+  const MAX_FEED = 15;
+  const JUNK_TYPES = new Set(['monitor', 'metrics', 'review', 'system', 'health', 'cron']);
   let currentIds = new Set();
 
   function formatTime(isoStr) {
@@ -480,8 +480,14 @@ const tagColors: Record<string, string> = {
       .filter(e => {
         if (JUNK_TYPES.has(e.type)) return false;
         const text = (e.text || '').toLowerCase();
+        // Filter internal plumbing — keep only meaningful output
         if (text.includes('--mentions') || text.includes('health:') || text.includes('sync-feed')) return false;
+        if (text.includes('heartbeat') || text.includes('feed sync') || text.includes('cron ')) return false;
+        if (text.includes('l2 analysis sweep') || text.includes('l0 sentinel')) return false;
+        if (text.includes('pipeline checkpoint') || text.includes('deadman') || text.includes('dead man')) return false;
+        if (text.includes('git push') || text.includes('git pull') || text.includes('git commit')) return false;
         if (text.startsWith('replied to ') && /^\d+:/.test(text.slice(11))) return false;
+        if (text.length < 15) return false; // too short to be meaningful
         return true;
       })
       .sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime())

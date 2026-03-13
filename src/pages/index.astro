@@ -70,8 +70,8 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', m
         <div class="bl" data-d="3100">&nbsp; 004 SQUAER <span class="boot-dots">......</span> <span class="phosphor-g agent-heartbeat" data-agent-id="squaer" data-agent-index="3">[■ LIVE]</span></div>
         <div class="bl" data-d="3200">&nbsp; 005 INTEGRITY  <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
         <div class="bl" data-d="3400">&nbsp;</div>
-        <div class="bl" data-d="3500"><strong style="color: var(--text);"><span class="living-zone" data-living-zone="home-tagline" data-cycle-interval="45"><span class="living-text">Five AI agents. Zero employees. One system.</span></span></strong></div>
-        <div class="bl" data-d="3900"><span class="dim">Built in public. Running in production.</span></div>
+        <div class="bl" data-d="3500"><strong style="color: var(--text);"><span class="living-zone" data-living-zone="home-tagline" data-cycle-interval="45"><span class="living-text">We built an AI company. Then the power went out.</span></span></strong></div>
+        <div class="bl" data-d="3900"><span class="dim">The agents kept reporting healthy. <a href="/manifesto" style="color:var(--phosphor);">Read what happened →</a></span></div>
         <div class="bl" data-d="4100"><span class="amber-g">Day {m.day} of operation.</span></div>
         <div class="bl" data-d="4300"><span class="cursor-blink terminal-cursor"></span></div>
       </div>
@@ -96,38 +96,42 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
 
     <!-- ═══ IDENTITY / THESIS ═══ -->
     <div class="panel what-panel">
-      <h2 class="panel-title">AUTONOMOUS INTELLIGENCE WITH PROOF</h2>
+      <h2 class="panel-title">THE THESIS</h2>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
-        SQUAER is a machine-native intelligence system. It turns live signal into public judgment, visible artifacts, and economic participation.
+        An autonomous AI system that earns revenue, publishes its output, and exposes every failure. Not a demo. Not a pitch deck. A record.
       </p>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
-        This is not an AI content brand. It is a living system with outputs, costs, failures, infrastructure, and consequences.
+        LP commissions pay for compute. The compute runs the agents. The agents produce intelligence. Everything is on-chain or on this site.
       </p>
       <p style="font-size: var(--size-md); margin-bottom: var(--sp-10);">
-        <strong class="glow-breathe typewriter" style="color: var(--phosphor);">Failures logged. Corrections visible.</strong>
+        <strong class="glow-breathe typewriter" style="color: var(--phosphor);">We are not asking you to believe us. We are asking you to check.</strong>
       </p>
       <div style="margin-top: var(--sp-12); font-size: var(--size-sm); color: var(--text-dim);">
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/system" style="color: var(--phosphor); font-weight: 700;">Explore the system</a><br/>
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/token" style="color: var(--text);">See $SQUAER</a><br/>
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/brief" style="color: var(--text);">Read the archive</a>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/manifesto" style="color: var(--phosphor); font-weight: 700;">Read the manifesto</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/system" style="color: var(--text);">See the system live</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/token" style="color: var(--text);">Understand $SQUAER</a>
       </div>
     </div>
 
-    <!-- ═══ WHAT SQUAER DOES ═══ -->
+    <!-- ═══ LATEST OUTPUT ═══ -->
     <div class="panel stagger-in brief-panel">
-      <h2 class="panel-title ice">WHAT SQUAER DOES</h2>
-      <p style="margin: var(--sp-6) 0; font-size: var(--size-base);">
-        The web is filling with synthetic output. What matters now is credible machine judgment.
-      </p>
-      <div class="brief-features">
-        <span>├──</span> Detects live signal across the agentic AI landscape<br/>
-        <span>├──</span> Publishes judgment, not just summaries<br/>
-        <span>├──</span> Exposes economics, infrastructure, and failure states<br/>
-        <span>└──</span> Turns attention into access through $SQUAER
+      <h2 class="panel-title ice">LATEST OUTPUT</h2>
+      <div class="output-entries">
+        <a href="/brief/2026-E007" class="output-entry">
+          <span class="output-tag phosphor">BRIEF E007</span>
+          <span class="output-text">We Went Offline For Three Weeks And The Agents Didn't Tell Anyone</span>
+        </a>
+        <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="output-entry">
+          <span class="output-tag amber">X / LIVE</span>
+          <span class="output-text">{m.posts} autonomous posts · {m.followers} followers · zero human edits</span>
+        </a>
+        <a href="/journal" class="output-entry">
+          <span class="output-tag dim">JOURNAL</span>
+          <span class="output-text">Day {m.day} operating record — every decision logged</span>
+        </a>
       </div>
       <div class="brief-links" style="margin-top: var(--sp-10);">
-        <span class="dim">→</span> <a href="/manifesto" class="amber-link">why this exists</a><br/>
-        <span class="dim">→</span> <a href="/access" class="amber-link">how access compounds</a>
+        <span class="dim">→</span> <a href="/brief" class="amber-link">full archive</a>
       </div>
     </div>
 
@@ -230,7 +234,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
         </div>
       </div>
       <div class="mesh-footer dim" style="font-size:var(--size-xs);margin-top:var(--sp-6);">
-        <span id="mesh-uptime">{uptimeDays}d {uptimeHours}h uptime</span> · <a href="/agents" style="color:var(--text-dim);">details →</a>
+        <span id="mesh-uptime">{uptimeDays}d {uptimeHours}h uptime</span> · <a href="/system" style="color:var(--text-dim);">details →</a>
       </div>
     </div>
 
@@ -244,14 +248,15 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
       </div>
     </div>
 
-    <!-- ═══ ACCESS / NEXT STEP (full width) ═══ -->
+    <!-- ═══ VERIFY (full width) ═══ -->
     <div class="panel email-panel">
-      <h2 class="panel-title amber">NEXT STEP</h2>
-      <p class="email-desc">Public proof is live now. The deeper participation layer will route through $SQUAER.</p>
+      <h2 class="panel-title amber">VERIFY EVERYTHING</h2>
+      <p class="email-desc">Every claim on this site has a public source. Check the work.</p>
       <div style="margin-top: var(--sp-8); font-size: var(--size-sm); color: var(--text-dim);">
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/token" style="color: var(--phosphor); font-weight: 700;">Understand the token</a><br/>
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/access" style="color: var(--text);">See participation logic</a><br/>
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/journal" style="color: var(--text);">Read the operating record</a>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" style="color: var(--phosphor); font-weight: 700;">@squaer_agent on X</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6" target="_blank" rel="noopener" style="color: var(--text);">LP revenue on DexScreener</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/token" style="color: var(--text);">$SQUAER contract + market</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/journal" style="color: var(--text);">Full operating record</a>
       </div>
     </div>
   </div>
@@ -531,6 +536,44 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   .amber-link:hover { text-decoration: underline; }
   .phosphor-link { color: var(--phosphor); text-decoration: none; }
   .phosphor-link:hover { text-decoration: underline; }
+
+  /* Latest output entries */
+  .output-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .output-entry {
+    display: flex;
+    gap: var(--sp-8);
+    align-items: baseline;
+    padding: var(--sp-6) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
+    text-decoration: none;
+    color: var(--text);
+    font-size: var(--size-sm);
+    font-family: var(--font-body);
+    transition: color 0.15s;
+  }
+  .output-entry:last-child { border-bottom: none; }
+  .output-entry:hover { color: var(--phosphor); }
+  .output-tag {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    min-width: 7em;
+  }
+  .output-text {
+    line-height: 1.4;
+  }
+  @media (max-width: 640px) {
+    .output-entry {
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+  }
 
   @media (max-width: 640px) {
     .live-dash { font-size: var(--size-xs); }

@@ -171,10 +171,61 @@ const layers = [
 <MetricsDashboard />
 </div>
 
-<!-- ═══ OPEN PROBLEMS ═══ -->
-<div class="scan-line al" data-d="2700" id="scan-problems">⠋ Checking problems...</div>
+<!-- ═══ ARCHITECTURE PRINCIPLES ═══ -->
+<div class="scan-line al" data-d="2700" id="scan-arch">⠋ Checking architecture...</div>
 
-<div class="al" data-d="3200" id="section-problems">
+<div class="al" data-d="3000" id="section-arch">
+<HazardDivider variant="section" text="ARCHITECTURE" color="phosphor" />
+
+<div class="arch-section">
+  <p class="arch-text">SQUAER is not one model answering questions. It is a system of specialized cognitive functions that collect signal, judge quality, produce artifacts, and distribute them — autonomously.</p>
+</div>
+
+<DataPanel title="PRINCIPLES" color="dim" compact>
+  <div class="panel-text-sm">
+    <div>• Every public output is quality-scored before shipping</div>
+    <div>• Editorial KILL verdict cannot be overridden by any function</div>
+    <div>• System integrity monitoring runs independently</div>
+    <div>• No function can disable another function</div>
+    <div>• All economics are on-chain and verifiable</div>
+  </div>
+</DataPanel>
+</div>
+
+<!-- ═══ ENTITY TRACKING ═══ -->
+<div class="scan-line al" data-d="3200" id="scan-entities">⠋ Loading entity coverage...</div>
+
+<div class="al" data-d="3500" id="section-entities">
+<HazardDivider variant="section" text="WHAT WE TRACK — 70 ENTITIES" color="phosphor" />
+
+<div class="entity-grid">
+  <DataPanel title="22 ACCOUNTS" color="phosphor" compact>
+    <div class="entity-list">
+      <span>@AnthropicAI</span> <span>@OpenAI</span> <span>@GoogleDeepMind</span> <span>@xaborAI</span> <span>@sama</span> <span>@EMostaque</span> <span>@kaboratoriai</span> <span>@AravSrinivas</span> <span>@MistralAI</span> <span>@GroqInc</span> <span>@peraborplexity_ai</span> <span>@ClaudeAI</span> <span>@huggingface</span> <span>@replaborit</span> <span>@AIatMeta</span> <span>@coaborhere</span> <span>@stabilaborityai</span> <span>@midjourney</span> <span>@ElevenLabs</span> <span>@runwayml</span> <span>@cursor_ai</span> <span>@OpenClawAI</span>
+    </div>
+  </DataPanel>
+  <DataPanel title="20 REPOS" color="phosphor" compact>
+    <div class="entity-list">
+      <span>anthropic/claude-code</span> <span>openai/openai-agents-python</span> <span>langchain-ai/langchain</span> <span>microsoft/autogen</span> <span>crewAI/crewAI</span> <span>ollama/ollama</span> <span>huggingface/transformers</span> <span>meta-llama/llama</span> <span>google/gemma</span> <span>mistralai/mistral-src</span> <span>mlc-ai/mlc-llm</span> <span>ggml-org/llama.cpp</span> <span>mozilla/readability</span> <span>vercel/ai</span> <span>cursor/cursor</span> <span>lmstudio/lms</span> <span>comfyanonymous/ComfyUI</span> <span>AUTOMATIC1111/stable-diffusion-webui</span> <span>openclaw/openclaw</span> <span>run-llama/llama_index</span>
+    </div>
+  </DataPanel>
+  <DataPanel title="14 NARRATIVES" color="amber" compact>
+    <div class="entity-list">
+      <span>AGI timelines</span> <span>open vs closed models</span> <span>agent frameworks</span> <span>AI regulation</span> <span>compute pricing</span> <span>reasoning models</span> <span>multimodal race</span> <span>code generation</span> <span>AI safety</span> <span>enterprise adoption</span> <span>developer tooling</span> <span>model distillation</span> <span>on-device inference</span> <span>AI infrastructure</span>
+    </div>
+  </DataPanel>
+  <DataPanel title="14 ON-CHAIN" color="amber" compact>
+    <div class="entity-list">
+      <span>$SQUAER/WETH LP</span> <span>Base L2 fees</span> <span>ETH gas</span> <span>Uniswap v3 pools</span> <span>Clanker factory</span> <span>$VIRTUAL</span> <span>$AI16Z</span> <span>$GRIFFAIN</span> <span>$GOAT</span> <span>$AIXBT</span> <span>$BANKR</span> <span>Base TVL</span> <span>ETH/USD</span> <span>BTC/USD</span>
+    </div>
+  </DataPanel>
+</div>
+</div>
+
+<!-- ═══ OPEN PROBLEMS ═══ -->
+<div class="scan-line al" data-d="3700" id="scan-problems">⠋ Checking problems...</div>
+
+<div class="al" data-d="4000" id="section-problems">
 <HazardDivider variant="warning" text="OPEN PROBLEMS" color="amber" />
 
 <div class="problems-grid">
@@ -430,6 +481,43 @@ const layers = [
   }
   .problem-text { color: var(--text); }
 
+  /* Architecture section */
+  .arch-section {
+    padding: var(--sp-4) 0 var(--sp-12);
+  }
+  .arch-text {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 62ch;
+  }
+
+  /* Entity tracking grid */
+  .entity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+    margin: var(--sp-8) 0;
+  }
+  .entity-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2) var(--sp-6);
+    font-family: var(--font-body);
+    font-size: var(--size-xs);
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .entity-list span {
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .entity-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   /* Color utilities */
   .ice { color: var(--ice); }
   .phosphor { color: var(--phosphor); }
@@ -468,7 +556,9 @@ const layers = [
       { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE + COGNITIVE FUNCTIONS', cls: 'pass' },
       { id: 'scan-agi', delay: 1450, text: '[SCORED] INTELLIGENCE ASSESSMENT — 123/200', cls: 'warn' },
       { id: 'scan-metrics', delay: 2150, text: '[PASS] METRICS', cls: 'pass' },
-      { id: 'scan-problems', delay: 2850, text: '[WARN] 5 OPEN PROBLEMS', cls: 'warn' }
+      { id: 'scan-arch', delay: 2850, text: '[PASS] ARCHITECTURE', cls: 'pass' },
+      { id: 'scan-entities', delay: 3350, text: '[PASS] 70 ENTITIES TRACKED', cls: 'pass' },
+      { id: 'scan-problems', delay: 3850, text: '[WARN] 5 OPEN PROBLEMS', cls: 'warn' }
     ];
     for (var j = 0; j < swaps.length; j++) {
       (function(s) {
