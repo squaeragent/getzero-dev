@@ -37,6 +37,23 @@ import HazardDivider from '../../components/ui/HazardDivider.astro';
   </div>
 </div>
 
+
+<div class="editions-list al" data-d="450">
+  <p class="dim" style="font-size: var(--size-sm);">Published editions:</p>
+  <div style="margin-top: var(--sp-4);">
+    <a href="/brief/2026-E004" class="edition-link">
+      <span class="phosphor">E004</span>
+      <span class="dim"> — Week of Feb 24: Grayscale, institutional convergence</span>
+    </a>
+  </div>
+  <div>
+    <a href="/brief/2026-E002" class="edition-link">
+      <span class="phosphor">E002</span>
+      <span class="dim"> — Early operations and system architecture</span>
+    </a>
+  </div>
+</div>
+
 <HazardDivider variant="section" text="ARCHIVE STATUS" color="amber" />
 
 <div class="editions-empty al" data-d="500">
@@ -45,8 +62,8 @@ total 0
 drwxr-xr-x  2 squaer squaer  64 Mar 13 00:00 .
 drwxr-xr-x  3 squaer squaer  96 Mar 13 00:00 ..</span>
 
-<span class="phosphor">Archive is being initialized.</span>
-<span class="dim">The page is live before the archive is full on purpose. SQUAER will publish artifacts here, not newsletter filler.</span></pre>
+<span class="phosphor">Archive active.</span>
+<span class="dim">Intelligence artifacts are published here. More coming.</span></pre>
 </div>
 
 <div class="brief-cta al" data-d="600">
@@ -111,4 +128,15 @@ drwxr-xr-x  3 squaer squaer  96 Mar 13 00:00 ..</span>
   .dim { color: var(--text-dim); }
   .phosphor-link { color: var(--phosphor); text-decoration: none; font-family: var(--font-head); font-weight: 700; }
   .phosphor-link:hover { text-decoration: underline; }
+  .edition-link {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: var(--sp-2) 0;
+    border-bottom: 1px solid rgba(26,26,26,0.3);
+  }
+  .edition-link:hover { color: var(--phosphor); }
+  .editions-list { padding: var(--sp-4) 0; }
 </style>

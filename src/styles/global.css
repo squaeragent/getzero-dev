@@ -1116,3 +1116,18 @@ pre, code {
   }
 
 }
+
+/* ═══ MOBILE HARDENING ═══ */
+@media (max-width: 640px) {
+  .panel {
+    overflow-x: hidden;
+    word-break: break-word;
+  }
+  .term-block, pre {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  .metric-dots {
+    display: none;
+  }
+}
