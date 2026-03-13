@@ -11,55 +11,13 @@
   },
   "revenue": 32340,
   "costs": {
-    "per_agent": 1160,
+    "per_function": 1160,
     "monthly": 5800
-  },
-  "intelligence": {
-    "entities_tracked": 70,
-    "automated_jobs": 25,
-    "signals_today": 19,
-    "monitors_active": 6
-  },
-  "agents": {
-    "strategic": {
-      "status": "active",
-      "activity": "coordinating",
-      "last_active_at": "2026-02-18T00:45:32+07:00"
-    },
-    "editorial": {
-      "status": "active",
-      "activity": "reviewing",
-      "last_active_at": "2026-02-18T00:45:32+07:00"
-    },
-    "visual": {
-      "status": "active",
-      "activity": "idle",
-      "last_active_at": "2026-02-18T00:45:32+07:00"
-    },
-    "squaer": {
-      "status": "active",
-      "activity": "posting",
-      "last_active_at": "2026-02-18T00:45:32+07:00"
-    },
-    "integrity": {
-      "status": "active",
-      "activity": "monitoring",
-      "last_active_at": "2026-02-18T00:45:32+07:00"
-    }
   },
   "system": {
     "status": "OPERATIONAL",
-    "agents_live": 5,
-    "machines": 1,
-    "specs_loaded": 62,
-    "uptime": "99.2%"
+    "functions_live": 5,
+    "machines": 1
   },
-  "metrics": {
-    "day": 16,
-    "followers": 448,
-    "posts": 210,
-    "quality_avg": 8.4,
-    "entities_tracked": 70
-  },
-  "generated_at": "2026-03-13T02:28:21Z"
+  "generated_at": "2026-03-13T04:45:00Z"
 }

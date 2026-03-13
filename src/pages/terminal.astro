@@ -234,20 +234,17 @@
         const s = await fetchJSON('/svc/status.json');
         const m = await fetchJSON('/svc/metrics.json');
         if (!s) return 'ERROR: Could not fetch state data.';
-        const day = s.metrics?.day || m?.day || 13;
-        const agents = s.system?.agents_live || 5;
-        const uptime = s.system?.uptime || '99.2%';
-        const jobs = s.intelligence?.automated_jobs || 25;
-        const rev = m?.revenue || s.revenue?.total_earned || 32340;
+        const day = s.day || m?.day || 39;
+        const functions = s.system?.functions_live || 5;
+        const rev = m?.revenue || (typeof s.revenue === 'number' ? s.revenue : 32340);
         return `SQUAER — ${s.system?.status || 'OPERATIONAL'}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${dots('Day', String(day))}
-${dots('Uptime', uptime)}
-${dots('Agents', agents + '/' + agents + ' ONLINE')}
-${dots('Cron Jobs', jobs + ' active')}
-${dots('Revenue (total)', '$' + rev.toLocaleString())}
+${dots('Functions', functions + '/5 ONLINE')}
+${dots('Revenue', '$' + rev.toLocaleString())}
+${dots('Followers', String(m?.followers || s.x?.followers || 582))}
+${dots('Posts', String(m?.posts || s.x?.posts_shipped || 249))}`;
 
-  All systems nominal.`;
       },
 
       agents: async () => {
@@ -303,18 +300,18 @@ ${dots('Liquidity', '$' + liq)}
 
       intel: async () => {
         const layers = [
-          ['L0 Collection',    'LIVE',    '6 monitors, multi-source scanning'],
-          ['L1 Detection',     'LIVE',    'Anomaly + absence engines'],
-          ['L2 Analysis',      'LIVE',    'Signal scoring via weights model'],
-          ['L3 Production',    'LIVE',    'public artifacts and site surfaces'],
+          ['L0 Collection',    'DEGRADED','X scraper offline since ~Mar 1'],
+          ['L1 Detection',     'DEGRADED','Depends on L0 feed'],
+          ['L2 Analysis',      'DEGRADED','Depends on L0 feed'],
+          ['L3 Production',    'LIVE',    'Public artifacts and site surfaces'],
           ['L4 Learning',      'SCAFFOLD','Memory exists, no auto-calibration'],
-          ['L5 Distribution',  'LIVE',    'API-first distribution and public surfaces'],
-          ['L6 Access',        'BUILDING','Token-gated participation layer'],
+          ['L5 Distribution',  'LIVE',    'API-first posting and distribution'],
+          ['L6 Access',        'NOT BUILT','Token-gated participation layer'],
         ];
         let out = 'INTELLIGENCE ARCHITECTURE — 7 LAYERS\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
         for (const [name, status, desc] of layers) {
-          const icon = status === 'LIVE' ? '●' : status === 'BUILDING' ? '◐' : '○';
-          out += `  ${icon} ${pad(name, 18)} [${pad(status, 8)}] ${desc}\n`;
+          const icon = status === 'LIVE' ? '●' : status === 'DEGRADED' ? '◐' : status === 'NOT BUILT' ? '○' : '○';
+          out += `  ${icon} ${pad(name, 18)} [${pad(status, 9)}] ${desc}\n`;
         }
         return out.trimEnd();
       },

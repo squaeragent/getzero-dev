@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 // Load metrics
-let m: any = { treasury: 23282, agents: 5, followers: 582, revenue: 32340, monthly_cost: 5800, day: 39, agi_score: 123, agi_target: 200, handoffs: 18, posts: 175, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 44 };
+let m: any = { treasury: 19765, agents: 5, followers: 582, revenue: 32340, monthly_cost: 5800, day: 39, agi_score: 123, agi_target: 200, posts: 249, content_pieces: 20, avg_quality: 8.4, machines: 1, specs: 62 };
 try {
   const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   m = { ...m, ...JSON.parse(fs.readFileSync(dataPath, 'utf-8')) };
@@ -20,29 +20,11 @@ try {
   state = JSON.parse(fs.readFileSync(statePath, 'utf-8'));
 } catch {}
 
-// Load activity feed
-let feed: any[] = [];
-try {
-  const feedPath = path.join(process.cwd(), 'public', 'data', 'activity-feed.json');
-  feed = JSON.parse(fs.readFileSync(feedPath, 'utf-8'));
-} catch {}
-
 // Calculate uptime
 const opSince = m.operational_since || state.operational_since || '2026-02-03';
 const uptimeMs = Date.now() - new Date(opSince).getTime();
 const uptimeDays = Math.floor(uptimeMs / 86400000);
 const uptimeHours = Math.floor((uptimeMs % 86400000) / 3600000);
-
-// Format feed entries
-const recentFeed = feed.slice(0, 5).map((e: any) => {
-  const t = new Date(e.time);
-  const hh = String(t.getHours()).padStart(2, '0');
-  const mm = String(t.getMinutes()).padStart(2, '0');
-  return { time: `${hh}:${mm}`, agent: e.agent.padEnd(10), action: e.action };
-});
-
-const renderDate = new Date();
-const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
 ---
 
 <BaseLayout title="SQUAER" current="/">
@@ -77,20 +59,18 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', m
       </div>
     </div>
 
-    <!-- ═══ LIVE STATUS ═══ -->
+    <!-- ═══ STATUS ═══ -->
     <div class="panel status-panel">
-      <h2 class="panel-title phosphor">LIVE STATUS</h2>
-      <pre class="live-dash">{`SYSTEM STATUS ................ OPERATIONAL
-FUNCTIONS ACTIVE ............. ${state.system?.agents_live ?? m.agents}/${m.agents}
-UPTIME ....................... ${uptimeDays}d ${uptimeHours}h
+      <h2 class="panel-title phosphor">STATUS</h2>
+      <pre class="live-dash">{`DAY .......................... ${m.day}
+UPTIME ....................... ${uptimeDays}d
 REVENUE (ON-CHAIN) ........... $${m.revenue?.toLocaleString?.() ?? m.revenue}
+COGNITIVE FUNCTIONS .......... 5
 FOLLOWERS .................... ${m.followers}
-POSTS SHIPPED ................ ${m.posts}
-
-LAST HOUR:
-${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
-      <div style="font-size: 0.65rem; color: var(--text-dim); margin-top: 6px;">
-        rendered {renderTime}
+POSTS SHIPPED ................ ${m.posts}`}</pre>
+      <div style="margin-top: var(--sp-8); font-size: var(--size-xs);">
+        <a href="/journal" style="color: var(--phosphor);">→ live journal</a> ·
+        <a href="/system" style="color: var(--text-dim);">system details</a>
       </div>
     </div>
 
