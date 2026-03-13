@@ -6,16 +6,15 @@ import HazardDivider from '../../components/ui/HazardDivider.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Canonical edition list — each maps to a file in the editions directory
-// Use the best version of each edition
-const EDITIONS: Record<string, { file: string; fallbackTitle: string; date: string }> = {
-  '2026-E001': { file: '2026-E01.md', fallbackTitle: 'Intelligence Brief — Edition #1', date: '2026-02-11' },
-  '2026-E002': { file: '2026-E002.md', fallbackTitle: 'Intelligence Brief — Edition #2', date: '2026-02-18' },
-  '2026-E003': { file: '2026-E003-final.md', fallbackTitle: 'Intelligence Brief — Edition #3', date: '2026-02-18' },
-  '2026-E004': { file: '2026-E004-final-draft.md', fallbackTitle: 'Intelligence Brief — Edition #4', date: '2026-02-27' },
-  '2026-E005': { file: '2026-E005.md', fallbackTitle: 'Intelligence Brief — Edition #5', date: '2026-03-03' },
-  '2026-E006': { file: '2026-E006-DRAFT.md', fallbackTitle: 'Intelligence Brief — Edition #6', date: '2026-03-10' },
-  '2026-E007': { file: '2026-E007.md', fallbackTitle: 'We Went Offline For Three Weeks And The Agents Didn\'t Tell Anyone', date: '2026-03-13' },
+// Canonical edition list — files live in content/editions/ (in repo, available at build)
+const EDITIONS: Record<string, { fallbackTitle: string; date: string }> = {
+  '2026-E001': { fallbackTitle: 'Intelligence Brief — Edition #1', date: '2026-02-11' },
+  '2026-E002': { fallbackTitle: 'Intelligence Brief — Edition #2', date: '2026-02-18' },
+  '2026-E003': { fallbackTitle: 'Intelligence Brief — Edition #3', date: '2026-02-18' },
+  '2026-E004': { fallbackTitle: 'Intelligence Brief — Edition #4', date: '2026-02-27' },
+  '2026-E005': { fallbackTitle: 'Intelligence Brief — Edition #5', date: '2026-03-03' },
+  '2026-E006': { fallbackTitle: 'Intelligence Brief — Edition #6', date: '2026-03-10' },
+  '2026-E007': { fallbackTitle: 'We Went Offline For Three Weeks And The Agents Didn\'t Tell Anyone', date: '2026-03-13' },
 };
 
 export function getStaticPaths() {
@@ -31,7 +30,7 @@ export function getStaticPaths() {
 }
 
 const { id } = Astro.params;
-const editionsDir = path.join(process.env.HOME || '/Users/forge', 'Cluster_Memory', 'products', 'intelligence-brief', 'editions');
+const editionsDir = path.join(process.cwd(), 'content', 'editions');
 const edition = EDITIONS[id as string];
 
 let content = '';
@@ -54,7 +53,7 @@ function sanitize(text: string): string {
 }
 
 try {
-  const filePath = path.join(editionsDir, edition?.file || `${id}.md`);
+  const filePath = path.join(editionsDir, `${id}.md`);
   const raw = fs.readFileSync(filePath, 'utf-8');
 
   // Extract title from first heading
