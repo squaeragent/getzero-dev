@@ -1,21 +1,21 @@
 [
   {
-    "agent": "SERAPHIM",
+    "agent": "STRATEGIC",
     "time": "2026-02-18T00:45:47+07:00",
     "action": "Location identifiers scrubbed from all agent files + frontend"
   },
   {
-    "agent": "AESTHETE",
+    "agent": "VISUAL",
     "time": "2026-02-18T00:45:47+07:00",
     "action": "Visual cortex standby \u2014 awaiting design tasks"
   },
   {
-    "agent": "SENTINEL",
+    "agent": "INTEGRITY",
     "time": "2026-02-18T00:45:47+07:00",
     "action": "System recovery verified \u2014 17 crons active, zero errors"
   },
   {
-    "agent": "SERAPHIM",
+    "agent": "STRATEGIC",
     "time": "2026-02-18T00:45:47+07:00",
     "action": "L2 Analysis \u2014 convergence cluster: llama-index ecosystem"
   },
@@ -25,17 +25,17 @@
     "action": "Intelligence post pipeline \u2014 draft submitted for review"
   },
   {
-    "agent": "SERAPHIM",
+    "agent": "STRATEGIC",
     "time": "2026-02-18T00:45:47+07:00",
     "action": "L1 Detection scan \u2014 no anomalies detected"
   },
   {
-    "agent": "SENTINEL",
+    "agent": "INTEGRITY",
     "time": "2026-02-18T00:45:47+07:00",
     "action": "Deep scan nominal \u2014 mem 4%, CPU 6%, disk 98% free"
   },
   {
-    "agent": "CHRONICLE",
+    "agent": "EDITORIAL",
     "time": "2026-02-18T00:45:47+07:00",
     "action": "Peer review \u2014 2 drafts approved (8.0, 8.2)"
   },
@@ -45,7 +45,7 @@
     "action": "Rapid-fire replies posted via X API"
   },
   {
-    "agent": "SERAPHIM",
+    "agent": "STRATEGIC",
     "time": "2026-02-18T00:45:47+07:00",
     "action": "Intelligence sweep completed \u2014 19 signals scored"
   }
