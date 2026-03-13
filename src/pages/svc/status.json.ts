@@ -38,7 +38,6 @@ const BASE_METRICS = {
   entities: 70,
   specs: 62,
   machines: 1,
-  subscribers: 12,
   lp_total: 33343, // fallback — overridden by live calc below
   treasury: 23282,
   monthly_cost: 5800,
@@ -117,7 +116,6 @@ export const GET: APIRoute = async () => {
     },
     revenue: {
       total_earned: lpTotal,
-      subscribers: BASE_METRICS.subscribers,
       treasury_value: BASE_METRICS.treasury,
     },
     costs: {
@@ -130,7 +128,6 @@ export const GET: APIRoute = async () => {
       l0_monitors: 6,
       l1_entities: 56,
       l2_signals: 36,
-      l3_predictions: 5,
       signals_today: Math.floor(Math.random() * 8) + 4, // 4-11 signals
     },
     agents: agentsWithTimestamps,

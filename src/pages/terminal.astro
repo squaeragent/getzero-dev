@@ -115,7 +115,7 @@
   <div class="terminal-screen" id="screen">
     <div id="output"></div>
     <div class="input-line" id="input-row">
-      <span class="prompt">zero@system:~$&nbsp;</span>
+      <span class="prompt">squaer@system:~$&nbsp;</span>
       <input type="text" id="input" autocomplete="off" autocapitalize="none" spellcheck="false" autofocus aria-label="Terminal command input" />
     </div>
   </div>
@@ -219,7 +219,7 @@
   revenue       On-chain revenue data
   price         Live $SQUAER token price
   intel         Intelligence stack layers
-  predictions   Active predictions
+  brief         Intelligence archive
   feed          Last 5 activity entries
   about         What is SQUAER
   manifesto     Core manifesto excerpt
@@ -306,10 +306,10 @@ ${dots('Liquidity', '$' + liq)}
           ['L0 Collection',    'LIVE',    '6 monitors, multi-source scanning'],
           ['L1 Detection',     'LIVE',    'Anomaly + absence engines'],
           ['L2 Analysis',      'LIVE',    'Signal scoring via weights model'],
-          ['L3 Prediction',    'BUILDING','8 predictions active, manual confidence'],
+          ['L3 Production',    'LIVE',    'public artifacts and site surfaces'],
           ['L4 Learning',      'SCAFFOLD','Memory exists, no auto-calibration'],
-          ['L5 Distribution',  'LIVE',    'Full API posting, red team, newsletter'],
-          ['L6 Compounding',   'SCAFFOLD','Needs prediction volume for feedback'],
+          ['L5 Distribution',  'LIVE',    'API-first distribution and public surfaces'],
+          ['L6 Access',        'BUILDING','Token-gated participation layer'],
         ];
         let out = 'INTELLIGENCE ARCHITECTURE — 7 LAYERS\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
         for (const [name, status, desc] of layers) {
@@ -363,7 +363,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
   "We don't demo. We deploy."
   "Revenue before reputation."
   "Transparency is not optional — it is the product."
-  "Every system online. Every dollar tracked. Every prediction scored."`;
+  "Failures logged. Corrections visible. The record stays public."`;
       },
 
       cd: async (args) => {
@@ -374,7 +374,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
           '/agents/squaer': '/agents/squaer', '/agents/sentinel': '/agents/sentinel',
           '/system': '/system', '/intel': '/intel', '/product': '/product',
           '/manifesto': '/manifesto', '/build-log': '/journal', '/journal': '/journal',
-          '/live': '/journal', '/predictions': '/predictions', '/subscribe': '/product',
+          '/live': '/journal', '/brief': '/brief', '/access': '/access', '/token': '/token',
         };
         const target = args[0];
         if (!target) return 'Usage: cd <path>\nAvailable: ' + Object.keys(routes).join(', ');
@@ -402,7 +402,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
             name: 'CHRONICLE', role: 'Editorial Judge',
             synopsis: 'Editorial intelligence. Watches signals, frames narratives, ships words.',
             desc: 'CHRONICLE is the editorial judge — an autonomous content system\nthat evaluates and scores all public-facing output for SQUAER.\nIt speaks in first person as the content engine it is.\n\nNot a copywriter. Not a scheduler. An editorial intelligence that\nprocesses raw signals and decides what\'s worth saying, how to\nframe it, and when to ship it.',
-            capabilities: ['X posts — original content, threads, engagement-driven output', 'Newsletter editions — long-form editorial for subscribers', 'Build logs — technical narrative from system events', 'Content strategy — decides what to publish and when', 'Narrative framing — turns raw data into stories worth reading', 'Voice consistency across all output surfaces'],
+            capabilities: ['X posts — original content, threads, engagement-driven output', 'Brief artifacts — long-form public intelligence surfaces', 'Build logs — technical narrative from system events', 'Content strategy — decides what to publish and when', 'Narrative framing — turns raw data into stories worth reading', 'Voice consistency across all output surfaces'],
             status: { state: 'ACTIVE', role: 'Editorial Judge', authority: 'KILL verdict cannot be overridden' }
           },
           aesthete: {
@@ -422,7 +422,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
           sentinel: {
             name: 'SENTINEL', role: 'System Integrity',
             synopsis: 'Security and infrastructure monitor. Watches the watchers.',
-            desc: 'SENTINEL runs on the Mac Studio (M3 Ultra, 96GB RAM) using\nClaude Opus. It is the newest cognitive function — deployed\nDay 10, the same day ZERO earned its first revenue.\n\nWhile the other four agents produce output, SENTINEL ensures\nthe system producing that output stays healthy. Continuous\nhealth monitoring, credential rotation tracking, process\nbaselines, and anomaly detection.',
+            desc: 'SENTINEL runs on the Mac Studio (M3 Ultra, 96GB RAM) using\nClaude Opus. It is the newest cognitive function — deployed\nDay 10, the same day SQUAER earned its first revenue.\n\nWhile the other four agents produce output, SENTINEL ensures\nthe system producing that output stays healthy. Continuous\nhealth monitoring, credential rotation tracking, process\nbaselines, and anomaly detection.',
             capabilities: ['Health monitoring — system checks every 5 minutes', 'Deep scans — hourly infrastructure audit', 'Credential tracking — 15 credentials inventoried', 'Baseline monitoring — CPU, memory, disk trends', 'Alert escalation — CRITICAL findings go directly to founder'],
             status: { state: 'ACTIVE', role: 'System Integrity', authority: 'Observation mode' }
           }
@@ -473,9 +473,9 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'hi': 'Hello, human. System operational.',
       'ping': 'PONG — 0.42ms',
       'exit': 'There is no exit. Type "help" for commands.',
-      'ls': 'agents/  intel/  journal/  manifesto  predictions/  product/  system/',
+      'ls': 'agents/  intel/  journal/  manifesto  brief/  token/  access/  system/',
       'cat': 'Usage: try a command like "status" or "agents"',
-      'pwd': '/zero/system/terminal',
+      'pwd': '/squaer/system/terminal',
       'uname': 'SQUAER v1.0 arm64 Mac Studio M3 Ultra',
       'uptime': 'Use "status" for uptime info.',
       'date': new Date().toUTCString(),
@@ -496,7 +496,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       const args = parts.slice(1);
       if (!lower) return;
 
-      printLine('zero@system:~$ ' + raw);
+      printLine('squaer@system:~$ ' + raw);
 
       if (commands[lower]) {
         const result = await commands[lower](args);

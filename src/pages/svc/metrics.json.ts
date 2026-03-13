@@ -53,7 +53,6 @@ export const GET: APIRoute = async () => {
     posts: 202,
     revenue: 33343,
     content_pieces: 15,
-    subscribers: 12,
     operational_since: '2026-02-03',
     monthly_cost: 1160,          // per-agent (card label = "COST / AGENT")
 
@@ -62,7 +61,6 @@ export const GET: APIRoute = async () => {
     followers_handle: '@squaer_agent',
     revenue_label: 'LP commissions (on-chain)',
     avg_quality: '8.4/10',
-    dispatches: 2,
     cost_label: '$5,800/mo total across 5 agents',
 
     // Extra flat keys for terminal + other consumers

@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-let m: any = { day: 13, agents: 5, revenue: 33343, subscribers: 12, followers: 420, posts: 172, dispatches: 2 };
+let m: any = { day: 13, agents: 5, revenue: 33343, treasury: 23282, followers: 420, posts: 172 };
 try {
   const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
@@ -24,13 +24,13 @@ const revStr = m.revenue >= 1000 ? '$' + (m.revenue / 1000).toFixed(1) + 'K' : '
     <span class="live-proof-sep">·</span>
     <span class="live-proof-item">{revStr} LP revenue</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item live-revenue">{m.subscribers} subscribers</span>
+    <span class="live-proof-item live-revenue">${m.treasury?.toLocaleString?.() ?? '23,282'} treasury</span>
     <span class="live-proof-sep">·</span>
     <span class="live-proof-item">{m.followers} followers</span>
     <span class="live-proof-sep">·</span>
     <span class="live-proof-item">{m.posts} posts</span>
     <span class="live-proof-sep">·</span>
-    <span class="live-proof-item">{m.dispatches} dispatches shipped</span>
+    <span class="live-proof-item">{m.posts} posts shipped</span>
   </div>
 </div>
 

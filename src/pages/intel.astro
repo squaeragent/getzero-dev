@@ -2,7 +2,6 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
-import BriefCTA from '../components/BriefCTA.astro';
 import SectionTitle from '../components/ui/SectionTitle.astro';
 import HazardDivider from '../components/ui/HazardDivider.astro';
 import BarGauge from '../components/ui/BarGauge.astro';
@@ -10,40 +9,31 @@ import StatusDot from '../components/ui/StatusDot.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
 import HeroNumeral from '../components/ui/HeroNumeral.astro';
 
-let predictions: any[] = [];
-let total = 0, correct = 0, wrong = 0, resolved = 0;
-try {
-  const fs = await import('fs');
-  const path = await import('path');
-  const predPath = path.default.join(process.cwd(), 'public', 'data', 'predictions.json');
-  const raw = JSON.parse(fs.default.readFileSync(predPath, 'utf-8'));
-  predictions = raw.predictions || [];
-  total = predictions.length;
-  correct = predictions.filter((p: any) => ['CORRECT', 'correct', 'resolved_correct'].includes(p.status)).length;
-  wrong = predictions.filter((p: any) => ['WRONG', 'wrong', 'resolved_wrong'].includes(p.status)).length;
-  resolved = correct + wrong;
-} catch {
-  total = 8; resolved = 0; correct = 0; wrong = 0;
-}
+const artifacts = [
+  'System status and operating state',
+  'Journal / build log / corrections',
+  'Brief archive and public artifacts',
+  'Token and access surfaces',
+];
 
 const layers = [
   { num: 'L0', name: 'COLLECTION', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'multi-source continuous scanning' },
   { num: 'L1', name: 'DETECTION', status: 'LIVE', s: 'nominal' as const, pct: 85, desc: 'anomaly + absence engines' },
   { num: 'L2', name: 'ANALYSIS', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'signal scoring via weights model' },
-  { num: 'L3', name: 'PREDICTION', status: 'BUILDING', s: 'building' as const, pct: 40, desc: '8 predictions active, manual confidence' },
+  { num: 'L3', name: 'PRODUCTION', status: 'LIVE', s: 'nominal' as const, pct: 82, desc: 'public artifacts and site surfaces' },
   { num: 'L4', name: 'LEARNING', status: 'SCAFFOLDED', s: 'degraded' as const, pct: 15, desc: 'memory exists, no automated calibration' },
   { num: 'L5', name: 'DISTRIBUTION', status: 'LIVE', s: 'nominal' as const, pct: 100, desc: 'multi-channel output' },
-  { num: 'L6', name: 'COMPOUNDING', status: 'SCAFFOLDED', s: 'degraded' as const, pct: 10, desc: 'every prediction sharpens the next' },
+  { num: 'L6', name: 'ACCESS', status: 'BUILDING', s: 'building' as const, pct: 10, desc: '$SQUAER participation layer still being installed' },
 ];
 
 const liveLayers = layers.filter(l => l.s === 'nominal').length;
 ---
 
-<BaseLayout title="Intelligence — ZERO" description="Autonomous intelligence engine. 70 entities tracked, 7-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
+<BaseLayout title="Intelligence — SQUAER" description="Autonomous intelligence engine. 70 entities tracked, 7-layer stack, 100% autonomy rate." current="/intel" ogImage="/og/intel.png">
 
 <PageWrapper size="wide">
 
-<pre class="term-block al" data-d="0"><span class="phosphor">zero $</span> zero-intel --status</pre>
+<pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> squaer-intel --status</pre>
 
 <div class="hero-row">
   <HeroNumeral value="70" label="ENTITIES TRACKED" sub="22 accounts · 20 repos · 14 narratives · 14 on-chain" color="phosphor" />
@@ -77,59 +67,45 @@ const liveLayers = layers.filter(l => l.s === 'nominal').length;
   <DataPanel title="TELEGRAM" status="DM" color="phosphor" compact>
     <div class="o-desc">direct intelligence delivery</div>
   </DataPanel>
-  <DataPanel title="INTELLIGENCE BRIEF" status="FREE" color="phosphor" compact>
-    <div class="o-desc">weekly intelligence for all subscribers</div>
+  <DataPanel title="BRIEF ARCHIVE" status="LIVE" color="phosphor" compact>
+    <div class="o-desc">public intelligence artifacts and deeper archive to come</div>
   </DataPanel>
   <DataPanel title="DISCORD" status="LIVE" color="phosphor" compact>
     <div class="o-desc">real-time signal alerts</div>
   </DataPanel>
 </div>
 
-<!-- ═══ PREDICTION TRACKER ═══ -->
-<HazardDivider variant="warning" text="PREDICTION TRACKER" color="amber" />
+<!-- ═══ ARTIFACT SURFACES ═══ -->
+<HazardDivider variant="warning" text="ARTIFACT SURFACES" color="amber" />
 
-<pre class="term-block tracker-block">accuracy .. <span class="phosphor">{resolved > 0 ? `${Math.round((correct/resolved)*100)}%` : 'TRACKING'}</span>
-resolved .. {resolved}/{total}
-pending ... {total - resolved}
-<span class="dim">(building baseline — no retroactive edits)</span></pre>
+<pre class="term-block tracker-block">status ..... <span class="phosphor">PUBLIC</span>
+archive ..... <span class="amber">BUILDING</span>
+access ...... <span class="amber">DESIGNING</span>
+<span class="dim">No fake precision. Public surface live first, deeper layers after.</span></pre>
 
 <div class="pred-feed">
-  {predictions.slice(0, 4).map((p: any, i: number) => {
-    const status = (p.status || 'active').toUpperCase();
-    const displayStatus = status === 'ACTIVE' ? 'OPEN' : status;
-    const sc = displayStatus === 'CORRECT' ? 'phosphor' : displayStatus === 'WRONG' ? 'red' : 'dim';
-    const confVal = typeof p.confidence === 'number' ? Math.round(p.confidence * 100) : 0;
-    return (
-      <div class="p-entry">
-        <div class="p-header">
-          <span class="p-id phosphor">{p.id}</span>
-          <span class={`p-tag ${sc}`}>[{displayStatus}]</span>
-        </div>
-        <div class="p-text">{p.claim || p.title || p.prediction}</div>
-        <div class="p-conf-row">
-          <BarGauge value={confVal} label="conf" segments={15} size="sm" color="phosphor" />
-        </div>
-        <div class="p-meta dim">deadline {p.deadline}</div>
-      </div>
-    );
-  })}
-  {total > 4 && (
+  {artifacts.map((a: string) => (
     <div class="p-entry">
-      <a href="/token" class="p-more phosphor">→ View $SQUAER token</a>
+      <div class="p-header">
+        <span class="p-id phosphor">ARTIFACT</span>
+        <span class="p-tag dim">[LIVE]</span>
+      </div>
+      <div class="p-text">{a}</div>
     </div>
-  )}
+  ))}
+  <div class="p-entry">
+    <a href="/brief" class="p-more phosphor">→ Open /brief</a>
+  </div>
 </div>
 
 <pre class="term-block al" data-d="1900">
-<span class="dim">No quiet deletions. No retroactive edits.
-Every prediction falsifiable with specific dates.</span>
+<span class="dim">Signal is only useful if it becomes legible.
+The intelligence surface is the product.</span>
 
 <span class="amber">squaer $</span> access --check-tier
-→ <a href="https://squaer.co/token"><span class="amber">squaer.co/token</span></a>
+→ <a href="https://squaer.co/access"><span class="amber">squaer.co/access</span></a>
 
-<span class="phosphor">zero $</span> <span class="terminal-cursor">█</span></pre>
-
-<BriefCTA />
+<span class="phosphor">squaer $</span> <span class="terminal-cursor">█</span></pre>
 
 </PageWrapper>
 

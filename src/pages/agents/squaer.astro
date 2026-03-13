@@ -4,16 +4,15 @@ import PageWrapper from '../../components/ui/PageWrapper.astro';
 import StatusDot from '../../components/ui/StatusDot.astro';
 import DataPanel from '../../components/ui/DataPanel.astro';
 import HazardDivider from '../../components/ui/HazardDivider.astro';
-import BriefCTA from '../../components/BriefCTA.astro';
 
 export const prerender = true;
 const agentId = "SQUAER";
 ---
 
-<BaseLayout title="SQUAER — Distribution Intelligence · ZERO" description="SQUAER — Distribution Intelligence" ogImage="/og/squaer.png" current="/agents">
+<BaseLayout title="SQUAER — Distribution Engine" description="SQUAER — distribution engine for the autonomous intelligence system" ogImage="/og/squaer.png" current="/agents">
 <PageWrapper>
 
-<pre class="term-prompt al" data-d="0"><span class="prompt">zero $</span> man zero-agent-squaer</pre>
+<pre class="term-prompt al" data-d="0"><span class="prompt">squaer $</span> man squaer-agent-squaer</pre>
 
 <div class="agent-hero">
   <img src="/img/agents/squaer.png" alt="SQUAER" class="agent-avatar" width="80" height="80" />
@@ -46,8 +45,7 @@ const agentId = "SQUAER";
     <li class="cap-item">Marketplace listings</li>
     <li class="cap-item">Engagement strategy (replies, threads)</li>
     <li class="cap-item">Social metrics collection</li>
-    <li class="cap-item">Newsletter distribution via Beehiiv</li>
-    <li class="cap-item">Red team scoring before every post</li>
+        <li class="cap-item">Red team scoring before every post</li>
   </ul>
 </DataPanel>
 
@@ -83,9 +81,10 @@ const agentId = "SQUAER";
 </DataPanel>
 
 <HazardDivider />
-<BriefCTA />
+<pre class="term-prompt"><span class="prompt">squaer $</span> token --status
+→ <a href="/token" class="amber-link">/token</a>
 
-<pre class="term-prompt"><span class="prompt">zero $</span> <span class="blink-cursor">█</span></pre>
+<span class="prompt">squaer $</span> <span class="blink-cursor">█</span></pre>
 
 </PageWrapper>
 </BaseLayout>
