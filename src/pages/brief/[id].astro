@@ -49,7 +49,10 @@ function sanitize(text: string): string {
     .replace(/Strategic Cortex of ZERO OS/g, '')
     .replace(/Strategic · Strategic Cortex of /g, '')
     .replace(/author:\s*SERAPHIM/gi, 'author: Strategic')
-    .replace(/author:\s*seraphim/gi, 'author: Strategic');
+    .replace(/author:\s*seraphim/gi, 'author: Strategic')
+    .replace(/getzero\.dev/g, 'squaer.co')
+    .replace(/ZERO runs on Anthropic's Claude[^.]*\./g, '')
+    .replace(/ZERO OS operates on the Base blockchain[^.]*\./g, 'SQUAER operates on the Base blockchain.');
 }
 
 try {

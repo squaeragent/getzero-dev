@@ -1,5 +1,5 @@
 /**
- * Build-time data sanitizer for getzero.dev
+ * Build-time data sanitizer for squaer.co
  * Standard: ~/Cluster_Memory/standards/data-visibility.md
  * 
  * Principle: if the data never makes it into HTML, it can't leak.
