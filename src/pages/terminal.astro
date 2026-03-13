@@ -262,7 +262,7 @@ ${dots('Revenue (total)', '$' + rev.toLocaleString())}
         for (const [name, role, status] of agents) {
           out += `  ${pad(name, 12)} ${pad(role, 22)} [${status}]\n`;
         }
-        out += '\n  Host: Mac Studio M3 Ultra · 96GB';
+        out += '\n  Host: dedicated hardware · 96GB';
         return out;
       },
 
@@ -465,7 +465,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'ls': 'agents/  intel/  journal/  manifesto  brief/  token/  access/  system/',
       'cat': 'Usage: try a command like "status" or "agents"',
       'pwd': '/squaer/system/terminal',
-      'uname': 'SQUAER v1.0 arm64 Mac Studio M3 Ultra',
+      'uname': 'SQUAER v1.0 arm64',
       'uptime': 'Use "status" for uptime info.',
       'date': new Date().toUTCString(),
       'top': 'STRATEGIC: 42%  EDITORIAL: 12%  DISTRIBUTION: 28%  VISUAL: 8%  INTEGRITY: 10%',
@@ -474,7 +474,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
         const m = await fetchJSON('/svc/metrics.json');
         const day = m?.day || '?';
         const rev = m?.revenue ? '$' + m.revenue.toLocaleString() : 'loading...';
-        return `SQUAER v1.0\nHost: Mac Studio M3 Ultra\nRAM: 96GB / 96GB\nAgents: 5/5 ONLINE\nUptime: ${day}d\nRevenue: ${rev}`;
+        return `SQUAER v1.0\nHost: dedicated hardware\nRAM: 96GB / 96GB\nAgents: 5/5 ONLINE\nUptime: ${day}d\nRevenue: ${rev}`;
       },
     };
 
