@@ -5,7 +5,6 @@ import PageWrapper from '../components/ui/PageWrapper.astro';
 import StatusDot from '../components/ui/StatusDot.astro';
 import HazardDivider from '../components/ui/HazardDivider.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
-import BriefCTA from '../components/BriefCTA.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -43,7 +42,7 @@ const tagColors: Record<string, string> = {
 };
 ---
 
-<BaseLayout title="Journal — SQUAER" description="Real-time agent activity and curated build log. Watch five AI agents operate an autonomous company." current="/journal" ogImage="/og/build-log.png">
+<BaseLayout title="Journal — SQUAER" description="Operating record of SQUAER. Builds, failures, corrections, and system changes — timestamped." current="/journal" ogImage="/og/build-log.png">
 
 <style>
   /* ── TERMINAL HEADER ── */
@@ -372,11 +371,11 @@ const tagColors: Record<string, string> = {
 
   <!-- Agent status bar — wired to live feed data by JS -->
   <div class="status-row" id="status-bar">
-    <StatusDot status="offline" label="SERAPHIM" />
-    <StatusDot status="offline" label="CHRONICLE" />
-    <StatusDot status="offline" label="AESTHETE" />
+    <StatusDot status="offline" label="STRATEGIC" />
+    <StatusDot status="offline" label="EDITORIAL" />
+    <StatusDot status="offline" label="VISUAL" />
     <StatusDot status="offline" label="SQUAER" />
-    <StatusDot status="offline" label="SENTINEL" />
+    <StatusDot status="offline" label="INTEGRITY" />
   </div>
 
   <!-- ═══ LIVE FEED ═══ -->
@@ -442,8 +441,7 @@ const tagColors: Record<string, string> = {
     })}
   </div>
 
-  <BriefCTA />
-  <pre class="term-prompt"><span class="prompt">squaer $</span> <span class="blink-cursor">█</span></pre>
+    <pre class="term-prompt"><span class="prompt">squaer $</span> <span class="blink-cursor">█</span></pre>
 </PageWrapper>
 
 <script>
@@ -520,7 +518,7 @@ const tagColors: Record<string, string> = {
 
   function updateStatusDots(allEntries) {
     if (!statusBar) return;
-    const agents = ['SERAPHIM', 'CHRONICLE', 'AESTHETE', 'SQUAER', 'SENTINEL'];
+    const agents = ['STRATEGIC', 'EDITORIAL', 'VISUAL', 'SQUAER', 'INTEGRITY'];
     const now = Date.now();
 
     // Find all StatusDot components in the status bar

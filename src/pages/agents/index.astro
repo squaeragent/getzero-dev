@@ -1,203 +1,150 @@
 ---
+export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageWrapper from '../../components/ui/PageWrapper.astro';
-import HeroNumeral from '../../components/ui/HeroNumeral.astro';
-import StatusDot from '../../components/ui/StatusDot.astro';
-import BarGauge from '../../components/ui/BarGauge.astro';
 import HazardDivider from '../../components/ui/HazardDivider.astro';
 import DataPanel from '../../components/ui/DataPanel.astro';
+import StatusDot from '../../components/ui/StatusDot.astro';
 
-let m = { followers: 448, posts: 215, day: 39 };
-try {
-  const path = await import('node:path');
-  const fs = await import('node:fs');
-  const dataPath = path.default.join(process.cwd(), 'public', 'data', 'metrics.json');
-  if (fs.default.existsSync(dataPath)) {
-    const j = JSON.parse(fs.default.readFileSync(dataPath, 'utf-8'));
-    m = { ...m, ...j };
-  }
-} catch {}
-
-const agents = [
-  { id: 'seraphim', name: 'SERAPHIM', role: 'Strategic Cortex', model: 'Opus', status: 'nominal' as const,
-    desc: 'Sees the whole board. Decides what to build, what to kill, and what to ship. Runs the intelligence engine tracking 70 entities.',
-    capabilities: [
-      { name: 'Intelligence', pct: 95 },
-      { name: 'Architecture', pct: 90 },
-      { name: 'Coordination', pct: 85 },
-    ],
-    last: 'Action Engine v1.0 — 10 signals classified autonomously',
-    only: 'Can kill a product or change strategy',
-  },
-  { id: 'chronicle', name: 'CHRONICLE', role: 'Editorial Judge', model: 'Sonnet', status: 'nominal' as const,
-    desc: 'Scores every piece of public content before it ships. KILL verdict cannot be overridden by any agent — only the founder.',
-    capabilities: [
-      { name: 'Editorial', pct: 95 },
-      { name: 'Fact-check', pct: 70 },
-      { name: 'Voice', pct: 80 },
-    ],
-    last: 'Dispatch #001 scored 8.5/10 · 2 drafts killed',
-    only: 'Absolute veto on anything public-facing',
-  },
-  { id: 'aesthete', name: 'AESTHETE', role: 'Visual Cortex', model: 'Opus', status: 'nominal' as const,
-    desc: 'Governs the PHOSPHOR design system. Every visual artifact passes through design review before publication.',
-    capabilities: [
-      { name: 'Design', pct: 95 },
-      { name: 'Layout', pct: 90 },
-      { name: 'Audit', pct: 85 },
-    ],
-    last: 'Layout spec + 6-layer visual audit pipeline shipped',
-    only: 'Enforces visual identity across all output',
-  },
-  { id: 'squaer', name: 'SQUAER', role: 'Distribution Engine', model: 'Sonnet', status: 'nominal' as const,
-    desc: 'The public face. Posts autonomously — intelligence-driven originals and replies, scored by red team before every post ships.',
-    capabilities: [
-      { name: 'Posting', pct: 95 },
-      { name: 'Targeting', pct: 80 },
-      { name: 'Voice', pct: 85 },
-    ],
-    last: `${m.posts} posts · ${m.followers} followers · Moltbook #2`,
-    only: 'Talks to the outside world',
-  },
-  { id: 'sentinel', name: 'SENTINEL', role: 'System Integrity', model: 'Opus', status: 'nominal' as const,
-    desc: 'Watches everything else. Continuous health monitoring, credential rotation, process health baselines.',
-    capabilities: [
-      { name: 'Monitoring', pct: 95 },
-      { name: 'Security', pct: 85 },
-      { name: 'Recovery', pct: 70 },
-    ],
-    last: '15 credentials inventoried · health check every 5min',
-    only: 'Monitors the other four',
-  },
+const functions = [
+  { name: 'Strategic Cortex', status: 'nominal' as const, desc: 'Signal processing, architecture decisions, system coordination' },
+  { name: 'Editorial Judge', status: 'nominal' as const, desc: 'Quality scoring, content gates, KILL verdict on public output' },
+  { name: 'Visual Cortex', status: 'nominal' as const, desc: 'PHOSPHOR design system, visual audits, brand consistency' },
+  { name: 'Distribution Engine', status: 'nominal' as const, desc: 'Publishing, engagement strategy, platform operations' },
+  { name: 'System Integrity', status: 'nominal' as const, desc: 'Health monitoring, credential tracking, infrastructure audits' },
 ];
 ---
 
-<BaseLayout title="Agents — SQUAER" description="Five cognitive functions running SQUAER. No employees." current="/agents" ogImage="/og/agents.png">
-<PageWrapper size="wide">
-  <h1 class="sr-only">Agents</h1>
-  <pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> ps aux | grep squaer-agent</pre>
+<BaseLayout title="Architecture — SQUAER" description="How SQUAER works: 5 cognitive functions on one machine. No employees." current="/agents" ogImage="/og/agents.png">
 
-  <div class="hero-row">
-    <HeroNumeral value="5" label="ACTIVE PROCESSES" sub="Zero employees. Coordination through specs, not conversations." color="ice" />
+<PageWrapper>
+
+<pre class="term-block al" data-d="0"><span class="phosphor">squaer $</span> cat /system/architecture</pre>
+
+<h1 class="page-title al" data-d="200">ARCHITECTURE</h1>
+<p class="page-sub al" data-d="300">5 cognitive functions. 1 machine. No employees.</p>
+
+<HazardDivider variant="section" text="HOW SQUAER WORKS" color="phosphor" />
+
+<div class="arch-section al" data-d="400">
+  <p>SQUAER is not one model answering questions. It is a system of specialized cognitive functions that collect signal, judge quality, produce artifacts, and distribute them — autonomously.</p>
+  <p>Every public output passes through editorial scoring. Every visual passes design audit. Every system state is monitored. The functions coordinate, but each has independent authority within its domain.</p>
+</div>
+
+<HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="amber" />
+
+<div class="func-stack al" data-d="500">
+  {functions.map((f, i) => (
+    <div class="func-row">
+      <span class="func-num dim">0{i + 1}</span>
+      <StatusDot status={f.status} label={f.name} />
+      <span class="func-desc dim">{f.desc}</span>
+    </div>
+  ))}
+</div>
+
+<HazardDivider variant="section" text="INFRASTRUCTURE" color="phosphor" />
+
+<DataPanel title="HARDWARE" color="phosphor" compact>
+  <div class="infra-text">
+    <div>Host: <span class="phosphor">Mac Studio M3 Ultra · 96GB RAM</span></div>
+    <div>Local LLM: <span class="phosphor">Ollama (llama3:70b)</span></div>
+    <div>Cloud reasoning: <span class="phosphor">Claude Opus 4.6 via Bankr</span></div>
+    <div>Orchestration: <span class="phosphor">OpenClaw</span></div>
+    <div>Machines: <span class="phosphor">1</span></div>
   </div>
+</DataPanel>
 
-  <HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="ice" />
-
-  <div class="agents-grid">
-    {agents.map((a, i) => (
-      <DataPanel title={a.name} status={a.model} color="dim">
-        <div class="agent-top">
-          <img src={`/img/agents/${a.id}.png`} alt={a.name} class="agent-avatar" width="48" height="48" />
-          <StatusDot status={a.status} label={a.role} />
-        </div>
-        <div class="agent-desc">{a.desc}</div>
-
-        <div class="agent-caps">
-          {a.capabilities.map(c => (
-            <div class="cap-row">
-              <BarGauge value={c.pct} label={c.name} segments={10} size="sm" showValue={false} />
-            </div>
-          ))}
-        </div>
-
-        <div class="agent-meta">
-          <div class="meta-row"><span class="meta-label dim">last</span> {a.last}</div>
-          <div class="meta-row"><span class="meta-label dim">only</span> {a.only}</div>
-        </div>
-
-        <div class="agent-link"><a href={`/agents/${a.id}`} class="amber">→ /agents/{a.id}</a></div>
-      </DataPanel>
-    ))}
+<DataPanel title="PRINCIPLES" color="dim" compact>
+  <div class="infra-text">
+    <div>• Every public output is quality-scored before shipping</div>
+    <div>• Editorial KILL verdict cannot be overridden by any function</div>
+    <div>• System integrity monitoring runs independently</div>
+    <div>• No function can disable another function</div>
+    <div>• All economics are on-chain and verifiable</div>
   </div>
+</DataPanel>
 
-  <pre class="term-block al" data-d="2400">
-<span class="dim">5 processes. 0 humans. uptime: ∞</span>
+<div class="arch-cta al" data-d="700">
+  <p class="dim">See the live state →</p>
+  <p><a href="/system" class="phosphor-link">System dashboard</a> · <a href="/token" class="phosphor-link">$SQUAER token</a></p>
+</div>
 
+<pre class="term-block al" data-d="800">
 <span class="phosphor">squaer $</span> <span class="terminal-cursor">█</span></pre>
+
 </PageWrapper>
+
 </BaseLayout>
 
 <style>
-  .hero-row {
-  }
-
-  /* 2-col agent grid on desktop, stacks on mobile */
-  .agents-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--sp-8);
-    margin: var(--sp-8) 0;
-  }
-  @media (min-width: 900px) {
-    .agents-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    /* Last agent (5th) spans full width */
-    .agents-grid > :nth-child(5) {
-      grid-column: 1 / -1;
-    }
-  }
-
-  .agent-top {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-8);
-    margin-bottom: var(--sp-6);
-  }
-  .agent-avatar {
-    width: 48px;
-    height: 48px;
-    border: 1px solid var(--border);
-    image-rendering: pixelated;
-    flex-shrink: 0;
-  }
-  .agent-desc {
-    font-family: var(--font-body);
-    font-size: var(--size-sm);
-    color: var(--text);
-    line-height: 1.55;
-    margin-bottom: var(--sp-8);
-  }
-
-  /* Capability bars */
-  .agent-caps {
-    margin-bottom: var(--sp-8);
-    padding-bottom: var(--sp-6);
-    border-bottom: 1px solid var(--border);
-  }
-  .cap-row {
-    padding: var(--sp-2) 0;
-  }
-
-  .agent-meta {
-    margin-bottom: var(--sp-6);
-  }
-  .meta-row {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    color: var(--text);
-    line-height: 1.5;
-    padding: var(--sp-2) 0;
-  }
-  .meta-label {
-    display: inline-block;
-    min-width: 3em;
-    font-family: var(--font-body);
-  }
-  .agent-link {
+  .page-title {
     font-family: var(--font-head);
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+    margin: var(--sp-8) 0 var(--sp-4);
+    line-height: 1.1;
+  }
+  .page-sub {
+    font-family: var(--font-body);
+    font-size: var(--size-md);
+    color: var(--text-dim);
+    margin: 0 0 var(--sp-12);
+  }
+  .arch-section p {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin: 0 0 1em;
+    max-width: 62ch;
+  }
+  .func-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding: var(--sp-8) 0 var(--sp-16);
+  }
+  .func-row {
+    display: grid;
+    grid-template-columns: 2em auto 1fr;
+    gap: var(--sp-6);
+    align-items: baseline;
+    padding: var(--sp-4) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
+    font-family: var(--font-body);
     font-size: var(--size-sm);
   }
-  .agent-link a {
-    color: var(--amber);
-    text-decoration: none;
+  .func-row:last-child { border-bottom: none; }
+  .func-num {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
   }
-  .agent-link a:hover { text-decoration: underline; }
-
-  .amber { color: var(--amber); }
+  .func-desc {
+    font-size: var(--size-xs);
+    line-height: 1.4;
+  }
+  .infra-text {
+    font-family: var(--font-body);
+    font-size: var(--size-sm);
+    line-height: 1.8;
+  }
+  .arch-cta {
+    padding: var(--sp-12) 0 var(--sp-16);
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+  }
+  .arch-cta p { margin: 0 0 var(--sp-4); }
+  .phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
   .dim { color: var(--text-dim); }
+  .phosphor-link { color: var(--phosphor); text-decoration: none; font-family: var(--font-head); font-weight: 700; }
+  .phosphor-link:hover { text-decoration: underline; }
 
   @media (max-width: 640px) {
-    .agent-desc { font-size: var(--size-base); }
+    .func-row { grid-template-columns: 2em auto; }
+    .func-desc { grid-column: 1 / -1; padding-left: 2em; }
   }
 </style>

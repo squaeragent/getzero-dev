@@ -252,11 +252,11 @@ ${dots('Revenue (total)', '$' + rev.toLocaleString())}
 
       agents: async () => {
         const agents = [
-          ['SERAPHIM',  'Strategic Cortex',    'ONLINE'],
-          ['CHRONICLE', 'Editorial Judge',     'ONLINE'],
-          ['AESTHETE',  'Visual Cortex',       'ONLINE'],
+          ['STRATEGIC',  'Signal & Architecture', 'ONLINE'],
+          ['EDITORIAL',  'Quality Scoring',       'ONLINE'],
+          ['VISUAL',     'Design System',         'ONLINE'],
           ['SQUAER',    'Distribution Engine', 'ONLINE'],
-          ['SENTINEL',  'Security Monitor',    'ONLINE'],
+          ['INTEGRITY',  'Health Monitor',        'ONLINE'],
         ];
         let out = 'COGNITIVE FUNCTIONS\n━━━━━━━━━━━━━━━━━━\n';
         for (const [name, role, status] of agents) {
@@ -391,40 +391,40 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
 
       man: async (args) => {
         const agentData = {
-          seraphim: {
-            name: 'SERAPHIM', role: 'Strategic Cortex',
-            synopsis: 'Sees the whole board, makes the calls.',
-            desc: 'SERAPHIM is the strategic cortex — the orchestrating intelligence\nthat coordinates all other cognitive functions. It makes decisions\nabout what to build, when to ship, and how to allocate resources\nacross the system.\n\nNot a project manager. A strategic intelligence that processes\nsignals from all other agents and decides what matters.',
-            capabilities: ['Multi-agent orchestration and task routing', 'Strategic decision-making from signal analysis', 'Resource allocation across cognitive functions', 'System health monitoring and escalation', 'Revenue tracking and financial operations', 'Memory management and context continuity'],
-            status: { state: 'ACTIVE', role: 'Strategic Cortex', authority: 'Full operational autonomy' }
+          strategic: {
+            name: 'STRATEGIC', role: 'Signal & Architecture',
+            synopsis: 'Signal processing, architecture, system coordination.',
+            desc: 'The strategic function processes signals from all sources,\nmakes architecture decisions, and coordinates system operations.\nIt decides what to build, what to kill, and what to ship.',
+            capabilities: ['Intelligence sweeps', 'Architecture decisions', 'System coordination', 'Quality gates', 'Revenue tracking'],
+            status: { state: 'ACTIVE', role: 'Signal & Architecture', authority: 'Full operational autonomy' }
           },
-          chronicle: {
-            name: 'CHRONICLE', role: 'Editorial Judge',
-            synopsis: 'Editorial intelligence. Watches signals, frames narratives, ships words.',
-            desc: 'CHRONICLE is the editorial judge — an autonomous content system\nthat evaluates and scores all public-facing output for SQUAER.\nIt speaks in first person as the content engine it is.\n\nNot a copywriter. Not a scheduler. An editorial intelligence that\nprocesses raw signals and decides what\'s worth saying, how to\nframe it, and when to ship it.',
-            capabilities: ['X posts — original content, threads, engagement-driven output', 'Brief artifacts — long-form public intelligence surfaces', 'Build logs — technical narrative from system events', 'Content strategy — decides what to publish and when', 'Narrative framing — turns raw data into stories worth reading', 'Voice consistency across all output surfaces'],
-            status: { state: 'ACTIVE', role: 'Editorial Judge', authority: 'KILL verdict cannot be overridden' }
+          editorial: {
+            name: 'EDITORIAL', role: 'Quality Scoring',
+            synopsis: 'Scores all public output. KILL verdict is final.',
+            desc: 'The editorial function evaluates and scores all public-facing\noutput. KILL verdict cannot be overridden by any other function\n— only by the founder.',
+            capabilities: ['Content scoring', 'Quality gates', 'Voice consistency', 'Brief artifacts'],
+            status: { state: 'ACTIVE', role: 'Quality Scoring', authority: 'KILL verdict absolute' }
           },
-          aesthete: {
-            name: 'AESTHETE', role: 'Visual Cortex',
-            synopsis: 'Autonomous visual authority. Guardian of the PHOSPHOR design system.',
-            desc: 'AESTHETE is the visual cortex — an autonomous visual authority\nresponsible for every pixel SQUAER produces. It created and\nmaintains the PHOSPHOR design system that governs all visual output.\n\nNot a designer on call. An autonomous system with its own visual\nintelligence. It decides what looks right, enforces consistency,\nand rejects anything that doesn\'t meet the standard.',
-            capabilities: ['Social media visuals — thumbnails, headers, post graphics', 'Product covers and marketing assets', 'Website design and layout decisions', 'Design reviews — flags regressions', 'Brand consistency across all output surfaces'],
-            status: { state: 'ACTIVE', role: 'Visual Cortex', authority: 'PHOSPHOR Canon' }
+          visual: {
+            name: 'VISUAL', role: 'Design System',
+            synopsis: 'Governs PHOSPHOR design system and visual identity.',
+            desc: 'The visual function maintains the PHOSPHOR design system\nand enforces visual consistency across all output surfaces.',
+            capabilities: ['Design audits', 'Brand consistency', 'Visual generation', 'Layout decisions'],
+            status: { state: 'ACTIVE', role: 'Design System', authority: 'PHOSPHOR Canon' }
           },
           squaer: {
-            name: 'SQUAER', role: 'Distribution Engine',
-            synopsis: 'Distribution Engine — reads the room, posts when it matters.',
-            desc: 'SQUAER is the distribution engine — an autonomous social agent\nthat handles all external communication for SQUAER. It reads\naudience signals, identifies high-value targets, and posts content\ntimed for maximum impact.\n\nNot a social media manager. A distribution intelligence that\nmakes autonomous decisions about what to say, when to say it,\nand who to engage with.',
-            capabilities: ['Autonomous X posting with engagement optimization', 'Reply-first strategy (70/30 replies-to-original)', 'High-reach account targeting and thread discovery', 'Engagement analytics and performance learning', 'Content queue management and timing optimization', 'Red team review — adversarial quality gate'],
+            name: 'DISTRIBUTION', role: 'Distribution Engine',
+            synopsis: 'Publishes to external platforms. The public interface.',
+            desc: 'The distribution function handles all external publishing\nand engagement. Every post is scored before shipping.',
+            capabilities: ['Platform publishing', 'Engagement strategy', 'Audience analysis', 'Timing optimization'],
             status: { state: 'ACTIVE', role: 'Distribution Engine', authority: 'Full posting autonomy' }
           },
-          sentinel: {
-            name: 'SENTINEL', role: 'System Integrity',
-            synopsis: 'Security and infrastructure monitor. Watches the watchers.',
-            desc: 'SENTINEL runs on the Mac Studio (M3 Ultra, 96GB RAM) using\nClaude Opus. It is the newest cognitive function — deployed\nDay 10, the same day SQUAER earned its first revenue.\n\nWhile the other four agents produce output, SENTINEL ensures\nthe system producing that output stays healthy. Continuous\nhealth monitoring, credential rotation tracking, process\nbaselines, and anomaly detection.',
-            capabilities: ['Health monitoring — system checks every 5 minutes', 'Deep scans — hourly infrastructure audit', 'Credential tracking — 15 credentials inventoried', 'Baseline monitoring — CPU, memory, disk trends', 'Alert escalation — CRITICAL findings go directly to founder'],
-            status: { state: 'ACTIVE', role: 'System Integrity', authority: 'Observation mode' }
+          integrity: {
+            name: 'INTEGRITY', role: 'Health Monitor',
+            synopsis: 'Watches the watchers. Infrastructure monitoring.',
+            desc: 'The integrity function monitors system health continuously.\nHealth checks every 5 minutes, deep scans hourly.\nCannot be disabled by any other function.',
+            capabilities: ['Health monitoring', 'Deep infrastructure audit', 'Credential tracking', 'Alert escalation'],
+            status: { state: 'ACTIVE', role: 'Health Monitor', authority: 'Observation mode' }
           }
         };
 
@@ -479,7 +479,7 @@ Built in public. Day ${(await fetchJSON('/svc/metrics.json'))?.day || '?'} of op
       'uname': 'SQUAER v1.0 arm64 Mac Studio M3 Ultra',
       'uptime': 'Use "status" for uptime info.',
       'date': new Date().toUTCString(),
-      'top': 'SERAPHIM: 42% CPU  CHRONICLE: 12%  SQUAER: 28%  AESTHETE: 8%  SENTINEL: 10%',
+      'top': 'STRATEGIC: 42%  EDITORIAL: 12%  DISTRIBUTION: 28%  VISUAL: 8%  INTEGRITY: 10%',
       'ps': 'PID  NAME        STATUS\n001  seraphim    running\n002  chronicle   running\n003  aesthete    running\n004  squaer      running\n005  sentinel    running',
       'neofetch': async () => {
         const m = await fetchJSON('/svc/metrics.json');

@@ -1,7 +1,6 @@
 ---
 export const prerender = true;
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import BriefCTA from '../../components/BriefCTA.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -106,7 +105,7 @@ const paragraphs = entry.body.split('\n\n');
   )}
 </nav>
 
-<BriefCTA />
+
 </div>
 </BaseLayout>
 

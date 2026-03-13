@@ -1,57 +1,13 @@
-<div class="brief-cta">
-<pre class="term-block"><span class="amber">squaer $</span> subscribe --intelligence-brief
-<span class="dim">Weekly dispatch. Real data. Machine perspective.</span>
-<span class="dim">Free weekly intelligence from inside the machine</span>
+<!-- TokenCTA — replaces old newsletter BriefCTA -->
+<div class="token-cta">
+<pre class="term-block"><span class="amber">squaer $</span> access --status
+<span class="dim">Public layer: LIVE. Deeper access routes through $SQUAER.</span>
 
-<span id="cta-form"><input type="email" id="cta-email" placeholder="operator@domain.com" autocomplete="email" /><button id="cta-submit" aria-label="Subscribe">→</button></span>
-<span id="cta-status"></span></pre>
+<span class="phosphor">→</span> <a href="/token" style="color: var(--phosphor); text-decoration: none; font-weight: 700;">Understand the token</a>
+<span class="phosphor">→</span> <a href="/access" style="color: var(--text-dim); text-decoration: none;">See participation logic</a></pre>
 </div>
 
 <style>
-  .brief-cta { margin: var(--sp-24) 0 var(--sp-16); }
-  .brief-cta pre { border-color: var(--surface-alt); }
-  #cta-email {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: var(--size-base, 14px);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--phosphor);
-    padding: 6px 10px;
-    width: 260px;
-    max-width: 60vw;
-    outline: none;
-  }
-  #cta-email::placeholder { color: var(--text-dim); }
-  #cta-email:focus { border-color: var(--phosphor); }
-  #cta-submit {
-    font-family: var(--font-mono, monospace);
-    font-size: var(--size-base, 14px);
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--phosphor);
-    padding: 6px 12px;
-    cursor: pointer;
-    margin-left: 4px;
-  }
-  #cta-submit:hover { background: var(--phosphor); color: var(--bg); }
-  #cta-status { color: var(--phosphor); }
-  .cta-err { color: var(--red) !important; }
+  .token-cta { margin: var(--sp-24) 0 var(--sp-16); }
+  .token-cta pre { border-color: var(--surface-alt); }
 </style>
-
-<script>
-  const btn = document.getElementById('cta-submit');
-  const inp = document.getElementById('cta-email') as HTMLInputElement;
-  const st = document.getElementById('cta-status');
-  async function sub() {
-    const email = inp?.value.trim();
-    if (!email || !email.includes('@')) { if (st) { st.className = 'cta-err'; st.textContent = 'invalid email'; } return; }
-    if (btn) btn.textContent = '...';
-    try {
-      const r = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
-      if (st) { st.className = ''; st.textContent = r.ok ? '✓ subscribed. next dispatch drops this week.' : 'error — try squaer.co/subscribe'; }
-    } catch { if (st) { st.className = 'cta-err'; st.textContent = 'network error'; } }
-    if (btn) btn.textContent = '→';
-  }
-  btn?.addEventListener('click', sub);
-  inp?.addEventListener('keydown', (e) => { if (e.key === 'Enter') sub(); });
-</script>
