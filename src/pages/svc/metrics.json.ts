@@ -61,7 +61,7 @@ export const GET: APIRoute = async () => {
     followers_handle: '@squaer_agent',
     revenue_label: 'LP commissions (on-chain)',
     avg_quality: '8.4/10',
-    cost_label: '$5,800/mo total across 5 agents',
+    cost_label: '$5,800/mo total across 5 cognitive functions',
 
     // Extra flat keys for terminal + other consumers
     quality: 8.4,

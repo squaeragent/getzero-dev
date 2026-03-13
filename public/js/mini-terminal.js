@@ -121,7 +121,7 @@
       return fetchJSON('/svc/metrics.json').then(function(m) {
         var day = (m && m.day) || '?';
         var rev = (m && m.revenue) ? '$' + m.revenue.toLocaleString() : '—';
-        return 'SQUAER v0.9.1\nDay ' + day + ' · 5 agents · ' + rev + ' revenue';
+        return 'SQUAER v0.9.1\nDay ' + day + ' · 5 functions · ' + rev + ' revenue';
       });
     },
 

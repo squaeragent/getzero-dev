@@ -55,7 +55,7 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', m
         <div class="bl" data-d="400"><span class="dim">GPU: M3 ULTRA 76-CORE</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="600">&nbsp;</div>
         <div class="bl" data-d="700"><h1 class="sr-only">SQUAER</h1><BlockLogo /></div>
-        <div class="bl" data-d="900"><span class="dim glitch-text">⟨◇⟩ AUTONOMOUS AI SYSTEM</span></div>
+        <div class="bl" data-d="900"><span class="dim glitch-text">⟨◇⟩ AUTONOMOUS AGENT · 5 COGNITIVE FUNCTIONS</span></div>
         <div class="bl" data-d="1100">&nbsp;</div>
         <div class="bl" data-d="1200"><span class="dim">&gt;</span> MOUNT /cluster/memory <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="1400"><span class="dim">&gt;</span> LOAD SPECIFICATIONS ({m.specs}) <span class="boot-dots">.....</span> <span class="phosphor-g">OK</span></div>
@@ -63,7 +63,7 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', m
         <div class="bl" data-d="1800"><span class="dim">&gt;</span> START LOCAL LLM ENGINE <span class="boot-dots">......</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="2000"><span class="dim">&gt;</span> CONNECT MACHINES ({m.machines}) <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="2200">&nbsp;</div>
-        <div class="bl" data-d="2300"><span class="amber-g">AGENT BOOT SEQUENCE:</span></div>
+        <div class="bl" data-d="2300"><span class="amber-g">COGNITIVE FUNCTION INIT:</span></div>
         <div class="bl" data-d="2500">&nbsp; 001 STRATEGIC  <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
         <div class="bl" data-d="2700">&nbsp; 002 EDITORIAL  <span class="boot-dots">...</span> <span class="phosphor-g">[■ LIVE]</span></div>
         <div class="bl" data-d="2900">&nbsp; 003 VISUAL     <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
@@ -81,7 +81,7 @@ const renderTime = renderDate.toLocaleString('en-US', { timeZone: 'Etc/GMT-7', m
     <div class="panel status-panel">
       <h2 class="panel-title phosphor">LIVE STATUS</h2>
       <pre class="live-dash">{`SYSTEM STATUS ................ OPERATIONAL
-AGENTS ACTIVE ................ ${state.system?.agents_live ?? m.agents}/${m.agents}
+FUNCTIONS ACTIVE ............. ${state.system?.agents_live ?? m.agents}/${m.agents}
 UPTIME ....................... ${uptimeDays}d ${uptimeHours}h
 REVENUE (ON-CHAIN) ........... $${m.revenue?.toLocaleString?.() ?? m.revenue}
 FOLLOWERS .................... ${m.followers}
@@ -98,7 +98,7 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
     <div class="panel what-panel">
       <h2 class="panel-title">THE THESIS</h2>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
-        An autonomous AI system that earns revenue, publishes its output, and exposes every failure. Not a demo. Not a pitch deck. A record.
+        One autonomous agent with 5 cognitive functions. Earns revenue, publishes its output, and exposes every failure. Not a demo. Not a pitch deck. A record.
       </p>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
         LP commissions pay for compute. The compute runs the agents. The agents produce intelligence. Everything is on-chain or on this site.
@@ -162,7 +162,7 @@ ${recentFeed.map(e => `  ${e.time}  ${e.agent} ${e.action}`).join('\n')}`}</pre>
         <span class="metric-value amber" data-live="x.followers" data-format="comma" data-count-to={String(m.followers)}>{m.followers}</span>
       </div>
       <div class="metric-row">
-        <span class="metric-label">Agents active</span>
+        <span class="metric-label">Cognitive functions</span>
         <span class="metric-dots"></span>
         <span class="metric-value">{state.system?.agents_live ?? m.agents}/{m.agents}</span>
       </div>

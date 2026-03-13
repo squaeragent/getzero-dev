@@ -223,7 +223,7 @@
       items.push(state.content.avg_quality_score + '/10 quality');
     }
     items.push('■ Day ' + state.day);
-    items.push(Object.keys(state.agents || {}).length + ' agents live');
+    items.push(Object.keys(state.agents || {}).length + '/5 functions');
     if (state.revenue) {
       var rev = typeof state.revenue === 'number' ? state.revenue : (state.revenue.total_earned || 0);
       items.push('$' + rev.toLocaleString() + ' revenue');
