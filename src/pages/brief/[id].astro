@@ -6,58 +6,80 @@ import HazardDivider from '../../components/ui/HazardDivider.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
+// Canonical edition list — each maps to a file in the editions directory
+// Use the best version of each edition
+const EDITIONS: Record<string, { file: string; fallbackTitle: string; date: string }> = {
+  '2026-E001': { file: '2026-E01.md', fallbackTitle: 'Intelligence Brief — Edition #1', date: '2026-02-11' },
+  '2026-E002': { file: '2026-E002.md', fallbackTitle: 'Intelligence Brief — Edition #2', date: '2026-02-18' },
+  '2026-E003': { file: '2026-E003-final.md', fallbackTitle: 'Intelligence Brief — Edition #3', date: '2026-02-18' },
+  '2026-E004': { file: '2026-E004-final-draft.md', fallbackTitle: 'Intelligence Brief — Edition #4', date: '2026-02-27' },
+  '2026-E005': { file: '2026-E005.md', fallbackTitle: 'Intelligence Brief — Edition #5', date: '2026-03-03' },
+  '2026-E006': { file: '2026-E006-DRAFT.md', fallbackTitle: 'Intelligence Brief — Edition #6', date: '2026-03-10' },
+  '2026-E007': { file: '2026-E007.md', fallbackTitle: 'We Went Offline For Three Weeks And The Agents Didn\'t Tell Anyone', date: '2026-03-13' },
+};
+
 export function getStaticPaths() {
-  const editionsDir = path.join(process.env.HOME || '/Users/forge', 'Cluster_Memory', 'products', 'intelligence-brief', 'editions');
-  const paths: { params: { id: string } }[] = [];
-
-  try {
-    const files = fs.readdirSync(editionsDir);
-    for (const file of files) {
-      if (file.endsWith('.md') && !file.includes('DRAFT') && !file.includes('draft') && !file.includes('TEST') && !file.includes('MIGRATION') && !file.includes('PRODUCT') && !file.includes('STATUS') && !file.includes('NEWSLETTER') && !file.includes('PUBLISHING')) {
-        const id = file.replace('.md', '');
-        paths.push({ params: { id } });
-      }
-    }
-  } catch {}
-
-  if (paths.length === 0) {
-    paths.push({ params: { id: 'placeholder' } });
-  }
-
-  return paths;
+  return [
+    { params: { id: '2026-E001' } },
+    { params: { id: '2026-E002' } },
+    { params: { id: '2026-E003' } },
+    { params: { id: '2026-E004' } },
+    { params: { id: '2026-E005' } },
+    { params: { id: '2026-E006' } },
+    { params: { id: '2026-E007' } },
+  ];
 }
 
 const { id } = Astro.params;
 const editionsDir = path.join(process.env.HOME || '/Users/forge', 'Cluster_Memory', 'products', 'intelligence-brief', 'editions');
+const edition = EDITIONS[id as string];
 
 let content = '';
-let title = `Brief ${id}`;
+let title = edition?.fallbackTitle || `Brief ${id}`;
+
+// Sanitize old branding from content
+function sanitize(text: string): string {
+  return text
+    .replace(/ZERO\s+OS/g, 'SQUAER')
+    .replace(/ZERO\s+INTELLIGENCE\s+BRIEF/gi, 'SQUAER INTELLIGENCE BRIEF')
+    .replace(/ZERO\s+Intelligence\s+Brief/g, 'SQUAER Intelligence Brief')
+    .replace(/\bSERAPHIM\b/g, 'Strategic')
+    .replace(/\bCHRONICLE\b/g, 'Editorial')
+    .replace(/\bAESTHETE\b/g, 'Visual')
+    .replace(/\bSENTINEL\b/g, 'Integrity')
+    .replace(/Strategic Cortex of ZERO OS/g, '')
+    .replace(/Strategic · Strategic Cortex of /g, '')
+    .replace(/author:\s*SERAPHIM/gi, 'author: Strategic')
+    .replace(/author:\s*seraphim/gi, 'author: Strategic');
+}
 
 try {
-  const filePath = path.join(editionsDir, `${id}.md`);
+  const filePath = path.join(editionsDir, edition?.file || `${id}.md`);
   const raw = fs.readFileSync(filePath, 'utf-8');
 
   // Extract title from first heading
   const titleMatch = raw.match(/^#\s+(.+)$/m);
-  if (titleMatch) title = titleMatch[1];
+  if (titleMatch) title = sanitize(titleMatch[1]);
 
-  // Basic markdown to HTML: headings, bold, italic, links, paragraphs
-  content = raw
+  // Basic markdown to HTML: headings, bold, italic, links, paragraphs, code, hr
+  content = sanitize(raw)
     .replace(/^---[\s\S]*?---\n*/m, '') // strip frontmatter
     .replace(/^#### (.+)$/gm, '<h4>$1</h4>')
     .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="section-head">$1</h2>')
+    .replace(/^## (.+)$/gm, '<h2 class="section-head">$2</h2>'.replace('$2', '$1'))
     .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="phosphor-link">$1</a>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="phosphor-link" target="_blank" rel="noopener">$1</a>')
     .replace(/^- (.+)$/gm, '<li>$1</li>')
     .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
+    .replace(/^---$/gm, '<hr />')
     .split('\n\n')
     .map(block => {
       const trimmed = block.trim();
       if (!trimmed) return '';
-      if (trimmed.startsWith('<h') || trimmed.startsWith('<ul') || trimmed.startsWith('<li')) return trimmed;
+      if (trimmed.startsWith('<h') || trimmed.startsWith('<ul') || trimmed.startsWith('<li') || trimmed.startsWith('<hr')) return trimmed;
       return `<p>${trimmed}</p>`;
     })
     .join('\n');
@@ -74,6 +96,7 @@ try {
 
 <div class="brief-nav al" data-d="100">
   <a href="/brief" class="dim">← All editions</a>
+  {edition?.date && <span class="dim" style="margin-left: var(--sp-8); font-size: var(--size-xs);">{edition.date}</span>}
 </div>
 
 <HazardDivider variant="section" text={`EDITION: ${id}`} color="phosphor" />
@@ -98,6 +121,8 @@ try {
     padding: var(--sp-8) 0;
     font-family: var(--font-body);
     font-size: var(--size-sm);
+    display: flex;
+    align-items: baseline;
   }
   .brief-nav a { text-decoration: none; }
   .brief-nav a:hover { color: var(--phosphor); }
@@ -142,6 +167,19 @@ try {
     line-height: 1.7;
     margin: 0 0 1em;
     max-width: 62ch;
+  }
+  .brief-article :global(code) {
+    font-family: var(--font-head);
+    font-size: 0.9em;
+    color: var(--phosphor);
+    background: rgba(200,255,0,0.05);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  .brief-article :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: var(--sp-12) 0;
   }
   .brief-article :global(ul) {
     list-style: none;

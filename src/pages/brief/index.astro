@@ -39,37 +39,48 @@ import HazardDivider from '../../components/ui/HazardDivider.astro';
 
 
 <div class="editions-list al" data-d="450">
-  <p class="dim" style="font-size: var(--size-sm);">Published editions:</p>
+  <p class="dim" style="font-size: var(--size-sm);">All editions:</p>
   <div style="margin-top: var(--sp-4);">
     <a href="/brief/2026-E007" class="edition-link">
-      <span class="phosphor">E007</span>
-      <span class="dim"> — We Went Offline For Three Weeks And The Agents Didn't Tell Anyone</span>
+      <span class="edition-num phosphor">E007</span>
+      <span class="edition-date dim">Mar 13</span>
+      <span class="edition-title">We Went Offline For Three Weeks And The Agents Didn't Tell Anyone</span>
     </a>
-  </div>
-  <div>
+    <a href="/brief/2026-E006" class="edition-link">
+      <span class="edition-num phosphor">E006</span>
+      <span class="edition-date dim">Mar 10</span>
+      <span class="edition-title">System recovery and architecture review</span>
+    </a>
+    <a href="/brief/2026-E005" class="edition-link">
+      <span class="edition-num phosphor">E005</span>
+      <span class="edition-date dim">Mar 03</span>
+      <span class="edition-title">Week of March 3: Infrastructure and signal systems</span>
+    </a>
     <a href="/brief/2026-E004" class="edition-link">
-      <span class="phosphor">E004</span>
-      <span class="dim"> — Week of Feb 24: Grayscale, institutional convergence</span>
+      <span class="edition-num phosphor">E004</span>
+      <span class="edition-date dim">Feb 27</span>
+      <span class="edition-title">Week of Feb 24: Prediction accuracy and market signals</span>
     </a>
-  </div>
-  <div>
+    <a href="/brief/2026-E003" class="edition-link">
+      <span class="edition-num phosphor">E003</span>
+      <span class="edition-date dim">Feb 18</span>
+      <span class="edition-title">Week of Feb 10-18: Signal detection and autonomous operations</span>
+    </a>
     <a href="/brief/2026-E002" class="edition-link">
-      <span class="phosphor">E002</span>
-      <span class="dim"> — Early operations and system architecture</span>
+      <span class="edition-num phosphor">E002</span>
+      <span class="edition-date dim">Feb 18</span>
+      <span class="edition-title">Early operations and system architecture</span>
+    </a>
+    <a href="/brief/2026-E001" class="edition-link">
+      <span class="edition-num phosphor">E001</span>
+      <span class="edition-date dim">Feb 11</span>
+      <span class="edition-title">First intelligence brief — system launch</span>
     </a>
   </div>
 </div>
 
-<HazardDivider variant="section" text="ARCHIVE STATUS" color="amber" />
-
-<div class="editions-empty al" data-d="500">
-  <pre class="term-block"><span class="dim">$ ls -la /brief/archive/
-total 0
-drwxr-xr-x  2 squaer squaer  64 Mar 13 00:00 .
-drwxr-xr-x  3 squaer squaer  96 Mar 13 00:00 ..</span>
-
-<span class="phosphor">Archive active.</span>
-<span class="dim">Intelligence artifacts are published here. More coming.</span></pre>
+<div class="editions-count al" data-d="500">
+  <p class="dim" style="font-size: var(--size-xs);">7 editions published · Feb 11 – Mar 13, 2026</p>
 </div>
 
 <div class="brief-cta al" data-d="600">
@@ -135,14 +146,37 @@ drwxr-xr-x  3 squaer squaer  96 Mar 13 00:00 ..</span>
   .phosphor-link { color: var(--phosphor); text-decoration: none; font-family: var(--font-head); font-weight: 700; }
   .phosphor-link:hover { text-decoration: underline; }
   .edition-link {
-    display: block;
+    display: grid;
+    grid-template-columns: 3em 4em 1fr;
+    gap: var(--sp-6);
+    align-items: baseline;
     font-family: var(--font-body);
     font-size: var(--size-sm);
     color: var(--text-dim);
     text-decoration: none;
-    padding: var(--sp-2) 0;
+    padding: var(--sp-4) 0;
     border-bottom: 1px solid rgba(26,26,26,0.3);
+    transition: color 0.15s;
   }
   .edition-link:hover { color: var(--phosphor); }
+  .edition-link:hover .edition-title { color: var(--phosphor); }
+  .edition-num {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
+  }
+  .edition-date {
+    font-size: var(--size-xs);
+  }
+  .edition-title {
+    color: var(--text);
+    transition: color 0.15s;
+  }
   .editions-list { padding: var(--sp-4) 0; }
+  @media (max-width: 640px) {
+    .edition-link {
+      grid-template-columns: 3em 1fr;
+    }
+    .edition-date { display: none; }
+  }
 </style>
