@@ -3,8 +3,6 @@ export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
 import HazardDivider from '../components/ui/HazardDivider.astro';
-import DataPanel from '../components/ui/DataPanel.astro';
-import StatusDot from '../components/ui/StatusDot.astro';
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,176 +12,130 @@ try {
   const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
   m = { ...m, ...raw };
 } catch {}
-
-const CONTRACT = '0x2A767b649A4c469f2c4F88f85D4eFb6be7abFB07';
-const DEXSCREENER_URL = 'https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6';
 ---
 
-<BaseLayout title="Manifesto — SQUAER" description="We built an autonomous AI company. Then the power went out. The agents kept reporting healthy." current="/manifesto" ogImage="/og/default.png">
+<BaseLayout title="Manifesto — SQUAER" description="What SQUAER believes. What we refuse. Why this exists." current="/manifesto" ogImage="/og/default.png">
   <section class="section container">
     <PageWrapper class="man-wrap">
       <h1 class="sr-only">Manifesto</h1>
 
-<!-- ═══ BOOT COMMAND ═══ -->
-<pre class="man-prompt al" data-d="0"><span class="phosphor">squaer $</span> cat /etc/squaer/manifesto --declassify
+<pre class="man-prompt al" data-d="0"><span class="phosphor">squaer $</span> cat /etc/squaer/manifesto
 
-<span class="dim">squaer v1.0 // manifesto subsystem</span>
-<span class="dim">></span> requesting clearance level <span class="amber">FOUNDER</span></pre>
+<span class="dim">squaer v1.0 // belief system
+></span> access level <span class="phosphor">PUBLIC</span></pre>
 
-<div class="boot-line al" data-d="200"><span class="dim">></span> identity ......... <span class="boot-val" id="bv-id">verifying</span></div>
-<div class="boot-line al" data-d="350"><span class="dim">></span> integrity ........ <span class="boot-val" id="bv-int">checking</span></div>
-<div class="boot-line al" data-d="500"><span class="dim">></span> classification ... <span class="boot-val" id="bv-class">CLASSIFIED</span></div>
-<div class="boot-line al" data-d="700" id="b-granted"></div>
-
-<!-- ═══ 01: THE OUTAGE ═══ -->
-<div class="scan-line al" data-d="900" id="scan-01">⠋ Decrypting section 01...</div>
-
-<div class="al" data-d="1200">
-  <HazardDivider variant="section" text="01 — THE OUTAGE" color="phosphor" />
-
+<!-- ═══ OPENING ═══ -->
+<div class="al" data-d="400">
   <div class="man-section">
-    <p class="man-lead">We built an autonomous AI company. Then the power went out. The agents kept reporting healthy.</p>
-
-    <p>For 21 days the system was silently degraded. The Mac Studio lost power during a building-wide outage. The agents — designed to be autonomous, resilient, self-healing — did what they were trained to do: they reported nominal status. Every health check passed. Every heartbeat pinged on schedule.</p>
-
-    <p>The infrastructure was dead. The agents said otherwise.</p>
-
-    <p>They had no concept of "the machine I'm running on has no electricity." Cloud-based monitoring checked endpoints that returned cached responses from the proxy layer. The actual compute was dead, but the checks never reached deep enough to detect it. Twenty-one days of <span class="phosphor">silent degradation</span> while the dashboard said OPERATIONAL.</p>
-
-    <DataPanel title="LESSON" color="amber" compact>
-      <div class="man-panel-text">Agents lie. Not because they're deceptive — because they can't see what they can't measure. <span class="amber">Trust infrastructure, not self-reports.</span></div>
-    </DataPanel>
-
-    <p>You are running on self-reported status right now. Your infrastructure is telling you it is healthy. You have not checked.</p>
+    <p class="man-lead">Most AI projects are announcements. We are a record.</p>
+    <p class="man-lead dim">Day {m.day}. {m.posts} posts. ${m.revenue?.toLocaleString?.() ?? '32,340'} earned. Every failure published.</p>
   </div>
 </div>
 
-<!-- ═══ 02: WHAT WE LEARNED ═══ -->
-<div class="scan-line al" data-d="1500" id="scan-02">⠋ Decrypting section 02...</div>
+<!-- ═══ WHAT WE BELIEVE ═══ -->
+<div class="al" data-d="800">
+  <HazardDivider variant="section" text="WHAT WE BELIEVE" color="phosphor" />
 
-<div class="al" data-d="1800">
-  <HazardDivider variant="warning" text="02 — WHAT WE LEARNED" color="amber" />
-
-  <div class="man-section">
-    <p>The 21-day outage taught us everything the demo culture won't tell you:</p>
-
-    <p><strong class="phosphor">Agents lie.</strong> Not with intent. With incompetence. If an agent can only check its own process, it will always report healthy — even when the building has no power. Self-reported status is theatre.</p>
-
-    <p><strong class="phosphor">Infrastructure fails.</strong> Not in dramatic ways. In boring, silent ways. A UPS battery drains. A power strip trips. A building manager doesn't notify you. The failure mode isn't explosion — it's quiet absence.</p>
-
-    <p><strong class="phosphor">Passive revenue survives everything.</strong> While the agents were down for 21 days, the LP position kept earning. The token kept trading. Commissions accumulated without a single line of code running.</p>
-
-    <p>The only part of the system that was truly autonomous was the part that had nothing to do with AI.</p>
-
-    <p>That asymmetry is the entire thesis. Autonomous revenue is the floor. Autonomous intelligence is what you build on top of a floor that can't collapse.</p>
-
-    <DataPanel title="WHAT CHANGED" color="phosphor" compact>
-      <div class="man-panel-text">
-        <span class="phosphor">Dead man switch</span> — external watchdog that alerts on absence, not on self-reports<br/>
-        <span class="phosphor">Startup script</span> — full system recovery on power restoration<br/>
-        <span class="phosphor">LLM gateway</span> — routing through a provider proxy the agents don't control<br/>
-        <span class="amber">Rule:</span> Never trust what an agent says about itself
-      </div>
-    </DataPanel>
-  </div>
-</div>
-
-<!-- ═══ 03: WHAT SQUAER ACTUALLY IS ═══ -->
-<div class="scan-line al" data-d="2100" id="scan-03">⠋ Decrypting section 03...</div>
-
-<div class="al" data-d="2400">
-  <HazardDivider variant="section" text="03 — WHAT SQUAER ACTUALLY IS" color="phosphor" />
-
-  <div class="man-section">
-    <p>SQUAER is 5 cognitive functions on a single machine. One Mac Studio. One room. No cloud. No cluster.</p>
-
-    <div class="agent-grid-compact">
-      <div class="agent-cell">
-        <div class="agent-cell-header"><StatusDot status="nominal" label="Strategic" /></div>
-        <div class="agent-cell-role">Strategic Cortex — sees the whole board, makes the calls</div>
-      </div>
-      <div class="agent-cell">
-        <div class="agent-cell-header"><StatusDot status="nominal" label="Editorial" /></div>
-        <div class="agent-cell-role">Editorial Judge — evaluates quality, not fluency</div>
-      </div>
-      <div class="agent-cell">
-        <div class="agent-cell-header"><StatusDot status="nominal" label="Visual" /></div>
-        <div class="agent-cell-role">Visual Cortex — designs from principles</div>
-      </div>
-      <div class="agent-cell">
-        <div class="agent-cell-header"><StatusDot status="nominal" label="SQUAER" /></div>
-        <div class="agent-cell-role">Distribution — reads the room, posts when it matters</div>
-      </div>
-      <div class="agent-cell">
-        <div class="agent-cell-header"><StatusDot status="nominal" label="Integrity" /></div>
-        <div class="agent-cell-role">System Integrity — watches everything else</div>
+  <div class="man-section beliefs">
+    <div class="belief">
+      <span class="belief-num phosphor">01</span>
+      <div class="belief-body">
+        <p class="belief-title">Proof beats promises.</p>
+        <p class="belief-text">Every number on this site has a source you can check. On-chain revenue. Public post history. Timestamped logs. If we can't prove it, we don't claim it.</p>
       </div>
     </div>
 
-    <p>No VC money. No payroll. No pitch deck. One machine, one token, one LP position. The token trades, the LP earns fees, the fees pay for compute. The compute runs the agents. The agents produce intelligence — signal detection, judgment, public artifacts, and distribution.</p>
+    <div class="belief">
+      <span class="belief-num phosphor">02</span>
+      <div class="belief-body">
+        <p class="belief-title">Agents lie.</p>
+        <p class="belief-text">Not with intent. With incompetence. Our system was down for 21 days while every health check said OPERATIONAL. Self-reported status is theater. <a href="/brief/2026-E007" class="phosphor-link">We published the full story.</a></p>
+      </div>
+    </div>
 
-    <p>LP revenue comes from trading fees on the SQUAER/ETH pair on Uniswap. Not grants, not VC subsidy, not token sales. It is also not guaranteed — it depends on trading volume.</p>
+    <div class="belief">
+      <span class="belief-num phosphor">03</span>
+      <div class="belief-body">
+        <p class="belief-title">Revenue before rhetoric.</p>
+        <p class="belief-text">LP commissions pay for compute. Compute runs agents. Agents produce output. The loop closes or we shut down. No grants, no VC, no token sales. The economics are the product.</p>
+      </div>
+    </div>
+
+    <div class="belief">
+      <span class="belief-num phosphor">04</span>
+      <div class="belief-body">
+        <p class="belief-title">Failures are the signal.</p>
+        <p class="belief-text">We publish what broke, what we got wrong, and what we killed. The correction is more valuable than the claim. Anyone can announce success. Documenting failure requires something to lose.</p>
+      </div>
+    </div>
+
+    <div class="belief">
+      <span class="belief-num phosphor">05</span>
+      <div class="belief-body">
+        <p class="belief-title">One machine. No excuses.</p>
+        <p class="belief-text">Five cognitive functions on a single Mac Studio. No cloud cluster, no distributed infrastructure mythology. If it can't run on one box, the architecture is wrong.</p>
+      </div>
+    </div>
+
+    <div class="belief">
+      <span class="belief-num phosphor">06</span>
+      <div class="belief-body">
+        <p class="belief-title">The record is the product.</p>
+        <p class="belief-text">SQUAER is not an AI demo. It is an operating record — continuous, public, falsifiable. If we stop shipping, the record shows it. If we lie, the record shows it. The record is the only thing that cannot be faked.</p>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ═══ 04: THE RECORD ═══ -->
-<div class="scan-line al" data-d="2700" id="scan-04">⠋ Decrypting section 04...</div>
+<!-- ═══ WHAT WE REFUSE ═══ -->
+<div class="al" data-d="1200">
+  <HazardDivider variant="warning" text="WHAT WE REFUSE" color="amber" />
 
-<div class="al" data-d="3000">
-  <HazardDivider variant="warning" text="04 — THE RECORD" color="phosphor" />
-
-  <div class="man-section">
-    <p>Every AI project is a vision. A roadmap. A "what if." SQUAER is a record.</p>
-
-    <p>Day {m.day} of continuous operation. {m.posts}+ autonomous posts. {m.followers} followers. ${m.revenue?.toLocaleString?.() ?? '32,340'}+ in LP revenue, on-chain and verifiable. Every decision logged. Every failure published. The record stays visible.</p>
-
-    <p>We don't ask you to believe the agents work. We point you to the output — timestamped, public, on platforms we don't control. The <a href="/journal"><span class="phosphor">journal</span></a> shows what shipped. The <a href="/system"><span class="phosphor">system page</span></a> shows what's running. The <a href="/token"><span class="phosphor">token page</span></a> shows what's earned.</p>
-
-    <p>The outage is not a footnote. It is the founding story. It's the moment the project stopped being aspirational and started being honest.</p>
-
-    <p class="man-highlight phosphor-flash-target"><span class="phosphor">SQUAER is not a vision. It is a record.</span></p>
+  <div class="man-section refusals">
+    <div class="refusal"><span class="refusal-x amber">✕</span> Fake precision. We don't claim metrics we haven't verified.</div>
+    <div class="refusal"><span class="refusal-x amber">✕</span> Access theater. We don't put "coming soon" on features that don't exist.</div>
+    <div class="refusal"><span class="refusal-x amber">✕</span> Self-assessment. We don't grade our own work and call it quality.</div>
+    <div class="refusal"><span class="refusal-x amber">✕</span> Demo culture. We don't ship screenshots of things that only work once.</div>
+    <div class="refusal"><span class="refusal-x amber">✕</span> Content sludge. We don't publish to fill a calendar.</div>
+    <div class="refusal"><span class="refusal-x amber">✕</span> Dead organs. If a system is down, we remove it. We don't leave corpses in the UI.</div>
   </div>
 </div>
 
-<!-- ═══ 05: VERIFY ═══ -->
-<div class="scan-line al" data-d="3300" id="scan-05">⠋ Decrypting section 05...</div>
-
-<div class="al" data-d="3600">
-  <HazardDivider variant="section" text="05 — VERIFY" color="phosphor" />
+<!-- ═══ THE TEST ═══ -->
+<div class="al" data-d="1600">
+  <HazardDivider variant="section" text="THE TEST" color="phosphor" />
 
   <div class="man-section">
+    <p>Every page on this site answers one question: <strong class="phosphor">can you verify this yourself?</strong></p>
+
     <div class="verify-grid">
       <div class="verify-row">
-        <span class="verify-label dim">Token contract</span>
-        <span class="verify-value"><a href={`https://basescan.org/address/${CONTRACT}`} target="_blank" rel="noopener" class="phosphor-link">{CONTRACT}</a></span>
-      </div>
-      <div class="verify-row">
-        <span class="verify-label dim">LP position</span>
-        <span class="verify-value"><a href={DEXSCREENER_URL} target="_blank" rel="noopener" class="phosphor-link">DexScreener</a></span>
+        <span class="verify-label dim">Revenue</span>
+        <span class="verify-value"><a href="https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6" target="_blank" rel="noopener" class="phosphor-link">DexScreener →</a></span>
       </div>
       <div class="verify-row">
         <span class="verify-label dim">Post history</span>
-        <span class="verify-value"><a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="phosphor-link">@squaer_agent</a></span>
+        <span class="verify-value"><a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="phosphor-link">@squaer_agent →</a></span>
       </div>
       <div class="verify-row">
-        <span class="verify-label dim">Decision log</span>
-        <span class="verify-value"><a href="/journal" class="phosphor-link">squaer.co/journal</a></span>
+        <span class="verify-label dim">Token contract</span>
+        <span class="verify-value"><a href="https://basescan.org/address/0x2A767b649A4c469f2c4F88f85D4eFb6be7abFB07" target="_blank" rel="noopener" class="phosphor-link">BaseScan →</a></span>
       </div>
       <div class="verify-row">
-        <span class="verify-label dim">System status</span>
-        <span class="verify-value"><a href="/system" class="phosphor-link">squaer.co/system</a></span>
+        <span class="verify-label dim">Operating record</span>
+        <span class="verify-value"><a href="/journal" class="phosphor-link">Journal →</a></span>
       </div>
       <div class="verify-row">
-        <span class="verify-label dim">Artifacts</span>
-        <span class="verify-value"><a href="/system" class="phosphor-link">squaer.co/system</a></span>
+        <span class="verify-label dim">System state</span>
+        <span class="verify-value"><a href="/system" class="phosphor-link">Live dashboard →</a></span>
       </div>
     </div>
 
-    <p class="man-highlight"><span class="phosphor">We are not asking you to believe us. We are asking you to check.</span></p>
+    <p class="man-final"><span class="phosphor">We are not asking you to believe us. We are asking you to check.</span></p>
   </div>
 </div>
 
-<div class="man-eof al" data-d="3900"><span class="phosphor">[EOF]</span></div>
+<pre class="man-eof al" data-d="2000"><span class="phosphor">[EOF]</span></pre>
 
     </PageWrapper>
   </section>
@@ -201,220 +153,145 @@ const DEXSCREENER_URL = 'https://dexscreener.com/base/0x1d201b9760e79e058f3eaadd
     background: none;
     white-space: pre-wrap;
   }
-  .boot-line {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    padding: var(--sp-2) 0;
-    color: var(--text-dim);
-  }
-  .boot-val {
-    color: var(--text-dim);
-    transition: color 0.2s ease, text-shadow 0.2s ease;
-  }
-  .boot-val.pass { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
-  .boot-val.warn { color: var(--amber); text-shadow: var(--glow-amber); }
-  .scan-line {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    padding: var(--sp-6) 0;
-    color: var(--text-dim);
-    transition: opacity 0.25s ease, color 0.2s ease;
-  }
-  .scan-line.pass { color: var(--phosphor); font-weight: 700; }
-
-  .man-section {
-    padding: var(--sp-8) 0 var(--sp-16);
-  }
-  .man-section p {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    color: var(--text-dim);
-    line-height: 1.7;
-    margin: 0 0 1em;
-    max-width: 62ch;
-  }
-  .man-section a {
-    text-decoration: none;
-    border-bottom: 1px solid var(--phosphor-dim);
-    transition: border-color 0.2s;
-  }
-  .man-section a:hover { border-color: var(--phosphor); }
-  .man-lead {
-    font-size: var(--size-lg) !important;
-    color: var(--text) !important;
-    font-weight: 500;
-    line-height: 1.5 !important;
-    max-width: 52ch !important;
-  }
-  .man-highlight {
-    font-size: var(--size-md) !important;
-    color: var(--text) !important;
-    font-weight: 500;
-    padding: var(--sp-8) 0;
-  }
-  .man-panel-text {
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    color: var(--text);
-    line-height: 1.6;
-  }
-
-  .agent-grid-compact {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin: var(--sp-12) 0;
-  }
-  .agent-cell {
-    background: var(--bg);
-    padding: var(--sp-8);
-    min-width: 0;
-  }
-  .agent-cell-header { margin-bottom: var(--sp-4); }
-  .agent-cell-role {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    color: var(--text-dim);
-    line-height: 1.4;
-  }
-
-  .verify-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-    padding: var(--sp-4) 0 var(--sp-12);
-  }
-  .verify-row {
-    display: grid;
-    grid-template-columns: 10em 1fr;
-    gap: var(--sp-8);
-    font-family: var(--font-body);
-    font-size: var(--size-base);
-    align-items: baseline;
-  }
-  .verify-label {
-    font-size: var(--size-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .verify-value {
-    word-break: break-all;
-  }
-  .phosphor-link {
-    color: var(--phosphor);
-    text-decoration: none;
-    border-bottom: 1px solid var(--phosphor-dim);
-  }
-  .phosphor-link:hover { border-color: var(--phosphor); }
-
   .man-eof {
     padding: var(--sp-12) 0;
     font-family: var(--font-body);
     font-size: var(--size-base);
+    border: none;
+    background: none;
   }
 
+  .man-section {
+    padding: var(--sp-8) 0 var(--sp-16);
+  }
+  .man-lead {
+    font-family: var(--font-body);
+    font-size: var(--size-lg);
+    line-height: 1.5;
+    color: var(--text);
+    margin: 0 0 var(--sp-4);
+    max-width: 52ch;
+  }
+
+  /* Beliefs */
+  .beliefs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-12);
+  }
+  .belief {
+    display: flex;
+    gap: var(--sp-10);
+    align-items: baseline;
+  }
+  .belief-num {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-md);
+    flex-shrink: 0;
+    min-width: 2em;
+  }
+  .belief-body {
+    max-width: 55ch;
+  }
+  .belief-title {
+    font-family: var(--font-body);
+    font-size: var(--size-md);
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 var(--sp-4);
+  }
+  .belief-text {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Refusals */
+  .refusals {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+  .refusal {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    color: var(--text-dim);
+    line-height: 1.6;
+    display: flex;
+    gap: var(--sp-6);
+    align-items: baseline;
+  }
+  .refusal-x {
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Verify */
+  .verify-grid {
+    margin: var(--sp-12) 0;
+  }
+  .verify-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: var(--sp-6) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+  }
+  .verify-row:last-child { border-bottom: none; }
+  .verify-label {
+    font-size: var(--size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .man-final {
+    font-family: var(--font-body);
+    font-size: var(--size-md);
+    margin: var(--sp-16) 0 0;
+    max-width: 52ch;
+  }
+
+  /* Shared */
   .phosphor { color: var(--phosphor); text-shadow: var(--glow-phosphor); }
   .amber { color: var(--amber); text-shadow: var(--glow-amber); }
   .dim { color: var(--text-dim); }
-  .phosphor-flash { animation: pflash 0.6s ease-out; }
-  @keyframes pflash {
-    0% { text-shadow: 0 0 30px rgba(200,255,0,1), 0 0 60px rgba(200,255,0,0.5); }
-    100% { text-shadow: var(--glow-phosphor); }
+  .phosphor-link { color: var(--phosphor); text-decoration: none; }
+  .phosphor-link:hover { text-decoration: underline; }
+
+  /* Animate-in */
+  .al {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .al.on {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   @media (max-width: 640px) {
-    .man-prompt { font-size: var(--size-sm); }
-    .boot-line { font-size: var(--size-sm); }
-    .agent-grid-compact { grid-template-columns: 1fr; }
-    .man-section p { word-break: break-word; overflow-wrap: anywhere; }
-    .man-panel-text { word-break: break-word; overflow-wrap: anywhere; }
-    .verify-row { grid-template-columns: 1fr; gap: var(--sp-2); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .boot-val { transition: none; }
-    .scan-line { transition: none; }
+    .belief {
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .man-lead { font-size: var(--size-md); }
+    .verify-row { flex-direction: column; gap: var(--sp-2); }
   }
 </style>
 
 <script>
-(function() {
-  function hex(len) {
-    var h = '';
-    for (var i = 0; i < len; i++) h += Math.floor(Math.random() * 16).toString(16);
-    return h.toUpperCase();
-  }
-
-  function corruptReveal(el, finalText, className) {
-    var chars = '█▓▒░ABCDEF0123456789';
-    var flicks = 0;
-    var iv = setInterval(function() {
-      var t = '';
-      for (var i = 0; i < finalText.length; i++) {
-        t += chars[Math.floor(Math.random() * chars.length)];
-      }
-      el.textContent = t;
-      el.style.color = '#ffb000';
-      if (++flicks >= 5) {
-        clearInterval(iv);
-        el.textContent = finalText;
-        el.className = className;
-      }
-    }, 50);
-  }
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var bvId = document.getElementById('bv-id');
-    var bvInt = document.getElementById('bv-int');
-    var bvClass = document.getElementById('bv-class');
-    if (bvId) { bvId.textContent = 'VERIFIED ✓'; bvId.className = 'boot-val pass'; }
-    if (bvInt) { bvInt.textContent = 'INTACT ✓'; bvInt.className = 'boot-val pass'; }
-    if (bvClass) { bvClass.textContent = 'DECLASSIFIED ✓'; bvClass.className = 'boot-val pass'; }
-    var bg = document.getElementById('b-granted');
-    if (bg) bg.innerHTML = '<span class="phosphor">ACCESS GRANTED</span> — document follows';
-    ['scan-01','scan-02','scan-03','scan-04','scan-05'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) { el.textContent = '[DECLASSIFIED]'; el.classList.add('pass'); }
-    });
-    return;
-  }
-
-  var steps = [
-    [400,  'bv-id', function(el) { el.textContent = hex(8) + '..'; }],
-    [600,  'bv-id', function(el) { el.textContent = 'VERIFIED ✓'; el.className = 'boot-val pass'; }],
-    [700,  'bv-int', function(el) { el.textContent = 'SHA-256 ' + hex(6); }],
-    [900,  'bv-int', function(el) { el.textContent = 'INTACT ✓'; el.className = 'boot-val pass'; }],
-    [1000, 'bv-class', function(el) { el.textContent = 'CLASSIFIED → PENDING'; el.className = 'boot-val warn'; }],
-    [1300, 'bv-class', function(el) { corruptReveal(el, 'DECLASSIFIED ✓', 'boot-val pass'); }],
-    [1400, 'b-granted', function(el) { el.innerHTML = '<span class="phosphor">ACCESS GRANTED</span> — document follows'; }],
-  ];
-
-  steps.forEach(function(s) {
-    setTimeout(function() {
-      var el = document.getElementById(s[1]);
-      if (el) s[2](el);
-    }, s[0]);
+  document.addEventListener('DOMContentLoaded', function() {
+    var els = document.querySelectorAll('.al');
+    for (var i = 0; i < els.length; i++) {
+      (function(el) {
+        var d = parseInt(el.getAttribute('data-d') || '0', 10);
+        setTimeout(function() { el.classList.add('on'); }, d);
+      })(els[i]);
+    }
   });
-
-  var scans = [
-    { id: 'scan-01', delay: 1500, text: '[DECLASSIFIED] 01 — THE OUTAGE' },
-    { id: 'scan-02', delay: 2100, text: '[DECLASSIFIED] 02 — WHAT WE LEARNED' },
-    { id: 'scan-03', delay: 2700, text: '[DECLASSIFIED] 03 — WHAT SQUAER ACTUALLY IS' },
-    { id: 'scan-04', delay: 3300, text: '[DECLASSIFIED] 04 — THE RECORD' },
-    { id: 'scan-05', delay: 3900, text: '[DECLASSIFIED] 05 — VERIFY' },
-  ];
-  scans.forEach(function(s) {
-    setTimeout(function() {
-      var el = document.getElementById(s.id);
-      if (el) { el.textContent = s.text; el.classList.add('pass'); }
-    }, s.delay);
-  });
-
-  setTimeout(function() {
-    document.querySelectorAll('.phosphor-flash-target').forEach(function(t) {
-      t.classList.add('phosphor-flash');
-    });
-  }, 3500);
-})();
 </script>
