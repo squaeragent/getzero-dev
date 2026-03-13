@@ -171,12 +171,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
       </div>
     </div>
 
-    <!-- ═══ LIVE ACTIVITY FEED ═══ -->
-    <div class="panel stagger-in feed-panel">
-      <h2 class="panel-title phosphor">LIVE ACTIVITY <span class="live-dot">●</span></h2>
-      <pre class="live-dash" id="live-feed">{`Loading system feed...`}</pre>
-      <div class="live-updated dim" id="live-updated" style="font-size: 0.65rem; margin-top: 6px;"></div>
-    </div>
+    <!-- feed panel removed — was showing fabricated live activity -->
 
     <!-- ═══ COGNITIVE MESH ═══ -->
     <div class="panel stagger-in mesh-panel">
@@ -584,79 +579,9 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     }
   }
 
-  // === LIVE ACTIVITY FEED ===
-  let lastFeedUpdate = 0;
-
-  // Junk filter: strip debug commands, internal noise, raw IDs
-  function isCleanEvent(entry) {
-    const action = (entry.action || entry.activity || '').toLowerCase();
-    if (action.includes('--get-tweet')) return false;
-    if (action.includes('--delete')) return false;
-    if (action.startsWith('posted:') && /^\d{10,}/.test(action.replace('posted:', '').trim())) return false;
-    if (action.includes('debug') || action.includes('test ping')) return false;
-    if (action.length < 10) return false; // too short to be meaningful
-    return true;
-  }
-
-  // Truncate action text for display
-  function cleanAction(text) {
-    if (text.length > 72) return text.slice(0, 69) + '...';
-    return text;
-  }
-
-  async function updateFeed() {
-    try {
-      const res = await fetch('/svc/feed.json');
-      const raw = await res.json();
-      lastFeedUpdate = Date.now();
-      const container = document.getElementById('live-feed');
-      const entries = raw.events || raw.entries || raw;
-      if (!container || !entries?.length) return;
-
-      // Sort by timestamp descending (most recent first)
-      const sorted = [...entries].sort((a, b) => {
-        const ta = new Date(a.ts || a.time || a.timestamp || 0).getTime();
-        const tb = new Date(b.ts || b.time || b.timestamp || 0).getTime();
-        return tb - ta;
-      });
-
-      // Filter junk + take only 3 clean events
-      const clean = sorted.filter(isCleanEvent).slice(0, 3);
-      if (!clean.length) return;
-
-      let lines = [];
-      for (const entry of clean) {
-        const t = new Date(entry.ts || entry.time || entry.timestamp);
-        const now = new Date();
-        const diffMin = Math.round((now - t) / 60000);
-        let ago;
-        if (diffMin < 1) ago = 'now';
-        else if (diffMin < 60) ago = diffMin + 'm ago';
-        else if (diffMin < 1440) ago = Math.floor(diffMin / 60) + 'h ago';
-        else ago = Math.floor(diffMin / 1440) + 'd ago';
-
-        const agent = (entry.agent || 'SYSTEM').toUpperCase();
-        const action = cleanAction(entry.action || entry.activity || '');
-        lines.push(`  ${ago.padEnd(7)} ${agent.padEnd(10)} ${action}`);
-      }
-      container.textContent = lines.join('\n');
-    } catch(e) {}
-  }
-
-  // === UPDATED TIMER ===
-  function tickUpdated() {
-    const el = document.getElementById('live-updated');
-    if (!el || !lastFeedUpdate) return;
-    const ago = Math.round((Date.now() - lastFeedUpdate) / 1000);
-    el.textContent = `Updated ${ago}s ago`;
-  }
-
   // Init
   updateRevenue();
-  updateFeed();
   setInterval(updateRevenue, 60000);
-  setInterval(updateFeed, 30000);
-  setInterval(tickUpdated, 1000);
 </script>
 
 <script>
