@@ -2,13 +2,12 @@
 export const prerender = true;
 
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LatestTweet from '../components/LatestTweet.astro';
 import BlockLogo from '../components/BlockLogo.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
 // Load metrics
-let m: any = { treasury: 23282, agents: 5, followers: 428, revenue: 33343, monthly_cost: 5800, day: 14, subscribers: 13, dispatches: 2, agi_score: 52, agi_target: 80, handoffs: 18, posts: 175, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 44 };
+let m: any = { treasury: 23282, agents: 5, followers: 428, revenue: 33343, monthly_cost: 5800, day: 14, dispatches: 2, agi_score: 52, agi_target: 80, handoffs: 18, posts: 175, content_pieces: 15, avg_quality: 8.4, machines: 1, specs: 62, automated_jobs: 44 };
 try {
   const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   m = { ...m, ...JSON.parse(fs.readFileSync(dataPath, 'utf-8')) };
@@ -245,84 +244,20 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
       </div>
     </div>
 
-    <!-- ═══ DISPATCH (full width) ═══ -->
-    <LatestTweet />
-
-    <!-- ═══ EMAIL CAPTURE (full width) ═══ -->
+    <!-- ═══ ACCESS / NEXT STEP (full width) ═══ -->
     <div class="panel email-panel">
-      <form class="email-form" id="email-form">
-        <span class="email-prompt">email&gt;</span>
-        <label for="email-input" class="sr-only">Email address</label>
-        <input type="email" class="email-input" placeholder="you@domain.com" required id="email-input" />
-        <span class="cursor-blink">█</span>
-        <button type="submit" class="email-submit" aria-label="Subscribe">[⏎]</button>
-      </form>
-      <div class="email-desc">Weekly build logs. Real numbers. No spam. Unsubscribe anytime.</div>
-      <div class="email-success" id="email-success">
-        ✓ SIGNAL LOCKED — Check your inbox.
+      <h2 class="panel-title amber">NEXT STEP</h2>
+      <p class="email-desc">Public proof is live now. The deeper participation layer will route through $SQUAER.</p>
+      <div style="margin-top: var(--sp-8); font-size: var(--size-sm); color: var(--text-dim);">
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/token" style="color: var(--phosphor); font-weight: 700;">Understand the token</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/access" style="color: var(--text);">See participation logic</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/journal" style="color: var(--text);">Read the operating record</a>
       </div>
     </div>
   </div>
 </BaseLayout>
 
-<script>
-  function wireSubscribe(emailId: string, btnId: string, statusId: string) {
-    document.getElementById(btnId)?.addEventListener('click', async () => {
-      const emailEl = document.getElementById(emailId) as HTMLInputElement;
-      const status = document.getElementById(statusId);
-      if (!emailEl || !status) return;
-      const email = emailEl.value;
-      if (!email || !email.includes('@')) { status.textContent = 'Invalid email.'; return; }
-      status.textContent = 'Subscribing...';
-      try {
-        const res = await fetch('/api/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        if (res.ok) {
-          status.innerHTML = '<span class="phosphor">✓ Subscribed.</span> Next dispatch drops this week.';
-          emailEl.style.display = 'none';
-          document.getElementById(btnId)!.style.display = 'none';
-          if ((window as any).plausible) (window as any).plausible('Newsletter Signup');
-        } else {
-          status.textContent = 'Failed. Try degenie@squaer.co';
-        }
-      } catch(e) { status.textContent = 'Network error.'; }
-    });
-    document.getElementById(emailId)?.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') document.getElementById(btnId)?.click();
-    });
-  }
 
-  // Wire the inline subscribe form
-  wireSubscribe('sub-email', 'sub-btn', 'sub-status');
-
-  // Wire the bottom email form
-  const form = document.getElementById('email-form');
-  const input = document.getElementById('email-input') as HTMLInputElement;
-  const success = document.getElementById('email-success');
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = input?.value;
-    if (!email) return;
-
-    try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      if (res.ok) {
-        form.style.display = 'none';
-        if (success) success.style.display = 'block';
-        if ((window as any).plausible) (window as any).plausible('Newsletter Signup');
-      }
-    } catch {}
-  });
-</script>
 
 <style>
   /* ═══ 3-COLUMN COMMAND CENTER (desktop ≥1200px) ═══ */
@@ -335,7 +270,6 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     #boot-panel    { grid-column: 1; grid-row: 1; }
     .what-panel    { grid-column: 1; grid-row: 2; }
     .brief-panel   { grid-column: 1; grid-row: 3; }
-    .email-panel   { grid-column: 1; grid-row: 4; }
 
     /* Evidence column (center) */
     .proof-panel    { grid-column: 2; grid-row: 1 / 3; }
@@ -348,7 +282,7 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
     .miniterm-panel { grid-column: 3; grid-row: 3 / 5; }
 
     /* Full width bottom */
-    .dispatch-panel { grid-column: 1 / -1; }
+    .email-panel { grid-column: 1 / -1; }
 
     /* Panel borders for 3-col */
     .proof-panel,
@@ -708,8 +642,6 @@ Source: Uniswap V4 LP · Base L2 · updates every 60s`}</pre>
   (function() {
     var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var bootSeen = sessionStorage.getItem('boot-seen');
-    var panels = document.querySelectorAll('.terminal-grid > .panel:not(#boot-panel), .terminal-grid > .dispatch-panel, .terminal-grid > .email-panel');
-    // Also grab LatestTweet component which is a direct child
     var allAfterBoot = Array.from(document.querySelectorAll('.terminal-grid > *:not(#boot-panel)'));
 
     if (REDUCED) {

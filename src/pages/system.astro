@@ -12,9 +12,9 @@ import { sanitizeProblems } from '../lib/sanitizer';
 
 const rawProblems = [
   'Original post ratio too low — replies 80% of output but originals get 6-20x reach',
-  'Intelligence Brief #2 not shipped — 12 subscribers waiting since Feb 10',
+  'Brief archive not yet populated — public artifact layer still thin',
   'Absence Engine — baseline collection ongoing (target ~Mar 14)',
-  'L6 Compounding — needs prediction volume before activation',
+  'Participation layer — token-gated access not shipped yet',
   'Posting guard script errors — non-blocking but pollutes logs',
 ];
 const publicProblems = sanitizeProblems(rawProblems);
@@ -115,7 +115,7 @@ const layers = [
     </div>
 
     <DataPanel title="POSTING GUARD" status="LIVE" color="phosphor" compact>
-      <div class="kv-row"><span class="kv-label">method</span> X API (no browser)</div>
+      <div class="kv-row"><span class="kv-label">method</span> API-first distribution with browser fallback</div>
       <div class="kv-row"><span class="kv-label">limits</span> 6/hr · 3/15min · 8 orig/day</div>
       <div class="kv-row"><span class="kv-label">dedup</span> 70% · 48h window</div>
     </DataPanel>
