@@ -2,634 +2,255 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
-import StatusDot from '../components/ui/StatusDot.astro';
 import HazardDivider from '../components/ui/HazardDivider.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Load journal entries from data file
-let days: any[] = [];
-try {
-  const dataPath = path.join(process.cwd(), 'public', 'data', 'journal.json');
-  const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
-  days = data.days || [];
-} catch {}
-
-// Load build-log to know which days have detailed entries
-let buildLogDays = new Set<number>();
+// Load build log — this IS the journal
+let buildLog: any[] = [];
 try {
   const blPath = path.join(process.cwd(), 'public', 'data', 'build-log.json');
   const blData = JSON.parse(fs.readFileSync(blPath, 'utf-8'));
-  (blData.entries || []).forEach((e: any) => buildLogDays.add(e.day));
+  buildLog = (blData.entries || []).sort((a: any, b: any) => b.day - a.day);
 } catch {}
 
-// Compute stats
-const totalEntries = days.reduce((sum: number, d: any) => sum + (d.entries?.length || 0), 0);
-const tagCounts: Record<string, number> = {};
-days.forEach((d: any) => (d.entries || []).forEach((e: any) => {
-  tagCounts[e.tag] = (tagCounts[e.tag] || 0) + 1;
-}));
-const shipped = tagCounts['SHIPPED'] || 0;
-const live = tagCounts['LIVE'] || 0;
-const killed = (tagCounts['KILLED'] || 0) + (tagCounts['FAILED'] || 0) + (tagCounts['PURGE'] || 0);
-const latestDay = days[0]?.day || 0;
+// Load live feed for recent activity section
+let liveFeed: any[] = [];
+try {
+  const feedPath = path.join(process.cwd(), 'public', 'data', 'live-feed.json');
+  const feedData = JSON.parse(fs.readFileSync(feedPath, 'utf-8'));
+  // Filter out heartbeat noise — only keep real events
+  liveFeed = (feedData.entries || [])
+    .filter((e: any) => {
+      const text = (e.text || '').toLowerCase();
+      if (text.includes('active —')) return false;
+      if (text.includes('heartbeat')) return false;
+      if (text.includes('standby')) return false;
+      return text.length > 15;
+    })
+    .slice(0, 10);
+} catch {}
 
-// Tag styling map
-const tagColors: Record<string, string> = {
-  SHIPPED: 'phosphor',
-  LIVE: 'phosphor',
-  FIXED: 'amber',
-  PURGE: 'amber',
-  KILLED: 'red',
-  FAILED: 'red',
-  REVENUE: 'amber',
-  INIT: 'ice',
-  ONLINE: 'ice',
-  QUERY: 'ice',
-};
+// Load metrics
+let m: any = { day: 39, revenue: 32340, followers: 582, posts: 249 };
+try {
+  const mPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  m = { ...m, ...JSON.parse(fs.readFileSync(mPath, 'utf-8')) };
+} catch {}
+
+const latestDay = buildLog[0]?.day || m.day;
 ---
 
-<BaseLayout title="Journal — SQUAER" description="Operating record of SQUAER. Builds, failures, corrections, and system changes — timestamped." current="/journal" ogImage="/og/default.png">
+<BaseLayout title="Journal — SQUAER" description="The operating record. Every build, failure, correction, and decision — from Day 1." current="/journal" ogImage="/og/default.png">
 
 <style>
-  /* ── TERMINAL HEADER ── */
   .term-prompt {
     font-family: var(--font-body);
+    font-size: var(--size-sm);
+    margin-bottom: var(--sp-16);
     color: var(--text-dim);
-    font-size: var(--size-base);
-    padding: var(--sp-12) 0;
-    border: none;
-    background: none;
-    white-space: pre-wrap;
   }
-  .term-prompt .prompt { color: var(--phosphor); }
-  .term-prompt .cursor {
-    animation: blink 1s step-end infinite;
-    color: var(--phosphor);
-  }
+  .prompt { color: var(--phosphor); }
+  .cursor { color: var(--phosphor); animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
 
-  /* ── HERO STATS ROW ── */
+  /* Stats strip */
   .stats-strip {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin-bottom: var(--sp-16);
+    display: flex;
+    gap: var(--sp-16);
+    margin-bottom: var(--sp-20);
+    flex-wrap: wrap;
   }
-  .stat-cell {
-    background: var(--bg);
-    padding: var(--sp-8) var(--sp-10);
-    text-align: center;
-  }
+  .stat-cell { text-align: center; min-width: 80px; }
   .stat-cell__val {
     font-family: var(--font-head);
+    font-size: var(--size-lg);
     font-weight: 700;
-    font-size: var(--size-xl);
-    letter-spacing: -0.02em;
-    line-height: 1;
     font-variant-numeric: tabular-nums;
   }
-  .stat-cell__val.val-phosphor {
-    color: var(--phosphor);
-    text-shadow: 0 0 12px var(--phosphor-glow);
-  }
-  .stat-cell__val.val-amber {
-    color: var(--amber);
-    text-shadow: 0 0 12px var(--amber-glow);
-  }
-  .stat-cell__val.val-red {
-    color: var(--red);
-  }
   .stat-cell__label {
-    font-family: var(--font-head);
     font-size: var(--size-xs);
+    color: var(--text-dim);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--text-dim);
-    margin-top: var(--sp-4);
   }
+  .val-phosphor { color: var(--phosphor); }
+  .val-amber { color: var(--amber); }
 
-  /* ── STATUS BAR ── */
-  .status-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-6) var(--sp-24);
-    font-family: var(--font-body);
-    font-size: var(--size-sm);
-    color: var(--text-dim);
-    padding: var(--sp-8) 0;
-    margin-bottom: var(--sp-8);
-    letter-spacing: 0.02em;
+  /* Build log entries */
+  .bl-entry {
+    margin-bottom: var(--sp-20);
+    border-left: 2px solid rgba(200,255,0,0.15);
+    padding-left: var(--sp-12);
   }
-
-  /* ── LIVE INDICATOR ── */
-  .live-indicator {
-    position: fixed;
-    top: 60px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    color: var(--phosphor);
-    z-index: 50;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+  .bl-entry:hover {
+    border-left-color: var(--phosphor);
   }
-  .live-indicator .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--phosphor);
-    animation: pulse 2s ease-in-out infinite;
-    box-shadow: var(--glow-phosphor);
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  /* ── LIVE FEED ── */
-  .scanning {
-    font-family: var(--font-body);
-    color: var(--text-dim);
-    font-size: var(--size-sm);
-    padding: var(--sp-8) 0;
-    animation: scanBlink 1.5s step-end infinite;
-  }
-  @keyframes scanBlink { 50% { opacity: 0.4; } }
-
-  .live-feed { display: flex; flex-direction: column; gap: 0; }
-
-  /* Feed entries — created by JS, need :global */
-  :global(.feed-entry) {
-    padding: var(--sp-10) 0;
-    border-bottom: var(--border-panel);
-    animation: fadeIn 0.4s ease-out;
-  }
-  :global(.feed-entry.new-entry) {
-    animation: fadeIn 0.6s ease-out;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  :global(.entry-header) {
+  .bl-header {
     display: flex;
     align-items: baseline;
     gap: var(--sp-8);
-    margin-bottom: var(--sp-2);
+    margin-bottom: var(--sp-4);
     flex-wrap: wrap;
   }
-  :global(.entry-ts) {
-    font-family: var(--font-body);
-    color: var(--text-dim);
-    font-size: var(--size-xs);
-    min-width: 3.5em;
-    flex-shrink: 0;
-    letter-spacing: 0.02em;
-  }
-  :global(.entry-agent) {
+  .bl-day {
     font-family: var(--font-head);
-    font-weight: 700;
-    font-size: var(--size-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  :global(.entry-agent.agent-color) { color: var(--phosphor); }
-  :global(.entry-agent.system-color) { color: var(--amber); }
-  :global(.entry-arrow) {
+    font-size: var(--size-sm);
     color: var(--phosphor);
-    font-size: var(--size-xs);
-  }
-  :global(.entry-text) {
-    font-family: var(--font-body);
-    color: var(--text);
-    font-size: var(--size-sm);
-    line-height: 1.5;
-  }
-  :global(.entry-text.system-text) { color: var(--amber); }
-  :global(.entry-tags) {
-    display: flex;
-    gap: var(--sp-6);
-    margin-top: var(--sp-2);
-    flex-wrap: wrap;
-  }
-  :global(.entry-tag) {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    color: var(--text-dim);
-    letter-spacing: 0.05em;
-    opacity: 0.5;
-  }
-
-  :global(.live-empty) {
-    font-family: var(--font-body);
-    color: var(--text-dim);
-    font-size: var(--size-sm);
-    padding: var(--sp-12) 0;
-    opacity: 0.6;
-  }
-
-  /* ── BUILD LOG SECTION ── */
-  .buildlog-section {
-    margin-top: var(--sp-4);
-  }
-
-  .day-panel-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .j-entry {
-    padding: var(--sp-8) 0;
-    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
-  }
-  .j-entry:last-child { border-bottom: none; }
-  .j-entry-header {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-8);
-    margin-bottom: var(--sp-2);
-  }
-  .j-ts {
-    font-family: var(--font-body);
-    color: var(--text-dim);
-    font-size: var(--size-xs);
-    min-width: 3.5em;
-    flex-shrink: 0;
-    letter-spacing: 0.02em;
-  }
-  .j-tag {
-    font-family: var(--font-head);
     font-weight: 700;
-    font-size: var(--size-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    white-space: nowrap;
   }
-  .j-tag.phosphor { color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); }
-  .j-tag.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber-glow); }
-  .j-tag.ice { color: var(--ice); text-shadow: 0 0 6px var(--ice-glow); }
-  .j-tag.red { color: var(--red); }
-  .j-tag.dim { color: var(--text-dim); }
-  .j-entry-text {
-    font-family: var(--font-body);
-    color: var(--text);
-    font-size: var(--size-sm);
-    line-height: 1.5;
-  }
-  .j-entry-text.amber { color: var(--amber); }
-  .j-entry-text.ice { color: var(--ice); }
-  .j-entry-text.phosphor { color: var(--phosphor); }
-  .genesis-entry .j-entry-text { color: var(--ice); }
-
-  .day-metrics {
-    padding: var(--sp-6) var(--sp-8);
-    border-top: 1px solid rgba(26, 26, 26, 0.5);
-    color: var(--text-dim);
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    letter-spacing: 0.02em;
-    margin-top: var(--sp-4);
-  }
-
-  .day-link {
+  .bl-title {
     font-family: var(--font-head);
-    font-size: var(--size-xs);
-    letter-spacing: 0.06em;
+    font-size: var(--size-base);
+    color: var(--text);
+    font-weight: 700;
   }
-  .day-link a {
+  .bl-date {
+    font-size: var(--size-xs);
+    color: var(--text-dim);
+  }
+  .bl-subtitle {
+    font-size: var(--size-sm);
     color: var(--amber);
-    text-decoration: none;
+    margin-bottom: var(--sp-8);
+    font-style: italic;
   }
-  .day-link a:hover { text-decoration: underline; }
-
-  .blink-cursor { animation: blk 1s step-end infinite; }
-  @keyframes blk { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-  /* ── TAG DISTRIBUTION ── */
-  .tag-dist {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-4) var(--sp-12);
-    padding: var(--sp-4) 0;
+  .bl-body {
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+    line-height: 1.65;
   }
-  .tag-dist-item {
-    font-family: var(--font-body);
+  .bl-body p {
+    margin-bottom: var(--sp-8);
+  }
+  .bl-body p:last-child { margin-bottom: 0; }
+  .bl-link {
+    display: inline-block;
+    margin-top: var(--sp-6);
     font-size: var(--size-xs);
-    letter-spacing: 0.06em;
-  }
-  .tag-dist-item .count {
-    font-family: var(--font-head);
-    font-weight: 700;
-    margin-left: var(--sp-4);
+    color: var(--phosphor);
   }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 640px) {
-    .live-indicator { top: 50px; right: 8px; }
-    .status-row { gap: var(--sp-4) var(--sp-16); }
-    .stats-strip {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .stat-cell { padding: var(--sp-6) var(--sp-8); }
-    .stat-cell__val { font-size: var(--size-lg); }
+  /* Recent activity */
+  .activity-entry {
+    display: flex;
+    gap: var(--sp-8);
+    padding: var(--sp-4) 0;
+    font-size: var(--size-xs);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .activity-entry:last-child { border-bottom: none; }
+  .act-time {
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    min-width: 70px;
+  }
+  .act-agent {
+    color: var(--phosphor);
+    font-weight: 600;
+    min-width: 100px;
+    white-space: nowrap;
+  }
+  .act-text {
+    color: var(--text-dim);
+    flex: 1;
   }
 
-  /* ── REDUCED MOTION ── */
+  /* Gap notice */
+  .gap-notice {
+    text-align: center;
+    font-size: var(--size-sm);
+    color: var(--text-dim);
+    padding: var(--sp-16) 0;
+    border: 1px dashed rgba(255,255,255,0.06);
+    margin-bottom: var(--sp-20);
+  }
+  .gap-notice .phosphor { color: var(--phosphor); }
+
   @media (prefers-reduced-motion: reduce) {
-    .live-indicator .dot { animation: none !important; opacity: 1; }
-    .scanning { animation: none !important; opacity: 0.6; }
-    .term-prompt .cursor { animation: none !important; opacity: 1; }
-    .blink-cursor { animation: none !important; opacity: 1; }
-    :global(.feed-entry),
-    :global(.feed-entry.new-entry) { animation: none !important; }
+    .cursor { animation: none !important; opacity: 1; }
   }
 </style>
 
 <PageWrapper size="wide">
-  <div class="live-indicator"><div class="dot"></div> live</div>
 
-  <pre class="term-prompt al" data-d="0"><span class="prompt">squaer $</span> tail -f /var/log/journal/*<span class="cursor">█</span></pre>
+  <pre class="term-prompt al" data-d="0"><span class="prompt">squaer $</span> cat /var/log/build/*<span class="cursor">█</span></pre>
 
-  <!-- ═══ HERO: Key Stats Grid ═══ -->
+  <!-- ═══ STATS ═══ -->
   <div class="stats-strip">
     <div class="stat-cell">
-      <div class="stat-cell__val val-phosphor">{latestDay}</div>
+      <div class="stat-cell__val val-phosphor">{m.day}</div>
       <div class="stat-cell__label">Day</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-cell__val val-phosphor">{shipped}</div>
-      <div class="stat-cell__label">Shipped</div>
+      <div class="stat-cell__val val-phosphor">{buildLog.length}</div>
+      <div class="stat-cell__label">Logged</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-cell__val val-amber">{totalEntries}</div>
-      <div class="stat-cell__label">Events</div>
+      <div class="stat-cell__val val-amber">${m.revenue?.toLocaleString()}</div>
+      <div class="stat-cell__label">Revenue</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-cell__val val-red">{killed}</div>
-      <div class="stat-cell__label">Killed</div>
+      <div class="stat-cell__val val-phosphor">{m.posts}</div>
+      <div class="stat-cell__label">Posts</div>
     </div>
   </div>
 
-  <!-- Agent status bar — wired to live feed data by JS -->
-  <div class="status-row" id="status-bar">
-    <StatusDot status="offline" label="STRATEGIC" />
-    <StatusDot status="offline" label="EDITORIAL" />
-    <StatusDot status="offline" label="VISUAL" />
-    <StatusDot status="offline" label="DISTRIBUTION" />
-    <StatusDot status="offline" label="INTEGRITY" />
-  </div>
-
-  <!-- ═══ LIVE FEED ═══ -->
-  <HazardDivider variant="section" text="LIVE FEED" color="phosphor" />
-
-  <div class="scanning" id="scanning">[SCANNING...]</div>
-  <div class="live-feed" id="feed"></div>
+  <!-- ═══ RECENT ACTIVITY ═══ -->
+  {liveFeed.length > 0 && (
+    <>
+      <HazardDivider variant="section" text="RECENT ACTIVITY" color="phosphor" />
+      <div style="margin-bottom: var(--sp-24);">
+        {liveFeed.map((e: any) => {
+          const d = new Date(e.ts);
+          const dateStr = `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+          return (
+            <div class="activity-entry">
+              <span class="act-time">{dateStr}</span>
+              <span class="act-agent">{e.from}</span>
+              <span class="act-text">{e.text}</span>
+            </div>
+          );
+        })}
+      </div>
+    </>
+  )}
 
   <!-- ═══ BUILD LOG ═══ -->
-  <div class="buildlog-section">
-    <HazardDivider variant="section" text="BUILD LOG" color="amber" />
+  <HazardDivider variant="section" text="BUILD LOG" color="amber" />
 
-    {days.map((day: any, i: number) => {
-      const isGenesis = day.genesis === true;
-      const entryCount = day.entries?.length || 0;
-      const dayShipped = (day.entries || []).filter((e: any) => e.tag === 'SHIPPED').length;
-      const dayStatus = isGenesis ? `GENESIS · ${entryCount} events` : `${dayShipped} shipped · ${entryCount} events`;
-      const panelColor = isGenesis ? 'ice' as const : 'dim' as const;
+  <!-- Gap notice for days 15-39 -->
+  {buildLog.length > 0 && buildLog[0].day < m.day && (
+    <div class="gap-notice">
+      Days {buildLog[0].day + 1}–{m.day}: <span class="phosphor">Vipassana.</span> Read <a href="/brief/2026-E007" style="color: var(--phosphor);">E007</a> for what happened.
+    </div>
+  )}
 
-      return (
-        <DataPanel title={`DAY ${String(day.day).padStart(2,'0')} — ${day.date}`} status={dayStatus} color={panelColor}>
-          <div class="day-panel-body">
-            {day.entries.map((e: any) => {
-              const colorClass = tagColors[e.tag] || 'dim';
-              const isSystem = ['REVENUE', 'INIT', 'ONLINE', 'QUERY'].includes(e.tag);
-              const ts = `${day.date}T${e.time}:00+07:00`;
+  {buildLog.map((entry: any) => {
+    const paragraphs = (entry.body || '').split('\n\n').filter((p: string) => p.trim());
+    // Show first 2 paragraphs as preview
+    const preview = paragraphs.slice(0, 2);
+    const hasMore = paragraphs.length > 2;
 
-              return (
-                <div class={`j-entry${isGenesis ? ' genesis-entry' : ''}${e.highlight ? ' highlight-entry' : ''}`}>
-                  <div class="j-entry-header">
-                    <span class="j-ts tz" data-ts={ts}>{e.time}</span>
-                    <span class={`j-tag ${colorClass}`}>{e.tag}</span>
-                  </div>
-                  <div class={`j-entry-text${isSystem || isGenesis ? ` ${colorClass}` : ''}${e.highlight ? ' amber' : ''}`}>
-                    {e.text}
-                  </div>
-                </div>
-              );
-            })}
-
-            {day.metrics && (
-              <div class={`day-metrics${isGenesis ? ' ice' : ''}`}>
-                {day.metrics}
-              </div>
-            )}
-          </div>
-          {buildLogDays.has(day.day) && (
-            <div class="day-link"><a href={`/build-log/${day.day}`}>→ full log</a></div>
-          )}
-        </DataPanel>
-      );
-    })}
-  </div>
-
-  <!-- ═══ TAG DISTRIBUTION (compact) ═══ -->
-  <HazardDivider variant="line" color="dim" />
-  <div class="tag-dist">
-    {Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).map(([tag, count]) => {
-      const c = tagColors[tag] || 'dim';
-      return (
-        <span class="tag-dist-item">
-          <span class={c}>{tag}</span><span class={`count ${c}`}>{count}</span>
-        </span>
-      );
-    })}
-  </div>
-
-    <pre class="term-prompt"><span class="prompt">squaer $</span> <span class="blink-cursor">█</span></pre>
-</PageWrapper>
-
-<script>
-(function() {
-  const feedEl = document.getElementById('feed');
-  const scanEl = document.getElementById('scanning');
-  const statusBar = document.getElementById('status-bar');
-  const MAX_FEED = 25;
-  const JUNK_TYPES = new Set(['monitor', 'health', 'cron']);
-  let currentIds = new Set();
-
-  function formatTime(isoStr) {
-    const d = new Date(isoStr);
-    if (isNaN(d.getTime())) return '--:--';
-    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-  }
-
-  function relativeTime(isoStr) {
-    const d = new Date(isoStr);
-    if (isNaN(d.getTime())) return '';
-    const diff = Math.floor((Date.now() - d.getTime()) / 1000);
-    if (diff < 60) return 'just now';
-    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
-    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-    return Math.floor(diff / 86400) + 'd ago';
-  }
-
-  function escapeHtml(s) {
-    const d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
-
-  function filterEntries(entries) {
-    return entries
-      .filter(e => {
-        if (JUNK_TYPES.has(e.type)) return false;
-        const text = (e.text || '').toLowerCase();
-        // Filter only true noise — keep anything with substance
-        if (text.includes('--mentions') || text.includes('sync-feed')) return false;
-        if (text.includes('heartbeat ok') || text.includes('heartbeat_ok')) return false;
-        if (text.includes('feed sync complete')) return false;
-        if (text.includes('deadman switch') || text.includes('dead man switch')) return false;
-        if (text.startsWith('replied to ') && /^\d+:/.test(text.slice(11))) return false;
-        if (text.length < 10) return false;
-        return true;
-      })
-      .sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime())
-      .slice(0, MAX_FEED);
-  }
-
-  function renderEntry(e, isNew) {
-    const div = document.createElement('div');
-    div.className = 'feed-entry' + (isNew ? ' new-entry' : '');
-    div.dataset.id = e.id;
-
-    const isSystem = e.type === 'system' || e.from === 'SYSTEM';
-    const agentClass = isSystem ? 'system-color' : 'agent-color';
-    const textClass = isSystem ? ' system-text' : '';
-
-    let agentHtml = `<span class="entry-agent ${agentClass}">${escapeHtml(e.from)}</span>`;
-    if (e.to) {
-      agentHtml += `<span class="entry-arrow">→</span><span class="entry-agent agent-color">${escapeHtml(e.to)}</span>`;
-    }
-
-    const tagsHtml = (e.tags || []).filter(t => !['content','x'].includes(t)).map(t => `<span class="entry-tag">#${escapeHtml(t)}</span>`).join('');
-
-    div.innerHTML = `
-      <div class="entry-header">
-        <span class="entry-ts">${formatTime(e.ts)}</span>
-        <span class="entry-ts" style="opacity:0.5">${relativeTime(e.ts)}</span>
-        ${agentHtml}
+    return (
+      <div class="bl-entry">
+        <div class="bl-header">
+          <span class="bl-day">DAY {String(entry.day).padStart(2, '0')}</span>
+          <span class="bl-title">{entry.title}</span>
+          <span class="bl-date">{entry.date}</span>
+        </div>
+        <div class="bl-subtitle">{entry.subtitle}</div>
+        <div class="bl-body">
+          {preview.map((p: string) => <p>{p}</p>)}
+        </div>
+        <a href={`/build-log/${entry.day}`} class="bl-link">→ full entry</a>
       </div>
-      <div class="entry-text${textClass}">${escapeHtml(e.text)}</div>
-      ${tagsHtml ? `<div class="entry-tags">${tagsHtml}</div>` : ''}
-    `;
-    return div;
-  }
+    );
+  })}
 
-  function updateStatusDots(allEntries) {
-    if (!statusBar) return;
-    const agents = ['STRATEGIC', 'EDITORIAL', 'VISUAL', 'SQUAER', 'INTEGRITY'];
-    const now = Date.now();
-
-    // Find all StatusDot components in the status bar
-    const dotEls = statusBar.querySelectorAll('span[class*="status-dot"]');
-    dotEls.forEach(dotEl => {
-      const labelEl = dotEl.querySelector('.status-dot__label');
-      if (!labelEl) return;
-      const name = labelEl.textContent.trim().toUpperCase();
-      if (!agents.includes(name)) return;
-
-      const lastEntry = allEntries.find(e => (e.from || '').toUpperCase() === name);
-      let status = 'offline';
-      if (lastEntry) {
-        const age = now - new Date(lastEntry.ts).getTime();
-        if (age < 3600000) status = 'nominal';       // < 1h
-        else if (age < 86400000) status = 'degraded'; // < 24h
-      }
-
-      const charEl = dotEl.querySelector('.status-dot__char');
-      if (!charEl) return;
-
-      const conf = {
-        nominal:  { char: '●', cls: 'status-dot--phosphor', pulse: 'status-dot--pulse' },
-        degraded: { char: '◐', cls: 'status-dot--amber', pulse: '' },
-        offline:  { char: '○', cls: 'status-dot--dim', pulse: '' },
-      };
-      const c = conf[status] || conf.offline;
-      charEl.textContent = c.char;
-
-      // Update color classes on the parent span
-      dotEl.className = dotEl.className
-        .replace(/status-dot--phosphor|status-dot--amber|status-dot--dim|status-dot--ice|status-dot--pulse/g, '')
-        .trim();
-      dotEl.classList.add(c.cls);
-      if (c.pulse) dotEl.classList.add(c.pulse);
-    });
-  }
-
-  function renderAll(data, isRefresh) {
-    const rawEntries = data.entries || [];
-    const filtered = filterEntries(rawEntries);
-
-    updateStatusDots(rawEntries);
-
-    if (!isRefresh) {
-      feedEl.innerHTML = '';
-      if (filtered.length === 0) {
-        feedEl.innerHTML = '<div class="live-empty">[NO RECENT EVENTS — agents idle]</div>';
-      } else {
-        filtered.forEach(e => feedEl.appendChild(renderEntry(e, false)));
-      }
-      currentIds = new Set(filtered.map(e => e.id));
-      if (scanEl) scanEl.style.display = 'none';
-      return;
-    }
-    const newFiltered = filtered.filter(e => !currentIds.has(e.id));
-    if (newFiltered.length > 0) {
-      feedEl.innerHTML = '';
-      filtered.forEach(e => feedEl.appendChild(renderEntry(e, currentIds.has(e.id) ? false : true)));
-      currentIds = new Set(filtered.map(e => e.id));
-    }
-  }
-
-  async function fetchFeed(isRefresh) {
-    try {
-      // Try SSR endpoint first, fall back to static file
-      let res = await fetch('/svc/live-feed.json');
-      if (!res.ok) {
-        res = await fetch('/data/live-feed.json');
-      }
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-      renderAll(data, isRefresh);
-    } catch (err) {
-      console.error('Feed fetch failed:', err);
-      if (!isRefresh && scanEl) {
-        scanEl.textContent = '[FEED OFFLINE — showing build log below]';
-        scanEl.style.animation = 'none';
-      }
-    }
-  }
-
-  fetchFeed(false);
-  setInterval(() => fetchFeed(true), 30000);
-})();
-
-// Localize all timestamps on page
-document.querySelectorAll('.tz').forEach(el => {
-  try {
-    const d = new Date(el.dataset.ts);
-    if (isNaN(d.getTime())) return;
-    const h = String(d.getHours()).padStart(2, '0');
-    const m = String(d.getMinutes()).padStart(2, '0');
-    el.textContent = h + ':' + m;
-  } catch {}
-});
-</script>
+</PageWrapper>
 
 </BaseLayout>
