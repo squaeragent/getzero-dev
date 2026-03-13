@@ -1,5 +1,5 @@
 /*
- * ZERO OS — Circadian Display
+ * SQUAER — Circadian Display
  * Modulates all ambient effects based on HQ time (UTC+7).
  * The page has a daily rhythm. Five phases, nine parameters.
  * One clock controls everything. Every other module listens.

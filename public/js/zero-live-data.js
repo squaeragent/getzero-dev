@@ -1,5 +1,5 @@
 /*
- * ZERO OS — Live Data Feed
+ * SQUAER — Live Data Feed
  * Polls /data/state.json every 60s
  * Updates any element with data-live="path.to.value"
  * Triggers counter animation on value change

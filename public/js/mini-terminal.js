@@ -60,7 +60,7 @@
           var day = (m && m.day) || (s && s.metrics && s.metrics.day) || '?';
           var agents = (s && s.system && s.system.agents_live) || 5;
           var rev = (m && m.revenue) || 33343;
-          return 'ZERO OS — OPERATIONAL\n' +
+          return 'SQUAER — OPERATIONAL\n' +
             dots('Day', day) + '\n' +
             dots('Agents', agents + '/5') + '\n' +
             dots('Revenue', '$' + rev.toLocaleString());
@@ -121,7 +121,7 @@
       return fetchJSON('/svc/metrics.json').then(function(m) {
         var day = (m && m.day) || '?';
         var rev = (m && m.revenue) ? '$' + m.revenue.toLocaleString() : '—';
-        return 'ZERO OS v0.9.1\nDay ' + day + ' · 5 agents · ' + rev + ' revenue';
+        return 'SQUAER v0.9.1\nDay ' + day + ' · 5 agents · ' + rev + ' revenue';
       });
     },
 
@@ -132,7 +132,7 @@
         'intel': '/intel', 'manifesto': '/manifesto',
         'product': '/product', 'build-log': '/build-log',
         'journal': '/build-log', 'live': '/live',
-        'subscribe': '/subscribe', 'predictions': '/predictions',
+        'brief': '/brief', 'access': '/access',
         'terminal': '/terminal',
       };
       var t = args[0];
@@ -207,5 +207,5 @@
   });
 
   // Boot message
-  print('ZERO OS v0.9.1 — type help');
+  print('SQUAER v0.9.1 — type help');
 })();

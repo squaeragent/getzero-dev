@@ -1,5 +1,5 @@
 /*
- * ZERO OS — Living Interactions
+ * SQUAER — Living Interactions
  * Counters, glitch text, typewriter reveal, copy-to-clipboard.
  * <4KB. No dependencies. Respects prefers-reduced-motion.
  */

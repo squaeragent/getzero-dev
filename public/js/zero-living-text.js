@@ -1,5 +1,5 @@
 /*
- * ZERO OS — Living Text Engine
+ * SQUAER — Living Text Engine
  * Pre-authored text that rewrites itself based on system state.
  * Character-level phosphor dissolve + typewriter retype.
  * EDITORIAL authors all variants. No runtime LLM calls.
@@ -84,10 +84,10 @@
       if (key === 'min_entities' && (getPath(state, 'intelligence.entities_tracked') || 0) < value) return false;
       if (key === 'min_signals_today' && (getPath(state, 'intelligence.signals_today') || 0) < value) return false;
       if (key === 'min_posts' && (getPath(state, 'x.posts_shipped') || 0) < value) return false;
-      if (key === 'min_subscribers' && (getPath(state, 'content.newsletter_subscribers') || 0) < value) return false;
+      
       if (key === 'min_content' && (getPath(state, 'content.pieces_published') || 0) < value) return false;
       if (key === 'min_dispatches' && (getPath(state, 'content.dispatches_sent') || 0) < value) return false;
-      if (key === 'min_predictions' && (getPath(state, 'intelligence.predictions_active') || 0) < value) return false;
+      
       if (key === 'min_entries_today' && (getPath(state, 'journal.entries_today') || 0) < value) return false;
 
       if (key === 'agent_active') {

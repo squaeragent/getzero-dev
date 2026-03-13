@@ -1,5 +1,5 @@
 /* ============================================
-   ZERO OS — CRT DYNAMIC EFFECTS
+   SQUAER — CRT DYNAMIC EFFECTS
    Vanilla JS. No dependencies. No frameworks.
    
    Effects:

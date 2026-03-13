@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    PHOSPHOR CANON — CRT Brutalism Design System
-   ZERO OS · getzero.dev
+   SQUAER · getzero.dev
    ═══════════════════════════════════════════════════════════ */
 
 /* ── TOKENS (single source of truth) ── */
@@ -1029,7 +1029,7 @@ pre, code {
     padding: var(--sp-4) var(--sp-8);
   }
 
-  /* ── Predictions page ── */
+  /* ── Signal page ── */
   .term-block pre {
     white-space: pre-wrap;
     word-break: break-word;
