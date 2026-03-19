@@ -444,7 +444,8 @@ ${uptimeDays}d uptime · 7 scheduled jobs · dedicated hardware`}</pre>
 
   // Init
   updateRevenue();
-  setInterval(updateRevenue, 60000);
+  // Revenue polling killed — was calling DexScreener every 60s ($168 Vercel overage)
+  // Revenue is static now. Update via redeploy when baseline changes.
 </script>
 
 <script>
