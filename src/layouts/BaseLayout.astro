@@ -15,7 +15,7 @@ const { title, description = 'Autonomous intelligence with proof. Live signal, p
 // Read metrics for ticker
 import fs from 'fs';
 import path from 'path';
-let tm: any = { day: 39, revenue: 32340 };
+let tm: any = { day: 39, agents: 5, revenue: 32340, followers: 582, posts: 249, quality: 8.4, entities: 70 };
 try {
   const mp = path.join(process.cwd(), 'public', 'data', 'metrics.json');
   const raw = JSON.parse(fs.readFileSync(mp, 'utf-8'));
@@ -120,7 +120,7 @@ const navItems = [
   <div class="crt-viewport crt-flicker signal-glitch-target">
     <!-- STATUS BAR -->
     <div class="status-bar">
-      <span>ZERO OS</span>
+      <span>SQUAER</span>
       <span class="signal">░▓█ SIGNAL: ACTIVE █▒░</span>
       <span class="date-stamp">{dateStr} {timeStr}</span>
     </div>
@@ -128,7 +128,7 @@ const navItems = [
     <!-- PROOF TICKER — auto-populated from /data/state.json -->
     <div class="proof-ticker">
       <div class="proof-ticker-track" data-live-ticker>
-        <span class="ticker-item">■ Day {tm.day}</span><span class="ticker-sep">│</span><span class="ticker-item">${tm.revenue?.toLocaleString()} LP revenue</span><span class="ticker-sep">│</span><span class="ticker-item">Measurement period active</span><span class="ticker-sep">│</span><span class="ticker-item">Wallet: 0xC7b5...453a2</span><span class="ticker-sep">│</span><span class="ticker-item">■ Day {tm.day}</span><span class="ticker-sep">│</span><span class="ticker-item">${tm.revenue?.toLocaleString()} LP revenue</span><span class="ticker-sep">│</span><span class="ticker-item">Measurement period active</span><span class="ticker-sep">│</span><span class="ticker-item">Wallet: 0xC7b5...453a2</span>
+        <span class="ticker-item">■ Day {tm.day}</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.agents}/5 functions</span><span class="ticker-sep">│</span><span class="ticker-item">${tm.revenue?.toLocaleString()} LP revenue</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.followers} followers</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.posts} posts</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.quality}/10 quality</span><span class="ticker-sep">│</span><span class="ticker-item">■ Day {tm.day}</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.agents}/5 functions</span><span class="ticker-sep">│</span><span class="ticker-item">${tm.revenue?.toLocaleString()} LP revenue</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.followers} followers</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.posts} posts</span><span class="ticker-sep">│</span><span class="ticker-item">{tm.quality}/10 quality</span>
       </div>
     </div>
 
@@ -151,7 +151,7 @@ const navItems = [
 
     <!-- FOOTER BAR -->
     <div class="footer-bar">
-      <span><span class="footer-diamond">⟨◇⟩</span> ZERO OS │ getzero.dev</span>
+      <span><span class="footer-diamond">⟨◇⟩</span> SQUAER │ squaer.co │ @squaer_agent</span>
       <span><span data-hq-clock class="dim"></span></span>
     </div>
   </div>

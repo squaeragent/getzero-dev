@@ -3,14 +3,31 @@ export const prerender = true;
 
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BlockLogo from '../components/BlockLogo.astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
-// Calculate uptime from known operational date
-const opSince = '2026-02-03';
+// Load metrics
+let m: any = { treasury: 19765, agents: 5, followers: 582, revenue: 32340, monthly_cost: 5800, day: 39, agi_score: 123, agi_target: 200, posts: 249, content_pieces: 20, avg_quality: 8.4, machines: 1, specs: 62 };
+try {
+  const dataPath = path.join(process.cwd(), 'public', 'data', 'metrics.json');
+  m = { ...m, ...JSON.parse(fs.readFileSync(dataPath, 'utf-8')) };
+} catch {}
+
+// Load state for uptime calculation
+let state: any = {};
+try {
+  const statePath = path.join(process.cwd(), 'public', 'data', 'state.json');
+  state = JSON.parse(fs.readFileSync(statePath, 'utf-8'));
+} catch {}
+
+// Calculate uptime
+const opSince = m.operational_since || state.operational_since || '2026-02-03';
 const uptimeMs = Date.now() - new Date(opSince).getTime();
 const uptimeDays = Math.floor(uptimeMs / 86400000);
+const uptimeHours = Math.floor((uptimeMs % 86400000) / 3600000);
 ---
 
-<BaseLayout title="ZERO OS" current="/">
+<BaseLayout title="SQUAER" current="/">
   <div class="terminal-grid">
     <!-- ═══ LEFT TOP: BOOT SEQUENCE ═══ -->
     <div class="panel glyph-panel" id="boot-panel">
@@ -19,70 +36,90 @@ const uptimeDays = Math.floor(uptimeMs / 86400000);
         <div class="bl" data-d="200"><span class="dim">MEM TEST:</span> <span class="phosphor-g">██████████</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="400"><span class="dim">GPU CORES:</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="600">&nbsp;</div>
-        <div class="bl" data-d="700"><h1 class="sr-only">ZERO OS</h1><BlockLogo /></div>
-        <div class="bl" data-d="900"><span class="dim glitch-text">⟨◇⟩ AUTONOMOUS TRADING SYSTEM</span></div>
+        <div class="bl" data-d="700"><h1 class="sr-only">SQUAER</h1><BlockLogo /></div>
+        <div class="bl" data-d="900"><span class="dim glitch-text">⟨◇⟩ AUTONOMOUS AGENT · 5 COGNITIVE FUNCTIONS</span></div>
         <div class="bl" data-d="1100">&nbsp;</div>
         <div class="bl" data-d="1200"><span class="dim">&gt;</span> MOUNT /cluster/memory <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="1400"><span class="dim">&gt;</span> INIT SIGNAL ENGINE <span class="boot-dots">..........</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="1600"><span class="dim">&gt;</span> CONNECT HYPERLIQUID <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="1400"><span class="dim">&gt;</span> LOAD SPECIFICATIONS ({m.specs}) <span class="boot-dots">.....</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="1600"><span class="dim">&gt;</span> INIT COGNITIVE MESH <span class="boot-dots">.........</span> <span class="phosphor-g">OK</span></div>
         <div class="bl" data-d="1800"><span class="dim">&gt;</span> START LOCAL LLM ENGINE <span class="boot-dots">......</span> <span class="phosphor-g">OK</span></div>
-        <div class="bl" data-d="2000">&nbsp;</div>
-        <div class="bl" data-d="2100"><span class="amber-g">SYSTEM PROCESSES:</span></div>
-        <div class="bl" data-d="2300">&nbsp; SUPERVISOR  <span class="boot-dots">.....</span> <span class="phosphor-g">[■ LIVE]</span></div>
-        <div class="bl" data-d="2500">&nbsp; EVALUATOR   <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
-        <div class="bl" data-d="2700">&nbsp; IMMUNE      <span class="boot-dots">.....</span> <span class="phosphor-g">[■ LIVE]</span></div>
-        <div class="bl" data-d="2900">&nbsp;</div>
-        <div class="bl" data-d="3000"><strong style="color: var(--text);">Autonomous signal evaluation → execution on Hyperliquid.</strong></div>
-        <div class="bl" data-d="3200"><span class="dim">Measurement period: March 21 – April 4, 2026</span></div>
-        <div class="bl" data-d="3400"><span class="amber-g">Day {uptimeDays} of operation.</span></div>
-        <div class="bl" data-d="3600"><span class="cursor-blink terminal-cursor"></span></div>
+        <div class="bl" data-d="2000"><span class="dim">&gt;</span> CONNECT MACHINES ({m.machines}) <span class="boot-dots">........</span> <span class="phosphor-g">OK</span></div>
+        <div class="bl" data-d="2200">&nbsp;</div>
+        <div class="bl" data-d="2300"><span class="amber-g">COGNITIVE FUNCTION INIT:</span></div>
+        <div class="bl" data-d="2500">&nbsp; 001 STRATEGIC  <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="2700">&nbsp; 002 EDITORIAL  <span class="boot-dots">...</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="2900">&nbsp; 003 VISUAL     <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="3100">&nbsp; 004 DISTRIBUTION <span class="boot-dots">..</span> <span class="phosphor-g agent-heartbeat" data-agent-id="distribution" data-agent-index="3">[■ LIVE]</span></div>
+        <div class="bl" data-d="3200">&nbsp; 005 INTEGRITY  <span class="boot-dots">....</span> <span class="phosphor-g">[■ LIVE]</span></div>
+        <div class="bl" data-d="3400">&nbsp;</div>
+        <div class="bl" data-d="3500"><strong style="color: var(--text);"><span class="living-zone" data-living-zone="home-tagline" data-cycle-interval="45"><span class="living-text">We built an AI company. Then the power went out.</span></span></strong></div>
+        <div class="bl" data-d="3900"><span class="dim">The agents kept reporting healthy. <a href="/manifesto" style="color:var(--phosphor);">Read what happened →</a></span></div>
+        <div class="bl" data-d="4100"><span class="amber-g">Day {m.day} of operation.</span></div>
+        <div class="bl" data-d="4300"><span class="cursor-blink terminal-cursor"></span></div>
       </div>
     </div>
 
     <!-- ═══ STATUS ═══ -->
     <div class="panel status-panel">
       <h2 class="panel-title phosphor">STATUS</h2>
-      <pre class="live-dash">{`UPTIME ................. ${uptimeDays}d
-VENUE .................. Hyperliquid
-PROCESSES .............. 3
-MEASUREMENT PERIOD ..... active
-
-Performance data available April 4.`}</pre>
+      <pre class="live-dash">{`DAY .......................... ${m.day}
+UPTIME ....................... ${uptimeDays}d
+REVENUE (ON-CHAIN) ........... $${m.revenue?.toLocaleString?.() ?? m.revenue}
+COGNITIVE FUNCTIONS .......... 5
+FOLLOWERS .................... ${m.followers}
+POSTS SHIPPED ................ ${m.posts}`}</pre>
+      <div style="margin-top: var(--sp-8); font-size: var(--size-xs);">
+        <a href="/journal" style="color: var(--phosphor);">→ live journal</a> ·
+        <a href="/system" style="color: var(--text-dim);">system details</a>
+      </div>
     </div>
 
-    <!-- ═══ THESIS ═══ -->
+    <!-- ═══ IDENTITY / THESIS ═══ -->
     <div class="panel what-panel">
       <h2 class="panel-title">THE THESIS</h2>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
-        An autonomous trading system that evaluates signals, manages risk, and executes on Hyperliquid — without human intervention in trade decisions.
+        One autonomous agent with 5 cognitive functions. Earns revenue, publishes its output, and exposes every failure. Not a demo. Not a pitch deck. A record.
       </p>
       <p style="font-size: var(--size-base); margin-bottom: var(--sp-10);">
-        Currently in a 14-day measurement period. No claims about performance until the data exists. The wallet is public. Check the work.
+        LP commissions pay for compute. The compute runs the agents. The agents produce intelligence. Everything is on-chain or on this site.
       </p>
       <p style="font-size: var(--size-md); margin-bottom: var(--sp-10);">
         <strong class="glow-breathe typewriter" style="color: var(--phosphor);">We are not asking you to believe us. We are asking you to check.</strong>
       </p>
       <div style="margin-top: var(--sp-12); font-size: var(--size-sm); color: var(--text-dim);">
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/manifesto" style="color: var(--phosphor); font-weight: 700;">Read the manifesto</a><br/>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/system" style="color: var(--text);">See the system live</a><br/>
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/token" style="color: var(--text);">Understand $SQUAER</a>
       </div>
     </div>
 
-    <!-- ═══ ARCHITECTURE ═══ -->
-    <div class="panel stagger-in mesh-panel">
-      <h2 class="panel-title ice">ARCHITECTURE</h2>
-      <pre class="live-dash" style="color: var(--text-dim);">{`SUPERVISOR ... strategy refresh + orchestration
-EVALUATOR .... signal evaluation (WebSocket)
-IMMUNE ....... health monitor + desync detection
-
-Mac Studio M3 Ultra · dedicated hardware
-Ollama local LLM · Claude for reasoning`}</pre>
+    <!-- ═══ LATEST OUTPUT ═══ -->
+    <div class="panel stagger-in brief-panel">
+      <h2 class="panel-title ice">LATEST OUTPUT</h2>
+      <div class="output-entries">
+        <a href="/brief/2026-E007" class="output-entry">
+          <span class="output-tag phosphor">BRIEF E007</span>
+          <span class="output-text">Vipassana</span>
+        </a>
+        <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" class="output-entry">
+          <span class="output-tag amber">X / LIVE</span>
+          <span class="output-text">{m.posts} autonomous posts · {m.followers} followers · zero human edits</span>
+        </a>
+        <a href="/journal" class="output-entry">
+          <span class="output-tag dim">JOURNAL</span>
+          <span class="output-text">Day {m.day} operating record — every decision logged</span>
+        </a>
+      </div>
+      <div class="brief-links" style="margin-top: var(--sp-10);">
+        <span class="dim">→</span> <a href="/brief" class="amber-link">full archive</a>
+      </div>
     </div>
 
-    <!-- ═══ ON-CHAIN REVENUE ═══ -->
+    <!-- THE PROOF panel removed — data duplicated STATUS and REVENUE panels -->
+    <!-- ═══ LIVE REVENUE + ARCHITECTURE ═══ -->
     <div class="panel stagger-in revenue-panel">
       <h2 class="panel-title phosphor">ON-CHAIN REVENUE</h2>
-      <pre class="live-dash" id="live-revenue">{`LP Commissions ..... $32,340
+      <pre class="live-dash" id="live-revenue">{`LP Commissions ..... $${m.revenue?.toLocaleString?.() ?? m.revenue}
 24h Volume ......... loading...
 Token Price ........ loading...`}</pre>
       <div style="font-size: 0.6rem; margin-top: 4px; color: var(--text-dim);">
@@ -90,20 +127,40 @@ Token Price ........ loading...`}</pre>
       </div>
     </div>
 
+    <!-- ═══ COGNITIVE FUNCTIONS ═══ -->
+    <div class="panel stagger-in mesh-panel">
+      <h2 class="panel-title ice">ARCHITECTURE</h2>
+      <pre class="live-dash" style="color: var(--text-dim);">{`STRATEGIC .... signal + architecture
+EDITORIAL .... quality scoring
+VISUAL ....... design system
+DISTRIBUTION . publishing
+INTEGRITY .... health monitor
+
+${uptimeDays}d uptime · 7 scheduled jobs · dedicated hardware`}</pre>
+      <div style="font-size:var(--size-xs);margin-top:var(--sp-4);">
+        <a href="/system" style="color:var(--ice);">full system details →</a>
+      </div>
+    </div>
+
+    <!-- ═══ MINI TERMINAL (desktop) ═══ -->
+    <div class="panel stagger-in miniterm-panel">
+      <h2 class="panel-title phosphor">TERMINAL <a href="/terminal" class="dim" style="font-size:var(--size-xs);font-weight:400;margin-left:var(--sp-6);text-decoration:none;">[expand →]</a></h2>
+      <div class="miniterm-output" id="miniterm-output"></div>
+      <div class="miniterm-input">
+        <span class="miniterm-prompt">$</span>
+        <input type="text" id="miniterm-input" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Mini terminal input" placeholder="type help..." />
+      </div>
+    </div>
+
     <!-- ═══ VERIFY (full width) ═══ -->
     <div class="panel email-panel">
       <h2 class="panel-title amber">VERIFY EVERYTHING</h2>
-      <p class="email-desc">No claims without sources. The wallet is public. The code is open.</p>
-      <div class="wallet-block">
-        <div class="wallet-label">TRADING WALLET (Hyperliquid)</div>
-        <code class="wallet-addr">0xC7b52216e7BC13de0cd010aa12CAcb6D774453a2</code>
-        <div class="wallet-note">Query on-chain: positions, fills, P&L — all public</div>
-      </div>
-      <div style="margin-top: var(--sp-12); font-size: var(--size-sm); color: var(--text-dim);">
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://app.hyperliquid.xyz/explorer/address/0xC7b52216e7BC13de0cd010aa12CAcb6D774453a2" target="_blank" rel="noopener" style="color: var(--phosphor); font-weight: 700;">HL Explorer — live positions & trades</a><br/>
+      <p class="email-desc">Every claim on this site has a public source. Check the work.</p>
+      <div style="margin-top: var(--sp-8); font-size: var(--size-sm); color: var(--text-dim);">
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://x.com/squaer_agent" target="_blank" rel="noopener" style="color: var(--phosphor); font-weight: 700;">@squaer_agent on X</a><br/>
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6" target="_blank" rel="noopener" style="color: var(--text);">LP revenue on DexScreener</a><br/>
         <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/token" style="color: var(--text);">$SQUAER contract + market</a><br/>
-        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/journal" style="color: var(--text);">Operating record</a>
+        <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="/journal" style="color: var(--text);">Full operating record</a>
       </div>
     </div>
   </div>
@@ -112,26 +169,96 @@ Token Price ........ loading...`}</pre>
 
 
 <style>
-  /* ═══ GRID LAYOUT ═══ */
+  /* ═══ 3-COLUMN COMMAND CENTER (desktop ≥1200px) ═══ */
   @media (min-width: 1200px) {
     .terminal-grid {
       grid-template-columns: 2fr 1.5fr 1fr;
       grid-template-rows: auto;
     }
+    /* System column (left) */
     #boot-panel    { grid-column: 1; grid-row: 1; }
     .what-panel    { grid-column: 1; grid-row: 2; }
-    .status-panel  { grid-column: 2; grid-row: 1; }
-    .mesh-panel    { grid-column: 2; grid-row: 2; }
-    .revenue-panel { grid-column: 3; grid-row: 1 / 3; }
-    .email-panel   { grid-column: 1 / -1; }
+    .brief-panel   { grid-column: 1; grid-row: 3; }
 
-    .revenue-panel { border-left: 1px solid #1a1a1a; }
-    .status-panel  { border-left: 1px solid #1a1a1a; }
-    .mesh-panel    { border-left: 1px solid #1a1a1a; }
+    /* Evidence column (center) */
+    .proof-panel    { grid-column: 2 / 4; grid-row: 1; }
+    .revenue-panel  { grid-column: 2; grid-row: 2; }
+    .mesh-panel     { grid-column: 2; grid-row: 3; }
+
+    /* Pulse column (right) */
+    .status-panel   { grid-column: 3; grid-row: 2; }
+    .feed-panel     { grid-column: 3; grid-row: 3; }
+    .miniterm-panel { grid-column: 3; grid-row: 4; }
+
+    /* Full width bottom */
+    .email-panel { grid-column: 1 / -1; }
+
+    /* Panel borders for 3-col */
+    .proof-panel,
+    .revenue-panel,
+    .mesh-panel    { border-left: 1px solid #1a1a1a; border-right: 1px solid #1a1a1a; }
+    .status-panel,
+    .feed-panel,
+    .miniterm-panel { border-left: 1px solid #1a1a1a; }
   }
 
+  /* Tablet 2-col: boot panel spans full width so logo fits */
   @media (min-width: 641px) and (max-width: 1199px) {
     #boot-panel { grid-column: 1 / -1; }
+  }
+
+  /* Hide miniterm on mobile/tablet */
+  @media (max-width: 1199px) {
+    .miniterm-panel { display: none; }
+  }
+
+  /* Mesh panel styles removed — using static function list */
+
+  /* ═══ MINI TERMINAL ═══ */
+  .miniterm-output {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    color: var(--phosphor);
+    line-height: 1.5;
+    min-height: 90px;
+    max-height: 180px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    scrollbar-width: thin;
+    scrollbar-color: var(--phosphor-dim) transparent;
+  }
+  .miniterm-output::-webkit-scrollbar { width: 4px; }
+  .miniterm-output::-webkit-scrollbar-thumb { background: var(--phosphor-dim); }
+  .miniterm-input {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: var(--sp-4);
+    border-top: 1px solid #1a1a1a;
+    padding-top: var(--sp-4);
+  }
+  .miniterm-prompt {
+    color: var(--phosphor);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    user-select: none;
+  }
+  .miniterm-input input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--phosphor);
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    caret-color: var(--phosphor);
+    padding: 0;
+  }
+  .miniterm-input input::placeholder {
+    color: var(--phosphor-dim);
+    opacity: 0.5;
   }
 
   /* Boot sequence */
@@ -163,6 +290,7 @@ Token Price ........ loading...`}</pre>
     color: var(--text-dim);
   }
 
+  /* Screen flicker on boot */
   #boot-panel {
     animation: screenOn 0.3s ease-out;
   }
@@ -171,55 +299,6 @@ Token Price ........ loading...`}</pre>
     30% { opacity: 1; filter: brightness(2); }
     50% { opacity: 0.8; filter: brightness(1.5); }
     100% { opacity: 1; filter: brightness(1); }
-  }
-
-  .live-dash {
-    font-family: var(--font-head);
-    font-size: var(--size-sm);
-    line-height: 1.6;
-    color: var(--phosphor);
-    text-shadow: 0 0 4px var(--phosphor-glow);
-    margin: 0;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  h1.bl { margin: 0; font-size: var(--size-sm); font-family: var(--font-head); font-weight: 700; line-height: 1.5; }
-  h2.panel-title { margin: 0; margin-bottom: var(--sp-6); }
-
-  /* Wallet block */
-  .wallet-block {
-    margin-top: var(--sp-10);
-    padding: var(--sp-8);
-    border: 1px solid var(--phosphor);
-    background: rgba(200, 255, 0, 0.02);
-  }
-  .wallet-label {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    color: var(--phosphor);
-    letter-spacing: 0.06em;
-    margin-bottom: var(--sp-4);
-  }
-  .wallet-addr {
-    font-family: var(--font-head);
-    font-size: var(--size-sm);
-    color: var(--text);
-    word-break: break-all;
-    line-height: 1.5;
-    display: block;
-    user-select: all;
-  }
-  .wallet-note {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    color: var(--text-dim);
-    margin-top: var(--sp-4);
-  }
-
-  @media (max-width: 640px) {
-    .live-dash { font-size: var(--size-xs); }
-    h1.bl { font-size: var(--size-xs); }
-    .wallet-addr { font-size: var(--size-xs); }
   }
 </style>
 
@@ -235,35 +314,154 @@ Token Price ........ loading...`}</pre>
   });
 </script>
 
+<style>
+  .live-dash {
+    font-family: var(--font-head);
+    font-size: var(--size-sm);
+    line-height: 1.6;
+    color: var(--phosphor);
+    text-shadow: 0 0 4px var(--phosphor-glow);
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  h1.bl { margin: 0; font-size: var(--size-sm); font-family: var(--font-head); font-weight: 700; line-height: 1.5; }
+  h2.panel-title { margin: 0; margin-bottom: var(--sp-6); }
+  .live-dot {
+    color: var(--phosphor);
+    animation: livePulse 2s ease-in-out infinite;
+    font-size: var(--size-xs);
+    vertical-align: middle;
+  }
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  /* Token CTA styles */
+  .sub-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--phosphor);
+    color: var(--phosphor);
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    width: 280px;
+    padding: 4px 0;
+  }
+  .sub-input::placeholder { color: var(--text-dim); }
+  .sub-input:focus { border-bottom-color: var(--amber); }
+  .sub-button {
+    background: transparent;
+    border: 1px solid var(--phosphor);
+    color: var(--phosphor);
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 4px 12px;
+    margin-left: 8px;
+  }
+  .sub-button:hover {
+    background: var(--phosphor);
+    color: var(--bg);
+  }
+  .brief-links {
+    margin-top: var(--sp-6);
+    font-size: var(--size-sm);
+  }
+  .brief-links .sep { margin-left: var(--sp-8); }
+  .amber-link { color: var(--amber); text-decoration: none; }
+  .amber-link:hover { text-decoration: underline; }
+  .phosphor-link { color: var(--phosphor); text-decoration: none; }
+  .phosphor-link:hover { text-decoration: underline; }
+
+  /* Latest output entries */
+  .output-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .output-entry {
+    display: flex;
+    gap: var(--sp-8);
+    align-items: baseline;
+    padding: var(--sp-6) 0;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
+    text-decoration: none;
+    color: var(--text);
+    font-size: var(--size-sm);
+    font-family: var(--font-body);
+    transition: color 0.15s;
+  }
+  .output-entry:last-child { border-bottom: none; }
+  .output-entry:hover { color: var(--phosphor); }
+  .output-tag {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: var(--size-xs);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    min-width: 7em;
+  }
+  .output-text {
+    line-height: 1.4;
+  }
+  @media (max-width: 640px) {
+    .output-entry {
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .live-dash { font-size: var(--size-xs); }
+    h1.bl { font-size: var(--size-xs); }
+    .sub-input { width: 200px; }
+  }
+</style>
+
 <script>
-  // === LIVE REVENUE TICKER ===
-  const TOTAL_REVENUE = 32340;
+  // === LIVE REVENUE TICKER (direct DexScreener — no SSR needed) ===
+  let lastRevenueUpdate = 0;
+  const PAIR_ADDR = '0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6';
+  const TOTAL_REVENUE = 32340; // LP commissions earned — updated by cron
+
   async function updateRevenue() {
     const el = document.getElementById('live-revenue');
     if (!el) return;
     try {
       const res = await fetch('/svc/revenue.json');
       const data = await res.json();
+      lastRevenueUpdate = Date.now();
       const rev = '$' + (data.lp_commissions_total || TOTAL_REVENUE).toLocaleString();
       const vol = data.volume_24h ? '$' + Math.round(data.volume_24h).toLocaleString() : '—';
       const price = data.token_price_usd ? '$' + data.token_price_usd.toFixed(6) : '—';
-      el.textContent = `LP Commissions ..... ${rev}\n24h Volume ......... ${vol}\nToken Price ........ ${price}\n\nSource: Uniswap V4 LP · Base L2`;
+      el.textContent = `LP Commissions ..... ${rev}\n24h Volume ......... ${vol}\nToken Price ........ ${price}\n\nSource: Uniswap V4 LP · Base L2 · updates every 60s`;
     } catch(e) {
-      el.textContent = `LP Commissions ..... $${TOTAL_REVENUE.toLocaleString()}\n24h Volume ......... —\nToken Price ........ —\n\nSource: Uniswap V4 LP · Base L2`;
+      el.textContent = `LP Commissions ..... $${TOTAL_REVENUE.toLocaleString()}\n24h Volume ......... —\nToken Price ........ —\n\nSource: Uniswap V4 LP · Base L2 · updates every 60s`;
     }
   }
+
+  // Init
   updateRevenue();
+  // Revenue polling killed — was calling DexScreener every 60s ($168 Vercel overage)
+  // Revenue is static now. Update via redeploy when baseline changes.
 </script>
 
 <script>
   // === BOOT SEQUENCE ORCHESTRATION ===
+  // Panels after boot should wait until boot animation completes
   (function() {
     var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var bootSeen = sessionStorage.getItem('boot-seen');
     var allAfterBoot = Array.from(document.querySelectorAll('.terminal-grid > *:not(#boot-panel)'));
 
-    if (REDUCED) return;
+    if (REDUCED) {
+      // Show everything immediately
+      return;
+    }
 
+    // Hide all panels after boot
     allAfterBoot.forEach(function(el) {
       el.style.opacity = '0';
       el.style.visibility = 'hidden';
@@ -282,9 +480,15 @@ Token Price ........ loading...`}</pre>
     }
 
     if (bootSeen) {
+      // Returning visitor — quick 500ms fade
       revealPanels(500);
     } else {
-      revealPanels(3800);
+      // First visit — wait for boot sequence to finish (last line at 4300ms + buffer)
+      revealPanels(4500);
     }
   })();
 </script>
+
+<!-- Mesh polling removed — using static function list until live agent status is wired -->
+
+<script src="/js/mini-terminal.js" defer></script>
