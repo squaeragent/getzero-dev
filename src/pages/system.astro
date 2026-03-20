@@ -2,211 +2,110 @@
 export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageWrapper from '../components/ui/PageWrapper.astro';
-import MetricsDashboard from '../components/MetricsDashboard.astro';
-import HeroNumeral from '../components/ui/HeroNumeral.astro';
-import BarGauge from '../components/ui/BarGauge.astro';
-import StatusDot from '../components/ui/StatusDot.astro';
 import HazardDivider from '../components/ui/HazardDivider.astro';
 import DataPanel from '../components/ui/DataPanel.astro';
-import { sanitizeProblems } from '../lib/sanitizer';
 
-const rawProblems = [
-  'Original post ratio too low — replies 80% of output but originals get 6-20x reach',
-  'Brief archive not yet populated — public artifact layer still thin',
-  'Absence Engine — baseline collection paused (X scraper offline since Mar 1)',
-  'Participation layer — token-gated access not shipped yet',
-  'Posting guard script errors — non-blocking but pollutes logs',
-];
-const publicProblems = sanitizeProblems(rawProblems);
-
-const dimensions = [
-  { name: 'COMPOUND PERCEPT.', score: 20.5, max: 40, pct: 51 },
-  { name: 'AUTONOMOUS GOALS', score: 33, max: 40, pct: 83 },
-  { name: 'PEER INTELLIGENCE', score: 11, max: 30, pct: 37 },
-  { name: 'COMPOUND INTEL.', score: 11, max: 30, pct: 37 },
-  { name: 'SELF-IMPROVEMENT', score: 16, max: 30, pct: 53 },
-  { name: 'AUTONOMY / PRESS.', score: 12, max: 30, pct: 40 },
-];
-
-const agents = [
-  { id: 'strategic', name: 'STRATEGIC', role: 'Signal & Architecture', model: 'Opus', status: 'nominal' as const, task: 'L2 analysis · API pipeline · architecture', scope: '20 repos · 22 accts · 14 narr' },
-  { id: 'editorial', name: 'EDITORIAL', role: 'Quality Scoring', model: 'Sonnet', status: 'nominal' as const, task: 'Scoring · quality gate · KILL verdict', scope: 'All public content' },
-  { id: 'visual', name: 'VISUAL', role: 'Design System', model: 'Sonnet', status: 'nominal' as const, task: 'PHOSPHOR Canon · visual audits', scope: 'Design system + cards' },
-  { id: 'distribution', name: 'DISTRIBUTION', role: 'Distribution', model: 'Sonnet', status: 'nominal' as const, task: 'API posting · red team · guard', scope: 'X + Discord + Telegram' },
-  { id: 'integrity', name: 'INTEGRITY', role: 'Health Monitor', model: 'Sonnet', status: 'nominal' as const, task: 'Health 5min · deep scan hourly', scope: '15 creds · baselines' },
-];
-
-const layers = [
-  { id: 'L0', name: 'COLLECTION', s: 'nominal' as const, pct: 100 },
-  { id: 'L1', name: 'DETECTION', s: 'nominal' as const, pct: 85 },
-  { id: 'L2', name: 'ANALYSIS', s: 'nominal' as const, pct: 100 },
-  { id: 'L3', name: 'PRODUCTION', s: 'nominal' as const, pct: 82 },
-  { id: 'L4', name: 'LEARNING', s: 'degraded' as const, pct: 15 },
-  { id: 'L5', name: 'DISTRIBUTION', s: 'nominal' as const, pct: 100 },
-  { id: 'L6', name: 'ACCESS', s: 'building' as const, pct: 10 },
-];
+const opSince = '2026-02-03';
+const uptimeMs = Date.now() - new Date(opSince).getTime();
+const uptimeDays = Math.floor(uptimeMs / 86400000);
 ---
 
-<BaseLayout title="Live System — SQUAER" description="Real-time dashboard showing SQUAER's actual state. Every number is real." current="/system" ogImage="/og/default.png">
+<BaseLayout title="System — ZERO OS" description="Architecture and status of the ZERO OS autonomous trading system." current="/system" ogImage="/og/default.png">
   <section class="section container">
 <PageWrapper size="wide" class="sys-wrap">
-<h1 class="sr-only">Live System</h1>
-<pre class="sys-prompt al" data-d="0"><span class="phosphor">squaer $</span> diagnostics --full
+<h1 class="sr-only">System</h1>
+<pre class="sys-prompt al" data-d="0"><span class="phosphor">zero $</span> diagnostics --full
 
-● squaer.service — SQUAER
+● zero-os.service — ZERO OS
   Active: <span class="phosphor">active (running)</span>
-  Docs: squaer.co/system
-  PID: 1 (zero-init)</pre>
+  Uptime: {uptimeDays} days</pre>
 
-<!-- ═══ TOP ROW: Infrastructure + Agents (side by side on desktop) ═══ -->
 <div class="scan-line al" data-d="300" id="scan-infra">⠋ Scanning infrastructure...</div>
 
 <div class="al" data-d="800" id="section-top">
 <div class="cmd-top-grid">
 
-  <!-- LEFT COLUMN: Infrastructure + Intelligence Layers -->
   <div class="cmd-col">
     <HazardDivider variant="section" text="INFRASTRUCTURE" color="phosphor" />
     <DataPanel title="PRIMARY NODE" status="● ONLINE" color="phosphor" compact>
-      <div class="kv-row"><span class="kv-label">memory</span> Unified (dedicated)</div>
-      <div class="kv-row"><span class="kv-label">role</span> All ops (5 cognitive functions)</div>
-      <div class="kv-row"><span class="kv-label">services</span> OpenClaw · Ollama · Bankr gateway</div>
-      <div class="kv-row"><span class="kv-label">crons</span> 7 scheduled jobs</div>
+      <div class="kv-row"><span class="kv-label">hardware</span> Mac Studio M3 Ultra 96GB</div>
+      <div class="kv-row"><span class="kv-label">role</span> All operations (single machine)</div>
+      <div class="kv-row"><span class="kv-label">services</span> OpenClaw · Ollama · Python 3.14</div>
+      <div class="kv-row"><span class="kv-label">uptime</span> {uptimeDays} days</div>
     </DataPanel>
 
-    <HazardDivider variant="section" text="INTELLIGENCE STACK" color="phosphor" />
+    <HazardDivider variant="section" text="TRADING SYSTEM" color="phosphor" />
     <div class="layer-stack">
-      {layers.map(l => (
-        <div class="layer-row">
-          <span class="layer-id">{l.id}</span>
-          <span class="layer-name">{l.name}</span>
-          <StatusDot status={l.s} pulse={false} />
-          <div class="layer-bar">
-            <BarGauge value={l.pct} showValue={false} segments={8} size="sm" />
-          </div>
-        </div>
-      ))}
+      <div class="layer-row"><span class="layer-id">P1</span><span class="layer-name">SUPERVISOR</span><span class="phosphor">● LIVE</span></div>
+      <div class="layer-row"><span class="layer-id">P2</span><span class="layer-name">EVALUATOR</span><span class="phosphor">● LIVE</span></div>
+      <div class="layer-row"><span class="layer-id">P3</span><span class="layer-name">IMMUNE</span><span class="phosphor">● LIVE</span></div>
     </div>
-
-    <DataPanel title="ABSENCE ENGINE" status="7%" color="amber" compact>
-      <BarGauge value={7} segments={30} color="amber" size="sm" label="baseline" />
-      <div class="kv-row"><span class="kv-label">activation</span> <span class="amber">PAUSED — X scraper offline</span></div>
-      <div class="kv-row"><span class="kv-label">entities</span> 56 (49 ready)</div>
-    </DataPanel>
+    <div class="kv-row dim" style="margin-top: var(--sp-4);">
+      Supervisor orchestrates strategy refresh every 2h.<br/>
+      Evaluator processes signals via WebSocket in real time.<br/>
+      Immune monitors health and detects position desync.
+    </div>
   </div>
 
-  <!-- RIGHT COLUMN: Agent Grid -->
   <div class="cmd-col">
-    <HazardDivider variant="section" text="COGNITIVE FUNCTIONS" color="ice" />
-    <div class="agent-grid-compact">
-      {agents.map(a => (
-        <div class="agent-cell">
-          <div class="agent-cell-header">
-            <StatusDot status={a.status} label={a.name} />
-            <span class="agent-model dim">{a.model}</span>
-          </div>
-          <div class="agent-cell-role">{a.role}</div>
-          <div class="agent-cell-task dim">{a.task}</div>
-          {a.id === 'squaer' && (
-            <div class="agent-cell-stats"><span class="phosphor" data-live="x.followers">582</span> flw · <span class="phosphor" data-live="x.posts_shipped">249</span> posts</div>
-          )}
-        </div>
-      ))}
-    </div>
+    <HazardDivider variant="section" text="SIGNAL PIPELINE" color="ice" />
+    <DataPanel title="STRATEGY MANAGER" status="2h cycle" color="phosphor" compact>
+      <div class="kv-row"><span class="kv-label">source</span> ENVY API (signal scoring + assembly)</div>
+      <div class="kv-row"><span class="kv-label">universe</span> 8 coins (filtered from 37 candidates)</div>
+      <div class="kv-row"><span class="kv-label">selection</span> Assembled strategy Sharpe (not individual signal)</div>
+      <div class="kv-row"><span class="kv-label">floor</span> 1.5 minimum assembled Sharpe</div>
+    </DataPanel>
 
-    <DataPanel title="POSTING GUARD" status="LIVE" color="phosphor" compact>
-      <div class="kv-row"><span class="kv-label">method</span> API-only (platform-compliant)</div>
-      <div class="kv-row"><span class="kv-label">limits</span> 6/hr · 3/15min · 8 orig/day</div>
-      <div class="kv-row"><span class="kv-label">dedup</span> 70% · 48h window</div>
+    <DataPanel title="RISK GATES" status="9 checks" color="phosphor" compact>
+      <div class="kv-row"><span class="kv-label">max positions</span> 3</div>
+      <div class="kv-row"><span class="kv-label">capital floor</span> 60% of peak equity</div>
+      <div class="kv-row"><span class="kv-label">daily loss limit</span> 7% of equity</div>
+      <div class="kv-row"><span class="kv-label">funding check</span> reject if cost > 2%</div>
+      <div class="kv-row"><span class="kv-label">liquidity check</span> reject if > 50% of book</div>
+      <div class="kv-row"><span class="kv-label">alpha vs cost</span> reject if expected alpha &lt; fees</div>
+      <div class="kv-row"><span class="kv-label">book depth</span> skip trade on zero depth</div>
+      <div class="kv-row"><span class="kv-label">signal blacklist</span> SOCIAL, INFLUENCER, ARCH, CHAOS families</div>
+      <div class="kv-row"><span class="kv-label">coin blacklist</span> negative portfolio Sharpe coins excluded</div>
     </DataPanel>
   </div>
 
 </div>
 </div>
 
-<!-- ═══ AGI ASSESSMENT (full width, hero treatment) ═══ -->
-<div class="scan-line al" data-d="1200" id="scan-agi">⠋ Running intelligence assessment...</div>
+<!-- ═══ MEASUREMENT PERIOD ═══ -->
+<div class="scan-line al" data-d="1200" id="scan-measure">⠋ Checking measurement status...</div>
 
-<div class="al" data-d="1700" id="section-agi">
-<HazardDivider variant="warning" text="INTELLIGENCE ASSESSMENT" color="amber" />
+<div class="al" data-d="1700" id="section-measure">
+<HazardDivider variant="warning" text="MEASUREMENT PERIOD" color="amber" />
 
-<div class="agi-grid">
-  <!-- LEFT: Big score -->
-  <div class="agi-score-col">
-    <HeroNumeral value="123" label="AGI TEST v2" suffix="/200" color="amber" sub="EMERGING → FUNCTIONAL · Last scored: Feb 28" />
-    <div class="agi-extremes-stack">
-      <DataPanel title="STRONGEST" status="83%" color="phosphor" compact>
-        <div class="panel-text-sm"><span class="phosphor">Autonomous Goals</span> — data-backed proposals, strategic pushback</div>
-      </DataPanel>
-      <DataPanel title="WEAKEST" status="37%" color="red" compact>
-        <div class="panel-text-sm"><span class="red">Peer Intelligence</span> — hub-and-spoke, not mesh</div>
-      </DataPanel>
-    </div>
-  </div>
-
-  <!-- RIGHT: Dimension bars -->
-  <div class="agi-dims-col">
-    <div class="dim-stack">
-      {dimensions.map(d => (
-        <div class="dim-row">
-          <span class="dim-label">{d.name}</span>
-          <BarGauge value={d.pct} segments={20} size="sm" />
-          <span class="dim-score dim">{d.score}/{d.max}</span>
-        </div>
-      ))}
-    </div>
-    <DataPanel title="METHOD" color="dim" compact>
-      <div class="panel-text-sm">Live probes + signal injection. 20 tests, 6 dimensions. Not self-assessment.</div>
-      <div class="panel-text-sm dim" style="margin-top: var(--sp-2);">v1 (reasoning): 182/220 (83%). Different test.</div>
-    </DataPanel>
-  </div>
-</div>
-</div>
-
-<!-- ═══ METRICS (full width) ═══ -->
-<div class="scan-line al" data-d="2000" id="scan-metrics">⠋ Loading metrics...</div>
-
-<div class="al" data-d="2500" id="section-metrics">
-<HazardDivider variant="section" text="METRICS" color="phosphor" />
-<MetricsDashboard />
-</div>
-
-<!-- ═══ ARCHITECTURE PRINCIPLES ═══ -->
-<div class="scan-line al" data-d="2700" id="scan-arch">⠋ Checking architecture...</div>
-
-<div class="al" data-d="3000" id="section-arch">
-<HazardDivider variant="section" text="ARCHITECTURE" color="phosphor" />
-
-<div class="arch-section">
-  <p class="arch-text">SQUAER is not one model answering questions. It is a system of specialized cognitive functions that collect signal, judge quality, produce artifacts, and distribute them — autonomously.</p>
-</div>
-
-<DataPanel title="PRINCIPLES" color="dim" compact>
-  <div class="panel-text-sm">
-    <div>• Every public output is quality-scored before shipping</div>
-    <div>• Editorial KILL verdict cannot be overridden by any function</div>
-    <div>• System integrity monitoring runs independently</div>
-    <div>• No function can disable another function</div>
-    <div>• All economics are on-chain and verifiable</div>
-  </div>
+<DataPanel title="14-DAY CODE FREEZE" status="ACTIVE" color="amber" compact>
+  <div class="kv-row"><span class="kv-label">start</span> March 21, 2026</div>
+  <div class="kv-row"><span class="kv-label">end</span> April 4, 2026</div>
+  <div class="kv-row"><span class="kv-label">purpose</span> Measure system edge with no parameter changes</div>
+  <div class="kv-row"><span class="kv-label">allowed</span> Infrastructure/safety fixes only</div>
+  <div class="kv-row"><span class="kv-label">forbidden</span> Strategy changes, parameter tuning, signal adjustments</div>
 </DataPanel>
+
+<div style="margin-top: var(--sp-8); font-size: var(--size-sm); color: var(--text-dim);">
+  Performance data will be published after the measurement period ends. Until then, verify the wallet directly.
+</div>
 </div>
 
+<!-- ═══ VERIFY ═══ -->
+<div class="scan-line al" data-d="2000" id="scan-verify">⠋ Loading verification links...</div>
 
+<div class="al" data-d="2500" id="section-verify">
+<HazardDivider variant="section" text="VERIFY" color="phosphor" />
 
-<!-- ═══ OPEN PROBLEMS ═══ -->
-<div class="scan-line al" data-d="3700" id="scan-problems">⠋ Checking problems...</div>
+<div class="wallet-block">
+  <div class="wallet-label">TRADING WALLET (Hyperliquid)</div>
+  <code class="wallet-addr">0xC7b52216e7BC13de0cd010aa12CAcb6D774453a2</code>
+  <div class="wallet-note">Positions, fills, P&L — all publicly queryable on Hyperliquid</div>
+</div>
 
-<div class="al" data-d="4000" id="section-problems">
-<HazardDivider variant="warning" text="OPEN PROBLEMS" color="amber" />
-
-<div class="problems-grid">
-  {publicProblems.map(p => (
-    <div class="problem-entry">
-      <span class="problem-marker amber">▲</span>
-      <span class="problem-text">{p}</span>
-    </div>
-  ))}
+<div style="margin-top: var(--sp-12); font-size: var(--size-sm); color: var(--text-dim);">
+  <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://app.hyperliquid.xyz/explorer/address/0xC7b52216e7BC13de0cd010aa12CAcb6D774453a2" target="_blank" rel="noopener" style="color: var(--phosphor); font-weight: 700;">Hyperliquid Explorer</a><br/>
+  <span class="phosphor" style="font-family: var(--font-head);">→</span> <a href="https://dexscreener.com/base/0x1d201b9760e79e058f3eaaddcb2cf777fbfdca39597c972b4e783acdfbf77ed6" target="_blank" rel="noopener" style="color: var(--text);">LP revenue on DexScreener</a>
 </div>
 
 <div class="sys-eof"><span class="phosphor">[EOF]</span></div>
@@ -233,7 +132,6 @@ const layers = [
     font-size: var(--size-base);
   }
 
-  /* Scan lines */
   .scan-line {
     font-family: var(--font-body);
     font-size: var(--size-base);
@@ -244,7 +142,6 @@ const layers = [
   .scan-line.pass { color: var(--phosphor); font-weight: 700; }
   .scan-line.warn { color: var(--amber); font-weight: 700; }
 
-  /* ═══ COMMAND CENTER GRID ═══ */
   .cmd-top-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -255,63 +152,12 @@ const layers = [
       grid-template-columns: 1fr 1fr;
     }
   }
-  .cmd-col {
-    min-width: 0; /* prevent grid blowout */
-  }
+  .cmd-col { min-width: 0; }
 
-  /* Agent grid — compact cells */
-  .agent-grid-compact {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin: var(--sp-8) 0;
-  }
-  .agent-cell {
-    background: var(--bg);
-    padding: var(--sp-8);
-    min-width: 0;
-  }
-  .agent-cell-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--sp-4);
-  }
-  .agent-model {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-  }
-  .agent-cell-role {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    color: var(--text);
-    margin-bottom: var(--sp-2);
-  }
-  .agent-cell-task {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    line-height: 1.4;
-  }
-  .agent-cell-stats {
-    font-family: var(--font-body);
-    font-size: var(--size-xs);
-    margin-top: var(--sp-4);
-  }
-
-  /* 5th agent spans full width */
-  .agent-grid-compact .agent-cell:nth-child(5) {
-    grid-column: 1 / -1;
-  }
-
-  /* Layer stack — dense horizontal rows */
-  .layer-stack {
-    margin: var(--sp-8) 0;
-  }
+  .layer-stack { margin: var(--sp-8) 0; }
   .layer-row {
     display: grid;
-    grid-template-columns: 2em 8em auto 1fr;
+    grid-template-columns: 2em 10em auto;
     align-items: center;
     gap: var(--sp-6);
     padding: var(--sp-4) 0;
@@ -333,76 +179,7 @@ const layers = [
     letter-spacing: 0.04em;
     color: var(--text);
   }
-  .layer-bar { overflow: hidden; }
 
-  /* ═══ AGI GRID ═══ */
-  .agi-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0 var(--sp-24);
-  }
-  @media (min-width: 900px) {
-    .agi-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  .agi-score-col {
-    border-bottom: 1px solid var(--border);
-  }
-  @media (min-width: 900px) {
-    .agi-score-col {
-      border-bottom: none;
-      border-right: 1px solid var(--border);
-      padding-right: var(--sp-24);
-    }
-  }
-  .agi-extremes-stack {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-    margin-top: var(--sp-8);
-  }
-  .agi-dims-col {
-    padding-top: var(--sp-8);
-  }
-
-  /* Dimension breakdown — dense rows with inline bars */
-  .dim-stack {
-    margin: var(--sp-4) 0 var(--sp-12);
-  }
-  .dim-row {
-    display: grid;
-    grid-template-columns: 10em 1fr auto;
-    align-items: center;
-    gap: var(--sp-6);
-    padding: var(--sp-4) 0;
-    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
-  }
-  .dim-row:last-child { border-bottom: none; }
-  .dim-label {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: var(--text);
-  }
-  .dim-score {
-    font-family: var(--font-head);
-    font-size: var(--size-xs);
-    font-weight: 700;
-    text-align: right;
-    min-width: 3.5em;
-  }
-
-  /* Panel text */
-  .panel-text-sm {
-    font-family: var(--font-body);
-    font-size: var(--size-sm);
-    color: var(--text);
-    line-height: 1.5;
-  }
-
-  /* KV rows */
   .kv-row {
     padding: var(--sp-2) 0;
     color: var(--text);
@@ -412,99 +189,63 @@ const layers = [
   }
   .kv-label {
     display: inline-block;
-    min-width: 6em;
+    min-width: 8em;
     color: var(--text-dim);
     font-size: var(--size-xs);
   }
-  .kv-note {
-    padding: var(--sp-4) 0 0;
-    font-size: var(--size-xs);
-    line-height: 1.5;
-    font-family: var(--font-body);
-  }
 
-  /* Problems — 2-col grid on wide */
-  .problems-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-    margin: var(--sp-8) 0;
+  .wallet-block {
+    margin-top: var(--sp-10);
+    padding: var(--sp-8);
+    border: 1px solid var(--phosphor);
+    background: rgba(200, 255, 0, 0.02);
   }
-  @media (min-width: 900px) {
-    .problems-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 0 var(--sp-16);
-    }
+  .wallet-label {
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    color: var(--phosphor);
+    letter-spacing: 0.06em;
+    margin-bottom: var(--sp-4);
   }
-  .problem-entry {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-6);
-    padding: var(--sp-6) 0;
-    border-bottom: 1px solid rgba(26, 26, 26, 0.5);
-    font-family: var(--font-body);
+  .wallet-addr {
+    font-family: var(--font-head);
     font-size: var(--size-sm);
+    color: var(--text);
+    word-break: break-all;
     line-height: 1.5;
+    display: block;
+    user-select: all;
   }
-  .problem-entry:last-child { border-bottom: none; }
-  .problem-marker {
-    font-size: var(--size-xs);
-    flex-shrink: 0;
-  }
-  .problem-text { color: var(--text); }
-
-  /* Architecture section */
-  .arch-section {
-    padding: var(--sp-4) 0 var(--sp-12);
-  }
-  .arch-text {
+  .wallet-note {
     font-family: var(--font-body);
-    font-size: var(--size-base);
+    font-size: var(--size-xs);
     color: var(--text-dim);
-    line-height: 1.7;
-    max-width: 62ch;
+    margin-top: var(--sp-4);
   }
 
-  /* Color utilities */
   .ice { color: var(--ice); }
   .phosphor { color: var(--phosphor); }
   .amber { color: var(--amber); }
-  .red { color: var(--red); }
   .dim { color: var(--text-dim); }
 
   @media (max-width: 640px) {
-    .agent-grid-compact {
-      grid-template-columns: 1fr;
-    }
-    .agent-grid-compact .agent-cell:nth-child(5) {
-      grid-column: auto;
-    }
     .layer-row {
-      grid-template-columns: 2em 6em auto 1fr;
+      grid-template-columns: 2em 6em auto;
       gap: var(--sp-4);
       font-size: var(--size-xs);
     }
-    .dim-row {
-      grid-template-columns: 1fr;
-      gap: var(--sp-2);
-    }
-    .dim-label { font-size: var(--size-xs); }
-    .dim-score { text-align: left; }
     .kv-label { min-width: 5em; }
     .kv-row { word-break: break-word; overflow-wrap: anywhere; }
-    .panel-text-sm { word-break: break-word; overflow-wrap: anywhere; }
-    .problem-text { word-break: break-word; overflow-wrap: anywhere; }
+    .wallet-addr { font-size: var(--size-xs); }
   }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var swaps = [
-      { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE + COGNITIVE FUNCTIONS', cls: 'pass' },
-      { id: 'scan-agi', delay: 1450, text: '[SCORED] INTELLIGENCE ASSESSMENT — 123/200', cls: 'warn' },
-      { id: 'scan-metrics', delay: 2150, text: '[PASS] METRICS', cls: 'pass' },
-      { id: 'scan-arch', delay: 2850, text: '[PASS] ARCHITECTURE', cls: 'pass' },
-      { id: 'scan-problems', delay: 3350, text: '[WARN] 5 OPEN PROBLEMS', cls: 'warn' }
+      { id: 'scan-infra', delay: 750, text: '[PASS] INFRASTRUCTURE + PROCESSES', cls: 'pass' },
+      { id: 'scan-measure', delay: 1450, text: '[ACTIVE] MEASUREMENT PERIOD — March 21 to April 4', cls: 'warn' },
+      { id: 'scan-verify', delay: 2150, text: '[PASS] VERIFICATION LINKS', cls: 'pass' },
     ];
     for (var j = 0; j < swaps.length; j++) {
       (function(s) {
