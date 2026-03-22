@@ -5,7 +5,12 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "playwright test",
+    "test:visual": "playwright test tests/visual/",
+    "test:layout": "playwright test tests/layout/",
+    "test:a11y": "playwright test tests/accessibility/",
+    "test:perf": "playwright test tests/performance/"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
@@ -15,6 +20,8 @@
     "resend": "^6.9.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@playwright/test": "^1.49.0",
     "@types/js-yaml": "^4.0.9"
   }
 }

@@ -39,7 +39,7 @@ const { items, bullet = '■', color = 'phosphor' } = Astro.props;
   }
   .cl-bullet {
     flex-shrink: 0;
-    font-size: 0.7em;
+    font-size: max(0.7em, 12px);
   }
   .cl-bullet.phosphor { color: var(--phosphor); }
   .cl-bullet.amber    { color: var(--amber); }

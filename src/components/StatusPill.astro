@@ -22,14 +22,14 @@ try { m = { ...m, ...JSON.parse(fs.readFileSync(path.join(process.cwd(), 'public
     border-radius: 2px;
     padding: 4px 10px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-size: var(--size-xs);
     color: var(--text-dim, #5a6a5a);
     z-index: 100;
     display: none;
     gap: 4px;
     align-items: center;
   }
-  .pill-dot { color: var(--phosphor, #33ff66); font-size: 8px; }
+  .pill-dot { color: var(--phosphor, #33ff66); font-size: var(--size-xs); }
   .pill-sep { color: var(--text-dim, #5a6a5a); }
   @media (min-width: 1200px) {
     .status-pill { display: flex; }

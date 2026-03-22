@@ -29,10 +29,12 @@
   --font-head:  'JetBrains Mono', monospace;
   --font-body:  'IBM Plex Mono', monospace;
 
-  /* Scale: use rem so mobile override on html font-size cascades */
-  --size-xs:    0.65rem;   /* badges, timestamps, labels */
-  --size-sm:    0.75rem;   /* footer, nav, secondary */
-  --size-base:  0.85rem;   /* body text, term-blocks */
+  /* Scale: use rem so mobile override on html font-size cascades.
+     Floor: nothing below 12px at any breakpoint.
+     Desktop root=13px, tablet root=16px, mobile root=14px. */
+  --size-xs:    0.925rem;  /* ≥12px at 13px root (12.025px) */
+  --size-sm:    1rem;      /* 13px at desktop root */
+  --size-base:  1.077rem;  /* 14px at desktop root */
   --size-md:    0.95rem;   /* emphasis, page headings */
   --size-lg:    1.1rem;    /* panel titles, hero text */
   --size-xl:    1.2rem;    /* day headers, section anchors */
@@ -65,26 +67,28 @@
   --glow-ice:      0 0 8px var(--ice-glow);
 }
 
-/* ── MOBILE TOKEN OVERRIDES ── */
+/* ── MOBILE TOKEN OVERRIDES ──
+   html font-size: 14px at ≤640px, 12.5px at 641-900px.
+   All --size-* must resolve to ≥12px at every breakpoint. */
 @media (max-width: 768px) {
   :root {
-    --size-xs:    0.65rem;
-    --size-sm:    0.75rem;
-    --size-base:  0.85rem;
-    --size-lg:    1rem;
-    --size-xl:    1.2rem;
+    --size-xs:    0.75rem;   /* 12px ÷ 16px root (tablet) */
+    --size-sm:    0.8125rem; /* 13px */
+    --size-base:  0.875rem;  /* 14px */
+    --size-lg:    1rem;      /* 16px */
+    --size-xl:    1.2rem;    /* 19.2px */
   }
 }
 @media (max-width: 640px) {
   :root {
     --sp-page:    10px;
     --sp-section: 16px;
-    --size-xs:    0.6rem;
-    --size-sm:    0.65rem;
-    --size-base:  0.8rem;
-    --size-md:    0.85rem;
-    --size-lg:    1rem;
-    --size-xl:    1.05rem;
+    --size-xs:    0.857rem;  /* 12px ÷ 14px */
+    --size-sm:    0.929rem;  /* 13px ÷ 14px */
+    --size-base:  1rem;      /* 14px */
+    --size-md:    1.071rem;  /* 15px */
+    --size-lg:    1.143rem;  /* 16px */
+    --size-xl:    1.214rem;  /* 17px */
   }
 }
 @media (max-width: 375px) {
