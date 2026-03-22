@@ -1,0 +1,364 @@
+---
+---
+
+<div class="eval-box" id="live-evaluator">
+  <div class="eval-header">
+    <span class="eval-title">TRY IT</span>
+    <span class="eval-status dim">ZERO OS · SIGNAL EVALUATOR</span>
+  </div>
+  <div class="eval-body">
+    <div class="eval-prompt">
+      <span class="eval-dollar">$</span>
+      <span class="eval-cmd dim">zeroos evaluate</span>
+      <input
+        type="text"
+        id="eval-input"
+        autocomplete="off"
+        autocapitalize="none"
+        spellcheck="false"
+        maxlength="12"
+        placeholder="type a coin..."
+        aria-label="Enter coin ticker to evaluate"
+      />
+    </div>
+    <div class="eval-output" id="eval-output"></div>
+  </div>
+</div>
+
+<style>
+  .eval-box {
+    border: 1px solid var(--phosphor-dim);
+    background: var(--bg);
+    font-family: var(--font-head);
+    font-size: var(--size-sm);
+    overflow: hidden;
+  }
+  .eval-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--sp-8) var(--sp-12);
+    border-bottom: 1px solid var(--phosphor-dim);
+    gap: var(--sp-8);
+  }
+  .eval-title {
+    color: var(--phosphor);
+    font-weight: 700;
+    font-size: var(--size-sm);
+    letter-spacing: 0.08em;
+    text-shadow: var(--glow-phosphor);
+  }
+  .eval-status {
+    font-size: var(--size-xs);
+    color: var(--text-dim);
+  }
+  .eval-body {
+    padding: var(--sp-12);
+  }
+  .eval-prompt {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+  }
+  .eval-dollar {
+    color: var(--phosphor);
+    font-weight: 700;
+    user-select: none;
+  }
+  .eval-cmd {
+    font-size: var(--size-sm);
+    white-space: nowrap;
+  }
+  #eval-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--phosphor);
+    font-family: var(--font-head);
+    font-size: var(--size-sm);
+    caret-color: var(--phosphor);
+    padding: 0;
+    min-width: 0;
+    text-transform: uppercase;
+  }
+  #eval-input::placeholder {
+    color: var(--phosphor-dim);
+    opacity: 0.4;
+    text-transform: none;
+  }
+  @keyframes evalBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  #eval-input:focus {
+    animation: none;
+  }
+  .eval-output {
+    margin-top: var(--sp-10);
+    line-height: 1.7;
+    min-height: 0;
+  }
+  .eval-output .eval-line {
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .eval-output .eval-line.on {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .eval-loading {
+    color: var(--text-dim);
+  }
+  .eval-label {
+    color: var(--text-dim);
+  }
+  .eval-value {
+    color: var(--phosphor);
+  }
+  .eval-value.amber {
+    color: var(--amber);
+  }
+  .eval-value.red {
+    color: var(--red);
+  }
+  .eval-value.ice {
+    color: var(--ice);
+  }
+  .eval-verdict {
+    margin-top: var(--sp-8);
+    font-weight: 700;
+    font-size: var(--size-base);
+  }
+  .eval-verdict.enter {
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+  }
+  .eval-verdict.reject {
+    color: var(--amber);
+    text-shadow: var(--glow-amber);
+  }
+  .eval-reason {
+    color: var(--text-dim);
+    font-size: var(--size-xs);
+    margin-top: var(--sp-4);
+  }
+  .eval-explanation {
+    color: var(--text-dim);
+    font-size: var(--size-xs);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    margin-top: var(--sp-10);
+    padding-top: var(--sp-8);
+    border-top: 1px solid #1a1a1a;
+    white-space: normal;
+  }
+  .eval-stats {
+    color: var(--text-dim);
+    font-size: var(--size-xs);
+    margin-top: var(--sp-8);
+  }
+  .eval-cta {
+    margin-top: var(--sp-12);
+    padding-top: var(--sp-10);
+    border-top: 1px solid #1a1a1a;
+  }
+  .eval-cta-btn {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--phosphor);
+    color: var(--phosphor);
+    font-family: var(--font-head);
+    font-size: var(--size-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: var(--sp-6) var(--sp-16);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .eval-cta-btn:hover {
+    background: var(--phosphor);
+    color: var(--bg);
+  }
+
+  @media (max-width: 640px) {
+    .eval-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--sp-4);
+    }
+    .eval-body {
+      padding: var(--sp-8);
+    }
+    .eval-prompt {
+      flex-wrap: wrap;
+    }
+    .eval-output .eval-line {
+      font-size: var(--size-xs);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const input = document.getElementById('eval-input') as HTMLInputElement;
+    const output = document.getElementById('eval-output') as HTMLElement;
+    if (!input || !output) return;
+
+    let running = false;
+
+    function playSound(type: string) {
+      try {
+        if (type === 'tap' && (window as any).ZeroSound?.tap) (window as any).ZeroSound.tap();
+        if (type === 'pulse' && (window as any).ZeroSound?.pulse) (window as any).ZeroSound.pulse(1);
+      } catch {}
+    }
+
+    function playHaptic(type: string) {
+      try {
+        if (type === 'entry' && (window as any).ZeroHaptics?.entry) (window as any).ZeroHaptics.entry();
+      } catch {}
+    }
+
+    input.addEventListener('keydown', function() {
+      playSound('tap');
+    });
+
+    input.addEventListener('keydown', async function(e: KeyboardEvent) {
+      if (e.key !== 'Enter') return;
+      const coin = input.value.trim().toUpperCase();
+      if (!coin || running) return;
+      running = true;
+      input.disabled = true;
+      output.innerHTML = '';
+
+      playSound('pulse');
+
+      // Show loading animation
+      const loadLine = document.createElement('div');
+      loadLine.className = 'eval-line eval-loading on';
+      loadLine.textContent = 'evaluating ' + coin + ' ';
+      output.appendChild(loadLine);
+
+      // Animate dots
+      let dots = 0;
+      const dotInterval = setInterval(() => {
+        dots++;
+        loadLine.textContent = 'evaluating ' + coin + ' ' + '.'.repeat(dots);
+        if (dots >= 20) clearInterval(dotInterval);
+      }, 80);
+
+      try {
+        const res = await fetch('/svc/evaluate-demo?coin=' + encodeURIComponent(coin));
+        const data = await res.json();
+
+        clearInterval(dotInterval);
+        loadLine.textContent = 'evaluating ' + coin + ' ' + '.'.repeat(20) + ' done';
+
+        playHaptic('entry');
+
+        // Pad labels to align dots
+        const W = 22;
+        function pad(label: string, value: string): string {
+          const dotsNeeded = Math.max(2, W - label.length - value.length);
+          return label + ' ' + '.'.repeat(dotsNeeded) + ' ' + value;
+        }
+
+        const lines = [
+          { text: pad('REGIME', data.regime + ' (H: ' + data.hurst.toFixed(2) + ')'), cls: '' },
+          { text: pad('SIGNAL QUALITY', data.quality), cls: '' },
+          { text: pad('DIRECTION', data.direction), cls: '' },
+          { text: pad('BOOK DEPTH', data.book_depth), cls: '' },
+          { text: pad('FUNDING', data.funding), cls: data.funding === 'crowded-long' || data.funding === 'extreme' ? 'amber' : '' },
+        ];
+
+        // Stagger result lines
+        for (let i = 0; i < lines.length; i++) {
+          await delay(180);
+          const el = document.createElement('div');
+          el.className = 'eval-line';
+          el.innerHTML = formatLine(lines[i].text, lines[i].cls);
+          output.appendChild(el);
+          requestAnimationFrame(() => el.classList.add('on'));
+        }
+
+        // Verdict
+        await delay(400);
+        const verdictEl = document.createElement('div');
+        verdictEl.className = 'eval-line eval-verdict ' + data.verdict;
+        if (data.verdict === 'enter') {
+          verdictEl.textContent = 'VERDICT: \u25a0 WOULD ENTER';
+        } else {
+          verdictEl.textContent = 'VERDICT: \u2715 WOULD REJECT';
+        }
+        output.appendChild(verdictEl);
+        requestAnimationFrame(() => verdictEl.classList.add('on'));
+
+        // Reject reason
+        if (data.reject_reason) {
+          await delay(150);
+          const reasonEl = document.createElement('div');
+          reasonEl.className = 'eval-line eval-reason on';
+          reasonEl.textContent = 'reason: ' + data.reject_reason;
+          output.appendChild(reasonEl);
+        }
+
+        // Explanation
+        await delay(300);
+        const explEl = document.createElement('div');
+        explEl.className = 'eval-line eval-explanation';
+        explEl.textContent = data.explanation;
+        output.appendChild(explEl);
+        requestAnimationFrame(() => explEl.classList.add('on'));
+
+        // Stats
+        await delay(200);
+        const statsEl = document.createElement('div');
+        statsEl.className = 'eval-line eval-stats on';
+        statsEl.textContent = data.stats.evaluated_today + ' signals evaluated today \u00b7 ' + data.stats.accepted + ' accepted';
+        output.appendChild(statsEl);
+
+        // CTA
+        await delay(300);
+        const ctaEl = document.createElement('div');
+        ctaEl.className = 'eval-line eval-cta on';
+        ctaEl.innerHTML = '<a href="/token" class="eval-cta-btn">GET EARLY ACCESS</a>';
+        output.appendChild(ctaEl);
+
+      } catch {
+        clearInterval(dotInterval);
+        loadLine.textContent = 'error: evaluation failed — try again';
+        loadLine.style.color = 'var(--amber)';
+      }
+
+      running = false;
+      input.disabled = false;
+      input.value = '';
+      input.focus();
+    });
+
+    function formatLine(text: string, extraCls: string): string {
+      // Split at first group of dots to color label vs value
+      const match = text.match(/^(.+?)\s(\.{2,})\s(.+)$/);
+      if (match) {
+        const valCls = extraCls ? ' ' + extraCls : '';
+        return '<span class="eval-label">' + escHtml(match[1]) + ' ' + escHtml(match[2]) + '</span> <span class="eval-value' + valCls + '">' + escHtml(match[3]) + '</span>';
+      }
+      return escHtml(text);
+    }
+
+    function escHtml(s: string): string {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function delay(ms: number): Promise<void> {
+      return new Promise(r => setTimeout(r, ms));
+    }
+  })();
+</script>

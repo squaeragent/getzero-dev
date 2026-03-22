@@ -3,6 +3,7 @@ export const prerender = true;
 
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BlockLogo from '../components/BlockLogo.astro';
+import LiveEvaluator from '../components/LiveEvaluator.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -152,6 +153,11 @@ ${uptimeDays}d uptime · 7 scheduled jobs · dedicated hardware`}</pre>
       </div>
     </div>
 
+    <!-- ═══ LIVE SIGNAL EVALUATOR ═══ -->
+    <div class="panel stagger-in eval-panel">
+      <LiveEvaluator />
+    </div>
+
     <!-- ═══ VERIFY (full width) ═══ -->
     <div class="panel email-panel">
       <h2 class="panel-title amber">VERIFY EVERYTHING</h2>
@@ -189,6 +195,9 @@ ${uptimeDays}d uptime · 7 scheduled jobs · dedicated hardware`}</pre>
     .status-panel   { grid-column: 3; grid-row: 2; }
     .feed-panel     { grid-column: 3; grid-row: 3; }
     .miniterm-panel { grid-column: 3; grid-row: 4; }
+
+    /* Evaluator — full width */
+    .eval-panel { grid-column: 1 / -1; }
 
     /* Full width bottom */
     .email-panel { grid-column: 1 / -1; }
