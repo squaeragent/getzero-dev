@@ -5,3 +5,4 @@ dist/
 .DS_Store
 public/api/
 .vercel
+.github/workflows/
